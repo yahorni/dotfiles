@@ -1,0 +1,11 @@
+#!/bin/bash
+
+options="shutdown\nreboot\nhibernate\nsuspend\nlock"
+
+case $(echo -e $options | dmenu -i -p "Option:") in
+	shutdown)	shutdown -h now ;;
+	reboot)		reboot ;;
+	hibernate)	systemctl hibernate ;;
+	suspend)	systemctl suspend ;;
+	lock)		dm-tool lock ;;
+esac

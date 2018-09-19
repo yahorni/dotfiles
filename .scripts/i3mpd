@@ -1,0 +1,11 @@
+#!/bin/bash
+
+case $BLOCK_BUTTON in
+    1) mpc toggle >/dev/null ;;
+    3) $TERMINAL -e ncmpcpp & disown >/dev/null ;;
+    4) mpc prev >/dev/null ;;
+    5) mpc next >/dev/null ;;
+esac
+
+[[ $(mpc status | wc -l) -lt 3 ]] && echo "[stopped]" && exit
+echo $(mpc status | sed '2s/\(\[.*\]\).*/\1/; 1,2!d' | tr '\n' ' ') && exit

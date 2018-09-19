@@ -1,0 +1,31 @@
+#!/bin/bash
+
+pgrep -x dmenu && exit
+
+asktype() {
+	case $(printf "USB\\nAndroid" | dmenu -i -p "Unmount a USB drive or Android device?") in
+		USB) unmountusb ;;
+		Android) unmountandroid ;;
+	esac
+}
+
+unmountusb() {
+	mps="$(lsblk -nrpo "name,size,mountpoint" | awk 'length($3)>1&&$3!~/\/boot|SWAP/ {printf "%s (%s)\n",$3,$2}')"
+	[[ -z "$mps" ]] && exit
+	mountpoint="$(echo "$mps" | dmenu -i -p "Which drive to unmount?" | awk '{print $1}')"
+	[[ -z "$mountpoint" ]] && exit
+
+	sudo -A umount $mountpoint && notify-send "Unmounted from $mountpoint"
+}
+
+unmountandroid() {
+	chosen=$(awk '/simple-mtpfs/ {print $2}' /etc/mtab | dmenu -i -p "Unmount which device?")
+	[ -z "$chosen" ] && exit
+	(fusermount -u "$chosen" || sudo fusermount -u "$chosen") && notify-send "$chosen unmounted"
+}
+
+if grep simple-mtpfs /etc/mtab; then
+	asktype
+else
+	unmountusb
+fi

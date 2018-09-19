@@ -1,0 +1,49 @@
+#!/bin/bash
+
+pgrep -x dmenu && exit
+
+asktype(){
+	case $(printf "USB\\nAndroid" | dmenu -i -p "Mount a USB drive or Android device?") in
+		USB) mountusb ;;
+		Android) mountandroid ;;
+	esac
+}
+
+getmountpoint() {
+	for mp in `find /mnt -mindepth 1 -maxdepth 1 -type d`
+	do
+		mountpoint $mp >/dev/null
+		[[ "$?" -eq "1" ]] && mountpoints="$mountpoints$mp\n"
+	done
+
+	mountpoint=$(echo -e $mountpoints | dmenu -i -p "Mount point?")
+	[[ "$mountpoint" = "" ]] && exit
+	if [[ ! -d "$mountpoint" ]]; then
+		choise=$(echo -e "No\nYes" | dmenu -i -p "$mountpoint does not exist. Create it?")
+		[[ "$choise" = "No" ]] && exit
+		mkdir -p "$mountpoint" 2>/dev/null || sudo -A mkdir -p "$mountpoint"
+	fi
+}
+
+mountusb() {
+	drives="$(lsblk -rpo "name,size,mountpoint" | awk '$3=="" {printf "%s (%s)\n",$1,$2}')"
+	[[ -z "$drives" ]] && exit
+	drive="$(echo "$drives" | dmenu -i -p "Which drive to mount?" | awk '{print $1}')"
+	[[ -z "$drive" ]] && exit
+	getmountpoint
+	sudo -A mount $drive $mountpoint && notify-send "$drive mounted to $mountpoint"
+}
+
+mountandroid() {
+	drives=$(simple-mtpfs -l)
+	drive=$(echo "$drives" | dmenu -i -p "Which Android to mount?" | cut -d : -f 1)
+	[[ -z "$drive" ]] && exit
+	getmountpoint
+	(simple-mtpfs -o allow_other -o auto_unmount --device "$drive" "$mountpoint" || sudo -A simple-mtpfs -o allow_other -o auto_unmount --device "$drive" "$mountpoint") && notify-send "Android mounted to $mountpoint"
+}
+
+if simple-mtpfs -l; then
+	asktype
+else
+	mountusb
+fi
