@@ -3,7 +3,7 @@
 export PATH="$PATH:$HOME/.scripts:$HOME/.bin"
 export EDITOR="vim"
 export BROWSER="qutebrowser"
-export TERMINAL="termite"
+export TERMINAL="st"
 export READER="zathura"
 export SUDO_ASKPASS="$HOME/.scripts/dpass"
 export GREP_COLOR="1;31"

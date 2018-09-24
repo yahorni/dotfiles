@@ -11,7 +11,7 @@
 
 set $mod Mod4
 set $ensi exec --no-startup-id
-set $terminal termite
+set $terminal st
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -194,13 +194,15 @@ set $language_signal	pkill -RTMIN+12 i3blocks
 
 # Custom keybindings
 bindcode $mod+28 			$ensi $terminal		# +t
-bindcode $mod+Shift+28 		$ensi $terminal -e ranger & disown	# +t
 bindcode $mod+56			$ensi qutebrowser	# +b
 bindcode $mod+58			$ensi dmenu_mount	# +m
 bindcode $mod+30			$ensi dmenu_umount	# +u
 bindcode $mod+33			$ensi power_manager	# +p
+bindcode $mod+Shift+33	    $ensi cuskill     	# +p
 bindcode $mod+57 			$ensi mpc toggle	# +n
 bindcode $mod+Shift+57	 	$ensi mpc stop		# +n
+bindcode $mod+31			$ensi $terminal -e ncmpcpp & disown	# +i
+bindcode $mod++Shift+31		$ensi $terminal -e ranger & disown	# +i
 
 bindsym Print			$ensi flameshot full -p $screenshots
 bindsym Shift+Print		$ensi flameshot gui -p $screenshots
@@ -218,8 +220,8 @@ bindsym $mod+equal				$ensi mpc next
 bindsym $mod+Shift+equal		$ensi mpc seek +10
 bindsym $mod+minus				$ensi mpc prev
 bindsym $mod+Shift+minus		$ensi mpc seek -10
-bindsym $mod+BackSpace			$ensi mpc seek 0% && mpc play
-bindsym $mod+Shift+BackSpace	$ensi $terminal -e ncmpcpp & disown
+bindsym $mod+BackSpace			$ensi mpc seek 0% && mpc pause
+bindsym $mod+Shift+BackSpace	$ensi mpc seek 0% && mpc play
 
 bindsym $mod+Control+Left workspace prev
 bindsym $mod+Control+Right workspace next

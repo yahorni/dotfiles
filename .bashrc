@@ -12,9 +12,12 @@ set -o vi
 shopt -s autocd
 shopt -s cdspell
 
+function ccat {
+	highlight --out-format=xterm256 "$1" | less -R
+}
+
 alias ls='ls --color=auto --group-directories-first'
 alias grep='grep --color=auto'
-alias ccat="highlight --out-format=xterm256" 
 
 alias la='ls -a'
 alias ll='ls -lsh'

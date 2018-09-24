@@ -1,0 +1,7 @@
+#!/bin/sh
+
+items="vk\ntelegram-desktop\nflameshot\nxcompmgr"
+item=$(echo -e $items | dmenu -i -p "Which one to kill?")
+killall $item
+[[ "$?" -eq "0" ]] && notify-send "$item killed" && exit 0
+notify-send "Error while killing $item" && exit 1

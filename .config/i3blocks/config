@@ -48,12 +48,12 @@ signal=11
 separator=true
 
 [memory]
-label=MEM
+label=mem
 separator=false
 interval=30
 
 [cpu_usage]
-label=CPU
+label=cpu
 interval=10
 separator=true
 

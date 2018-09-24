@@ -1,28 +1,21 @@
 {
     "vim.normalModeKeyBindings": [
     {
-      "before": ["<Enter>"],
-      "commands": ["o<ESC>"]
-    },
-    {
-      "before": ["<S-Enter>"],
-      "commands": ["O<ESC>"]
+        "before": ["<Enter>"],
+        "after": ["o", "<ESC>"]
     },
     {
         "before": ["S"],
-        "commands": ["i<Enter><ESC>"]
+        "after": ["i", "<Enter>", "<ESC>"]
     },
     {
         "before": ["g", "r"],
-        "commands": [":noh<Enter>"]
+        "after": [":noh", "<Enter>"]
     },
     {
         "before": ["<Backspace>"],
-        "commands": ["i<Backspace><ESC>l"]
-    },
-    {
-        "before": ["<Space>"],
-        "commands": ["i<Space><ESC>l"]
-    },
-  ],
+        "after": ["i", "<Backspace>", "<ESC>", "l"]
+    }
+],
+    "explorer.confirmDelete": false
 }

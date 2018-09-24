@@ -1,0 +1,5 @@
+#!/bin/sh
+
+level="1"
+[[ ! -z "$1" ]] && level=$1
+echo $level >> /sys/class/backlight/intel_backlight/brightness

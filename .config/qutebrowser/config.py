@@ -1410,6 +1410,7 @@ c.content.private_browsing = True
 c.url.searchengines = {
         'DEFAULT': 'https://duckduckgo.com/?q={}',
         'tw': 'https://twitter.com/{}',
+        'wolf': 'https://www.wolframalpha.com/input/?i={}',
         'osm': 'http://www.openstreetmap.org/search?query={}',
         'aw': 'https://wiki.archlinux.org/index.php?search={}',
         'awp': 'https://www.archlinux.org/packages/?q={}',
