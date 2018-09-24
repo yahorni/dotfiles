@@ -70,6 +70,15 @@ inoremap [ []<left>
 inoremap { {}<left>
 inoremap {<CR> {<CR>}<ESC>O<Tab>
 
+" moving in insert mpde
+inoremap <C-H> <Left>
+inoremap <C-L> <Right>
+
+" different cursors per mode
+let &t_SI = "\<Esc>[6 q"
+let &t_SR = "\<Esc>[4 q"
+let &t_EI = "\<Esc>[2 q"
+
 set foldmethod=indent
 set foldlevel=99
 nnoremap <space> za

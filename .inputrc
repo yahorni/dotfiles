@@ -1,11 +1,27 @@
-#!/bin/sh
-
 set editing-mode vi
-set enable-keypad on
 
 set show-mode-in-prompt on
 set vi-ins-mode-string \1\e[6 q\2
 set vi-cmd-mode-string \1\e[2 q\2
 
-set completion-ignore-case On
+$if mode=vi
+set keymap vi-command
+j: history-search-forward
+k: history-search-backward
+Control-l: clear-screen
+
+set keymap vi-insert
+Control-l: clear-screen
+$endif
+
+set enable-keypad on
+"\es": forward-search-history
+
+set show-all-if-ambiguous on
+
+set colored-stats on
+set visible-stats on
+set mark-symlinked-directories on
+
+set completion-ignore-case on
 set completion-prefix-display-length 3
