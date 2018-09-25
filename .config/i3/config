@@ -34,6 +34,7 @@ $ensi dunst
 $ensi xcompmgr
 $ensi nm-applet
 $ensi $HOME/.fehbg
+$ensi safeeyes
 
 # Custom defaults
 for_window [class="^.*"] border pixel 4
@@ -199,13 +200,13 @@ bindcode $mod+58			$ensi dmenu_mount	# +m
 bindcode $mod+30			$ensi dmenu_umount	# +u
 bindcode $mod+33			$ensi power_manager	# +p
 bindcode $mod+Shift+33	    $ensi cuskill     	# +p
-bindcode $mod+57 			$ensi mpc toggle	# +n
-bindcode $mod+Shift+57	 	$ensi mpc stop		# +n
+bindcode $mod+57 			$ensi mpc toggle && $mpd_signal     # +n
+bindcode $mod+Shift+57	 	$ensi mpc stop && $mpd_signal       # +n
 bindcode $mod+31			$ensi $terminal -e ncmpcpp & disown	# +i
 bindcode $mod++Shift+31		$ensi $terminal -e ranger & disown	# +i
 
-bindsym Print			$ensi flameshot full -p $screenshots
-bindsym Shift+Print		$ensi flameshot gui -p $screenshots
+bindsym Print			    $ensi flameshot full -p $screenshots
+bindsym Shift+Print		    $ensi flameshot gui -p $screenshots
 
 bindsym XF86AudioMute			$ensi $volume_signal
 bindsym XF86AudioLowerVolume	$ensi $volume_signal
