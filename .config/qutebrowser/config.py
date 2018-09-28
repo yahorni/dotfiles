@@ -11,13 +11,16 @@
 ## aliases, while the values are the commands they map to.
 ## Type: Dict
 c.aliases = {
-        'w': 'session-save', 
-        'q': 'quit', 
+        'w': 'session-save',
+        'q': 'quit',
         'wq': 'quit --save',
         's': 'quickmark-save',
+        'bd': 'bookmark-del',
+        'tm': 'tab-move',
+        'tg': 'tab-give',
         'e': 'edit-url',
         'c': 'close',
-        } 
+        }
 
 ## Time interval (in milliseconds) between auto-saves of
 ## config/cookies/etc.
@@ -785,7 +788,9 @@ c.content.private_browsing = True
 ## Same as `{column}`, but starting from index 0.
 ## Type: ShellCommand
 # c.editor.command = ['gvim', '-f', '{file}', '-c', 'normal {line}G{column0}l']
-# c.editor.command = ['termite', '-e', 'vim', '{file}']
+# c.editor.command = ['termite', '-e', 'vim {}']
+c.editor.command = ['st', '-e', 'vim', '{}']
+
 
 ## Encoding to use for the editor.
 ## Type: Encoding
@@ -1427,6 +1432,8 @@ c.url.searchengines = {
         'enru': 'https://translate.google.com/#en/ru/{}',
         'ruen': 'https://translate.google.com/#ru/en/{}',
         'gen': 'https://genius.com/search?q={}',
+        'frv': 'https://forvo.com/search/{}/',
+        'wrd': 'https://wooordhunt.ru/word/{}'
         }
 
 ## Page(s) to open at the start.

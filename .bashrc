@@ -5,8 +5,8 @@
 
 PS1='\[\033[1;34m\][\u@\h \W]\$ \[\033[0m\]'
 
-(cat ~/.cache/wal/sequences &)
-source ~/.cache/wal/colors-tty.sh
+# (cat ~/.cache/wal/sequences &)
+# source ~/.cache/wal/colors-tty.sh
 
 set -o vi
 shopt -s autocd

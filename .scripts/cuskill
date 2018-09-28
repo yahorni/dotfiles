@@ -1,10 +1,10 @@
 #!/bin/sh
 
-possible_items="xcompmgr\nflameshot\ntelegram-desktop\nvk"
-for item in `echo -e $possible_items`; do pgrep -x $item >/dev/null && items="$item\n$items" ; done
+possible_items="xcompmgr\nnm-applet\nsafeeyes\nqbittorrent\nflameshot\ntelegram\nvk"
+for item in `echo -e $possible_items`; do pgrep "$item" >/dev/null && items="$item\n$items" ; done
 
 item=$(echo -e $items | dmenu -i -p "Which one to kill?")
 [[ "$?" -eq "1" ]] && exit 1
-killall $item
+pkill "$item"
 [[ "$?" -eq "0" ]] && notify-send "$item killed" && exit 0
 notify-send "Error while killing $item" && exit 1

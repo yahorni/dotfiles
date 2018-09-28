@@ -1,11 +1,8 @@
-" Get the defaults that most users want.
-" source $VIMRUNTIME/defaults.vim
-
 set nocompatible
 filetype off
 
 set rtp+=~/.vim/bundle/Vundle.vim
-silent! call vundle#begin()
+call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 
@@ -22,15 +19,21 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'lyokha/vim-xkbswitch'
 Plugin 'alvan/vim-closetag'
 Plugin 'jiangmiao/auto-pairs'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'ervandew/supertab'
 
 " python plugins
-Plugin 'klen/python-mode'
-Plugin 'tmhedberg/SimpylFold'"
 Plugin 'vim-scripts/indentpython.vim'
+Plugin 'dbsr/vimpy'
 Plugin 'davidhalter/jedi-vim'
+Plugin 'w0rp/ale'
+
+" Plugin 'tmhedberg/SimpylFold'"
 
 call vundle#end()
+
 filetype plugin indent on
+filetype plugin on
 
 " some custom settings
 let skip_defaults_vim=1
@@ -39,9 +42,8 @@ set encoding=utf-8
 set showcmd
 set autoindent
 set hlsearch
-set viminfo="~/Service/viminfo"
+" set viminfo="-"
 set clipboard=unnamedplus
-set omnifunc=htmlcomplete#CompleteTags
 
 " set tabs as 4 spaces
 set tabstop=4
@@ -69,14 +71,6 @@ nnoremap gr :noh<Enter>
 nnoremap gl $
 nnoremap Y y$
 
-" brackets autocomplete
-" inoremap " ""<left>
-" inoremap ' ''<left>
-" inoremap ( ()<left>
-" inoremap [ []<left>
-" inoremap { {}<left>
-" inoremap {<CR> {<CR>}<ESC>O<Tab>
-
 " moving in insert mpde
 inoremap <C-H> <Left>
 inoremap <C-L> <Right>
@@ -91,11 +85,11 @@ set foldmethod=indent
 set foldlevel=99
 nnoremap <space> za
 
-" split direction 
+" Split direction 
 set splitbelow
 set splitright
 
-" tab/split moving
+" Tab/split moving
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
@@ -103,13 +97,9 @@ nnoremap <C-H> <C-W><C-H>
 
 " enable autoswitching language
 let g:XkbSwitchEnabled = 1
+
 " NERDTree bind
 map <C-n> :NERDTreeToggle<CR>
-" Enable docstrings in folding
-let g:SimpylFold_docstring_preview=1
-" Disable choose first function/method at autocomplete
-let g:jedi#popup_select_first = 0
-let g:jedi#use_splits_not_buffers = "left"
 
 " Tag closing
 let g:closetag_filenames = '*'
@@ -120,7 +110,16 @@ nnoremap <leader>t :CloseTagToggleBuffer<CR>
 autocmd BufNewFile,BufRead * :CloseTagDisableBuffer
 
 " Auto-pairs toggling
-let g:AutoPairsShortcutToggle = '<leader>p'
+let g:AutoPairsShortcutToggle = '<leader>P'
+
+" Nerd commenter
+let g:NERDSpaceDelims = 1
+let g:NERDDefaultAlign = 'left'
+let g:NERDTrimTrailingWhitespace = 1
+let g:NERDToggleCheckAllLines = 1
+nmap <C-_> <plug>NERDCommenterInvert
+vmap <C-_> <plug>NERDCommenterInvert
+imap <C-_> <plug>NERDCommenterInsert
 
 " python pep8 indentations
 au BufNewFile,BufRead *.py
@@ -132,31 +131,25 @@ au BufNewFile,BufRead *.py
     \ set autoindent |
     \ set fileformat=unix
 
-" python mode settings
-" python3 syntax
-let g:pymode_python = 'python3'
-" disable code completion
-let g:pymode_rope = 0
-let g:pymode_rope_completion = 0
-let g:pymode_rope_complete_on_dot = 0
-" code checks
-let g:pymode_lint = 1
-let g:pymode_lint_checker = "pyflakes,pep8"
-" let g:pymode_lint_ignore="E501,W601,C0110"
-" check after saving
-let g:pymode_lint_write = 1
-" support virtualenv
-let g:pymode_virtualenv = 1
-" syntax
-let g:pymode_syntax = 1
-let g:pymode_syntax_all = 1
-let g:pymode_syntax_indent_errors = g:pymode_syntax_all
-let g:pymode_syntax_space_errors = g:pymode_syntax_all
-" disable folding
-let g:pymode_folding = 0
-" ability to run code
-let g:pymode_run = 1
-let g:pymode_run_bind = '<leader>e'
-" some python bindings
-autocmd BufNewFile,BufRead *.py nnoremap <leader>l :PymodeLint<CR>
-autocmd BufNewFile,BufRead *.py nnoremap <leader>L :PymodeLintAuto<CR>
+" vimpy
+autocmd BufNewFile,BufRead *.py nnoremap <leader>v :VimpyCheckLine<CR>
+
+" jedi-vim
+let g:jedi#force_py_version = 3
+let g:jedi#use_splits_not_buffers = "left"
+autocmd FileType python setlocal completeopt-=preview
+
+" ale
+let g:ale_set_highlights = 0
+let g:ale_fixers = {'python': ['autopep8', 'isort']}
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_enter = 0
+autocmd BufNewFile,BufRead *.py nmap <silent> <C-[> <Plug>(ale_previous_wrap)
+autocmd BufNewFile,BufRead *.py nmap <silent> <C-]> <Plug>(ale_next_wrap)
+autocmd BufNewFile,BufRead *.py nnoremap <leader>l :ALELint<CR>
+autocmd BufNewFile,BufRead *.py nnoremap <leader>L :ALEToggle<CR>
+autocmd BufNewFile,BufRead *.py nnoremap <leader>f :ALEFix<CR>
+
+autocmd BufNewFile,BufRead *.py nnoremap <leader>e :w <bar> :echo system('python "' . expand('%') . '"')<cr>
+autocmd BufNewFile,BufRead *.py nnoremap <leader>E :w <bar> :!python %<cr>
+autocmd BufNewFile,BufRead *.py nnoremap <leader>b ifrom<Space>pdb<Space>import<Space>set_trace;<Space>set_trace()<Tab>#<Space>BREAKPOINT<ESC>

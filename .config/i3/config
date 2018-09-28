@@ -217,12 +217,12 @@ bindsym XF86MonBrightnessDown	$ensi $brightness_signal
 
 bindsym Caps_Lock	$ensi $language_signal
 
-bindsym $mod+equal				$ensi mpc next
-bindsym $mod+Shift+equal		$ensi mpc seek +10
-bindsym $mod+minus				$ensi mpc prev
-bindsym $mod+Shift+minus		$ensi mpc seek -10
-bindsym $mod+BackSpace			$ensi mpc seek 0% && mpc pause
-bindsym $mod+Shift+BackSpace	$ensi mpc seek 0% && mpc play
+bindsym $mod+equal				$ensi mpc next && $mpd_signal
+bindsym $mod+Shift+equal		$ensi mpc seek +10 && $mpd_signal
+bindsym $mod+minus				$ensi mpc prev && $mpd_signal
+bindsym $mod+Shift+minus		$ensi mpc seek -10 && $mpd_signal
+bindsym $mod+BackSpace			$ensi mpc seek 0% && mpc pause && $mpd_signal
+bindsym $mod+Shift+BackSpace	$ensi mpc seek 0% && mpc play && $mpd_signal
 
 bindsym $mod+Control+Left workspace prev
 bindsym $mod+Control+Right workspace next
