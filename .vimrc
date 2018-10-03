@@ -48,7 +48,7 @@ set clipboard=unnamedplus
 " set tabs as 4 spaces
 set tabstop=4
 set shiftwidth=4
-set expandtab
+" set expandtab
 set smarttab
 
 " hybrid line numbers
@@ -57,6 +57,16 @@ set number relativenumber
 
 " colorscheme
 colo ron
+
+" disable Ex mode
+nnoremap Q <nop>
+
+" annoying keys
+command! Q :q
+command! W :w
+command! WQ :wq
+command! Wq :wq
+command! -bang Q :q<bang>
 
 " disable backups
 set nobackup
@@ -67,7 +77,7 @@ set noundofile
 nnoremap <Enter> o<ESC>
 nnoremap S i<Enter><ESC>
 nnoremap <Backspace> i<Backspace><ESC>l
-nnoremap gr :noh<Enter>
+nnoremap <silent> gr :noh<Enter>
 nnoremap gl $
 nnoremap Y y$
 
@@ -99,14 +109,14 @@ nnoremap <C-H> <C-W><C-H>
 let g:XkbSwitchEnabled = 1
 
 " NERDTree bind
-map <C-n> :NERDTreeToggle<CR>
+nnoremap <silent> <C-n> :NERDTreeToggle<CR>
 
 " Tag closing
 let g:closetag_filenames = '*'
 let g:closetag_filetypes = '*'
 let g:closetag_shortcut = '>'
 let g:closetag_emptyTags_caseSensitive = 1
-nnoremap <leader>t :CloseTagToggleBuffer<CR>
+nnoremap <silent> <leader>t :CloseTagToggleBuffer<CR>
 autocmd BufNewFile,BufRead * :CloseTagDisableBuffer
 
 " Auto-pairs toggling
@@ -147,9 +157,16 @@ let g:ale_lint_on_enter = 0
 autocmd BufNewFile,BufRead *.py nmap <silent> <C-[> <Plug>(ale_previous_wrap)
 autocmd BufNewFile,BufRead *.py nmap <silent> <C-]> <Plug>(ale_next_wrap)
 autocmd BufNewFile,BufRead *.py nnoremap <leader>l :ALELint<CR>
-autocmd BufNewFile,BufRead *.py nnoremap <leader>L :ALEToggle<CR>
 autocmd BufNewFile,BufRead *.py nnoremap <leader>f :ALEFix<CR>
+" ----
+autocmd BufNewFile,BufRead * :ALEDisable
+autocmd BufNewFile,BufRead * nnoremap <leader>L :ALEToggle<CR>
 
+" supertab
+let b:SuperTabDisabled = 1
+autocmd BufNewFile,BufRead *.py let b:SuperTabDisabled = 0
+
+" custom python hotkeys
 autocmd BufNewFile,BufRead *.py nnoremap <leader>e :w <bar> :echo system('python "' . expand('%') . '"')<cr>
 autocmd BufNewFile,BufRead *.py nnoremap <leader>E :w <bar> :!python %<cr>
 autocmd BufNewFile,BufRead *.py nnoremap <leader>b ifrom<Space>pdb<Space>import<Space>set_trace;<Space>set_trace()<Tab>#<Space>BREAKPOINT<ESC>

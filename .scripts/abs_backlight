@@ -1,5 +1,3 @@
 #!/bin/sh
 
-level="1"
-[[ ! -z "$1" ]] && level=$1
-echo $level >> /sys/class/backlight/intel_backlight/brightness
+echo ${1:-1} >> /sys/class/backlight/intel_backlight/brightness && pkill -RTMIN+11 i3blocks

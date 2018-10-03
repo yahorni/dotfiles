@@ -1,0 +1,9 @@
+#!/bin/sh
+
+usage="usage: <program> <file> [<syntax>]"
+warning="pass syntax type"
+[[ -z "$1" ]] && echo $usage && exit 1
+[[ ! -z "$2" ]] && syntax="--syntax=$2"
+text=$(highlight --out-format=ansi $syntax "$1" 2>/dev/null)
+[[ "$?" -ne "0" ]] && echo -e "$usage\n$warning" && exit 1
+echo -e "$text" | less -r && exit 0

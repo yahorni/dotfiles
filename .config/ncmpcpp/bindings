@@ -542,6 +542,9 @@
 #  quit
 #
 
+def_key "d"
+    select_item
+
 def_key "j"
 	scroll_down
 

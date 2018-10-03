@@ -1,20 +1,14 @@
 #!/bin/sh
 
-# If not running interactively, don't do anything
-[[ $- != *i* ]] && return
+stty -ixon
 
 PS1='\[\033[1;34m\][\u@\h \W]\$ \[\033[0m\]'
 
-# (cat ~/.cache/wal/sequences &)
-# source ~/.cache/wal/colors-tty.sh
+[[ "$TERM" = *termite* ]] && (cat ~/.cache/wal/sequences &)
 
 set -o vi
 shopt -s autocd
 shopt -s cdspell
-
-function ccat {
-	highlight --out-format=xterm256 "$1" | less -R
-}
 
 alias ls='ls --color=auto --group-directories-first'
 alias grep='grep --color=auto'
@@ -25,8 +19,7 @@ alias lf='ls -lash'
 
 alias v='vim'
 alias sv='sudo vim'
-alias spi='sudo pacman -Syu'
-alias spr='sudo pacman -Rs'
+alias sp='sudo pacman'
 alias rg='ranger'
 alias nb='newsboat'
 alias nbr='newsboat -r'

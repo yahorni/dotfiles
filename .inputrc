@@ -15,7 +15,6 @@ Control-l: clear-screen
 $endif
 
 set enable-keypad on
-"\es": forward-search-history
 
 set show-all-if-ambiguous on
 

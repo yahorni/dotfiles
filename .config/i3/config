@@ -29,10 +29,10 @@ font pango:ubuntu mono 10
 # font, it doesn’t scale on retina/hidpi displays.
 
 # Autostart
-$ensi light-locker
 $ensi dunst
 $ensi xcompmgr
 $ensi nm-applet
+$ensi wal -Rn
 $ensi $HOME/.fehbg
 $ensi safeeyes
 
@@ -199,7 +199,7 @@ bindcode $mod+56			$ensi qutebrowser	# +b
 bindcode $mod+58			$ensi dmenu_mount	# +m
 bindcode $mod+30			$ensi dmenu_umount	# +u
 bindcode $mod+33			$ensi power_manager	# +p
-bindcode $mod+Shift+33	    $ensi cuskill     	# +p
+bindcode $mod+Shift+33	    $ensi fastkill     	# +p
 bindcode $mod+57 			$ensi mpc toggle && $mpd_signal     # +n
 bindcode $mod+Shift+57	 	$ensi mpc stop && $mpd_signal       # +n
 bindcode $mod+31			$ensi $terminal -e ncmpcpp & disown	# +i
