@@ -2,10 +2,12 @@
 
 options="shutdown\nreboot\nhibernate\nsuspend\nlock"
 
+lock="i3lock -e -f -c 303030 -i $HOME/Documents/lock.png"
+
 case $(echo -e $options | dmenu -i -p "Option:") in
 	shutdown)	shutdown -h now ;;
 	reboot)		reboot ;;
-	hibernate)	systemctl hibernate ;;
-	suspend)	systemctl suspend ;;
-	lock)		dm-tool lock ;;
+	hibernate)	$lock && systemctl hibernate ;;
+	suspend)	$lock && systemctl suspend ;;
+	lock)		$lock ;;
 esac

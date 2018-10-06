@@ -17,5 +17,6 @@
         "after": ["i", "<Backspace>", "<ESC>", "l"]
     }
 ],
-    "explorer.confirmDelete": false
+    "explorer.confirmDelete": false,
+    "editor.fontSize": 18
 }

@@ -6,4 +6,4 @@ wallpath="$1"
 [[ -z "$wallpath" ]] && wallpath="$HOME/wall.jpg" 
 
 wal -i $wallpath $2
-feh --bg-scale $wallpath
+feh --bg-tile $wallpath
