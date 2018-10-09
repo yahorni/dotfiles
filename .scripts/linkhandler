@@ -1,11 +1,11 @@
-#!/bin/bash
+#!/bin/sh
 
 # If no url given. Opens browser. For using script as $BROWSER.
 # [ -z "$1" ] && { "$TRUEBROWSER"; exit; }
 
 case "$1" in
 	*youtube.com*)
-		(mpv -quiet --ytdl-format=22 "$1" >/dev/null 2>&1 || mpv -quiet "$1" >/dev/null 2>&1) & ;;
+		setsid mpv -quiet --ytdl-format="best[height<=1080]" "$1" >/dev/null 2>&1 & ;;
 	*mkv|*webm|*mp4|*gif|*hooktube.com*)
 		setsid mpv -quiet "$1" >/dev/null 2>&1 & ;;
 	*png|*jpg|*jpe|*jpeg)

@@ -31,9 +31,10 @@ font pango:ubuntu mono 10
 # Autostart
 $ensi dunst
 $ensi xcompmgr
-$ensi nm-applet
+# $ensi nm-applet
 $ensi wal -Rn
 $ensi $HOME/.fehbg
+$ensi xss-lock -n -- lockscreen
 $ensi safeeyes
 
 # Colors
@@ -211,6 +212,8 @@ bindcode $mod+33			$ensi power_manager	# +p
 bindcode $mod+Shift+33	    $ensi fastkill     	# +p
 bindcode $mod+57 			$ensi mpc toggle && $mpd_signal     # +n
 bindcode $mod+Shift+57	 	$ensi mpc stop && $mpd_signal       # +n
+bindcode $mod+29			$ensi $terminal -e newsboat -qr	& disown # +y
+bindcode $mod+Shift+29		$ensi $terminal -e newsboat -q & disown # +y
 bindcode $mod+31			$ensi $terminal -e ncmpcpp & disown	# +i
 bindcode $mod++Shift+31		$ensi $terminal -e ranger & disown	# +i
 

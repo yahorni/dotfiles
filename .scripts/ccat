@@ -1,6 +1,6 @@
 #!/bin/sh
 
-usage="usage: <program> <file> [<syntax>]"
+usage="usage: ${0##*/} <file> [<syntax>]"
 warning="pass syntax type"
 [[ -z "$1" ]] && echo $usage && exit 1
 [[ ! -z "$2" ]] && syntax="--syntax=$2"

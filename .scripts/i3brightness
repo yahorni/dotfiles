@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 case $BLOCK_BUTTON in
 	4) xbacklight -dec 5 >/dev/null ;;

@@ -1,0 +1,4 @@
+#/bin/sh
+
+mpc pause >/dev/null 2>&1
+i3lock -e -f -c 303030 -i $HOME/Documents/lock.png

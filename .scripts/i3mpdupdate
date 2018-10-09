@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # raport_path="/home/george/i3raport.log"
 # date_format="date +%H:%M:%S"

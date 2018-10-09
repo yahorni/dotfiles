@@ -2,6 +2,9 @@
 
 pgrep -x dmenu && exit
 
+userid=$(id -u)
+groupid=$(id -g)
+
 asktype(){
 	case $(printf "USB\\nAndroid" | dmenu -i -p "Mount a USB drive or Android device?") in
 		USB) mountusb ;;
@@ -31,7 +34,7 @@ mountusb() {
 	drive="$(echo "$drives" | dmenu -i -p "Which drive to mount?" | awk '{print $1}')"
 	[[ -z "$drive" ]] && exit
 	getmountpoint
-	sudo -A mount $drive $mountpoint && notify-send "$drive mounted to $mountpoint"
+	sudo -A mount -o rw,user,umask=000,uid=$userid,gid=$groupid $drive $mountpoint && notify-send "$drive mounted to $mountpoint"
 }
 
 mountandroid() {
