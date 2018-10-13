@@ -58,6 +58,10 @@ set number relativenumber
 " colorscheme
 colo ron
 
+" change <paste> command behaviour
+xnoremap p "_dp
+xnoremap P "_dP
+
 " disable Ex mode
 nnoremap Q <nop>
 
@@ -107,6 +111,9 @@ nnoremap <C-H> <C-W><C-H>
 
 " enable autoswitching language
 let g:XkbSwitchEnabled = 1
+
+" status line
+autocmd BufNewFile,BufRead *.py :set laststatus=2
 
 " NERDTree bind
 nnoremap <silent> <C-n> :NERDTreeToggle<CR>

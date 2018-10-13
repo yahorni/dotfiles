@@ -31,10 +31,9 @@ font pango:ubuntu mono 10
 # Autostart
 $ensi dunst
 $ensi xcompmgr
-# $ensi nm-applet
 $ensi wal -Rn
 $ensi $HOME/.fehbg
-$ensi xss-lock -n -- lockscreen
+$ensi xss-lock -n -- lockscreen m
 $ensi safeeyes
 
 # Colors
@@ -191,7 +190,7 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-	font pango:ubuntu regular 10
+	font pango:dejavu mono 10
 	status_command i3blocks
 	position top
 }
@@ -233,7 +232,7 @@ bindsym $mod+equal				$ensi mpc next && $mpd_signal
 bindsym $mod+Shift+equal		$ensi mpc seek +10 && $mpd_signal
 bindsym $mod+minus				$ensi mpc prev && $mpd_signal
 bindsym $mod+Shift+minus		$ensi mpc seek -10 && $mpd_signal
-bindsym $mod+BackSpace			$ensi mpc seek 0% && mpc pause && $mpd_signal
+bindsym $mod+BackSpace			$ensi mpc pause && mpc seek 0% && $mpd_signal
 bindsym $mod+Shift+BackSpace	$ensi mpc seek 0% && mpc play && $mpd_signal
 
 bindsym $mod+Control+Left workspace prev

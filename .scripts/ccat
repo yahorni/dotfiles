@@ -6,4 +6,4 @@ warning="pass syntax type"
 [[ ! -z "$2" ]] && syntax="--syntax=$2"
 text=$(highlight --out-format=ansi $syntax "$1" 2>/dev/null)
 [[ "$?" -ne "0" ]] && echo -e "$usage\n$warning" && exit 1
-echo -e "$text" | less -r && exit 0
+echo "$text" | less -r && exit 0

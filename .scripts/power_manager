@@ -1,12 +1,13 @@
 #!/bin/sh
 
-options="1) shutdown\n2) reboot\n3) hibernate\n4) suspend\n5) lock(dmps)\n6) lock"
+options="1) shutdown\n2) reboot\n3) hibernate\n4) suspend\n5) lock\n6) lock[dark]\n7) lock[dark|no music]"
 
 case $(echo -e $options | dmenu -i -p "Option:") in
 	*shutdown)		shutdown -h now ;;
-	*reboot)			reboot ;;
+	*reboot)		reboot ;;
 	*hibernate)		systemctl hibernate ;;
 	*suspend)		systemctl suspend ;;
-	*lock*dmps*)	xset dpms force off ;;
 	*lock)			lockscreen ;;
+	*lock*d*n*)		lockscreen md ;;
+	*lock*d*)		lockscreen d ;;
 esac

@@ -21,7 +21,7 @@
 # Config folders
 .config/*
 !.config/dunst
-!.config/Code\ -\ OSS
+!.config/Code
 !.config/fontconfig
 !.config/gtk-3.0
 !.config/i3
@@ -44,11 +44,11 @@
 !.config/newsboat/config
 
 # VSCode folder
-.config/Code\ -\ OSS/*
-!.config/Code\ -\ OSS/User
-.config/Code\ -\ OSS/User/*
-!.config/Code\ -\ OSS/User/settings.json
-!.config/Code\ -\ OSS/User/keybindings.json
+.config/Code/*
+!.config/Code/User
+.config/Code/User/*
+!.config/Code/User/settings.json
+!.config/Code/User/keybindings.json
 
 # Extensions
 *.bak

@@ -1,4 +1,14 @@
-#/bin/sh
+#!/bin/sh
 
-mpc pause >/dev/null 2>&1
-i3lock -e -f -c 303030 -i $HOME/Documents/lock.png
+pgrep -x i3lock >/dev/null && exit
+
+lock="i3lock -e -f -c 303030 -i $HOME/Documents/lock.png"
+music="mpc pause >/dev/null 2>&1"
+darklock="eval $lock && xset dpms force off"
+
+case $1 in
+	'')	eval $lock ;;
+	d)	eval $darklock ;;
+	m)	eval $music ; eval $lock ;;
+	md)	eval $music ; eval $darklock ;;
+esac
