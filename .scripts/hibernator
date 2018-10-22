@@ -5,10 +5,13 @@ message="Critical battery threshold"
 acpi -b | awk -F'[,:%]' '{print $2, $3}' | {
 	read -r status capacity
 
+	# if [ "$status" = Discharging -a "$capacity" -lt 10 ]; then
+		# notify-send -u critical $message
+	# fi
+
 	if [ "$status" = Discharging -a "$capacity" -lt 5  ]; then
-			logger $message
-			notify-send $message
-			sleep 5
-			systemctl hibernate
+		logger $message
+		sleep 5
+		systemctl hibernate
 	fi
 }

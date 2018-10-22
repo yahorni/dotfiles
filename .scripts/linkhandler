@@ -5,8 +5,8 @@
 
 case "$1" in
 	*youtube.com*)
-		setsid mpv -quiet --ytdl-format="best[height<=1080]" "$1" >/dev/null 2>&1 & ;;
-	*mkv|*webm|*mp4|*gif|*hooktube.com*)
+		setsid mpv -quiet --ytdl-format="bestvideo[height<=1080]+bestaudio" "$1" >/dev/null 2>&1 & ;;
+	*mkv|*webm|*mp4|*3gp)
 		setsid mpv -quiet "$1" >/dev/null 2>&1 & ;;
 	*png|*jpg|*jpe|*jpeg)
 		setsid feh "$1" >/dev/null 2>&1 & ;;

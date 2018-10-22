@@ -15,7 +15,11 @@
     {
         "before": ["<Backspace>"],
         "after": ["i", "<Backspace>", "<ESC>", "l"]
-    }
+    },
+	{
+		"before": ["g", "l"],
+		"after": ["$"]
+	}
 ],
     "explorer.confirmDelete": false,
     "editor.fontSize": 18,
@@ -23,5 +27,7 @@
     "terminal.integrated.env.linux": {
         "DOTNET_ROOT": "/opt/dotnet",
         "PATH": "${env:PATH}:${env:HOME}/.dotnet/tools"
-    }
+    },
+    "breadcrumbs.enabled": true,
+    "window.zoomLevel": 0
 }

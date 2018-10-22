@@ -28,8 +28,6 @@ Plugin 'dbsr/vimpy'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'w0rp/ale'
 
-" Plugin 'tmhedberg/SimpylFold'"
-
 call vundle#end()
 
 filetype plugin indent on
@@ -161,8 +159,8 @@ let g:ale_set_highlights = 0
 let g:ale_fixers = {'python': ['autopep8', 'isort']}
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
-autocmd BufNewFile,BufRead *.py nmap <silent> <C-[> <Plug>(ale_previous_wrap)
-autocmd BufNewFile,BufRead *.py nmap <silent> <C-]> <Plug>(ale_next_wrap)
+" autocmd BufNewFile,BufRead *.py nmap <silent> <C-[> <Plug>(ale_previous_wrap)
+" autocmd BufNewFile,BufRead *.py nmap <silent> <C-]> <Plug>(ale_next_wrap)
 autocmd BufNewFile,BufRead *.py nnoremap <leader>l :ALELint<CR>
 autocmd BufNewFile,BufRead *.py nnoremap <leader>f :ALEFix<CR>
 " ----
@@ -176,4 +174,4 @@ autocmd BufNewFile,BufRead *.py let b:SuperTabDisabled = 0
 " custom python hotkeys
 autocmd BufNewFile,BufRead *.py nnoremap <leader>e :w <bar> :echo system('python "' . expand('%') . '"')<cr>
 autocmd BufNewFile,BufRead *.py nnoremap <leader>E :w <bar> :!python %<cr>
-autocmd BufNewFile,BufRead *.py nnoremap <leader>b ifrom<Space>pdb<Space>import<Space>set_trace;<Space>set_trace()<Tab>#<Space>BREAKPOINT<ESC>
+" autocmd BufNewFile,BufRead *.py nnoremap <leader>b ifrom<Space>pdb<Space>import<Space>set_trace;<Space>set_trace()<Tab>#<Space>BREAKPOINT<ESC>
