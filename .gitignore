@@ -4,6 +4,7 @@
 !.config
 !.scripts
 !.external
+!.calcurse
 
 # Files
 !.bash_profile
@@ -12,11 +13,10 @@
 !.gtkrc-2.0
 !.inputrc
 !.profile
+!.tmux.conf
 !.vimrc
 !.urlview
 !.xinitrc
-!.Xmodmap
-!.xserverrc
 
 # Config folders
 .config/*
@@ -33,7 +33,17 @@
 !.config/termite
 !.config/ncmpcpp
 !.config/newsboat
+!.config/youtube-viewer
 !.config/zathura
+
+# Calcurse folder
+.calcurse/*
+!.calcurse/conf
+!.calcurse/keys
+
+# Mpv folder
+.config/mpv/*
+!.config/mpv/*.conf
 
 # Qutebrowser folder
 .config/qutebrowser/*

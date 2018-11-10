@@ -565,3 +565,9 @@ def_key "h"
 
 def_key ";"
 	show_lyrics
+
+def_key "t"
+	move_home
+
+def_key "G"
+	move_end

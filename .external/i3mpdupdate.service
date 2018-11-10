@@ -1,0 +1,13 @@
+[Unit]
+Description=i3mpdupdate starter
+Required=mpd.service
+After=mpd.service
+
+[Service]
+ExecStart=/home/george/.scripts/i3mpdupdate
+#Restart=always
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=default.target

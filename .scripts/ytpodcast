@@ -1,0 +1,3 @@
+#!/bin/bash
+
+setsid $TERMINAL -e mpv -quiet $(youtube-dl --prefer-insecure -g -f "bestaudio/best" $1) &

@@ -18,7 +18,7 @@ bind-key a toggle-article-read
 bind-key n next-unread
 bind-key N prev-unread
 bind-key D pb-download
-bind-key U show-urls
+bind-key u show-urls
 bind-key x pb-delete
 # bind-key ^t next-unread
 
@@ -35,6 +35,7 @@ highlight article "https?://[^ ]+" red default
 highlight article "\\[image\\ [0-9]+\\]" green default
 
 browser linkhandler
-macro t set browser "youtube-dl --add-metadata -ic -f bestvideo+bestaudio %u"; open-in-browser ; set browser linkhandler
-macro y set browser "youtube-dl --add-metadata -f bestaudio[ext=m4a] -xic %u"; open-in-browser ; set browser linkhandler
-macro c set browser "echo %u | xclip -selection clipboard"; open-in-browser ; set browser linkhandler
+macro s set browser "ytpodcast %u"; open-in-browser ; set browser linkhandler
+macro a set browser "ytloader -f a %u"; open-in-browser ; set browser linkhandler
+macro h set browser "ytloader -f h %u"; open-in-browser ; set browser linkhandler
+macro c set browser "xsel -b <<<" ; open-in-browser ; set browser linkandler

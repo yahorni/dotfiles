@@ -1,0 +1,26 @@
+#!/bin/bash
+
+OPTIND=1
+
+outvideo="$HOME/Media/videos"
+outaudio="$HOME/Media/music/downloads"
+filename='%(title)s.%(ext)s'
+format="m"
+
+while getopts "f:o:" opt; do
+	case $opt in
+		f) format=$OPTARG ;;
+		o) output=$OPTARG ;;
+	esac
+done
+
+shift $(($OPTIND-1))
+link=$1
+
+case $format in
+	'a') youtube-dl --add-metadata -icxf "bestaudio/best" -o "$outaudio/$filename" "$link" ;;
+	'l') youtube-dl --add-metadata -icf "best[height<=240]" -o "$outvideo/$filename" "$link" ;;
+	'm') youtube-dl --add-metadata -icf "bestvideo[height<=1080]+bestaudio/best" -o "$outvideo/$filename" "$link" ;;
+	'h') youtube-dl --add-metadata -icf "bestvideo+bestaudio/best" -o "$outvideo/$filename" "$link" ;;
+	*) echo "Incorrect format"
+esac

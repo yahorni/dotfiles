@@ -1,15 +1,8 @@
 #!/bin/sh
 
-# raport_path="/home/george/i3raport.log"
-# date_format="date +%H:%M:%S"
-
-# echo "`$date_format` i3mpdupdate started" >>$raport_path
-
-# [ "$(pgrep -x i3mpdupdate | wc -l)" -gt 2 ] && (echo "`$date_format` i3mpdupdate exits cause it exists" >>$raport_path && exit)
 [ "$(pgrep -x i3mpdupdate | wc -l)" -gt 2 ] && exit
 
 while : ; do
-	# pgrep -x mpd || (echo "`$date_format` Mpd not started" >>$raport_path && exit)
 	pgrep -x mpd || exit
 	mpc idle > /dev/null
 	pkill -RTMIN+9 i3blocks ;

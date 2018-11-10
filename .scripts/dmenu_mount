@@ -34,7 +34,12 @@ mountusb() {
 	drive="$(echo "$drives" | dmenu -i -p "Which drive to mount?" | awk '{print $1}')"
 	[[ -z "$drive" ]] && exit
 	getmountpoint
-	sudo -A mount -o rw,user,umask=000,uid=$userid,gid=$groupid $drive $mountpoint && notify-send "$drive mounted to $mountpoint"
+	message=$(sudo -A mount -o rw,user,umask=000,uid=$userid,gid=$groupid $drive $mountpoint 2>&1)
+	if [[ "$?" -eq "0" ]]; then
+		notify-send "$drive mounted to $mountpoint" "$message"
+	else
+		notify-send "Something bad happened" "$message"
+	fi
 }
 
 mountandroid() {

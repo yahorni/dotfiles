@@ -11,7 +11,7 @@ acpi -b | awk -F'[,:%]' '{print $2, $3}' | {
 
 	if [ "$status" = Discharging -a "$capacity" -lt 5  ]; then
 		logger $message
-		sleep 5
-		systemctl hibernate
+		sleep 10
+		[ "$status" = Discharging -a "$capacity" -lt 5  ] && systemctl hibernate
 	fi
 }

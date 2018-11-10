@@ -1,0 +1,7 @@
+fstab -> /etc/fstab
+events/* -> /etc/acpi/events/*
+xorg.conf.d/* -> /etc/X11/xorg.conf.d/*
+blacklist.conf -> /etc/modprobe.d/blacklist.conf
+powertop.service -> /etc/systemd/system/powertop.service
+hibernator.service -> /usr/lib/systemd/user/hibernator.service
+i3mpdupdate.service -> /usr/lib/systemd/user/i3mpdupdate.service

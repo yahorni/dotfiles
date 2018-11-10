@@ -1,0 +1,12 @@
+[Unit]
+Description=Hibernation service
+Required=acpid.service
+After=acpid.service
+
+[Service]
+ExecStart=/home/george/.scripts/hibernator
+Restart=always
+RestartSec=30s
+
+[Install]
+WantedBy=default.target

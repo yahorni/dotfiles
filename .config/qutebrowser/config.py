@@ -11,16 +11,28 @@
 ## aliases, while the values are the commands they map to.
 ## Type: Dict
 c.aliases = {
-        'w': 'session-save',
-        'q': 'quit',
-        'wq': 'quit --save',
-        's': 'quickmark-save',
-        'bd': 'bookmark-del',
-        'tm': 'tab-move',
-        'tg': 'tab-give',
-        'e': 'edit-url',
-        'c': 'close',
-        }
+    'w': 'session-save',
+    'q': 'quit',
+    'c': 'close',
+    'wq': 'quit --save',
+    'bd': 'bookmark-del',
+    'tm': 'tab-move',
+    'tg': 'tab-give',
+
+    #  'mpv': 'spawn mpv {url}',
+    'tor': 'set content.proxy socks://localhost:9050/',
+    'sys': 'set content.proxy system',
+
+    'os': 'spawn --userscript openselection.sh',
+    'la': 'spawn --userscript ytloader.sh a',
+    'll': 'spawn --userscript ytloader.sh l',
+    'lm': 'spawn --userscript ytloader.sh m',
+    'lh': 'spawn --userscript ytloader.sh h',
+    'link': 'spawn --userscript linkhandler.sh',
+
+    'jse': 'set content.javascript.enabled true',
+    'jsd': 'set content.javascript.enabled false',
+}
 
 ## Time interval (in milliseconds) between auto-saves of
 ## config/cookies/etc.
@@ -537,6 +549,7 @@ c.content.cookies.store = False
 ## read from JavaScript is always the global value.
 ## Type: String
 # c.content.headers.accept_language = 'en-US,en'
+#  c.content.headers.accept_language = 'en-US,en;q=0.5'
 
 ## Custom headers for qutebrowser HTTP requests.
 ## Type: Dict
