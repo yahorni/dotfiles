@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 export PATH="$PATH:$HOME/.scripts:$HOME/.local/bin"
 export EDITOR="vim"
@@ -14,6 +14,14 @@ export HISTSIZE=
 export HISTFILESIZE=
 export XDG_CONFIG_HOME="$HOME/.config"
 
+export MEDIA="$HOME/Media"
+export MUSIC="$MEDIA/music"
+export FILMS="$MEDIA/films"
+export VIDEOS="$MEDIA/videos"
+export SERIALS="$MEDIA/serials"
+export PODCASTS="$MEDIA/podcasts"
+export PICTURES="$MEDIA/pictures"
+
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 
 if [[ $(tty) = "/dev/tty1" ]]; then
@@ -21,5 +29,3 @@ if [[ $(tty) = "/dev/tty1" ]]; then
 		1>$HOME/Services/xorg.1.log \
 		2>$HOME/Services/xorg.2.log
 fi
-
-# source ~/.cache/wal/colors-tty.sh

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+youtube-dl -F "$1" 1>/dev/null 2>/tmp/ytdl_error
+[[ "$?" -ne "0" ]] && notify-send "Youtube-dl error" "$(</tmp/ytdl_error)" && exit 1
+mpv -quiet --ytdl-format="bestvideo[height<=1080]+bestaudio/best[height<=1080]" "$1" >/dev/null 2>&1

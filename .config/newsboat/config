@@ -17,10 +17,7 @@ bind-key h quit
 bind-key a toggle-article-read
 bind-key n next-unread
 bind-key N prev-unread
-bind-key D pb-download
 bind-key u show-urls
-bind-key x pb-delete
-# bind-key ^t next-unread
 
 color background         default   default
 color listnormal         default   default
@@ -36,6 +33,6 @@ highlight article "\\[image\\ [0-9]+\\]" green default
 
 browser linkhandler
 macro s set browser "ytpodcast %u"; open-in-browser ; set browser linkhandler
-macro a set browser "ytloader -f a %u"; open-in-browser ; set browser linkhandler
-macro h set browser "ytloader -f h %u"; open-in-browser ; set browser linkhandler
+macro a set browser "tsp ytloader -f a %u"; open-in-browser ; set browser linkhandler
+macro h set browser "tsp ytloader -f h %u"; open-in-browser ; set browser linkhandler
 macro c set browser "xsel -b <<<" ; open-in-browser ; set browser linkandler

@@ -3,7 +3,7 @@
 [ "$(pgrep -x i3mpdupdate | wc -l)" -gt 2 ] && exit
 
 while : ; do
-	pgrep -x mpd || exit
+	pgrep -x mpd || exit 1
 	mpc idle > /dev/null
-	pkill -RTMIN+9 i3blocks ;
+	pkill -RTMIN+9 i3blocks
 done

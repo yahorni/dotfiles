@@ -2,15 +2,15 @@
 
 case "$1" in
 	*youtube.com*)
-		setsid mpv -quiet --ytdl-format="bestvideo[height<=1080]+bestaudio" "$1" >/dev/null 2>&1 & ;;
+		setsid ytstream "$1" & ;;
 	*mkv|*webm|*mp4|*3gp|*avi)
 		setsid mpv -quiet "$1" >/dev/null 2>&1 & ;;
 	*png|*jpg|*jpe|*jpeg)
 		setsid feh "$1" >/dev/null 2>&1 & ;;
 	*gif)
-		setsid mpv --loop "$1" ;;
+		setsid mpv --loop "$1" >/dev/null 2>&1 & ;;
 	*mp3|*flac|*opus|*mp3?source)
-		setsid wget "$1" >/dev/null 2>&1 & ;;
+		setsid tsp wget -P "$PODCASTS" "$1" >/dev/null 2>&1 & ;;
 	*)
 		setsid $BROWSER $1 >/dev/null 2>&1 & ;;
 esac
