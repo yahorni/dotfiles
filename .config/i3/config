@@ -167,8 +167,6 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
 bar {
 	font pango:liberation mono bold 10
 	status_command i3blocks
@@ -189,6 +187,9 @@ bindcode $mod+Shift+61		scratchpad show
 bindcode $mod+59			$ensi $terminal -n dropdown -e python -q
 bindcode $mod+60			$ensi $terminal -n dropdown
 for_window [instance="dropdown"] floating enable
+
+for_window [title="^Emulator$"] floating enable, move to workspace 4
+for_window [title="^Android Emulator"] floating enable, move to workspace 4
 
 bindcode $mod+28 			$ensi $terminal		# +t
 bindcode $mod+56			$ensi $browser		# +b

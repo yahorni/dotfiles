@@ -30,6 +30,7 @@ Plugin 'lilydjwg/colorizer'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'easymotion/vim-easymotion'
+Plugin 'tpope/vim-surround'
 
 " i3
 Plugin 'PotatoesMaster/i3-vim-syntax'
