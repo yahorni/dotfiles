@@ -22,14 +22,16 @@ c.aliases = {
     'tor': 'set content.proxy socks://localhost:9050/',
     'sys': 'set content.proxy system',
 
-    'og': 'open g {primary}',
-    'oe': 'open enru {primary}',
-    'or': 'open ruen {primary}',
-    'ow': 'open wrd {primary}',
+    'og': 'open -t g {primary}',
+    'oe': 'open -t enru {primary}',
+    'or': 'open -t ruen {primary}',
+    'ow': 'open -t wrd {primary}',
+
     'la': 'spawn ytloader -f a {url}',
     'll': 'spawn ytloader -f l {url}',
     'lm': 'spawn ytloader -f m {url}',
     'lh': 'spawn ytloader -f h {url}',
+
     'hu': 'spawn linkhandler {url}',
     'hc': 'spawn linkhandler {clipboard}',
     'hp': 'spawn linkhandler {primary}',

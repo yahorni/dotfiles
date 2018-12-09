@@ -15,7 +15,7 @@ $ensi dunst
 $ensi xcompmgr
 $ensi wal -Rn
 $ensi $HOME/.fehbg
-$ensi xss-lock lockscreen
+# $ensi xss-lock lockscreen
 $ensi safeeyes
 
 # Colors
@@ -27,7 +27,7 @@ client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 
 # Custom defaults
 for_window [class="^.*"] border pixel 4
-gaps inner 10
+gaps inner 9
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod

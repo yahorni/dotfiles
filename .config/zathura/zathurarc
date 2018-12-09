@@ -4,3 +4,6 @@ map J scroll half-down
 map K scroll half-up
 
 set selection-clipboard clipboard
+
+map i recolor
+map p print

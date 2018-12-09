@@ -11,26 +11,25 @@ Plugin 'ying17zi/vim-live-latex-preview'
 Plugin 'lervag/vimtex'
 
 " markdown
-" Plugin 'godlygeek/tabular'
-" Plugin 'plasticboy/vim-markdown'
 Plugin 'vim-pandoc/vim-pandoc-syntax'
 
 " other
-Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'lyokha/vim-xkbswitch'
 Plugin 'alvan/vim-closetag'
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'ervandew/supertab'
-Plugin 'vim-airline/vim-airline'
-Plugin 'markonm/traces.vim'
-Plugin 'lilydjwg/colorizer'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-unimpaired'
 Plugin 'easymotion/vim-easymotion'
+Plugin 'ervandew/supertab'
+Plugin 'jiangmiao/auto-pairs'
+Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'junegunn/goyo.vim'
+Plugin 'lilydjwg/colorizer'
+Plugin 'lyokha/vim-xkbswitch'
+Plugin 'markonm/traces.vim'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdtree'
+Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'vim-airline/vim-airline'
 
 " i3
 Plugin 'PotatoesMaster/i3-vim-syntax'
@@ -142,13 +141,20 @@ augroup END
 " groff compiling
 augroup groff_compile
 	au FileType nroff com! GroffCompile !groff -ms % -T pdf -t > %:r.pdf
-	au FileType nroff nn <silent> <leader>e :GroffCompile<cr>
+	au FileType nroff nn <silent> <leader>e :w <bar> :GroffCompile<cr>
 augroup END
 
-" latex compiling
+" latex
 augroup tex_compile
 	au FileType tex com! TexCompile !pdflatex %
-	au FileType tex nn <silent> <leader>e :TexCompile<cr>
+	au FileType tex nn <silent> <leader>e :w <bar> :TexCompile<cr>
+
+	au FileType tex ino <leader><leader>f \frac{}<ESC>i
+	au FileType tex ino <leader><leader>p \partial
+	au FileType tex ino <leader><leader>b \begin{}<ESC>i
+	au FileType tex ino <leader><leader>d \displaystyle
+	au FileType tex ino <leader><leader>l \left(
+	au FileType tex ino <leader><leader>r \right)
 augroup END
 
 " markdown compiling
