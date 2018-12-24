@@ -52,7 +52,6 @@ alias grh='git reset HEAD'
 alias gb='git branch'
 alias gch='git checkout'
 
-alias xclip='xclip -selection clipboard'
 alias we='cd ~/WorkExt4/ && ls'
 alias wn='cd ~/WorkNtfs/ && ls'
 alias med='cd ~/Media/ && ls'

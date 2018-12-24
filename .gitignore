@@ -17,6 +17,8 @@
 !.vimrc
 !.urlview
 !.xinitrc
+!.xxkbrc
+!.Xresources
 
 # Config folders
 .config/*

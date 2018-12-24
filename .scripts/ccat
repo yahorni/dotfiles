@@ -1,9 +1,36 @@
 #!/bin/sh
 
-usage="usage: ${0##*/} <file> [<syntax>]"
-warning="pass syntax type"
-[[ -z "$1" ]] && echo $usage && exit 1
-[[ ! -z "$2" ]] && syntax="--syntax=$2"
-text=$(highlight --out-format=ansi $syntax "$1" 2>/dev/null)
-[[ "$?" -ne "0" ]] && echo -e "$usage\n$warning" && exit 1
-echo "$text" | less -r && exit 0
+usage="Usage: ${0##*/} [-h] [-f file] [-s syntax] [-l]
+If file not specified, STDIN used.
+
+-h — show help
+-f — file to colorize
+-s — specify syntax
+-l — output to less"
+
+warning="Specify syntax type via -s option"
+use_less="false"
+
+while getopts "hf:s:l" opt; do
+	case $opt in
+		h) printf "$usage" && exit ;;
+		f) file=$OPTARG ;;
+		s) syntax=$OPTARG ;;
+		l) use_less="true" ;;
+		*) echo $usage && exit 1 ;;
+	esac
+done
+
+command="highlight --out-format=ansi"
+[[ ! -z "$syntax" ]] && command="$command --syntax=$syntax"
+[[ ! -z "$file" ]] && command="$command $file"
+
+text="$($command 2>/dev/null)\n"
+
+[[ -z "$syntax" ]] && [[ "$?" -eq "1" ]] && printf $warning && exit 1
+
+if [[ $use_less = "true" ]]; then
+	printf "$text" | less -r
+else
+	printf "$text"
+fi

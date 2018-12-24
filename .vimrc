@@ -128,10 +128,10 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
-nnoremap <silent> <C-Y> :vert res +1<CR>
+nnoremap <silent> <C-Y> :vert res -1<CR>
 nnoremap <silent> <C-U> :res -1<CR>
 nnoremap <silent> <C-I> :res +1<CR>
-nnoremap <silent> <C-O> :vert res -1<CR>
+nnoremap <silent> <C-O> :vert res +1<CR>
 
 " bash script execution
 augroup shexec
@@ -184,8 +184,8 @@ augroup END
 " python script execution and debugging
 augroup pyexec
 	au FileType python nn <leader>e :w <bar> :echo system('python "' . expand('%') . '"')<cr>
-	au FileType python nn <leader>E :w <bar> :! python % >/tmp/vim_py.txt<cr> :new /tmp/vim_py.txt<cr>
-	au FileType python nn <leader>B :!pudb3 %<cr>
+	au FileType python nn <leader>E :w <bar> :!python % >/tmp/vim_py.txt<cr> :new /tmp/vim_py.txt<cr>
+	au FileType python nn <leader>B :w <bar> :!pudb3 %<cr>
 
 	" pep8
 	au FileType python
@@ -196,6 +196,10 @@ augroup pyexec
 		\ set expandtab |
 		\ set autoindent |
 		\ set fileformat=unix
+augroup END
+
+augroup xresources
+	au BufRead,BufNewFile ~/.Xresources nn <leader>e :w <bar> :!xrdb -merge %<cr>
 augroup END
 
 " enable autoswitching language

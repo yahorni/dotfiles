@@ -10,6 +10,7 @@ set_from_resource $browser echo $BROWSER
 font pango:dejavu sans mono 10
 
 # Autostart
+$ensi xxkb
 $ensi dunst
 $ensi compton
 $ensi wal -Rn
@@ -179,6 +180,7 @@ bindsym $mod+Shift+i	$ensi $terminal -e ranger & disown
 bindsym $mod+Shift+d	$ensi dmenu_dict
 bindsym $mod+o			$ensi translate.py -sn
 bindsym $mod+Shift+o	$ensi translate.py -dn
+bindsym $mod+c			$ensi show_selections
 
 bindsym Print			$ensi flameshot full -p $screenshots
 bindsym Shift+Print		$ensi flameshot gui -p $screenshots
