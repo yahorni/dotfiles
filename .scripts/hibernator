@@ -1,17 +1,20 @@
 #!/bin/sh
 
-message="Critical battery threshold"
+[ $(pgrep -x hibernator | wc -l) -gt 2 ] && exit 1
+
+low_message="Low battery"
+critical_message="Critical battery"
+remain_time=15
 
 acpi -b | awk -F'[,:%]' '{print $2, $3}' | {
 	read -r status capacity
-
-	# if [ "$status" = Discharging -a "$capacity" -lt 10 ]; then
-		# notify-send -u critical $message
-	# fi
-
-	if [ "$status" = Discharging -a "$capacity" -lt 5  ]; then
-		logger $message
-		sleep 10
-		[ "$status" = Discharging -a "$capacity" -lt 5  ] && systemctl hibernate
+	if [ "$status" = "Discharging" ]; then
+		if [ "$capacity" -lt 10 ]; then
+			notify-send -u critical "$low_message" "$status $capacity"
+		elif [ "$capacity" -lt 5  ]; then
+			notify-send -u critical "$critical_message" "$status $capacity \nRemain time: $remain_time sec"
+			sleep $remain_time
+			[ "$capacity" -lt 5  ] && systemctl hibernate
+		fi
 	fi
 }

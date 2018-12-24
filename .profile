@@ -14,12 +14,6 @@ export HISTSIZE=
 export HISTFILESIZE=
 export XDG_CONFIG_HOME="$HOME/.config"
 
-export ANDROID_HOME="/mnt/workext4/AndroidSDK/Sdk"
-export ANDROID_SDK_HOME="/mnt/workext4/AndroidSDK/android"
-export ANDROID_EMULATOR_HOME="/mnt/workext4/AndroidSDK/android"
-export ANDROID_SDK_ROOT="/mnt/workext4/AndroidSDK/android"
-export ANDROID_AVD_HOME="/mnt/workext4/AndroidSDK/android/avd"
-
 export MEDIA="$HOME/Media"
 export MUSIC="$MEDIA/music"
 export FILMS="$MEDIA/films"
@@ -27,6 +21,7 @@ export VIDEOS="$MEDIA/videos"
 export SERIALS="$MEDIA/serials"
 export PODCASTS="$MEDIA/podcasts"
 export PICTURES="$MEDIA/pictures"
+export SCREENSHOTS="$PICTURES/screenshots"
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 

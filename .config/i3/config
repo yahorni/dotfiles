@@ -1,5 +1,4 @@
 # vim: filetype=i3
-# man i3-config-wizard(1)
 
 set $mod Mod4
 set $ensi exec --no-startup-id
@@ -12,18 +11,17 @@ font pango:dejavu sans mono 10
 
 # Autostart
 $ensi dunst
-$ensi xcompmgr
+$ensi compton
 $ensi wal -Rn
 $ensi $HOME/.fehbg
-# $ensi xss-lock lockscreen
 $ensi safeeyes
 
 # Colors
-client.focused          #4c7899 #285577 #ffffff #556b2f   #af5540
-client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
-client.unfocused        #333333 #222222 #888888 #292d2e   #222222
-client.urgent           #2f343a #900000 #ffffff #900000   #900000
-client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
+client.focused          #4c7899 #285577 #ffffff #556b2f #af5540
+client.focused_inactive #333333 #5f676a #ffffff #484e50 #5f676a
+client.unfocused        #333333 #222222 #888888 #292d2e #222222
+client.urgent           #2f343a #900000 #ffffff #900000 #900000
+client.placeholder      #000000 #0c0c0c #ffffff #000000 #0c0c0c
 
 # Custom defaults
 for_window [class="^.*"] border pixel 4
@@ -36,15 +34,10 @@ floating_modifier $mod
 bindsym $mod+Return exec i3-sensible-terminal
 
 # kill focused window
-# bindsym $mod+Shift+q kill
-bindcode $mod+24 kill
+bindsym $mod+q kill
 
 # start dmenu (a program launcher)
 bindsym $mod+d exec dmenu_run
-# There also is the (new) i3-dmenu-desktop which only displays applications
-# shipping a .desktop file. It is a wrapper around dmenu, so you need that
-# installed.
-# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # change focus
 bindsym $mod+h focus left
@@ -70,11 +63,7 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
-# split in horizontal orientation
-bindsym $mod+g split h
-
-# split in vertical orientation
-bindsym $mod+v split v
+bindsym $mod+v split toggle
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -133,39 +122,26 @@ bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
 
-# reload the configuration file
 bindsym $mod+Shift+c reload
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
-# exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
-# resize window (you can also use the mouse for that)
 mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
+    bindsym h resize shrink width 5 px or 5 ppt
+    bindsym j resize grow height 5 px or 5 ppt
+    bindsym k resize shrink height 5 px or 5 ppt
+    bindsym l resize grow width 5 px or 5 ppt
 
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
-        bindsym h resize shrink width 5 px or 5 ppt
-        bindsym j resize grow height 5 px or 5 ppt
-        bindsym k resize shrink height 5 px or 5 ppt
-        bindsym l resize grow width 5 px or 5 ppt
+    bindsym Left resize shrink width 5 px or 5 ppt
+    bindsym Down resize grow height 5 px or 5 ppt
+    bindsym Up resize shrink height 5 px or 5 ppt
+    bindsym Right resize grow width 5 px or 5 ppt
 
-        # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 5 px or 5 ppt
-        bindsym Down resize grow height 5 px or 5 ppt
-        bindsym Up resize shrink height 5 px or 5 ppt
-        bindsym Right resize grow width 5 px or 5 ppt
-
-        # back to normal: Enter or Escape or $mod+r
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-        bindsym $mod+r mode "default"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
 }
 
-bindsym $mod+r mode "resize"
 
 bar {
 	font pango:liberation mono bold 10
@@ -173,42 +149,39 @@ bar {
 	position top
 }
 
-# Custom variables
-set $screenshots		$HOME/Media/pictures/screenshots
+set $screenshots		$SCREENSHOTS
 set $dvnl				>/dev/null
 set $mpd_signal			pkill -RTMIN+9 i3blocks
 set $volume_signal		pkill -RTMIN+10 i3blocks
 set $brightness_signal	pkill -RTMIN+11 i3blocks
 set $language_signal	pkill -RTMIN+12 i3blocks
 
-# Custom keybindings
+bindsym $mod+r mode "resize"
+
 bindcode $mod+61			move scratchpad
 bindcode $mod+Shift+61		scratchpad show
 bindcode $mod+59			$ensi $terminal -n dropdown -e python -q
 bindcode $mod+60			$ensi $terminal -n dropdown
 for_window [instance="dropdown"] floating enable
 
-for_window [title="^Emulator$"] floating enable, move to workspace 4
-for_window [title="^Android Emulator"] floating enable, move to workspace 4
+bindsym $mod+t			$ensi $terminal
+bindsym $mod+b			$ensi $browser
+bindsym $mod+m			$ensi dmenu_mount
+bindsym $mod+u			$ensi dmenu_umount
+bindsym $mod+p			$ensi power_manager
+bindsym $mod+Shift+p	$ensi fastkill
+bindsym $mod+n 			$ensi mpc toggle $dvnl && $mpd_signal
+bindsym $mod+Shift+n 	$ensi mpc stop $dvnl && $mpd_signal
+bindsym $mod+y			$ensi $terminal -e newsboat -qr	& disown
+bindsym $mod+Shift+y	$ensi $terminal -e newsboat -q & disown
+bindsym $mod+i			$ensi $terminal -e ncmpcpp & disown
+bindsym $mod+Shift+i	$ensi $terminal -e ranger & disown
+bindsym $mod+Shift+d	$ensi dmenu_dict
+bindsym $mod+o			$ensi translate.py -sn
+bindsym $mod+Shift+o	$ensi translate.py -dn
 
-bindcode $mod+28 			$ensi $terminal		# +t
-bindcode $mod+56			$ensi $browser		# +b
-bindcode $mod+58			$ensi dmenu_mount	# +m
-bindcode $mod+30			$ensi dmenu_umount	# +u
-bindcode $mod+33			$ensi power_manager	# +p
-bindcode $mod+Shift+33	    $ensi fastkill     	# +p
-bindcode $mod+57 			$ensi mpc toggle $dvnl && $mpd_signal	# +n
-bindcode $mod+Shift+57	 	$ensi mpc stop $dvnl && $mpd_signal		# +n
-bindcode $mod+29			$ensi $terminal -e newsboat -qr	& disown	# +y
-bindcode $mod+Shift+29		$ensi $terminal -e newsboat -q & disown		# +y
-bindcode $mod+31			$ensi $terminal -e ncmpcpp & disown	# +i
-bindcode $mod+Shift+31		$ensi $terminal -e ranger & disown	# +i
-bindcode $mod+Shift+40		$ensi dmenu_dict 	# +d
-bindcode $mod+32			$ensi translate.py -sn	# +o
-bindcode $mod+Shift+32		$ensi translate.py -dn	# +o
-
-bindsym Print			    $ensi flameshot full -p $screenshots
-bindsym Shift+Print		    $ensi flameshot gui -p $screenshots
+bindsym Print			$ensi flameshot full -p $screenshots
+bindsym Shift+Print		$ensi flameshot gui -p $screenshots
 
 bindsym XF86AudioMute			$ensi $volume_signal
 bindsym XF86AudioLowerVolume	$ensi $volume_signal

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ -z "$1" ] || [ "$1" = "on" ]; then
+	pkill compton
+	setsid compton --invert-color-include 'class_g="qutebrowser"' &
+	exit 0
+elif [ "$1" = "off" ]; then
+	pkill compton
+	setsid compton &
+	exit 0
+else
+	notify-send "Error" "Unknown option $1"
+	exit 1
+fi

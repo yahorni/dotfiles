@@ -7,6 +7,48 @@
 ## Remove it to not load settings done via the GUI.
 # config.load_autoconfig()
 
+# Set colors I want to change by command
+parameters = [
+    'colors.completion.odd.bg',
+    'colors.completion.even.bg',
+    'colors.completion.fg',
+    'colors.statusbar.command.private.bg',
+    'colors.statusbar.command.private.fg',
+]
+
+# Set new values for the colors
+invertions = ['#DEB887', 'white', 'black', 'white', 'black']
+invert_colors = dict(zip(parameters, invertions))
+
+# Remember default values for colors
+default_colors = {}
+for parameter in parameters:
+    value = getattr(c, parameter, 'red')
+    if not isinstance(value, str):
+        value = value[0]
+    default_colors[parameter] = value
+
+# Generate QB's command for changing colors
+def set_colors(colors):
+    return " ;; ".join(
+        [f"set {command} {value}" for command, value in colors.items()])
+
+# Some custom bindings
+config.bind('ci', set_colors(invert_colors))
+config.bind('cs', set_colors(default_colors))
+config.bind('cf', 'set content.images false')
+config.bind('xla', 'spawn ytloader -f a {url}')
+config.bind('xll', 'spawn ytloader -f l {url}')
+config.bind('xlm', 'spawn ytloader -f m {url}')
+config.bind('xlh', 'spawn ytloader -f h {url}')
+config.bind('xhu', 'spawn linkhandler {url}')
+config.bind('xhc', 'spawn linkhandler {clipboard}')
+config.bind('xhp', 'spawn linkhandler {primary}')
+config.bind('xg', 'open -t g {primary}')
+config.bind('xe', 'open -t enru {primary}')
+config.bind('xr', 'open -t ruen {primary}')
+config.bind('xw', 'open -t wrd {primary}')
+
 ## Aliases for commands. The keys of the given dictionary are the
 ## aliases, while the values are the commands they map to.
 ## Type: Dict
@@ -22,23 +64,12 @@ c.aliases = {
     'tor': 'set content.proxy socks://localhost:9050/',
     'sys': 'set content.proxy system',
 
-    'og': 'open -t g {primary}',
-    'oe': 'open -t enru {primary}',
-    'or': 'open -t ruen {primary}',
-    'ow': 'open -t wrd {primary}',
-
-    'la': 'spawn ytloader -f a {url}',
-    'll': 'spawn ytloader -f l {url}',
-    'lm': 'spawn ytloader -f m {url}',
-    'lh': 'spawn ytloader -f h {url}',
-
-    'hu': 'spawn linkhandler {url}',
-    'hc': 'spawn linkhandler {clipboard}',
-    'hp': 'spawn linkhandler {primary}',
-
     'jse': 'set content.javascript.enabled true',
     'jsd': 'set content.javascript.enabled false',
 }
+
+c.url.default_page = 'about:blank'
+c.url.start_pages = ['about:blank']
 
 ## Time interval (in milliseconds) between auto-saves of
 ## config/cookies/etc.
@@ -605,7 +636,7 @@ c.content.host_blocking.whitelist = []
 
 ## Load images automatically in web pages.
 ## Type: Bool
-# c.content.images = True
+c.content.images = False
 
 ## Show javascript alerts.
 ## Type: Bool
@@ -698,7 +729,7 @@ c.content.pdfjs = True
 
 ## Draw the background color and images also when the page is printed.
 ## Type: Bool
-# c.content.print_element_backgrounds = True
+c.content.print_element_backgrounds = False
 
 ## Open new windows in private browsing mode which does not record
 ## visited pages.
@@ -809,7 +840,6 @@ c.content.private_browsing = True
 # c.editor.command = ['gvim', '-f', '{file}', '-c', 'normal {line}G{column0}l']
 # c.editor.command = ['termite', '-e', 'vim {}']
 c.editor.command = ['st', '-e', 'vim', '{}']
-
 
 ## Encoding to use for the editor.
 ## Type: Encoding
@@ -1432,7 +1462,8 @@ c.editor.command = ['st', '-e', 'vim', '{}']
 ## `:open google qutebrowser`.
 ## Type: Dict
 c.url.searchengines = {
-        'DEFAULT': 'https://duckduckgo.com/?q={}',
+        #  'DEFAULT': 'https://duckduckgo.com/?q={}',
+        'DEFAULT': 'https://www.google.com/search?&q={}',
         'tw': 'https://twitter.com/{}',
         'wolf': 'https://www.wolframalpha.com/input/?i={}',
         'osm': 'http://www.openstreetmap.org/search?query={}',

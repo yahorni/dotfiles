@@ -21,18 +21,18 @@
 # Config folders
 .config/*
 !.config/dunst
-!.config/Code
 !.config/fontconfig
 !.config/gtk-3.0
 !.config/i3
 !.config/i3blocks
 !.config/mpd
 !.config/mpv
-!.config/qutebrowser
-!.config/ranger
-!.config/termite
 !.config/ncmpcpp
 !.config/newsboat
+!.config/qutebrowser
+!.config/ranger
+!.config/redshift
+!.config/termite
 !.config/youtube-viewer
 !.config/zathura
 
@@ -53,12 +53,9 @@
 .config/newsboat/*
 !.config/newsboat/config
 
-# VSCode folder
-.config/Code/*
-!.config/Code/User
-.config/Code/User/*
-!.config/Code/User/settings.json
-!.config/Code/User/keybindings.json
+# Fontconfig folder
+.config/fontconfig/*
+!.config/fontconfig/fonts.conf
 
 # Extensions
 *.bak

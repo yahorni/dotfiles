@@ -1,5 +1,6 @@
 #!/bin/sh
 
+pgrep -x mpd || exit 1
 [ "$(pgrep -x i3mpdupdate | wc -l)" -gt 2 ] && exit
 
 while : ; do
