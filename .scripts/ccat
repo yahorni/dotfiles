@@ -30,7 +30,7 @@ text="$($command 2>/dev/null)\n"
 [[ -z "$syntax" ]] && [[ "$?" -eq "1" ]] && printf $warning && exit 1
 
 if [[ $use_less = "true" ]]; then
-	printf "$text" | less -r
+	echo -e "$text" | less -r
 else
-	printf "$text"
+	echo -e "$text"
 fi

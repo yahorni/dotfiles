@@ -1,5 +1,6 @@
 blacklist.conf -> /etc/modprobe.d/blacklist.conf
 cron/* -> /var/spool/cron/*
+custom -> /etc/sudoers.d/custom
 events/* -> /etc/acpi/events/*
 fstab -> /etc/fstab
 powertop.service -> /etc/systemd/system/powertop.service
