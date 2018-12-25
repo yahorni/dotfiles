@@ -1,0 +1,72 @@
+#!/bin/bash
+
+# notify-send "Select window"
+
+# name="$(echo -e "$info" | sed -n '/^WM_NAME/s/^[^\"]\+\"\([^\"]*\)\"/\1/p')"
+# pid="$(echo -e "$info" | sed -n '/PID/s/.*=\s\(.*\)$/\1/p')"
+
+# info="$(xwininfo)"
+# IFS="|" read -r pid name < <(echo -e "$info" | sed -n '/^xwininfo: Window/s/.*id: \([^ ]\+\) \(.*\)$/\1|\2/p')
+
+default_x=30
+default_y=40
+usage="Usage: ${0##*/} [-h] [-H left/right] [-v top/bottom] [-x percents] [-y percents]
+
+-h — show help.
+-H — attach window to left/right(default) corner.
+-v — attach window to top/bottom(default) corner.
+-x — 0..100 percents of the screen taken by window horizontally. Default = $default_x.
+-y — 0..100 percents of the screen taken by window vertically. Default = $default_y.
+"
+
+warn_H="\-H option needs left/right value"
+warn_v="\-v option needs top/bottom value"
+warn_perc="option needs value between 0..100"
+warn_num="option needs integer value"
+
+function warn {
+	notify-send "Warning" "$1"
+	exit 1
+}
+
+num_regex='^[0-9]+$'
+
+while getopts ":hH:v:x:y:" opt 2>/dev/null; do
+	case $opt in
+		h)	echo "$usage" && exit ;;
+		H)	[ "$OPTARG" != "left" -a "$OPTARG" != "right" ] && warn "$warn_H"
+			x_pos=$OPTARG ;;
+		v)	[ "$OPTARG" != "top" -a "$OPTARG" != "bottom" ] && warn "$warn_v"
+			y_pos=$OPTARG ;;
+		x|y) ! [[ "$OPTARG" =~ $num_regex ]] && warn "\-$opt $warn_num"
+			[ "$OPTARG" -lt 0 -o "$OPTARG" -gt 100 ] && warn "\-$opt $warn_perc"
+			if [ "$opt" = "x" ]; then
+				x_perc=$OPTARG
+			else
+				y_perc=$OPTARG
+			fi ;;
+	esac
+done
+
+x_position="${x_pos:-right}"
+y_position="${y_pos:-bottom}"
+x_percent="${x_perc:-default_x}"
+y_percent="${y_perc:-default_y}"
+
+pid=$(xdotool getwindowfocus)
+name="$(xdotool getwindowname $pid)"
+notify-send "Window" "Name: $name\nWindow ID: $pid"
+
+is_floating=$(xprop -id $pid | grep I3_FLOATING_WINDOW | wc -l)
+[ "$is_floating" -eq 0 ] && i3-msg "[id=\"$pid\"] floating enable" > /dev/null
+
+read -a geometry < <(xdotool getdisplaygeometry)
+new_width=$((${geometry[0]} * $x_percent / 100))
+new_height=$((${geometry[1]} * $y_percent / 100))
+xdotool windowsize $pid $new_width $new_height
+
+new_x=0
+new_y=0
+[ "$x_position" = "right" ] && new_x=$((${geometry[0]} - $new_width))
+[ "$y_position" = "bottom" ] && new_y=$((${geometry[1]} - $new_height))
+xdotool windowmove $pid $new_x $new_y
