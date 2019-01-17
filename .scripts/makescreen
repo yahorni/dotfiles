@@ -1,0 +1,17 @@
+#!/bin/bash
+
+filename="%Y-%m-%d_%H-%M.png"
+if [ ! -z $SCREENSHOTS ]; then
+	filename="$SCREENSHOTS/$filename"
+fi
+
+if [ "$1" = 'part' ]; then
+	file=$(scrot -z -s -q 100 $filename -e 'echo $f')
+else
+	file=$(scrot -z -q 100 $filename -e 'echo $f')
+fi
+
+[ -z $file ] && exit
+
+xclip-copyfile $file
+notify-send -i "$file" "Copied to clipboard"

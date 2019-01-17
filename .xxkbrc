@@ -1,8 +1,0 @@
-XXkb.button.enable: no
-
-XXkb.controls.two_state: yes
-XXkb.controls.add_when_start: yes
-XXkb.controls.add_when_create: yes
-
-XXkb.controls.add_when_change: no
-XXkb.controls.focusout: no

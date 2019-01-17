@@ -1,8 +1,8 @@
 #!/bin/bash
 
 export PATH="$PATH:$HOME/.scripts:$HOME/.local/bin"
-export EDITOR="vim"
-export VISUAL="vim"
+export EDITOR="nvim"
+export VISUAL="$EDITOR"
 export BROWSER="qutebrowser"
 export TERMINAL="st"
 export READER="zathura"
@@ -13,6 +13,7 @@ export HISTFILE="$HOME/Services/bash_history"
 export HISTSIZE=
 export HISTFILESIZE=
 export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
 
 export MEDIA="$HOME/Media"
 export MUSIC="$MEDIA/music"

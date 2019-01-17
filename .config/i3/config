@@ -10,11 +10,11 @@ set_from_resource $browser echo $BROWSER
 font pango:dejavu sans mono 10
 
 # Autostart
-$ensi xxkb
 $ensi dunst
 $ensi compton
 $ensi wal -Rn
 $ensi $HOME/.fehbg
+$ensi home_watcher
 $ensi safeeyes
 
 # Colors
@@ -177,7 +177,8 @@ for_window [instance="dropdown"] floating enable
 bindsym $mod+g			$ensi corner_window
 bindsym $mod+Shift+g	$ensi corner_window -H left
 bindsym $mod+t			$ensi $terminal
-bindsym $mod+b			$ensi $browser
+bindsym $mod+b			$ensi pgrep $browser >/dev/null || $browser
+bindsym $mod+Shift+b	$ensi $browser
 bindsym $mod+m			$ensi dmenu_mount
 bindsym $mod+u			$ensi dmenu_umount
 bindsym $mod+p			$ensi power_manager
@@ -193,8 +194,8 @@ bindsym $mod+o			$ensi translate.py -sn
 bindsym $mod+Shift+o	$ensi translate.py -dn
 bindsym $mod+c			$ensi show_selections
 
-bindsym Print			$ensi flameshot full -p $screenshots
-bindsym Shift+Print		$ensi flameshot gui -p $screenshots
+bindsym Print					$ensi makescreen
+bindsym --release Shift+Print	$ensi makescreen part
 
 bindsym XF86AudioMute			$ensi $volume_signal
 bindsym XF86AudioLowerVolume	$ensi $volume_signal

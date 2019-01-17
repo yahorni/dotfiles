@@ -17,6 +17,8 @@ done
 shift $(($OPTIND-1))
 link=$1
 
+notify-send "Downloading" "$link"
+
 case $format in
 	'a') youtube-dl --add-metadata -icxf "bestaudio/best" -o "$outaudio/$filename" "$link" ;;
 	'l') youtube-dl --add-metadata -icf "best[height<=240]" -o "$outvideo/$filename" "$link" ;;
@@ -24,3 +26,5 @@ case $format in
 	'h') youtube-dl --add-metadata -icf "bestvideo+bestaudio/best" -o "$outvideo/$filename" "$link" ;;
 	*) echo "Incorrect format"
 esac
+
+notify-send "Loaded" "$link"

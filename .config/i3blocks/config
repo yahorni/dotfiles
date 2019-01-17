@@ -29,11 +29,16 @@ separator_block_width=10
 markup=none
 
 [mpd]
-#label=🎼
 interval=once
 signal=9
 command=i3mpd
 separator=true
+
+# [timer]
+# label=Timer:
+# interval=30
+# command=i3timer
+# separator=true
 
 [volume]
 interval=once

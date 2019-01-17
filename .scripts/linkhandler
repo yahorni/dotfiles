@@ -2,6 +2,7 @@
 
 case "$1" in
 	*youtube.com*)
+		notify-send "Opening" "$1"
 		setsid ytstream "$1" & ;;
 	*mkv|*webm|*mp4|*3gp|*avi)
 		setsid mpv -quiet "$1" >/dev/null 2>&1 & ;;

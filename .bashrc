@@ -17,8 +17,8 @@ alias la='ls -a'
 alias ll='ls -lsh'
 alias lf='ls -lash'
 
-alias v='vim'
-alias sv='sudo vim'
+alias v='$EDITOR'
+alias sv='sudo $EDITOR'
 alias sp='sudo pacman'
 alias sc='systemctl'
 alias ssc='sudo systemctl'
@@ -32,8 +32,9 @@ alias smkd='sudo mkdir -pv'
 alias rst='reset && source ~/.bashrc'
 alias cp='cp -r'
 alias rm='rm -r'
+alias sql='sqlite3'
 
-completions="/usr/share/bash-completion/completions/" 
+completions="/usr/share/bash-completion/completions/"
 . $completions/systemctl
 complete -F _systemctl systemctl sc ssc
 . $completions/pacman
@@ -47,7 +48,6 @@ alias gc='git commit'
 alias gps='git push'
 alias gpl='git pull'
 alias gl='git log --oneline --graph --branches'
-alias gi='vim .gitignore'
 alias grh='git reset HEAD'
 alias gb='git branch'
 alias gch='git checkout'
@@ -55,5 +55,8 @@ alias gch='git checkout'
 alias we='cd ~/WorkExt4/ && ls'
 alias wn='cd ~/WorkNtfs/ && ls'
 alias med='cd ~/Media/ && ls'
-alias vb='vim ~/.bashrc'
-alias vv='vim ~/.vimrc'
+
+alias vb='$EDITOR ~/.bashrc'
+alias vv='$EDITOR ~/.vimrc'
+alias vp='$EDITOR ~/.profile'
+alias vg='$EDITOR .gitignore'

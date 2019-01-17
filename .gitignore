@@ -14,10 +14,8 @@
 !.inputrc
 !.profile
 !.tmux.conf
-!.vimrc
 !.urlview
 !.xinitrc
-!.xxkbrc
 !.Xresources
 
 # Config folders
@@ -31,6 +29,7 @@
 !.config/mpv
 !.config/ncmpcpp
 !.config/newsboat
+!.config/nvim
 !.config/qutebrowser
 !.config/ranger
 !.config/redshift
