@@ -95,9 +95,9 @@ command! Wq :wq
 command! -bang Q :q<bang>
 
 " normal mode bindings
-nnoremap <Enter> o<ESC>
-nnoremap S i<Enter><ESC>
-nnoremap <Backspace> i<Backspace><ESC>l
+" nnoremap <Enter> o<ESC>
+" nnoremap S i<Enter><ESC>
+" nnoremap <Backspace> i<Backspace><ESC>l
 nnoremap <silent> gr :noh<Enter>
 nnoremap gl $
 nnoremap Y y$
@@ -128,14 +128,21 @@ set splitbelow
 set splitright
 
 " Split moving/resizing
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
-nnoremap <silent> <C-Y> :vert res -1<CR>
-nnoremap <silent> <C-U> :res -1<CR>
-nnoremap <silent> <C-I> :res +1<CR>
-nnoremap <silent> <C-O> :vert res +1<CR>
+fun! ToggleResizeSplitMode()
+	if !exists('b:SplitResizing')
+		let b:SplitResizing=1
+		echo "Resizing enabled"
+	else
+		unlet b:SplitResizing
+		echo "Resizing disabled"
+	endif
+endfun
+
+nnoremap <expr> <C-H> !exists('b:SplitResizing') ? '<C-W><C-H>' : ':vert res -1<CR>'
+nnoremap <expr> <C-J> !exists('b:SplitResizing') ? '<C-W><C-J>' : ':res -1<CR>'
+nnoremap <expr> <C-K> !exists('b:SplitResizing') ? '<C-W><C-K>' : ':res +1<CR>'
+nnoremap <expr> <C-L> !exists('b:SplitResizing') ? '<C-W><C-L>' : ':vert res +1<CR>'
+nnoremap gs :call ToggleResizeSplitMode()<CR>
 
 " bash script execution
 augroup shexec

@@ -5,17 +5,13 @@ set $ensi exec --no-startup-id
 set_from_resource $terminal echo $TERMINAL
 set_from_resource $browser echo $BROWSER
 
-# Font for window titles. Will also be used by the bar unless a different font
-# is used in the bar {} block below.
-font pango:dejavu sans mono 10
-
 # Autostart
 $ensi dunst
 $ensi compton
 $ensi wal -Rn
 $ensi $HOME/.fehbg
-$ensi home_watcher
 $ensi safeeyes
+$ensi home_watcher
 
 # Colors
 client.focused          #4c7899 #285577 #ffffff #556b2f #af5540
@@ -87,8 +83,7 @@ bindsym $mod+a focus parent
 # focus the child container
 bindsym $mod+Shift+a focus child
 
-# Define names for default workspaces for which we configure key bindings later on.
-# We use variables to avoid repeating the names in multiple places.
+# Define names for default workspaces
 set $ws1 "1"
 set $ws2 "2"
 set $ws3 "3"
@@ -126,7 +121,7 @@ bindsym $mod+Shift+0 move container to workspace $ws10
 
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3?' -b 'Yes, exit i3' 'i3-msg exit'"
 
 mode "resize" {
     bindsym h resize shrink width 10 px or 10 ppt
@@ -152,68 +147,67 @@ mode "resize" {
     bindsym $mod+r mode "default"
 }
 
-
 bar {
     font pango:liberation mono bold 10
     status_command i3blocks
     position top
 }
 
-set $screenshots		$SCREENSHOTS
-set $dvnl				>/dev/null
-set $mpd_signal			pkill -RTMIN+9 i3blocks
-set $volume_signal		pkill -RTMIN+10 i3blocks
-set $brightness_signal	pkill -RTMIN+11 i3blocks
-set $language_signal	pkill -RTMIN+12 i3blocks
+set $dvnl               >/dev/null
+set $mpd_signal         pkill -RTMIN+9 i3blocks
+set $volume_signal      pkill -RTMIN+10 i3blocks
+set $brightness_signal  pkill -RTMIN+11 i3blocks
+set $language_signal    pkill -RTMIN+12 i3blocks
 
 bindsym $mod+r mode "resize"
 
-bindcode $mod+61			move scratchpad
-bindcode $mod+Shift+61		scratchpad show
-bindcode $mod+59			$ensi $terminal -n dropdown -e python -q
-bindcode $mod+60			$ensi $terminal -n dropdown
 for_window [instance="dropdown"] floating enable
+bindcode $mod+59        $ensi dropdown
+bindcode $mod+Shift+59  $ensi $terminal -n dropdown
+bindcode $mod+61        move scratchpad
+bindcode $mod+Shift+61  scratchpad show
 
-bindsym $mod+g			$ensi corner_window
-bindsym $mod+Shift+g	$ensi corner_window -H left
-bindsym $mod+t			$ensi $terminal
-bindsym $mod+b			$ensi pgrep $browser >/dev/null || $browser
-bindsym $mod+Shift+b	$ensi $browser
-bindsym $mod+m			$ensi dmenu_mount
-bindsym $mod+u			$ensi dmenu_umount
-bindsym $mod+p			$ensi power_manager
-bindsym $mod+Shift+p	$ensi fastkill
-bindsym $mod+n 			$ensi mpc toggle $dvnl && $mpd_signal
-bindsym $mod+Shift+n 	$ensi mpc stop $dvnl && $mpd_signal
-bindsym $mod+y			$ensi $terminal -e newsboat -qr	& disown
-bindsym $mod+Shift+y	$ensi $terminal -e newsboat -q & disown
-bindsym $mod+i			$ensi $terminal -e ncmpcpp & disown
-bindsym $mod+Shift+i	$ensi $terminal -e ranger & disown
-bindsym $mod+Shift+d	$ensi dmenu_dict
-bindsym $mod+o			$ensi translate.py -sn
-bindsym $mod+Shift+o	$ensi translate.py -dn
-bindsym $mod+c			$ensi show_selections
+bindsym $mod+g        $ensi corner_window
+bindsym $mod+Shift+g  $ensi corner_window -H left
+bindsym $mod+t        $ensi $terminal
+bindsym $mod+b        $ensi pgrep $browser >/dev/null || $browser
+bindsym $mod+Shift+b  $ensi $browser
+bindsym $mod+m        $ensi dmenu_mount
+bindsym $mod+Shift+m  $ensi dmenu_umount
+bindsym $mod+u        $ensi dmenu_emoji
+bindsym $mod+p        $ensi power_manager
+bindsym $mod+Shift+p  $ensi fastkill
+bindsym $mod+n        $ensi mpc toggle $dvnl && $mpd_signal
+bindsym $mod+Shift+n  $ensi mpc stop $dvnl && $mpd_signal
+bindsym $mod+y        $ensi $terminal -e newsboat -qr    & disown
+bindsym $mod+Shift+y  $ensi $terminal -e newsboat -q & disown
+bindsym $mod+i        $ensi $terminal -e ncmpcpp & disown
+bindsym $mod+Shift+i  $ensi $terminal -e ranger & disown
+bindsym $mod+Shift+d  $ensi dmenu_dict
+bindsym $mod+o        $ensi translate.py -sn
+bindsym $mod+Shift+o  $ensi translate.py -dn
+bindsym $mod+c        $ensi show_selections
 
-bindsym Print					$ensi makescreen
-bindsym --release Shift+Print	$ensi makescreen part
+bindsym Print                  $ensi makescreen
+bindsym --release Shift+Print  $ensi makescreen part
 
-bindsym XF86AudioMute			$ensi $volume_signal
-bindsym XF86AudioLowerVolume	$ensi $volume_signal
-bindsym XF86AudioRaiseVolume	$ensi $volume_signal
+bindsym XF86AudioMute         $ensi $volume_signal
+bindsym XF86AudioLowerVolume  $ensi $volume_signal
+bindsym XF86AudioRaiseVolume  $ensi $volume_signal
 
-bindsym XF86MonBrightnessUp		$ensi $brightness_signal
-bindsym XF86MonBrightnessDown	$ensi $brightness_signal
+bindsym XF86MonBrightnessUp    $ensi $brightness_signal
+bindsym XF86MonBrightnessDown  $ensi $brightness_signal
 
-bindsym Caps_Lock				$ensi $language_signal
+bindsym Caps_Lock  $ensi $language_signal
 
-bindsym $mod+equal				$ensi mpc next $dvnl && $mpd_signal
-bindsym $mod+Shift+equal		$ensi mpc seek +10 $dvnl && $mpd_signal
-bindsym $mod+minus				$ensi mpc prev $dvnl && $mpd_signal
-bindsym $mod+Shift+minus		$ensi mpc seek -10 $dvnl && $mpd_signal
-bindsym $mod+BackSpace			$ensi mpc pause $dvnl && mpc seek 0% $dvnl && $mpd_signal
-bindsym $mod+Shift+BackSpace	$ensi mpc seek 0% $dvnl && mpc play $dvnl && $mpd_signal
+bindsym $mod+equal        $ensi mpc next $dvnl && $mpd_signal
+bindsym $mod+Shift+equal  $ensi mpc seek +10 $dvnl && $mpd_signal
+bindsym $mod+minus        $ensi mpc prev $dvnl && $mpd_signal
+bindsym $mod+Shift+minus  $ensi mpc seek -10 $dvnl && $mpd_signal
+bindsym $mod+BackSpace    $ensi mpc pause $dvnl && mpc seek 0% $dvnl && $mpd_signal
+bindsym $mod+Shift+BackSpace  $ensi mpc seek 0% $dvnl && mpc play $dvnl && $mpd_signal
 
-bindsym $mod+Control+Left workspace prev
+bindsym $mod+Control+Left  workspace prev
 bindsym $mod+Control+Right workspace next
-bindsym $mod+Control+h workspace prev
-bindsym $mod+Control+l workspace next
+bindsym $mod+Control+h     workspace prev
+bindsym $mod+Control+l     workspace next

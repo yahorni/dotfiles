@@ -51,6 +51,7 @@ alias gl='git log --oneline --graph --branches'
 alias grh='git reset HEAD'
 alias gb='git branch'
 alias gch='git checkout'
+alias gr='git remote'
 
 alias we='cd ~/WorkExt4/ && ls'
 alias wn='cd ~/WorkNtfs/ && ls'

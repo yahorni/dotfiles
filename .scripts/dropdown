@@ -1,0 +1,13 @@
+#!/bin/bash
+
+pgrep -x dmenu && exit
+
+items="vifm
+ncmpcpp
+python
+tmux"
+
+program=$(echo -e -n "$items" | dmenu -i -p "Run dropdown:")
+[ "$?" -ne "0" ] && exit
+[ "$program" = "python" -o "$program" = "ncmpcpp" ] && program="$program -q"
+exec $TERMINAL -n dropdown $program

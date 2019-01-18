@@ -27,7 +27,7 @@ export SCREENSHOTS="$PICTURES/screenshots"
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 
 if [[ $(tty) = "/dev/tty1" ]]; then
-    pgrep -x i3 || exec startx \
+	pgrep -x i3 || exec startx \
 		1>$HOME/Services/xorg.1.log \
 		2>$HOME/Services/xorg.2.log
 fi

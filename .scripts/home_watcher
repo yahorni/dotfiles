@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pgrep "${0##*/}" | [ $(wc -l) -gt 2 ] && exit 0
+# pgrep "${0##*/}" | [ $(wc -l) -gt 2 ] && exit 0
 
 folder1="databases-incognito"
 folder2="VideoDecodeStats"

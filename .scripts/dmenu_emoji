@@ -1,0 +1,13 @@
+#!/bin/bash
+
+chosen=$(grep -v "#" $HOME/Services/emojis | dmenu -i -l 15 -fn "mono-16")
+
+[ "$chosen" != "" ] || exit
+
+clip=$(echo "$chosen" | sed "s/ .*//")
+echo "$clip" | tr -d '\n' | xclip -selection clipboard
+notify-send "'$clip' copied to clipboard." &
+
+prim=$(echo "$chosen" | sed "s/.*; //" | awk '{print $1}')
+echo "$prim" | tr -d '\n' | xclip
+notify-send "'$prim' copied to primary." &

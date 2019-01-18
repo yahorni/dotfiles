@@ -2,7 +2,7 @@
 
 import datetime as dt
 
-time = dt.datetime(2019, 1, 17, 13, 30)
+time = dt.datetime(2019, 1, 18, 14, 30)
 current = dt.datetime.now()
 delta = time - current
 if delta.days < 0 or delta.seconds < 0:
