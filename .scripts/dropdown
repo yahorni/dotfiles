@@ -4,6 +4,7 @@ pgrep -x dmenu && exit
 
 items="vifm
 ncmpcpp
+calcurse
 python
 tmux"
 

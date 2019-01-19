@@ -14,4 +14,6 @@ fi
 [ -z $file ] && exit
 
 xclip-copyfile $file
+echo "$file" | xclip
 notify-send -i "$file" "Copied to clipboard"
+notify-send "Copied to primary" "$file"

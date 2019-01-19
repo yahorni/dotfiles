@@ -23,6 +23,7 @@ export SERIALS="$MEDIA/serials"
 export PODCASTS="$MEDIA/podcasts"
 export PICTURES="$MEDIA/pictures"
 export SCREENSHOTS="$PICTURES/screenshots"
+export WALLPAPERS="$PICTURES/wallpapers"
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 

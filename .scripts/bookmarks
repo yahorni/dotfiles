@@ -1,0 +1,261 @@
+#!/bin/bash
+
+# requirements: dmenu, sqlite3, xdg-open/$BROWSER , xclip (optional), libnotify (optional)
+
+# TODO
+# 1. Config
+# 2. Rewrite sqlite error handling. Current way is not working
+# 3. Write "usage" message
+
+commondir="bookmarks"
+basedir="${XDG_DATA_HOME:-$HOME/.local/share}/$commondir"
+basefile="$basedir/bookmarks.db"
+# confdir="${XDG_CONFIG_HOME:-$HOME/.config}/$commondir"
+# conffile="$confdir/config"
+
+# Config params
+# 1. dmenu lines
+# 2. message type
+# 3. default text editor
+
+[ ! -d "$basedir" ] && mkdir -p "$basedir"
+[ ! -f "$basefile" ] && touch "$basefile"
+
+sqlite3 "$basefile" '
+CREATE TABLE IF NOT EXISTS folders(
+	id INTEGER PRIMARY KEY,
+	name TEXT UNIQUE NOT NULL
+);
+CREATE TABLE IF NOT EXISTS marks(
+	id INTEGER PRIMARY KEY,
+	title TEXT NOT NULL,
+	url TEXT UNIQUE,
+	folder_id NOT NULL REFERENCES folders(id) ON DELETE CASCADE
+);'
+
+message_type="notify" # notify stdout none
+invalid="Invalid argument"
+none_value="<none>"
+return_value=""
+value_separator=" | "
+
+show_message() {
+	case $message_type in
+		notify) notify-send "$1" "$2" ;;
+		stdout) echo -e "$1\n$2" ;;
+	esac
+}
+
+contains_element () {
+	local e match="$1"
+	shift
+	for e; do [[ "$e" == "$match" ]] && return 0; done
+	return 1
+}
+
+select_folder_name() {
+	local folders=()
+	local folders_line="$(sqlite3 "$basefile" "SELECT name FROM folders;")"
+	while read -r line; do
+		folders+=("$line")
+	done <<< "$folders_line"
+	local folder=$(printf '%s\n' "${folders[@]}" | dmenu -i -p "${1:-Choose folder:}")
+	[ -z "$folder" ] && exit 1
+	contains_element "$folder" "${folders[@]}"
+	[ "$?" -ne  "0" ] && show_message "Error" "Incorrect folder name" && exit 1
+	return_value="$folder"
+}
+
+select_folder_id() {
+	select_folder_name "$1"
+	local folder_id=$(sqlite3 "$basefile" "
+		SELECT id FROM folders WHERE name = '$return_value';")
+	[ "$?" -ne "0" ] && show_message "Database error" && exit 1
+	return_value="$folder_id"
+}
+
+select_mark() {
+	select_folder_id
+	local folder_id="$return_value"
+	local marks=()
+	local marks_line="$(sqlite3 -separator "$value_separator" "$basefile" "SELECT title, url, id FROM marks WHERE folder_id = $folder_id;")"
+	while read -r line; do
+		marks+=("$line")
+	done <<< "$marks_line"
+	local mark=$(printf '%s\n' "${marks[@]}" | dmenu -i -l 10 -p "Choose mark:")
+	[ -z "$mark" ] && exit 1
+	contains_element "$mark" "${marks[@]}"
+	[ "$?" -ne  "0" ] && show_message "Error" "Incorrect mark" && exit 1
+	return_value=${mark##*$value_separator}
+}
+
+new_mark() {
+	select_folder_id
+	local folder_id="$return_value"
+	[ "$?" -ne "0" ] && show_message "Database error" && exit 1
+	local title=$(dmenu -p "Enter title:" <&-)
+	[ -z "$title" ] && exit 1
+	local url=$(echo $none_value | dmenu -p "Enter url:")
+	[ -z "$url" ] && exit 1
+	if [ "$url" = "$none_value" ]; then
+		url="NULL"
+	else
+		url="'$url'"
+	fi
+	sqlite3 "$basefile" "
+		INSERT INTO marks(title, url, folder_id)
+		VALUES ('$title', $url, $folder_id);"
+	if [ "$?" -eq "0" ]; then
+		show_message "New mark added" "$title"
+	else
+		show_message "Error while adding mark"
+	fi
+}
+
+delete_mark() {
+	select_mark
+	local mark_id="$return_value"
+	local title=$(sqlite3 "$basefile" "
+		SELECT title FROM marks WHERE id = $mark_id")
+	sqlite3 "$basefile" "DELETE FROM marks WHERE id = $mark_id"
+	[ "$?" -ne "0" ] && show_message "Database error" && exit 1
+	show_message "Mark deleted" "$title"
+}
+
+new_folder() {
+	local name=$(dmenu -p "Enter folder name:" <&-)
+	[ -z "$name" ] && exit 1
+	sqlite3 "$basefile" "INSERT INTO folders(name) VALUES ('$name');"
+	if [ "$?" -eq "0" ]; then
+		show_message "New folder added" "$name"
+	else
+		show_message "Error while creating folder"
+	fi
+}
+
+delete_folder() {
+	select_folder_name
+	sqlite3 "$basefile" "DELETE FROM folders WHERE name = '$return_value';"
+	[ "$?" -ne "0" ] && show_message "Database error" && exit 1
+}
+
+check_url() {
+	if [[ "$1" =~ ^http://.* ]] || [[ "$1" =~ ^https://.* ]]; then
+		return 0
+	else
+		return 1
+	fi
+}
+
+open_url() {
+	select_mark
+	local mark_id="$return_value"
+	local url=$(sqlite3 "$basefile" "
+		SELECT url FROM marks WHERE id = $mark_id;")
+	[ "$?" -ne "0" ] && show_message "Database error" && exit 1
+	check_url $url
+	[ "$?" -ne "0" ] && url="https://$url"
+	setsid ${BROWSER:-xdg-open} $url &>/dev/null &
+}
+
+copy_title() {
+	select_mark
+	local mark_id="$return_value"
+	local title=$(sqlite3 "$basefile" "
+		SELECT title FROM marks WHERE id = $mark_id;")
+	[ "$?" -ne "0" ] && show_message "Database error" && exit 1
+	echo "$title" | xclip -sel clip && show_message "Copied to clipboard" "$title"
+	echo "$title" | xclip && show_message "Copied to primary" "$title"
+}
+
+copy_url() {
+	select_mark
+	local mark_id="$return_value"
+	local url=$(sqlite3 "$basefile" "
+		SELECT url FROM marks WHERE id = $mark_id;")
+	[ "$?" -ne "0" ] && show_message "Database error" && exit 1
+	echo "$url" | xclip -sel clip && show_message "Copied to clipboard" "$url"
+	echo "$url" | xclip && show_message "Copied to primary" "$url"
+}
+
+edit_mark() {
+	select_mark
+	local mark_id="$return_value"
+	local mark=$(sqlite3 -separator "$value_separator" "$basefile" "
+		SELECT title, url FROM marks WHERE id = $mark_id;")
+	[ "$?" -ne "0" ] && show_message "Database error" && exit 1
+	local title=${mark%$value_separator*}
+	local url=${mark##*$value_separator}
+
+	# local editor=${EDITOR:-xdg-open}
+	# cd "/tmp"
+	# file=$(mktemp mark_edit_XXXX)
+	# echo -e "$title\n$url" > $file
+	# $editor $file
+	# local new_title="$(sed -n "1p" "$file")"
+	# local new_url="$(sed -n "2p" "$file")"
+	# rm $file
+	# new_title="${new_title:-$title}"
+	# new_url="${new_url:-$url}"
+
+	local new_title="$(echo $title | dmenu -p "Edit title:")"
+	[ -z "$new_title" ] && exit 1
+	local new_url="$(echo $url | dmenu -p "Edit url:")"
+	[ -z "$new_url" ] && exit 1
+
+	local output=$(sqlite3 "$basefile" "UPDATE marks SET title='$new_title', url='$new_url' WHERE id = $mark_id" 2>&1)
+	[ "$?" -ne "0" ] && show_message "Database error" "$output" && exit 1
+	show_message "Mark updated" "$new_title"
+}
+
+move_mark() {
+	select_mark
+	local mark_id="$return_value"
+	select_folder_id "Choose new folder"
+	local folder_id="$return_value"
+	sqlite3 "$basefile" "
+		UPDATE marks SET folder_id = $folder_id WHERE id = $mark_id;"
+	[ "$?" -ne "0" ] && show_message "Database error" && exit 1
+	show_message "Mark moved"
+}
+
+handler() {
+	case $1 in
+		mark) new_mark ;;
+		delmark) delete_mark ;;
+		folder) new_folder ;;
+		delfolder) delete_folder ;;
+		open) open_url ;;
+		title) copy_title ;;
+		url) copy_url ;;
+		edit) edit_mark ;;
+		move) move_mark ;;
+		bulkmark) ;;
+		bulkedit) ;;
+		bulkmove) ;;
+		*) echo -e "$invalid '$OPTARG'" && exit 1 ;;
+	esac
+}
+
+commands="open
+title
+url
+mark
+folder
+edit
+move
+delmark
+delfolder"
+
+if [ -z "$1" ]; then
+	action=$(echo -e -n "$commands" | dmenu -i -p "Choose action")
+	handler "$action"
+else
+	while getopts "ha:" opt; do
+		case $opt in
+			a) handler $OPTARG ;;
+			h) echo -e "$usage" && exit 0 ;;
+			*) echo -e "$invalid '$opt'" && exit 1 ;;
+		esac
+	done
+fi

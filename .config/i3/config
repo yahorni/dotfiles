@@ -11,7 +11,7 @@ $ensi compton
 $ensi wal -Rn
 $ensi $HOME/.fehbg
 $ensi safeeyes
-$ensi home_watcher
+# $ensi home_watcher
 
 # Colors
 client.focused          #4c7899 #285577 #ffffff #556b2f #af5540
@@ -170,16 +170,18 @@ bindcode $mod+Shift+61  scratchpad show
 bindsym $mod+g        $ensi corner_window
 bindsym $mod+Shift+g  $ensi corner_window -H left
 bindsym $mod+t        $ensi $terminal
+bindsym $mod+Shift+t  $ensi $terminal -e calcurse & disown
 bindsym $mod+b        $ensi pgrep $browser >/dev/null || $browser
 bindsym $mod+Shift+b  $ensi $browser
 bindsym $mod+m        $ensi dmenu_mount
 bindsym $mod+Shift+m  $ensi dmenu_umount
 bindsym $mod+u        $ensi dmenu_emoji
+bindsym $mod+Shift+u  $ensi bookmarks
 bindsym $mod+p        $ensi power_manager
 bindsym $mod+Shift+p  $ensi fastkill
 bindsym $mod+n        $ensi mpc toggle $dvnl && $mpd_signal
 bindsym $mod+Shift+n  $ensi mpc stop $dvnl && $mpd_signal
-bindsym $mod+y        $ensi $terminal -e newsboat -qr    & disown
+bindsym $mod+y        $ensi $terminal -e newsboat -qr & disown
 bindsym $mod+Shift+y  $ensi $terminal -e newsboat -q & disown
 bindsym $mod+i        $ensi $terminal -e ncmpcpp & disown
 bindsym $mod+Shift+i  $ensi $terminal -e ranger & disown

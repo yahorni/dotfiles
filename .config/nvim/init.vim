@@ -138,10 +138,10 @@ fun! ToggleResizeSplitMode()
 	endif
 endfun
 
-nnoremap <expr> <C-H> !exists('b:SplitResizing') ? '<C-W><C-H>' : ':vert res -1<CR>'
-nnoremap <expr> <C-J> !exists('b:SplitResizing') ? '<C-W><C-J>' : ':res -1<CR>'
-nnoremap <expr> <C-K> !exists('b:SplitResizing') ? '<C-W><C-K>' : ':res +1<CR>'
-nnoremap <expr> <C-L> !exists('b:SplitResizing') ? '<C-W><C-L>' : ':vert res +1<CR>'
+nnoremap <silent> <expr> <C-H> !exists('b:SplitResizing') ? '<C-W><C-H>' : ':vert res -1<CR>'
+nnoremap <silent> <expr> <C-J> !exists('b:SplitResizing') ? '<C-W><C-J>' : ':res -1<CR>'
+nnoremap <silent> <expr> <C-K> !exists('b:SplitResizing') ? '<C-W><C-K>' : ':res +1<CR>'
+nnoremap <silent> <expr> <C-L> !exists('b:SplitResizing') ? '<C-W><C-L>' : ':vert res +1<CR>'
 nnoremap gs :call ToggleResizeSplitMode()<CR>
 
 " bash script execution
