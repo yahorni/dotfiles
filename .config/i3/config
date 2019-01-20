@@ -178,8 +178,7 @@ bindsym $mod+b        $ensi pgrep $browser >/dev/null || $browser
 bindsym $mod+Shift+b  $ensi $browser
 bindsym $mod+m        $ensi dmenu_mount
 bindsym $mod+Shift+m  $ensi dmenu_umount
-bindsym $mod+u        $ensi dmenu_emoji
-bindsym $mod+Shift+u  $ensi bookmarks
+bindsym $mod+u        $ensi bookmarks
 bindsym $mod+p        $ensi power_manager
 bindsym $mod+Shift+p  $ensi fastkill
 bindsym $mod+n        $ensi mpc toggle $dvnl && $mpd_signal

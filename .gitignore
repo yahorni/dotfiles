@@ -38,6 +38,9 @@
 !.config/youtube-viewer
 !.config/zathura
 
+# Config files
+!.config/compton.conf
+
 # Calcurse folder
 .calcurse/*
 !.calcurse/conf
@@ -58,9 +61,3 @@
 # Fontconfig folder
 .config/fontconfig/*
 !.config/fontconfig/fonts.conf
-
-# Extensions
-*.bak
-*.backup*
-*.log
-*.db

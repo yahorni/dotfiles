@@ -2,17 +2,5 @@
 
 pgrep -x i3lock >/dev/null && exit
 
-background=00000000
-foreground=ffffffff
-
-# lock="i3lock -e -f -c 303030 -i $HOME/Documents/lock.png"
-lock="betterlockscreen -l"
-music="mpc pause >/dev/null 2>&1"
-darklock="eval $lock && xset dpms force off"
-
-case $1 in
-	'')	eval $lock ;;
-	d)	eval $darklock ;;
-	m)	eval $music ; eval $lock ;;
-	md)	eval $music ; eval $darklock ;;
-esac
+lock="i3lock -e -f -c 303030 -i $HOME/Services/lock.jpg"
+$lock && sleep 1 && xset dpms force off
