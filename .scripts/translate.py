@@ -46,7 +46,7 @@ class WrdParser(HTMLParser):
 if args.get('selection'):
     unknown_word = subprocess.check_output("xsel -o", shell=True).decode("utf-8")
 elif args.get('dmenu'):
-    unknown_word = subprocess.check_output('echo | dmenu -i -p "Enter word to translate"', shell=True)[:-1].decode("utf-8")
+    unknown_word = subprocess.check_output('dmenu -i -p "Enter word to translate" <&-', shell=True)[:-1].decode("utf-8")
 else:
     unknown_word = args.get('word')
 

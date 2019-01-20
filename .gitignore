@@ -33,6 +33,7 @@
 !.config/qutebrowser
 !.config/ranger
 !.config/redshift
+!.config/sxiv
 !.config/termite
 !.config/youtube-viewer
 !.config/zathura

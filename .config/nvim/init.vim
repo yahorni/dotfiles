@@ -79,6 +79,7 @@ set showcmd
 set conceallevel=2
 set wildmenu
 set wildmode=longest,list,full
+set mouse=a
 
 " change <paste> command behaviour
 xnoremap p "_dp

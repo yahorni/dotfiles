@@ -9,9 +9,9 @@ set_from_resource $browser echo $BROWSER
 $ensi dunst
 $ensi compton
 $ensi wal -Rn
-$ensi $HOME/.fehbg
+$ensi setwall
+$ensi unclutter
 $ensi safeeyes
-# $ensi home_watcher
 
 # Colors
 client.focused          #4c7899 #285577 #ffffff #556b2f #af5540
@@ -22,6 +22,9 @@ client.placeholder      #000000 #0c0c0c #ffffff #000000 #0c0c0c
 
 # Custom defaults
 for_window [class="^.*"] border pixel 4
+for_window [instance="dropdown*"] floating enable
+for_window [instance="dropdown*"] sticky enable
+
 gaps inner 9
 
 # Use Mouse+$mod to drag floating windows to their wanted position
@@ -160,9 +163,6 @@ set $brightness_signal  pkill -RTMIN+11 i3blocks
 set $language_signal    pkill -RTMIN+12 i3blocks
 
 bindsym $mod+r mode "resize"
-
-for_window [instance="dropdown"] floating enable
-for_window [instance="dropdown_inverted"] floating enable
 
 bindcode $mod+51        $ensi invert_colors
 bindcode $mod+59        $ensi dropdown

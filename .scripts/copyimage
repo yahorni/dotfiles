@@ -1,0 +1,10 @@
+#!/bin/bash
+
+[ -z "$1" ] && exit
+read ext data < <(file -b "$1" | cut -d ' ' -f1,2)
+[ "$data" != "image" ] && exit
+
+xclip -sel clip -t image/${ext,,} -i "$1" && notify-send -i "$1" "Copied to clipboard"
+path="$(readlink -f $1)"
+echo "$path" | xclip && notify-send "Copied to primary" "$path"
+xclip-copyfile "$1"

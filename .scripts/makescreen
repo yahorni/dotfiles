@@ -13,7 +13,5 @@ fi
 
 [ -z $file ] && exit
 
-xclip-copyfile $file
-echo "$file" | xclip
-notify-send -i "$file" "Copied to clipboard"
-notify-send "Copied to primary" "$file"
+xclip -selection clipboard -t image/png -i "$file" && notify-send -i "$file" "Copied to clipboard"
+xclip -i "$file" && notify-send "Copied to primary" "$file"
