@@ -61,3 +61,7 @@
 # Fontconfig folder
 .config/fontconfig/*
 !.config/fontconfig/fonts.conf
+
+# Neovim folder
+.config/nvim/*
+!.config/nvim/init.vim

@@ -1,60 +1,57 @@
 set nocompatible
-filetype off
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+call plug#begin('~/.vim/plugged')
 
-Plugin 'VundleVim/Vundle.vim'
-
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'junegunn/goyo.vim'
-Plugin 'lyokha/vim-xkbswitch'
-Plugin 'markonm/traces.vim'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'scrooloose/nerdtree'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-unimpaired'
-Plugin 'vim-airline/vim-airline'
+Plug 'jiangmiao/auto-pairs'
+Plug 'jistr/vim-nerdtree-tabs'
+Plug 'junegunn/goyo.vim'
+Plug 'lyokha/vim-xkbswitch'
+Plug 'markonm/traces.vim'
+Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdtree'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+Plug 'vim-airline/vim-airline'
 
 if (&term!='linux')
-	Plugin 'Xuyuanp/nerdtree-git-plugin'
-	Plugin 'lilydjwg/colorizer'
+	Plug 'Xuyuanp/nerdtree-git-plugin'
+	Plug 'lilydjwg/colorizer'
 
 	" theme
-	Plugin 'morhetz/gruvbox'
-	Plugin 'crusoexia/vim-monokai'
-	Plugin 'vim-airline/vim-airline-themes'
+	Plug 'morhetz/gruvbox'
+	Plug 'crusoexia/vim-monokai'
+	Plug 'vim-airline/vim-airline-themes'
 endif
 
 " autocomplete
-Plugin 'ervandew/supertab'
-Plugin 'Shougo/deoplete.nvim'
+Plug 'ervandew/supertab'
+Plug 'Shougo/deoplete.nvim'
 
 " i3
-Plugin 'PotatoesMaster/i3-vim-syntax'
+Plug 'PotatoesMaster/i3-vim-syntax'
 
 " latex
-Plugin 'lervag/vimtex'
+Plug 'lervag/vimtex'
 
 " markdown
-Plugin 'vim-pandoc/vim-pandoc-syntax'
+Plug 'vim-pandoc/vim-pandoc-syntax'
 
 " python
-Plugin 'vim-scripts/indentpython.vim'
-Plugin 'davidhalter/jedi-vim'
-Plugin 'w0rp/ale'
-Plugin 'zchee/deoplete-jedi'
+Plug 'vim-scripts/indentpython.vim'
+Plug 'davidhalter/jedi-vim'
+Plug 'w0rp/ale'
+Plug 'zchee/deoplete-jedi'
 
 " xml, html
-Plugin 'alvan/vim-closetag'
+Plug 'alvan/vim-closetag'
 
-call vundle#end()
+" vifm
+Plug 'vifm/vifm.vim'
 
-filetype plugin indent on
+call plug#end()
+
 filetype plugin on
-syntax on
 set laststatus=0
 set encoding=utf-8
 set autoindent
@@ -263,7 +260,6 @@ let g:deoplete#enable_at_startup = 0
 let g:jedi#auto_initialization = 0
 
 " ale
-let g:ale_enabled = 0
 let g:ale_fixers = {
 \	'*': ['remove_trailing_lines', 'trim_whitespace'],
 \	'python': ['autopep8', 'isort', 'black'],
@@ -271,7 +267,6 @@ let g:ale_fixers = {
 let g:ale_linters = {
 \	'python': ['flake8', 'pylint'],
 \}
-au FileType python,tex let g:airline#extensions#ale#enabled = 1
 
 " airline
 let g:airline_exclude_filetypes = ['text']
