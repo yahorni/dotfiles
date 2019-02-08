@@ -14,14 +14,15 @@ $ensi unclutter
 $ensi safeeyes
 
 # Colors
-client.focused          #4c7899 #285577 #ffffff #556b2f #af5540
+# #af5540
+client.focused          #4c7899 #285577 #ffffff #556b2f #00f0a0
 client.focused_inactive #333333 #5f676a #ffffff #484e50 #5f676a
 client.unfocused        #333333 #222222 #888888 #292d2e #222222
 client.urgent           #2f343a #900000 #ffffff #900000 #900000
 client.placeholder      #000000 #0c0c0c #ffffff #000000 #0c0c0c
 
 # Custom defaults
-for_window [class="^.*"] border pixel 4
+for_window [class="^.*"] border pixel 1
 for_window [instance="dropdown*"] floating enable
 for_window [instance="dropdown*"] sticky enable
 
@@ -127,23 +128,26 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3?' -b 'Yes, exit i3' 'i3-msg exit'"
 
 mode "resize" {
-    bindsym h resize shrink width 10 px or 10 ppt
-    bindsym j resize grow height 10 px or 10 ppt
-    bindsym k resize shrink height 10 px or 10 ppt
-    bindsym l resize grow width 10 px or 10 ppt
-    bindsym Shift+h resize shrink width 30 px or 30 ppt
-    bindsym Shift+j resize grow height 30 px or 30 ppt
-    bindsym Shift+k resize shrink height 30 px or 30 ppt
-    bindsym Shift+l resize grow width 30 px or 30 ppt
+    set $res1 5
+    set $res2 1
 
-    bindsym Left resize shrink width 10 px or 10 ppt
-    bindsym Down resize grow height 10 px or 10 ppt
-    bindsym Up resize shrink height 10 px or 10 ppt
-    bindsym Right resize grow width 10 px or 10 ppt
-    bindsym Shift+Left resize shrink width 30 px or 30 ppt
-    bindsym Shift+Down resize grow height 30 px or 30 ppt
-    bindsym Shift+Up resize shrink height 30 px or 30 ppt
-    bindsym Shift+Right resize grow width 30 px or 30 ppt
+    bindsym h resize shrink width $res1 px or $res1 ppt
+    bindsym j resize grow height $res1 px or $res1 ppt
+    bindsym k resize shrink height $res1 px or $res1 ppt
+    bindsym l resize grow width $res1 px or $res1 ppt
+    bindsym Shift+h resize shrink width $res2 px or $res2 ppt
+    bindsym Shift+j resize grow height $res2 px or $res2 ppt
+    bindsym Shift+k resize shrink height $res2 px or $res2 ppt
+    bindsym Shift+l resize grow width $res2 px or $res2 ppt
+
+    bindsym Left resize shrink width $res1 px or $res1 ppt
+    bindsym Down resize grow height $res1 px or $res1 ppt
+    bindsym Up resize shrink height $res1 px or $res1 ppt
+    bindsym Right resize grow width $res1 px or $res1 ppt
+    bindsym Shift+Left resize shrink width $res2 px or $res2 ppt
+    bindsym Shift+Down resize grow height $res2 px or $res2 ppt
+    bindsym Shift+Up resize shrink height $res2 px or $res2 ppt
+    bindsym Shift+Right resize grow width $res2 px or $res2 ppt
 
     bindsym Return mode "default"
     bindsym Escape mode "default"
@@ -186,7 +190,7 @@ bindsym $mod+Shift+n  $ensi mpc stop $dvnl && $mpd_signal
 bindsym $mod+y        $ensi $terminal -e newsboat -qr & disown
 bindsym $mod+Shift+y  $ensi $terminal -e newsboat -q & disown
 bindsym $mod+i        $ensi $terminal -e ncmpcpp & disown
-bindsym $mod+Shift+i  $ensi $terminal -e ranger & disown
+bindsym $mod+Shift+i  $ensi $terminal -e nnn & disown
 bindsym $mod+Shift+d  $ensi dmenu_dict
 bindsym $mod+o        $ensi translate.py -sn
 bindsym $mod+Shift+o  $ensi translate.py -dn

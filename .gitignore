@@ -5,6 +5,7 @@
 !.scripts
 !.external
 !.calcurse
+!.local
 
 # Files
 !.bash_profile
@@ -17,6 +18,12 @@
 !.urlview
 !.xinitrc
 !.Xresources
+
+# Local folder
+.local/*
+!.local/share/
+.local/share/*
+!.local/share/applications/
 
 # Config folders
 .config/*

@@ -1,4 +1,5 @@
 # i3blocks config file
+# vim: ft=dosini
 #
 # Please see man i3blocks for a complete reference!
 # The man page is also hosted at http://vivien.github.io/i3blocks
@@ -84,4 +85,4 @@ interval=3
 
 [time]
 command=date '+%Y-%m-%d %H:%M'
-interval=10
+interval=60

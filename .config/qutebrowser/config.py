@@ -49,6 +49,8 @@ config.bind('xe', 'open -t enru {primary}')
 config.bind('xr', 'open -t ruen {primary}')
 config.bind('xw', 'open -t wrd {primary}')
 
+c.editor.command = ['st', '-e', 'nvim', '{}']
+
 ## Aliases for commands. The keys of the given dictionary are the
 ## aliases, while the values are the commands they map to.
 ## Type: Dict
@@ -70,6 +72,9 @@ c.aliases = {
 
 c.url.default_page = 'about:blank'
 c.url.start_pages = ['about:blank']
+
+c.colors.statusbar.private.bg = "darkslategray"
+c.colors.statusbar.command.private.bg = "darkslategray"
 
 ## Time interval (in milliseconds) between auto-saves of
 ## config/cookies/etc.
@@ -838,8 +843,6 @@ c.content.private_browsing = True
 ## Same as `{column}`, but starting from index 0.
 ## Type: ShellCommand
 # c.editor.command = ['gvim', '-f', '{file}', '-c', 'normal {line}G{column0}l']
-# c.editor.command = ['termite', '-e', 'vim {}']
-c.editor.command = ['st', '-e', 'vim', '{}']
 
 ## Encoding to use for the editor.
 ## Type: Encoding
@@ -1464,19 +1467,13 @@ c.editor.command = ['st', '-e', 'vim', '{}']
 c.url.searchengines = {
         #  'DEFAULT': 'https://duckduckgo.com/?q={}',
         'DEFAULT': 'https://www.google.com/search?&q={}',
-        'tw': 'https://twitter.com/{}',
-        'wolf': 'https://www.wolframalpha.com/input/?i={}',
-        'osm': 'http://www.openstreetmap.org/search?query={}',
         'aw': 'https://wiki.archlinux.org/index.php?search={}',
         'awp': 'https://www.archlinux.org/packages/?q={}',
         'aur': 'https://aur.archlinux.org/packages/?K={}',
         'enw': 'https://en.wikipedia.org/w/index.php?search={}',
         'ruw': 'https://ru.wikipedia.org/w/index.php?search={}',
         'rtr': 'http://rutracker.org/forum/search_cse.php?q={}',
-        'tpb': 'http://thepiratebay3.org/index.php?q={}',
         'yt': 'https://youtube.com/search?q={}',
-        'inst': 'https://instagram.com/{}',
-        'g': 'https://www.google.com/search?&q={}',
         'git': 'https://github.com/search?q={}',
         'ym': 'https://music.yandex.ru/search?text={}',
         'enru': 'https://translate.google.com/#en/ru/{}',

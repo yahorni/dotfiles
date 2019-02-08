@@ -4,8 +4,6 @@ stty -ixon
 
 PS1='\[\033[1;34m\][\u@\h \W]\$ \[\033[0m\]'
 
-[[ "$TERM" = *termite* ]] && (cat ~/.cache/wal/sequences &)
-
 set -o vi
 shopt -s autocd
 shopt -s cdspell
@@ -34,12 +32,6 @@ alias cp='cp -r'
 alias rm='rm -r'
 alias sql='sqlite3'
 
-completions="/usr/share/bash-completion/completions/"
-. $completions/systemctl
-complete -F _systemctl systemctl sc ssc
-. $completions/pacman
-complete -F _pacman pacman sp
-
 alias gst='git status'
 alias gd='git diff'
 alias gds='git diff --staged'
@@ -53,12 +45,18 @@ alias gb='git branch'
 alias gch='git checkout'
 alias gr='git remote'
 
-alias we='cd ~/WorkExt4/ && ls'
-alias wn='cd ~/WorkNtfs/ && ls'
 alias med='cd ~/Media/ && ls'
+alias wrk='cd ~/Work/ && ls'
+alias gop='cd $GOPATH/src/ && ls'
 
 alias vb='$EDITOR ~/.bashrc'
 alias vv='$EDITOR ~/.vimrc'
-alias vp='$EDITOR ~/.profile'
+alias vp='$EDITOR ~/.bash_profile'
 alias vg='$EDITOR .gitignore'
 alias v3='$EDITOR ~/.config/i3/config'
+
+completions="/usr/share/bash-completion/completions/"
+. $completions/systemctl
+complete -F _systemctl systemctl sc ssc
+. $completions/pacman
+complete -F _pacman pacman sp

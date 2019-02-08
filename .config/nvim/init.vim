@@ -2,31 +2,34 @@ set nocompatible
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'jiangmiao/auto-pairs'
-Plug 'jistr/vim-nerdtree-tabs'
-Plug 'junegunn/goyo.vim'
-Plug 'lyokha/vim-xkbswitch'
-Plug 'markonm/traces.vim'
-Plug 'scrooloose/nerdcommenter'
+" file picker
 Plug 'scrooloose/nerdtree'
+Plug 'jistr/vim-nerdtree-tabs'
+
+" comments
+Plug 'scrooloose/nerdcommenter'
+
+" git
 Plug 'tpope/vim-fugitive'
+
+" improved quoting/parenthesizing
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-unimpaired'
+Plug 'jiangmiao/auto-pairs'
+Plug 'alvan/vim-closetag'
+
+" highlight for substituion
+Plug 'markonm/traces.vim'
+
+" status line
 Plug 'vim-airline/vim-airline'
-
-if (&term!='linux')
-	Plug 'Xuyuanp/nerdtree-git-plugin'
-	Plug 'lilydjwg/colorizer'
-
-	" theme
-	Plug 'morhetz/gruvbox'
-	Plug 'crusoexia/vim-monokai'
-	Plug 'vim-airline/vim-airline-themes'
-endif
 
 " autocomplete
 Plug 'ervandew/supertab'
 Plug 'Shougo/deoplete.nvim'
+
+" snippets
+Plug 'Shougo/neosnippet.vim'
+Plug 'Shougo/neosnippet-snippets'
 
 " i3
 Plug 'PotatoesMaster/i3-vim-syntax'
@@ -43,11 +46,35 @@ Plug 'davidhalter/jedi-vim'
 Plug 'w0rp/ale'
 Plug 'zchee/deoplete-jedi'
 
-" xml, html
-Plug 'alvan/vim-closetag'
+" go
+Plug 'fatih/vim-go'
+
+" fzf
+Plug '/usr/bin/fzf'
+Plug 'junegunn/fzf.vim'
 
 " vifm
 Plug 'vifm/vifm.vim'
+
+" js
+Plug 'pangloss/vim-javascript'
+Plug 'maksimr/vim-jsbeautify'
+
+if (&term!='linux')
+	" language switching
+	Plug 'lyokha/vim-xkbswitch'
+
+	" nerdtree unicode git symbols
+	Plug 'Xuyuanp/nerdtree-git-plugin'
+
+	"highlight hex colors
+	Plug 'lilydjwg/colorizer'
+
+	" theme
+	Plug 'morhetz/gruvbox'
+	Plug 'crusoexia/vim-monokai'
+	Plug 'vim-airline/vim-airline-themes'
+endif
 
 call plug#end()
 
@@ -60,6 +87,7 @@ set hlsearch
 set hidden
 set viminfo="-"
 set clipboard=unnamedplus
+set expandtab
 set tabstop=4
 set shiftwidth=4
 set smarttab
@@ -70,13 +98,19 @@ set nowritebackup
 set noundofile
 set bg=dark
 set modeline
-set modelines=2
+set modelines=5
 set noshowmode
 set showcmd
 set conceallevel=2
 set wildmenu
 set wildmode=longest,list,full
 set mouse=a
+set scrolloff=5
+set foldmethod=indent
+set foldlevel=99
+set splitbelow
+set splitright
+set fileformat=unix
 
 " change <paste> command behaviour
 xnoremap p "_dp
@@ -93,17 +127,15 @@ command! Wq :wq
 command! -bang Q :q<bang>
 
 " normal mode bindings
-" nnoremap <Enter> o<ESC>
-" nnoremap S i<Enter><ESC>
-" nnoremap <Backspace> i<Backspace><ESC>l
 nnoremap <silent> gr :noh<Enter>
-nnoremap gl $
 nnoremap Y y$
 
 " moving in insert mpde
 inoremap <C-H> <Left>
 inoremap <C-L> <Right>
 
+" theme
+colo ron
 if (&term!='linux')
 	" different cursors per mode
 	let &t_SI = "\<Esc>[6 q"
@@ -111,19 +143,9 @@ if (&term!='linux')
 	let &t_EI = "\<Esc>[2 q"
 
 	" colorscheme
-	colo ron
-	au FileType python let g:gruvbox_contrast_dark='hard' | colo gruvbox
-	au FileType tex,markdown colo monokai
+	au FileType python,go let g:gruvbox_contrast_dark='hard' | colo gruvbox
+	au FileType tex,markdown.pandoc colo monokai
 endif
-
-" folding
-set foldmethod=indent
-set foldlevel=99
-nnoremap <space> za
-
-" Split direction
-set splitbelow
-set splitright
 
 " Split moving/resizing
 fun! ToggleResizeSplitMode()
@@ -136,80 +158,39 @@ fun! ToggleResizeSplitMode()
 	endif
 endfun
 
+nnoremap <silent> <expr> <ESC> exists('b:SplitResizing') ? '<ESC>:unlet b:SplitResizing<CR><ESC>' : '<ESC>'
 nnoremap <silent> <expr> <C-H> !exists('b:SplitResizing') ? '<C-W><C-H>' : ':vert res -1<CR>'
 nnoremap <silent> <expr> <C-J> !exists('b:SplitResizing') ? '<C-W><C-J>' : ':res -1<CR>'
 nnoremap <silent> <expr> <C-K> !exists('b:SplitResizing') ? '<C-W><C-K>' : ':res +1<CR>'
 nnoremap <silent> <expr> <C-L> !exists('b:SplitResizing') ? '<C-W><C-L>' : ':vert res +1<CR>'
 nnoremap gs :call ToggleResizeSplitMode()<CR>
 
-" bash script execution
-augroup shexec
-	au FileType sh nn <leader>e :w <bar> :echo system('./"' . expand('%') . '"')<cr>
-	au FileType sh nn <leader>E :w <bar> :! ./% >/tmp/vim_sh.txt<cr> :new /tmp/vim_sh.txt<cr>
-	au FileType sh nn <leader>a :w <bar> :! ./%
-augroup END
+" tab manipulation
+nnoremap <silent> th :bprev<CR>
+nnoremap <silent> tl :bnext<CR>
+nnoremap <silent> t<S-h> :bfirst<CR>
+nnoremap <silent> t<S-l> :blast<CR>
 
-" groff
-augroup groff_compile
-	au FileType nroff com! GroffCompile !groff -ms % -T pdf -t > %:r.pdf
-	au FileType nroff nn <silent> <leader>e :w <bar> :GroffCompile<cr>
-augroup END
+" file executing
+nn <leader>e :w <bar> :!compiler %<CR>
+nn <leader>E :w <bar> :!compiler %<SPACE>
+nn <leader>p :!opout %<CR><CR>
 
-" latex
-augroup tex_compile
-	au FileType tex com! TexCompile !pdflatex %
-	au FileType tex nn <silent> <leader>e :w <bar> :TexCompile<cr>
+" couple math snippets for latex
+au FileType tex ino <leader><leader>p \partial
+au FileType tex ino <leader><leader>d \displaystyle
 
-	au FileType tex ino <leader><leader>f \frac{}<ESC>i
-	au FileType tex ino <leader><leader>p \partial
-	au FileType tex ino <leader><leader>b \begin{}<ESC>i
-	au FileType tex ino <leader><leader>d \displaystyle
-	au FileType tex ino <leader><leader>l \left(
-	au FileType tex ino <leader><leader>r \right)
-augroup END
-
-" markdown
-augroup md_compile
-	au FileType markdown com! MdCompile !pandoc % --pdf-engine=xelatex -V mainfont="DejaVu Sans" -o %:r.pdf
-	au FileType markdown nn <silent> <leader>e :MdCompile<cr>
-
-	au FileType markdown com! PresCompile !pandoc % -V lang=ru -t beamer -o %:r.pdf
-	au FileType markdown nn <silent> <leader>E :PresCompile<cr>
-
-	au FileType markdown set filetype=markdown.pandoc
-augroup END
-
-" calcurse
 augroup calcurse
 	au BufRead,BufNewFile /tmp/calcurse* set filetype=markdown
 	au BufRead,BufNewFile ~/.calcurse/notes/* set filetype=markdown
 augroup END
 
-" systemd services
-augroup systemd_syntax
+augroup systemd
 	au BufRead,BufNewFile *.service set filetype=dosini
 augroup END
 
-" python script execution and debugging
-augroup pyexec
-	au FileType python nn <leader>e :w <bar> :echo system('python "' . expand('%') . '"')<cr>
-	au FileType python nn <leader>E :w <bar> :!python % >/tmp/vim_py.txt<cr> :new /tmp/vim_py.txt<cr>
-	au FileType python nn <leader>B :w <bar> :!pudb3 %<cr>
-
-	" pep8
-	au FileType python
-		\ set tabstop=4 |
-		\ set softtabstop=4 |
-		\ set shiftwidth=4 |
-		\ set textwidth=79 |
-		\ set expandtab |
-		\ set autoindent |
-		\ set fileformat=unix
-augroup END
-
-augroup xresources
-	au BufRead,BufNewFile ~/.Xresources nn <leader>e :w <bar> :!xrdb -merge %<cr>
-augroup END
+" enable pandoc markdown syntax
+au FileType markdown set filetype=markdown.pandoc
 
 " enable autoswitching language
 let g:XkbSwitchEnabled = 1
@@ -266,6 +247,7 @@ let g:ale_fixers = {
 \}
 let g:ale_linters = {
 \	'python': ['flake8', 'pylint'],
+\   'tex': ['chktex'],
 \}
 
 " airline
@@ -286,6 +268,8 @@ else
 endif
 
 augroup pycommands
+	au FileType python set textwidth=79
+
 	au FileType python
 		\ let g:jedi#auto_initialization = 1 |
 		\ let g:jedi#force_py_version = 3 |
@@ -302,7 +286,7 @@ augroup pycommands
 			\ let g:deoplete#enable_at_startup = 1
 	endif
 
-	au FileType python
+	au FileType python,tex
 		\ let b:ale_set_highlights = 1 |
 		\ let b:ale_lint_on_text_changed = 'never' |
 		\ let b:ale_lint_on_enter = 0 |
@@ -310,7 +294,18 @@ augroup pycommands
 		\ let b:ale_list_window_size = 5 |
 		\ let b:ale_warn_about_trailing_blank_lines = 1 |
 		\ let b:ale_warn_about_trailing_whitespace = 1
-	au FileType python nnoremap <leader>l :ALELint<CR>
-	au FileType python nnoremap <leader>f :ALEFix<CR>
-	au FileType python nnoremap <leader>L :ALEToggle<CR>
+	au FileType python,tex nnoremap <leader>l :ALELint<CR>
+	au FileType python,tex nnoremap <leader>f :ALEFix<CR>
+	au FileType python,tex nnoremap <leader>L :ALEToggle<CR>
 augroup END
+
+" vim-go
+let g:go_fmt_fail_silently = 1
+au FileType go setlocal completeopt-=preview
+
+" neosnippet
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+xmap <C-k> <Plug>(neosnippet_expand_target)
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
