@@ -1,0 +1,5 @@
+# vim: ft=dosini
+
+[Default Applications]
+text/x-c=nvim.desktop
+inode/directory=nnn.desktop

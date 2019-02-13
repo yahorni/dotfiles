@@ -44,7 +44,7 @@ config.bind('xlh', 'spawn tsp ytloader -f h {url}')
 config.bind('xhu', 'spawn linkhandler {url}')
 config.bind('xhc', 'spawn linkhandler {clipboard}')
 config.bind('xhp', 'spawn linkhandler {primary}')
-config.bind('xg', 'open -t g {primary}')
+config.bind('xg', 'open -t {primary}')
 config.bind('xe', 'open -t enru {primary}')
 config.bind('xr', 'open -t ruen {primary}')
 config.bind('xw', 'open -t wrd {primary}')
@@ -75,6 +75,10 @@ c.url.start_pages = ['about:blank']
 
 c.colors.statusbar.private.bg = "darkslategray"
 c.colors.statusbar.command.private.bg = "darkslategray"
+
+#  themes_path = "~/Services/sol/css/darculized/darculized"
+themes_path = "~/Services/sol/css/gruvbox/gruvbox"
+config.bind(',a', f'config-cycle content.user_stylesheets {themes_path}-all-sites.css "" ;; reload')
 
 ## Time interval (in milliseconds) between auto-saves of
 ## config/cookies/etc.

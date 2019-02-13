@@ -7,8 +7,8 @@ set_from_resource $browser echo $BROWSER
 
 # Autostart
 $ensi dunst
-$ensi compton
-$ensi wal -Rn
+$ensi xcompmgr
+# $ensi wal -Rn
 $ensi setwall
 $ensi unclutter
 $ensi safeeyes
@@ -168,7 +168,7 @@ set $language_signal    pkill -RTMIN+12 i3blocks
 
 bindsym $mod+r mode "resize"
 
-bindcode $mod+51        $ensi invert_colors
+# bindcode $mod+51        $ensi invert_colors
 bindcode $mod+59        $ensi dropdown
 bindcode $mod+Shift+59  $ensi $terminal -n dropdown
 bindcode $mod+61        move scratchpad
@@ -190,7 +190,7 @@ bindsym $mod+Shift+n  $ensi mpc stop $dvnl && $mpd_signal
 bindsym $mod+y        $ensi $terminal -e newsboat -qr & disown
 bindsym $mod+Shift+y  $ensi $terminal -e newsboat -q & disown
 bindsym $mod+i        $ensi $terminal -e ncmpcpp & disown
-bindsym $mod+Shift+i  $ensi $terminal -e nnn & disown
+bindsym $mod+Shift+i  $ensi $terminal -e ranger & disown
 bindsym $mod+Shift+d  $ensi dmenu_dict
 bindsym $mod+o        $ensi translate.py -sn
 bindsym $mod+Shift+o  $ensi translate.py -dn

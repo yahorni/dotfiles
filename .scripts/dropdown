@@ -6,6 +6,7 @@ items="vifm
 ncmpcpp
 calcurse
 python
+htop
 tmux"
 
 program=$(echo -e -n "$items" | dmenu -i -p "Run dropdown:")

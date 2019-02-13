@@ -48,6 +48,7 @@ alias gr='git remote'
 alias med='cd ~/Media/ && ls'
 alias wrk='cd ~/Work/ && ls'
 alias gop='cd $GOPATH/src/ && ls'
+alias ltx='cd ~/Work/latex/ && ls'
 
 alias vb='$EDITOR ~/.bashrc'
 alias vv='$EDITOR ~/.vimrc'

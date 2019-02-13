@@ -34,7 +34,7 @@ if [ -f "$archive" ] ; then
 		*.rar) unrar x -ad "$archive" ;;
 		*.gz) gunzip "$archive" ;;
 		*.tar) tar xvf "$archive" ;;
-		*.zip) unzip "$archive" ;;
+		*.zip|*.jar) unzip "$archive" ;;
 		*.Z) uncompress "$archive" ;;
 		*.7z) 7z x "$archive" ;;
 		*.xz) unxz "$archive" ;;

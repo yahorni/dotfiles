@@ -1,17 +1,16 @@
-#!/bin/sh
+#!/bin/bash
 
 case "$1" in
-	*youtube.com*)
-		notify-send "Opening" "$1"
-		setsid ytstream "$1" & ;;
-	*mkv|*webm|*mp4|*3gp|*avi)
-		setsid mpv -quiet "$1" >/dev/null 2>&1 & ;;
-	*png|*jpg|*jpe|*jpeg)
-		setsid feh "$1" >/dev/null 2>&1 & ;;
-	*gif)
-		setsid mpv --loop "$1" >/dev/null 2>&1 & ;;
-	*mp3|*flac|*opus|*mp3?source)
-		setsid tsp wget -P "$PODCASTS" "$1" >/dev/null 2>&1 & ;;
-	*)
-		setsid $BROWSER $1 >/dev/null 2>&1 & ;;
+    *youtube.com*)
+        notify-send "Opening" "$1"
+        setsid ytstream "$1" & ;;
+    *mkv|*webm|*mp4|*3gp|*avi)
+        setsid mpv -quiet "$1" >/dev/null 2>&1 & ;;
+    *png|*jpg|*jpe|*jpeg|*gif)
+        curl -sL "$1" > "/tmp/$(echo "$1" | sed "s/.*\///")" && sxiv -a "/tmp/$(echo "$1" | sed "s/.*\///")" ;; # >/dev/null 2>&1 & ;;
+    *mp3|*flac|*opus|*mp3?source)
+        setsid tsp wget -P "$PODCASTS" "$1" >/dev/null 2>&1 & ;;
+    *)
+        browser=$(sed -n '/BROWSER/s/.\+"\(.\+\)"/\1/p' ~/.bash_profile)
+        setsid "$browser" "$1" >/dev/null 2>&1 & ;;
 esac

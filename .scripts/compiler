@@ -7,11 +7,13 @@ base="${file%.*}"
 cd "$dir" || exit
 
 case "$file" in
+    *\.cpp) g++ -o "$base" "$file" ;;
     *\.ms) groff -ms "$file" ${@:2} -T pdf > "$base".pdf ;;
     *\.py) python3 "$1" ${@:2} ;;
     *\.md) pandoc "$file" --pdf-engine=xelatex ${@:2} -o "$base".pdf ;;
-    *\.tex) pdflatex ${@:2} "$file" ;;
+    *\.tex) xelatex ${@:2} "$file" ;;
     *\.go) go run "$file" ${@:2} ;;
     *\.Xresources) xrdb -merge "$file" ;;
+    *config\.h) make && sudo make install ;;
     *) sed 1q "$file" | grep "^#!/" | sed "s/^#!//" | xargs -r -I % "$file" ${@:2} ;;
 esac

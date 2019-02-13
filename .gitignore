@@ -13,9 +13,7 @@
 !.gitignore
 !.gtkrc-2.0
 !.inputrc
-!.profile
 !.tmux.conf
-!.urlview
 !.xinitrc
 !.Xresources
 
@@ -41,12 +39,13 @@
 !.config/ranger
 !.config/redshift
 !.config/sxiv
-!.config/termite
+!.config/urlscan
 !.config/youtube-viewer
 !.config/zathura
 
 # Config files
 !.config/compton.conf
+!.config/mimeapps.list
 
 # Calcurse folder
 .calcurse/*
