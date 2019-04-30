@@ -5,3 +5,4 @@ events/* -> /etc/acpi/events/*
 fstab -> /etc/fstab
 powertop.service -> /etc/systemd/system/powertop.service
 xorg.conf.d/* -> /etc/X11/xorg.conf.d/*
+pacman.conf -> /etc/pacman.conf

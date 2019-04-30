@@ -76,9 +76,11 @@ c.url.start_pages = ['about:blank']
 c.colors.statusbar.private.bg = "darkslategray"
 c.colors.statusbar.command.private.bg = "darkslategray"
 
-#  themes_path = "~/Services/sol/css/darculized/darculized"
-themes_path = "~/Services/sol/css/gruvbox/gruvbox"
+themes_path = "~/.local/share/styles/css/gruvbox/gruvbox"
 config.bind(',a', f'config-cycle content.user_stylesheets {themes_path}-all-sites.css "" ;; reload')
+config.bind(',h', f'config-cycle content.user_stylesheets ~/.local/share/styles/habr.css "" ;; reload')
+config.bind(',c', f'config-cycle content.user_stylesheets ~/.local/share/styles/cpp.css "" ;; reload')
+config.bind(',s', f'config-cycle content.user_stylesheets ~/.local/share/styles/stack.css "" ;; reload')
 
 ## Time interval (in milliseconds) between auto-saves of
 ## config/cookies/etc.
@@ -734,7 +736,7 @@ c.content.pdfjs = True
 
 ## Enable plugins in Web pages.
 ## Type: Bool
-# c.content.plugins = False
+c.content.plugins = True
 
 ## Draw the background color and images also when the page is printed.
 ## Type: Bool

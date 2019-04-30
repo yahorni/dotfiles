@@ -2,4 +2,6 @@
 
 [Default Applications]
 text/x-c=nvim.desktop
-inode/directory=nnn.desktop
+text/x-python=nvim.desktop
+inode/directory=vifmrun.desktop
+text/html=qutebrowser.desktop

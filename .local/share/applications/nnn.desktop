@@ -1,4 +1,0 @@
-[Desktop Entry]
-Type=application
-Name=NNN file manager
-Exec=/usr/local/bin/st -e /usr/bin/nnn %u

@@ -1,7 +1,9 @@
-st.alpha: 200
 xterm*faceName: mono:pixelsize=18:antialias=true:autohint=true
+St.alpha: 200
 
 ! 3024 theme
+*.background:   #090300
+*.foreground:   #a5a2a2
 *color0:       #090300
 *color1:       #db2d20
 *color2:       #01a252
@@ -18,5 +20,3 @@ xterm*faceName: mono:pixelsize=18:antialias=true:autohint=true
 *color13:      #a16a94
 *color14:      #b5e4f4
 *color15:      #f7f7f7
-st.background:   #090300
-st.foreground:   #a5a2a2

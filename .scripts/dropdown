@@ -2,7 +2,7 @@
 
 pgrep -x dmenu && exit
 
-items="vifm
+items="vifmrun
 ncmpcpp
 calcurse
 python

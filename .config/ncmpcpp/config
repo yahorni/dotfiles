@@ -11,14 +11,14 @@
 ## ncmpcpp.
 ##
 #
-ncmpcpp_directory = ~/Services/ncmpcpp
+ncmpcpp_directory = ~/.local/share/ncmpcpp
 #
 ##
 ## Directory for storing downloaded lyrics. It defaults to ~/.lyrics since other
 ## MPD clients (eg. ncmpc) also use that location.
 ##
 #
-lyrics_directory = ~/Services/ncmpcpp/lyrics
+lyrics_directory = ~/.local/share/ncmpcpp/lyrics
 #
 ##### connection settings #####
 #
@@ -82,8 +82,8 @@ visualizer_sync_interval = 30
 ##
 visualizer_type = spectrum
 #
-#visualizer_look = ●▮
-visualizer_look = "+|"
+visualizer_look = ●▮
+# visualizer_look = "+|"
 #
 #visualizer_color = blue, cyan, green, yellow, magenta, red
 #

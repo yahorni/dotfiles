@@ -35,6 +35,13 @@ signal=9
 command=i3mpd
 separator=true
 
+# [words]
+# label=🇬🇧
+# interval=300
+# signal=13
+# command=i3dictionary
+# separator=true
+
 # [timer]
 # label=Timer:
 # interval=30

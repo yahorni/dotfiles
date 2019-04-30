@@ -3,4 +3,4 @@
 [ -d "$1" ] || exit
 
 cd $1
-rm *.aux *.log *.out *.bbl *.blg *.toc
+rm *.aux *.log *.out *.bbl *.blg *.toc 2>/dev/null

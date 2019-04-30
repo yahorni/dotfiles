@@ -1,0 +1,4 @@
+#!/bin/bash
+
+pid=`xdotool getwindowfocus`
+xdotool set_window --classname "dropdown" $pid

@@ -566,8 +566,11 @@ def_key "h"
 def_key ";"
 	show_lyrics
 
-def_key "t"
+def_key "g"
 	move_home
 
 def_key "G"
 	move_end
+
+def_key "t"
+ jump_to_position_in_song

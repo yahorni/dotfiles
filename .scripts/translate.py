@@ -15,7 +15,8 @@ argparser.add_argument('-n', '--notify', action='store_true', help='Uses libnoti
 arggroup = argparser.add_mutually_exclusive_group(required=True)
 arggroup.add_argument('-s', '--selection', action='store_true', help='Uses xsel to get unknown word')
 arggroup.add_argument('-d', '--dmenu', action='store_true', help='Uses dmenu to input unknown word')
-arggroup.add_argument('-w', '--word', type=str, help='Word to translate. Uses stdin')
+arggroup.add_argument('-a', '--argument', type=str, help='Word to translate. Passes as argument')
+arggroup.add_argument('-w', '--word', action='store_true', help='Word to translate reads from stdin')
 args = vars(argparser.parse_args())
 
 if args.get('notify'):
@@ -45,10 +46,14 @@ class WrdParser(HTMLParser):
 
 if args.get('selection'):
     unknown_word = subprocess.check_output("xsel -o", shell=True).decode("utf-8")
+    if not unknown_word or unknown_word == '\n':
+        unknown_word = subprocess.check_output("xsel -b -o", shell=True).decode("utf-8")
 elif args.get('dmenu'):
     unknown_word = subprocess.check_output('dmenu -i -p "Enter word to translate" <&-', shell=True)[:-1].decode("utf-8")
+elif args.get('word'):
+    unknown_word = input().strip()
 else:
-    unknown_word = args.get('word')
+    unknown_word = args.get('argument')
 
 if not unknown_word or unknown_word == '\n':
     os.system(MESSAGE.format("Translation", "No input"))

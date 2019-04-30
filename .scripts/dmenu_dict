@@ -1,4 +1,4 @@
 #!/bin/bash
 pgrep -x dmenu && exit
-dict_path="$HOME/Documents/dictionary.txt"
+dict_path="$HOME/.local/share/dictionary/dictionary.txt"
 echo $(echo | dmenu -i -p "Enter new word") >> $dict_path

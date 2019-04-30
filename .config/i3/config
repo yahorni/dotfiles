@@ -8,13 +8,13 @@ set_from_resource $browser echo $BROWSER
 # Autostart
 $ensi dunst
 $ensi xcompmgr
-# $ensi wal -Rn
+$ensi wal -Rn
 $ensi setwall
 $ensi unclutter
 $ensi safeeyes
+# $ensi timeoutd
 
 # Colors
-# #af5540
 client.focused          #4c7899 #285577 #ffffff #556b2f #00f0a0
 client.focused_inactive #333333 #5f676a #ffffff #484e50 #5f676a
 client.unfocused        #333333 #222222 #888888 #292d2e #222222
@@ -125,8 +125,9 @@ bindsym $mod+Shift+0 move container to workspace $ws10
 
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3?' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Do you really want to exit i3?' -b 'Yes, exit i3' 'i3-msg exit'"
 
+bindsym $mod+r mode "resize"
 mode "resize" {
     set $res1 5
     set $res2 1
@@ -154,10 +155,30 @@ mode "resize" {
     bindsym $mod+r mode "default"
 }
 
+bindsym $mod+Shift+v mode "gaps"
+mode "gaps" {
+    set $res1 5
+    set $res2 1
+
+    bindsym h gaps inner current minus $res1
+    bindsym j gaps inner current minus $res2
+    bindsym k gaps inner current plus $res2
+    bindsym l gaps inner current plus $res1
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
+}
+
+set_from_resource $background color0
 bar {
     font pango:liberation mono bold 10
     status_command i3blocks
     position top
+    colors {
+        background #121240
+        background $background
+    }
 }
 
 set $dvnl               >/dev/null
@@ -166,9 +187,10 @@ set $volume_signal      pkill -RTMIN+10 i3blocks
 set $brightness_signal  pkill -RTMIN+11 i3blocks
 set $language_signal    pkill -RTMIN+12 i3blocks
 
-bindsym $mod+r mode "resize"
-
 # bindcode $mod+51        $ensi invert_colors
+bindcode $mod+34	    $ensi i3dictionary show
+bindcode $mod+Shift+34	$ensi i3dictionary next
+bindcode $mod+51        $ensi make_sticky
 bindcode $mod+59        $ensi dropdown
 bindcode $mod+Shift+59  $ensi $terminal -n dropdown
 bindcode $mod+61        move scratchpad
@@ -182,7 +204,8 @@ bindsym $mod+b        $ensi pgrep $browser >/dev/null || $browser
 bindsym $mod+Shift+b  $ensi $browser
 bindsym $mod+m        $ensi dmenu_mount
 bindsym $mod+Shift+m  $ensi dmenu_umount
-bindsym $mod+u        $ensi bookmarks
+bindsym $mod+u        $ensi bookmarks -a open
+bindsym $mod+Shift+u  $ensi $terminal -e neomutt & disown
 bindsym $mod+p        $ensi power_manager
 bindsym $mod+Shift+p  $ensi fastkill
 bindsym $mod+n        $ensi mpc toggle $dvnl && $mpd_signal
@@ -190,11 +213,13 @@ bindsym $mod+Shift+n  $ensi mpc stop $dvnl && $mpd_signal
 bindsym $mod+y        $ensi $terminal -e newsboat -qr & disown
 bindsym $mod+Shift+y  $ensi $terminal -e newsboat -q & disown
 bindsym $mod+i        $ensi $terminal -e ncmpcpp & disown
-bindsym $mod+Shift+i  $ensi $terminal -e ranger & disown
+bindsym $mod+Shift+i  $ensi $terminal -e vifmrun & disown
 bindsym $mod+Shift+d  $ensi dmenu_dict
 bindsym $mod+o        $ensi translate.py -sn
 bindsym $mod+Shift+o  $ensi translate.py -dn
 bindsym $mod+c        $ensi show_selections
+
+bindsym $mod+Shift+Return $ensi samedir
 
 bindsym Print                  $ensi makescreen
 bindsym --release Shift+Print  $ensi makescreen part

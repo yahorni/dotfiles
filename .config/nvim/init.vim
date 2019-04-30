@@ -5,6 +5,7 @@ call plug#begin('~/.vim/plugged')
 " file picker
 Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
+Plug 'qpkorr/vim-bufkill'
 
 " comments
 Plug 'scrooloose/nerdcommenter'
@@ -31,6 +32,7 @@ Plug 'Shougo/neoinclude.vim'
 " snippets
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
+Plug 'honza/vim-snippets'
 
 " i3
 Plug 'PotatoesMaster/i3-vim-syntax'
@@ -67,9 +69,21 @@ Plug 'maksimr/vim-jsbeautify'
 Plug 'zchee/deoplete-clang'
 Plug 'google/vim-maktaba'
 Plug 'google/vim-codefmt'
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'uplus/vim-clang-rename'
 
 " tags
 Plug 'majutsushi/tagbar'
+
+" html
+Plug 'mattn/emmet-vim'
+Plug 'othree/html5.vim'
+
+" wal colorscheme
+Plug 'dylanaraps/wal.vim'
+
+" indentation
+Plug 'Yggdroot/indentLine'
 
 if (&term!='linux')
     " language switching
@@ -149,6 +163,7 @@ inoremap <C-L> <Right>
 
 " theme
 colo ron
+" colo wal
 if (&term!='linux')
     " different cursors per mode
     let &t_SI = "\<Esc>[6 q"
@@ -156,8 +171,8 @@ if (&term!='linux')
     let &t_EI = "\<Esc>[2 q"
 
     " colorscheme
-    au FileType python,go,cpp let g:gruvbox_contrast_dark='hard' | colo gruvbox
-    au FileType tex,markdown.pandoc colo dracula
+    au FileType python,go,c,cpp,javascript let g:gruvbox_contrast_dark='hard' | colo gruvbox
+    au FileType tex,markdown.pandoc,html,css colo dracula
 endif
 
 " Tab highlighting"
@@ -186,7 +201,7 @@ fun! ToggleResizeSplitMode()
     endif
 endfun
 
-nnoremap <silent> <expr> <ESC> exists('b:SplitResizing') ? '<ESC>:unlet b:SplitResizing<CR><ESC>' : '<ESC>'
+nnoremap <silent> <expr> <ESC> exists('b:SplitResizing') ? '<ESC>:unlet b:SplitResizing<CR>:echo "Resizing disabled"<CR>' : '<ESC>'
 nnoremap <silent> <expr> <C-H> !exists('b:SplitResizing') ? '<C-W><C-H>' : ':vert res -1<CR>'
 nnoremap <silent> <expr> <C-J> !exists('b:SplitResizing') ? '<C-W><C-J>' : ':res -1<CR>'
 nnoremap <silent> <expr> <C-K> !exists('b:SplitResizing') ? '<C-W><C-K>' : ':res +1<CR>'
@@ -199,19 +214,29 @@ nnoremap <silent> g<S-j> :bnext<CR>
 nnoremap <silent> g<S-h> :bfirst<CR>
 nnoremap <silent> g<S-l> :blast<CR>
 
+if has("nvim")
+    nnoremap <silent> <S-Tab> :bnext<CR>
+endif
+
 " file executing
 nn <leader>e :w <bar> :!compiler %<CR>
 nn <leader>E :w <bar> :!compiler %<SPACE>
 nn <leader>p :!opout %<CR><CR>
-nn <leader>c :!texclear %:p:h<CR><CR>
+
+au FileType tex nn <leader>c :w <bar> :!pdflatex %<CR>
+au FileType tex nn <leader>C :!texclear %:p:h<CR><CR>
 
 " couple math snippets for latex
 au FileType tex ino <leader><leader>p \partial
 au FileType tex ino <leader><leader>d \displaystyle
 
+" enable pandoc markdown syntax
+au FileType markdown set filetype=markdown.pandoc
+au VimEnter *.md set filetype=markdown
+
 " calcurse notes as markdown
-au BufRead,BufNewFile /tmp/calcurse* set filetype=markdown
-au BufRead,BufNewFile ~/.calcurse/notes/* set filetype=markdown
+au BufRead,BufNewFile,VimEnter /tmp/calcurse* set filetype=markdown
+au BufRead,BufNewFile,VimEnter ~/.calcurse/notes/* set filetype=markdown
 
 " systemd service files
 au BufRead,BufNewFile *.service set filetype=dosini
@@ -223,9 +248,6 @@ au FileType python set textwidth=79
 au FileType c,cpp,javascript
             \ set tabstop=2 |
             \ set shiftwidth=2
-
-" enable pandoc markdown syntax
-au FileType markdown set filetype=markdown.pandoc
 
 " enable autoswitching language
 let g:XkbSwitchEnabled = 1
@@ -241,11 +263,10 @@ let g:closetag_shortcut = '>'
 let g:closetag_emptyTags_caseSensitive = 1
 nnoremap <silent> <leader>t :CloseTagToggleBuffer<CR>
 au BufNewFile,BufRead * :CloseTagDisableBuffer<CR>
+au BufNewFile,BufRead *.html,*.xml,*.ejs :CloseTagEnableBuffer<CR>
 
 " Auto-pairs toggling (brackets)
 let g:AutoPairsShortcutToggle = '<leader>P'
-" let g:AutoPairsMapCR = 0
-" imap <silent><CR> <CR><Plug>AutoPairsReturn
 
 " Nerd commenter
 let g:NERDSpaceDelims = 1
@@ -266,14 +287,14 @@ endif
 let g:colorizer_maxlines = 1000
 
 " supertab
-" let g:SuperTabDefaultCompletionType = 'context'
+let g:SuperTabDefaultCompletionType = "<c-n>"
 
 " deoplete
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_smart_case = 1
 
 " deoplete-clang
-let g:deoplete#sources#clang#libclang_path = '/usr/lib/libclang.so.7'
+let g:deoplete#sources#clang#libclang_path = '/usr/lib/libclang.so.8'
 let g:deoplete#sources#clang#clang_header = '/usr/lib/clang/'
 
 " jedi
@@ -292,12 +313,15 @@ endif
 let g:ale_fixers = {
             \   '*': ['remove_trailing_lines', 'trim_whitespace'],
             \   'python': ['autopep8', 'isort', 'black'],
+            \   'javascript': ['prettier'],
             \}
 let g:ale_linters = {
             \   'python': ['flake8', 'pylint'],
             \   'tex': ['chktex'],
             \   'cpp': ['cppcheck', 'clang', 'gcc'],
             \   'c': ['clang', 'gcc'],
+            \   'html': ['tidy'],
+            \   'css': ['stylelint', 'prettier'],
             \}
 let g:ale_set_highlights = 1
 let g:ale_lint_on_text_changed = 'never'
@@ -330,8 +354,12 @@ endif
 
 " vim-go
 au FileType go let g:go_fmt_fail_silently = 1
+au FileType go let g:SuperTabDefaultCompletionType = "context"
+au FileType go call deoplete#custom#buffer_option('auto_complete', v:false)
 
 " neosnippet
+let g:neosnippet#enable_snipmate_compatibility = 1
+let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
 imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
 xmap <C-k> <Plug>(neosnippet_expand_target)
@@ -339,10 +367,30 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
             \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 " fuzzy finder
-nnoremap <silent> <C-b> :Buffers<CR>
+nnoremap <silent> <C-W>b :Buffers<CR>
 
 " tagbar
 nnoremap <silent> <C-W>t :TagbarToggle<CR>
 
-" c++ format
-autocmd FileType c,cpp,javascript AutoFormatBuffer clang-format
+" c++
+au FileType c,cpp AutoFormatBuffer clang-format
+au FileType c,cpp nmap <buffer><silent> <leader>r <Plug>(clang_rename-current)
+
+" emmet
+let g:user_emmet_install_global = 0
+autocmd FileType html,css EmmetInstall
+
+" json format
+" au BufWritePre *.json :%!jq '.'
+au FileType javascript noremap <buffer>  <c-f> :call JsBeautify()<cr>
+" for json
+au FileType json noremap <buffer> <c-f> :call JsonBeautify()<cr>
+" for jsx
+au FileType jsx noremap <buffer> <c-f> :call JsxBeautify()<cr>
+" for html
+au FileType html noremap <buffer> <c-f> :call HtmlBeautify()<cr>
+" for css or scss
+au FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>
+
+" shfmt
+au FileType sh noremap <buffer> <c-f> :%!shfmt<cr>

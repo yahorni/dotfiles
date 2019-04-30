@@ -10,13 +10,14 @@ export READER="zathura"
 export SUDO_ASKPASS="$HOME/.scripts/dmenu_pass"
 export GREP_COLOR="1;31"
 export LESSHISTFILE="-"
-export HISTFILE="$HOME/Services/bash_history"
-export HISTSIZE=
-export HISTFILESIZE=
 
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
+
+export HISTFILE="$XDG_DATA_HOME/bash_history"
+export HISTSIZE=
+export HISTFILESIZE=
 
 export LESS=-R
 export LESS_TERMCAP_mb=$'\E[1;31m'     # begin bold
@@ -40,7 +41,5 @@ export WALLPAPERS="$PICTURES/wallpapers"
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 
 if [[ $(tty) = "/dev/tty1" ]]; then
-	pgrep -x i3 || exec startx \
-		1>$HOME/Services/xorg.1.log \
-		2>$HOME/Services/xorg.2.log
+	pgrep -x i3 || exec startx 1>/dev/null 2>/dev/null
 fi

@@ -1,0 +1,31 @@
+#!/bin/bash
+
+dictionary_path="$HOME/.local/share/dictionary"
+dictionary="$dictionary_path/dictionary.txt"
+# database="$dictionary_path/database.txt"
+last_word="$dictionary_path/last_word.txt"
+
+get_word() {
+    shuf -n 1 $dictionary > $last_word
+    pkill -RTMIN+13 i3blocks
+}
+
+show_current() {
+    cat $last_word | translate.py -wn
+}
+
+if [ "$1" = "show" ]; then
+    show_current
+    exit
+elif [ "$1" = "next" ]; then
+    get_word
+    exit
+fi
+
+case $BLOCK_BUTTON in
+    1) show_current ; cat $last_word ; exit ;;
+    3) get_word ; cat $last_word ; exit ;;
+esac
+
+get_word
+cat $last_word

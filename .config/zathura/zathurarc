@@ -5,5 +5,11 @@ map K scroll half-up
 
 set selection-clipboard clipboard
 
-map i recolor
 map p print
+map i recolor
+map f toggle_fullscreen
+map u follow
+
+map [fullscreen] i recolor
+map [fullscreen] f toggle_fullscreen
+map [fullscreen] u follow

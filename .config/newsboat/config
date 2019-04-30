@@ -34,5 +34,5 @@ highlight article "\\[image\\ [0-9]+\\]" green default
 browser linkhandler
 macro p set browser "ytpodcast %u"; open-in-browser ; set browser linkhandler
 macro a set browser "tsp ytloader -f a %u"; open-in-browser ; set browser linkhandler
-macro h set browser "tsp ytloader -f h %u"; open-in-browser ; set browser linkhandler
+macro v set browser "tsp ytloader -f m %u"; open-in-browser ; set browser linkhandler
 macro c set browser "xsel -b <<<" ; open-in-browser ; set browser linkandler
