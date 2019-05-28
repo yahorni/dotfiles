@@ -6,19 +6,27 @@ base="${file%.*}"
 
 cd "$dir" || exit
 
+args="${@:2}"
+
+get_root() {
+    grep -q '% !TeX root = ' "$file" || return
+    root_file=$(sed -n 's/^% !TeX root = \(.\+\)$/\1/p' "$file")
+    file=$(readlink -f "$root_file")
+    cd "$(dirname "$file")"
+}
+
 case "$file" in
     *\.cpp) g++ -g -O0 -Wall -Wextra -pedantic -o "$base" "$file" ;;
-    *\.ms) groff -ms "$file" ${@:2} -T pdf > "$base".pdf ;;
-    *\.py) python3 "$1" ${@:2} ;;
-    *\.md) pandoc "$file" --pdf-engine=xelatex ${@:2} -o "$base".pdf ;;
-    *\.tex) xelatex ${@:2} "$file" ;;
-    *\.go) go run "$file" ${@:2} ;;
+    *\.ms) groff -ms "$file" $args -T pdf > "$base".pdf ;;
+    *\.py) python3 "$1" $args ;;
+    *\.md) pandoc "$file" --pdf-engine=xelatex $args -o "$base".pdf ;;
+    *\.tex) get_root ; xelatex $args "$file" ;;
+    *\.go) go run "$file" $args ;;
     *\.html) $BROWSER "$file" ;;
-    *\.js) node "$file" ;;
     *\.Xresources) xrdb -merge "$file" ;;
     *config\.h) make && sudo make install ;;
-    *) sed 1q "$file" | grep "^#!/" | sed "s/^#!//" | xargs -r -I % "$file" ${@:2} ;;
+    *) sed 1q "$file" | grep "^#!/" | sed "s/^#!//" | xargs -r -I % "$file" $args ;;
 esac
 
 # beamer: -t beamer
-# russian markdown: 
+# svg pics: --shell-escape

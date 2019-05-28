@@ -2,5 +2,5 @@
 
 pgrep -x i3lock >/dev/null && exit
 
-lock="i3lock -e -f -c 303030 -i $HOME/Services/lock.jpg"
+lock="i3lock -e -f -c 303030 -i $HOME/Documents/lockimage"
 $lock && sleep 1 && xset dpms force off

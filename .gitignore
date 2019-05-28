@@ -3,12 +3,10 @@
 # Folders
 !.config
 !.scripts
-!.external
-!.calcurse
 !.local
 
 # Files
-!.bash_profile
+!.profile
 !.bashrc
 !.gitignore
 !.gtkrc-2.0
@@ -19,12 +17,14 @@
 
 # Local folder
 .local/*
-!.local/share/
+!.local/share
 .local/share/*
-!.local/share/applications/
+!.local/share/applications
+!.local/share/external
 
 # Config folders
 .config/*
+!.config/calcurse
 !.config/dunst
 !.config/fontconfig
 !.config/gtk-3.0
@@ -36,9 +36,11 @@
 !.config/newsboat
 !.config/nvim
 !.config/qutebrowser
-!.config/ranger
 !.config/redshift
 !.config/sxiv
+!.config/sxhkd
+!.config/transmission-daemon
+!.config/vifm
 !.config/urlscan
 !.config/youtube-viewer
 !.config/zathura
@@ -48,9 +50,9 @@
 !.config/mimeapps.list
 
 # Calcurse folder
-.calcurse/*
-!.calcurse/conf
-!.calcurse/keys
+.config/calcurse/*
+!.config/calcurse/conf
+!.config/calcurse/keys
 
 # Mpv folder
 .config/mpv/*
@@ -71,3 +73,15 @@
 # Neovim folder
 .config/nvim/*
 !.config/nvim/init.vim
+
+# Transmission folder
+.config/transmission-daemon/*
+!.config/transmission-daemon/settings.json
+
+# Vifm folder
+.config/vifm/*
+!.config/vifm/vifmrc
+!.config/vifm/scripts
+.config/vifm/scripts/*
+!.config/vifm/scripts/vifmimg
+!.config/vifm/scripts/previewer

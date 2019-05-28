@@ -16,7 +16,7 @@ alias grep='grep --color=auto'
 
 alias la='ls -a'
 alias ll='ls -lsh'
-alias lf='ls -lash'
+alias l='ls -lash'
 
 alias v='$EDITOR'
 alias sv='sudo $EDITOR'
@@ -35,14 +35,10 @@ alias rst='reset && source ~/.bashrc && stty echo && tput cvvis'
 alias cp='cp -r'
 alias rm='rm -r'
 alias sql='sqlite3'
-
-alias vcd="cd $VIDEOS && ls"
-alias fcd="cd $FILMS && ls"
-alias mcd="cd $MUSIC && ls"
-alias scd="cd $SERIALS && ls"
-alias pcd="cd $PICTURES && ls"
-alias wcd="setsid sxiv -t $WALLPAPERS &"
+alias ff='ffplay -autoexit -nodisp'
 alias shr='cd $XDG_DATA_HOME'
+
+alias dotgit='/usr/bin/git --git-dir="$HOME/Documents/dotfiles" --work-tree="$HOME"'
 
 alias gst='git status'
 alias gd='git diff'
@@ -59,7 +55,7 @@ alias gr='git remote'
 
 alias vb='$EDITOR ~/.bashrc'
 alias vv='$EDITOR ~/.vimrc'
-alias vp='$EDITOR ~/.bash_profile'
+alias vp='$EDITOR ~/.profile'
 alias vg='$EDITOR .gitignore'
 alias v3='$EDITOR ~/.config/i3/config'
 
@@ -69,4 +65,7 @@ complete -F _systemctl systemctl sc ssc
 . $completions/pacman
 complete -F _pacman pacman sp
 
-source $XDG_DATA_HOME/temp_aliases
+alias med='cd ~/Media/ && ls'
+alias wrk='cd ~/Work/ && ls'
+alias gop='cd $GOPATH/src/ && ls'
+alias ltx='cd ~/Work/latex/ && ls'

@@ -100,6 +100,7 @@ if (&term!='linux')
     Plug 'crusoexia/vim-monokai'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'dracula/vim', { 'as': 'dracula' }
+    Plug 'drewtempelmeyer/palenight.vim'
 endif
 
 call plug#end()
@@ -128,6 +129,7 @@ set modelines=5
 set noshowmode
 set showcmd
 set conceallevel=2
+set concealcursor=nc
 set wildmenu
 set wildmode=longest,list,full
 set mouse=a
@@ -162,8 +164,9 @@ inoremap <C-H> <Left>
 inoremap <C-L> <Right>
 
 " theme
-colo ron
-" colo wal
+colo palenight
+hi Normal ctermbg=233
+
 if (&term!='linux')
     " different cursors per mode
     let &t_SI = "\<Esc>[6 q"
@@ -171,8 +174,8 @@ if (&term!='linux')
     let &t_EI = "\<Esc>[2 q"
 
     " colorscheme
-    au FileType python,go,c,cpp,javascript let g:gruvbox_contrast_dark='hard' | colo gruvbox
-    au FileType tex,markdown.pandoc,html,css colo dracula
+    " au FileType python,go,c,cpp,javascript let g:gruvbox_contrast_dark='hard' | colo gruvbox
+    " au FileType tex,markdown.pandoc,html,css colo dracula
 endif
 
 " Tab highlighting"
@@ -201,22 +204,12 @@ fun! ToggleResizeSplitMode()
     endif
 endfun
 
-nnoremap <silent> <expr> <ESC> exists('b:SplitResizing') ? '<ESC>:unlet b:SplitResizing<CR>:echo "Resizing disabled"<CR>' : '<ESC>'
-nnoremap <silent> <expr> <C-H> !exists('b:SplitResizing') ? '<C-W><C-H>' : ':vert res -1<CR>'
-nnoremap <silent> <expr> <C-J> !exists('b:SplitResizing') ? '<C-W><C-J>' : ':res -1<CR>'
-nnoremap <silent> <expr> <C-K> !exists('b:SplitResizing') ? '<C-W><C-K>' : ':res +1<CR>'
-nnoremap <silent> <expr> <C-L> !exists('b:SplitResizing') ? '<C-W><C-L>' : ':vert res +1<CR>'
-nnoremap gs :call ToggleResizeSplitMode()<CR>
-
-" buffer manipulation
-nnoremap <silent> g<S-k> :bprev<CR>
-nnoremap <silent> g<S-j> :bnext<CR>
-nnoremap <silent> g<S-h> :bfirst<CR>
-nnoremap <silent> g<S-l> :blast<CR>
-
-if has("nvim")
-    nnoremap <silent> <S-Tab> :bnext<CR>
-endif
+nn <silent> <expr> <ESC> exists('b:SplitResizing') ? '<ESC>:unlet b:SplitResizing<CR>:echo "Resizing disabled"<CR>' : '<ESC>'
+nn <silent> <expr> <C-H> !exists('b:SplitResizing') ? '<C-W><C-H>' : ':vert res -1<CR>'
+nn <silent> <expr> <C-J> !exists('b:SplitResizing') ? '<C-W><C-J>' : ':res -1<CR>'
+nn <silent> <expr> <C-K> !exists('b:SplitResizing') ? '<C-W><C-K>' : ':res +1<CR>'
+nn <silent> <expr> <C-L> !exists('b:SplitResizing') ? '<C-W><C-L>' : ':vert res +1<CR>'
+nn gs :call ToggleResizeSplitMode()<CR>
 
 " file executing
 nn <leader>e :w <bar> :!compiler %<CR>
@@ -225,10 +218,10 @@ nn <leader>p :!opout %<CR><CR>
 
 au FileType tex nn <leader>c :w <bar> :!pdflatex %<CR>
 au FileType tex nn <leader>C :!texclear %:p:h<CR><CR>
+au VimLeave *.tex !texclear %:p:h
 
-" couple math snippets for latex
-au FileType tex ino <leader><leader>p \partial
-au FileType tex ino <leader><leader>d \displaystyle
+" some snippets for latex
+au FileType tex xmap <leader>i S}i\lstinline<ESC>
 
 " enable pandoc markdown syntax
 au FileType markdown set filetype=markdown.pandoc
@@ -331,26 +324,29 @@ let b:ale_list_window_size = 5
 let b:ale_warn_about_trailing_blank_lines = 1
 let b:ale_warn_about_trailing_whitespace = 1
 au FileType cpp,go,python setlocal completeopt-=preview
-nnoremap <leader>l :ALELint<CR>
-nnoremap <leader>f :ALEFix<CR>
-nnoremap <leader>L :ALEToggle<CR>
+nn <silent> <leader>l :ALELint<CR>
+nn <silent> <leader>f :ALEFix<CR>
+nn <silent> <leader>L :ALEToggle<CR>
+nn <silent> <A-[> :ALEPrevious<CR>
+nn <silent> <A-]> :ALENext<CR>
 
 " airline
 let g:airline_exclude_filetypes = ['text']
 let g:airline#extensions#whitespace#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#left_alt_sep = ''
+    let g:airline#extensions#tabline#left_sep = ''
 if (&term!='linux')
-    let g:airline_theme='minimalist'
+    let g:airline_theme='hybrid'
     let g:airline#extensions#xkblayout#enabled = 1
     let g:airline_powerline_fonts = 1
     let g:airline_extensions = ['tabline', 'ale', 'branch', 'vimtex', 'whitespace', 'xkblayout']
-    let g:airline#extensions#tabline#left_sep = ' '
 else
     let g:airline_powerline_fonts = 0
     let g:airline_extensions = ['tabline', 'ale', 'branch', 'vimtex', 'whitespace']
-    let g:airline#extensions#tabline#left_sep = '>'
 endif
+
+let g:pandoc#syntax#conceal#use = 1
 
 " vim-go
 au FileType go let g:go_fmt_fail_silently = 1
@@ -359,7 +355,7 @@ au FileType go call deoplete#custom#buffer_option('auto_complete', v:false)
 
 " neosnippet
 let g:neosnippet#enable_snipmate_compatibility = 1
-let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
+let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets,~/.vim/snippets'
 imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
 xmap <C-k> <Plug>(neosnippet_expand_target)
@@ -394,3 +390,8 @@ au FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>
 
 " shfmt
 au FileType sh noremap <buffer> <c-f> :%!shfmt<cr>
+
+" buffer manipulation
+nn <silent> <A-h> :bprev<CR>
+nn <silent> <A-l> :bnext<CR>
+

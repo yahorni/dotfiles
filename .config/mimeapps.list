@@ -1,7 +1,11 @@
 # vim: ft=dosini
 
 [Default Applications]
-text/x-c=nvim.desktop
-text/x-python=nvim.desktop
+application/pdf=zathura.desktop
 inode/directory=vifmrun.desktop
 text/html=qutebrowser.desktop
+text/x-c=nvim.desktop
+text/x-python=nvim.desktop
+x-scheme-handler/http=linkhandler.desktop
+x-scheme-handler/https=linkhandler.desktop
+x-scheme-handler/magnet=torrent.desktop;

@@ -1,0 +1,27 @@
+#!/bin/sh
+
+case $BLOCK_BUTTON in
+    1) mpc toggle >/dev/null ;;
+    3) $TERMINAL -e ncmpcpp & disown >/dev/null ;;
+    4) mpc prev >/dev/null ;;
+    5) mpc next >/dev/null ;;
+esac
+
+if [ $(mpc status | wc -l) -lt 3 ]; then
+    echo "🎵 stopped" && exit
+else
+    stat="$(mpc status | sed -n '2s/\(\[.*\]\).*/\1/p')"
+fi
+
+artist="$(mpc status -f "%artist%" | cut -d $'\n' -f1)"
+title="$(mpc status -f "%title%" | cut -d $'\n' -f1)"
+
+if [ ! -z "$title" ]; then
+    song="$artist - $title"
+else
+    file="$(mpc status -f "%file%" | cut -d $'\n' -f1)"
+    file="${file##*/}"
+    song="${file%%.*}"
+fi
+
+echo "🎵 $song $stat"

@@ -1,0 +1,18 @@
+#!/bin/sh
+
+categories="Downloads\nFilms\nMusic\nSerials\nBooks"
+
+folder_prefix="$HOME/Media"
+default_folder="$folder_prefix/downloads"
+folder=""
+
+case $(echo -e $categories | dmenu -i -p "Option:") in
+    Films) folder="$folder_prefix/films" ;;
+    Music) folder="$folder_prefix/music" ;;
+    Serials) folder="$folder_prefix/serials" ;;
+    Books) folder="$folder_prefix/books" ;;
+    *) folder="$default_folder" ;;
+esac
+
+pgrep -x transmission-da || (transmission-daemon && notify-send "Starting transmission daemon..." && sleep 3 && pkill -RTMIN+14 i3blocks)
+transmission-remote -a "$@" -w "$folder" && notify-send "🔽 Torrent added" "To: $folder"

@@ -16,6 +16,3 @@ UUID=27937329669D0EEA	/mnt/media	ntfs	defaults,user,uid=1000,gid=985,umask=013	0
 
 # /dev/sda8 LABEL=work
 UUID=b9b4051d-b94e-4dc0-8707-919cebfa2311	/mnt/work	ext4	defaults,user,exec	0 2
-
-# /dev/sda8 LABEL=images
-UUID=f505fb37-8c72-4358-8514-eb31c758b852	/mnt/images	ext4	defaults,user,exec	0 2

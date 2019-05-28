@@ -1,12 +1,14 @@
 #!/bin/bash
 
-filename="%Y-%m-%d_%H-%M.png"
+filename="%Y-%m-%d_%H-%M-%S.png"
 if [ ! -z $SCREENSHOTS ]; then
 	filename="$SCREENSHOTS/$filename"
 fi
 
 if [ "$1" = 'part' ]; then
 	file=$(scrot -z -s -q 100 $filename -e 'echo $f')
+elif [ "$1" = 'window' ]; then
+	file=$(scrot -z -u -q 100 $filename -e 'echo $f')
 else
 	file=$(scrot -z -q 100 $filename -e 'echo $f')
 fi
@@ -15,3 +17,4 @@ fi
 
 xclip -selection clipboard -t image/png -i "$file" && notify-send -i "$file" "Copied to clipboard"
 xclip -i "$file" && notify-send "Copied to primary" "$file"
+xclip-copyfile "$file" && notify-send "Copied to xclip"

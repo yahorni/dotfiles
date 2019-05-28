@@ -1,0 +1,8 @@
+#!/bin/bash
+
+case $BLOCK_BUTTON in
+    1) $TERMINAL -n _dropdown_ -e showcalendar ;;
+    3) $TERMINAL -e calcurse -D "$XDG_CONFIG_HOME"/calcurse ;;
+esac
+
+echo "📅 $(date '+%Y-%m-%d %H:%M')"

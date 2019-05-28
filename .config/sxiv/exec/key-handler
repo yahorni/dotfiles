@@ -4,6 +4,7 @@ read file
 
 case "$1" in
     "w") setwall "$file" & ;;
+    "l") cp "$file" ~/Documents/lockimage & ;;
     "p") wal -ni "$file" & ;;
     "c") copyimage "$file" & ;;
     "n") newname=$(echo "$file" | dmenu -p "Enter new file name") && mv "$file" "$newname" && notify-send "Moved '$file' to '$newname'" ;;

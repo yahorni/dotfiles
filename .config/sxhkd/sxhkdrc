@@ -1,0 +1,85 @@
+super + grave
+    $TERMINAL -e htop
+
+super + w
+    $TERMINAL -e ncmpcpp
+super + shift + w
+    bookmarks -a open
+
+super + e
+    $TERMINAL
+super + shift + e
+    $TERMINAL -e calcurse -D "$XDG_CONFIG_HOME"/calcurse
+
+super + t
+    $TERMINAL -e newsboat -q
+super + shift + t
+    $TERMINAL -e transmission-remote-cli
+
+super + p
+    power_manager
+super + shift + p
+    fastkill
+
+super + {_, shift +} bracketright
+    i3dictionary {show,next}
+
+super + backslash
+    invert_colors
+
+super + d
+    dmenu_run
+super + shift + d
+    dmenu_dict
+
+super + {_, shift +} g
+    corner_window {,-H left}
+
+super + Return
+    $TERMINAL
+super + shift + Return
+    samedir
+
+super + x
+    translate.py -sn
+super + shift + x
+    translate.py -dn
+
+super + c
+    show_selections
+
+super + v
+    $TERMINAL -e vifmrun
+super + shift + v
+    $TERMINAL -e neomutt
+
+super + b
+    pgrep $BROWSER || $BROWSER
+super + shift + b
+    $BROWSER
+
+super + m
+    dmenu_mount
+super + shift + m
+    dmenu_umount
+
+super + period
+    $TERMINAL -n _dropdown_
+super + shift + period
+    dropdown
+
+# screenshots
+Print
+    makescreen
+ctrl + Print
+    makescreen window
+@shift + Print
+    makescreen part
+
+# music
+super + {_,shift +} n
+    mpc {toggle,stop}
+super + {equal,minus}
+    mpc {next,prev}
+super + {plus,underscore}
+    mpc seek {+,-}10

@@ -2,7 +2,7 @@
 
 pgrep -x dmenu && exit
 
-items="vifmrun
+items="vifm
 ncmpcpp
 calcurse
 python
@@ -12,4 +12,5 @@ tmux"
 program=$(echo -e -n "$items" | dmenu -i -p "Run dropdown:")
 [ "$?" -ne "0" ] && exit
 [ "$program" = "python" -o "$program" = "ncmpcpp" ] && program="$program -q"
-exec $TERMINAL -n dropdown $program
+[ "$program" = "vifm" ] && program="vifmrun"
+exec $TERMINAL -n "${TERMINAL}_dropdown_" $program

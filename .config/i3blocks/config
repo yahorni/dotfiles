@@ -1,10 +1,7 @@
 # i3blocks config file
 # vim: ft=dosini
-#
-# Please see man i3blocks for a complete reference!
-# The man page is also hosted at http://vivien.github.io/i3blocks
-#
-# List of valid properties:
+
+# valid properties:
 #
 # align
 # color
@@ -21,42 +18,34 @@
 # signal
 # urgent
 
-# Global properties
-#
-# The top properties below are applied to every block, but can be overridden.
-# Each block command defaults to the script name to avoid boilerplate.
-command=/usr/lib/i3blocks/$BLOCK_NAME
+# command=/usr/lib/i3blocks/$BLOCK_NAME
+command="$XDG_CONFIG_HOME/i3blocks/blocks/$BLOCK_NAME"
 separator_block_width=10
 markup=none
 
 [mpd]
 interval=once
 signal=9
-command=i3mpd
 separator=true
 
-# [words]
-# label=🇬🇧
-# interval=300
-# signal=13
-# command=i3dictionary
-# separator=true
+[torrent]
+interval=20
+signal=14
+separator=true
 
-# [timer]
-# label=Timer:
-# interval=30
-# command=i3timer
-# separator=true
+[words]
+label=🇬🇧
+interval=300
+signal=13
+separator=true
 
 [volume]
 interval=once
-command=i3volume
 signal=10
 separator=true
 
 [brightness]
 interval=once
-command=i3brightness
 signal=11
 separator=true
 
@@ -77,7 +66,6 @@ interval=10
 separator=true
 
 [battery]
-command=i3battery
 interval=15
 separator=false
 
@@ -85,11 +73,9 @@ separator=false
 label=🌡️
 interval=15
 
-[xkbmon]
-command=i3language
+[language]
 signal=12
-interval=3
+interval=10
 
-[time]
-command=date '+%Y-%m-%d %H:%M'
+[datetime]
 interval=60

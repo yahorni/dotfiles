@@ -1,0 +1,11 @@
+#!/bin/sh
+
+folders="wallpapers
+screenshots"
+
+folder=$(echo -e -n "$folders" | dmenu -i -p "Choose folder:")
+
+case $folder in
+    wallpapers) sxiv -t $WALLPAPERS ;;
+    screenshots) sxiv -t $SCREENSHOTS ;;
+esac

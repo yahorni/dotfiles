@@ -36,7 +36,7 @@ def set_colors(colors):
 # Some custom bindings
 config.bind('ci', set_colors(invert_colors))
 config.bind('cs', set_colors(default_colors))
-config.bind('cf', 'set content.images false')
+#  config.bind('cf', 'set content.images false')
 config.bind('xla', 'spawn tsp ytloader -f a {url}')
 config.bind('xll', 'spawn tsp ytloader -f l {url}')
 config.bind('xlm', 'spawn tsp ytloader -f m {url}')
@@ -81,6 +81,9 @@ config.bind(',a', f'config-cycle content.user_stylesheets {themes_path}-all-site
 config.bind(',h', f'config-cycle content.user_stylesheets ~/.local/share/styles/habr.css "" ;; reload')
 config.bind(',c', f'config-cycle content.user_stylesheets ~/.local/share/styles/cpp.css "" ;; reload')
 config.bind(',s', f'config-cycle content.user_stylesheets ~/.local/share/styles/stack.css "" ;; reload')
+
+
+c.content.host_blocking.lists = ['https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling/hosts', 'file:///home/george/Documents/hosts']
 
 ## Time interval (in milliseconds) between auto-saves of
 ## config/cookies/etc.
@@ -647,7 +650,7 @@ c.content.host_blocking.whitelist = []
 
 ## Load images automatically in web pages.
 ## Type: Bool
-c.content.images = False
+#  c.content.images = False
 
 ## Show javascript alerts.
 ## Type: Bool

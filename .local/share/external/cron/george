@@ -1,3 +1,2 @@
 * * * * * /home/george/.scripts/i3mpdupdate
-* * * * * /home/george/.scripts/daylog
 * * * * * eval "export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus"; /home/george/.scripts/hibernator

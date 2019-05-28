@@ -1,21 +1,13 @@
 #!/bin/bash
 
-suffix="_inverted"
+suffix="_inverted_"
 wid=$(xdotool getwindowfocus)
 class=$(xprop -id $wid | grep "WM_CLASS" | sed -n 's/.*"\(.*\)".*".*"$/\1/p')
 
-if [[ "$class" =~ .*$suffix$ ]]; then
-	length=$((${#class} - ${#suffix}))
-	class="${class:0:$length}"
+if [[ "$class" =~ .*${suffix}.* ]]; then
+    class="$(echo $class | sed "s/$suffix//")"
 else
-	class="${class}${suffix}"
+    class="${class}${suffix}"
 fi
 
 xdotool set_window --classname "$class" $wid
-
-coincidence=$(ps -eo "cmd" | \
-	grep "compton.\+invert-color-include class_i" | wc -l)
-if [ $coincidence -lt 2 ]; then
-	pkill compton
-	setsid compton --invert-color-include 'class_i%="*_inverted"' &
-fi
