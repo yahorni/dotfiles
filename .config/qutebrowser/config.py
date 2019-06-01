@@ -20,6 +20,12 @@ parameters = [
 invertions = ['#DEB887', 'white', 'black', 'white', 'black']
 invert_colors = dict(zip(parameters, invertions))
 
+# remove dumb directories on close
+closecmd = "spawn --userscript closequte"
+config.bind('<Ctrl-Q>', closecmd)
+config.bind('ZQ', closecmd)
+config.bind('zq', closecmd)
+
 # Remember default values for colors
 default_colors = {}
 for parameter in parameters:
@@ -56,7 +62,8 @@ c.editor.command = ['st', '-e', 'nvim', '{}']
 ## Type: Dict
 c.aliases = {
     'w': 'session-save',
-    'q': 'quit',
+    #  'q': 'quit',
+    'q': closecmd,
     'c': 'close',
     'wq': 'quit --save',
     'bd': 'bookmark-del',

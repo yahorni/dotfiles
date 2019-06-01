@@ -17,11 +17,16 @@ artist="$(mpc status -f "%artist%" | cut -d $'\n' -f1)"
 title="$(mpc status -f "%title%" | cut -d $'\n' -f1)"
 
 if [ ! -z "$title" ]; then
-    song="$artist - $title"
+    if [ ! -z "$artist" ]; then
+        song="$artist — $title"
+    else
+        song="$title"
+    fi
 else
     file="$(mpc status -f "%file%" | cut -d $'\n' -f1)"
     file="${file##*/}"
-    song="${file%%.*}"
+    song="${file%.*}"
 fi
+
 
 echo "🎵 $song $stat"

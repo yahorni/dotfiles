@@ -1,0 +1,50 @@
+set editor = `echo \$EDITOR`
+
+set imap_user = "egor1998nick@gmail.com"
+set realname = "Egor"
+set from = "$imap_user"
+
+set folder = "imaps://imap.gmail.com:993"
+set imap_check_subscribed
+
+set header_cache = "~/.cache/mutt/headers"
+set message_cachedir = "~/.cache/mutt/bodies"
+
+set use_from = yes
+
+set sort=reverse-date
+
+set smtp_url = "smtps://$imap_user@smtp.gmail.com:465"
+set ssl_force_tls = yes
+
+set spoolfile = "+INBOX"
+set record="+[Gmail]/Sent Mail"
+set postponed="+[Gmail]/Drafts"
+set trash = "+[Gmail]/Trash"
+
+mailboxes =INBOX =[Gmail]/Sent\ Mail =[Gmail]/Drafts =[Gmail]/Trash
+
+unset imap_passive
+
+set imap_keepalive = 300
+set mail_check = 120
+
+source colors.muttrc
+
+bind pager g top
+bind pager G bottom
+bind attach,index g first-entry
+bind attach,index G last-entry
+
+set sidebar_visible = yes
+set sidebar_width = 25
+set mail_check_stats
+set sidebar_format = '%B%?F? [%F]?%* %?N?%N/?%S'
+
+bind index,pager \Cp sidebar-prev
+bind index,pager \Cn sidebar-next
+bind index,pager \Co sidebar-open
+bind index,pager B sidebar-toggle-visible
+
+macro index,pager \cb "<pipe-message> urlscan<Enter>" "call urlscan to extract URLs out of a message"
+macro attach,compose \cb "<pipe-entry> urlscan<Enter>" "call urlscan to extract URLs out of a message"

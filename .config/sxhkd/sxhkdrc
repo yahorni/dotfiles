@@ -9,7 +9,7 @@ super + shift + w
 super + e
     $TERMINAL
 super + shift + e
-    $TERMINAL -e calcurse -D "$XDG_CONFIG_HOME"/calcurse
+    $TERMINAL -e neomutt
 
 super + t
     $TERMINAL -e newsboat -q
@@ -27,13 +27,14 @@ super + {_, shift +} bracketright
 super + backslash
     invert_colors
 
+super + s
+    $TERMINAL -e calcurse -D "$XDG_CONFIG_HOME"/calcurse
+
 super + d
     dmenu_run
-super + shift + d
-    dmenu_dict
 
 super + {_, shift +} g
-    corner_window {,-H left}
+    corner_window {_,-H left}
 
 super + Return
     $TERMINAL
@@ -41,17 +42,17 @@ super + shift + Return
     samedir
 
 super + x
-    translate.py -sn
+    dmenu_dict
 super + shift + x
     translate.py -dn
 
 super + c
     show_selections
+super + shift + c
+    translate.py -sn
 
 super + v
     $TERMINAL -e vifmrun
-super + shift + v
-    $TERMINAL -e neomutt
 
 super + b
     pgrep $BROWSER || $BROWSER

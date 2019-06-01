@@ -55,7 +55,7 @@ y_percent="${y_perc:-default_y}"
 
 pid=$(xdotool getwindowfocus)
 name="$(xdotool getwindowname $pid)"
-notify-send "Window" "Name: $name\nWindow ID: $pid"
+# notify-send "Window" "Name: $name\nWindow ID: $pid"
 
 is_floating=$(xprop -id $pid | grep I3_FLOATING_WINDOW | wc -l)
 [ "$is_floating" -eq 0 ] && i3-msg "[id=\"$pid\"] floating enable" > /dev/null

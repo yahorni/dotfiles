@@ -3,9 +3,10 @@
 options="xcompmgr
 compton
 nm-applet
-safeeyes
 qbittorrent
+transmission-da
 qutebrowser
+safeeyes
 flameshot
 telegram
 vk"

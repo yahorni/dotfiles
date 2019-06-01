@@ -2,5 +2,10 @@
 
 pgrep -x i3lock >/dev/null && exit
 
-lock="i3lock -e -f -c 303030 -i $HOME/Documents/lockimage"
-$lock && sleep 1 && xset dpms force off
+image="$HOME/Documents/lockimage"
+
+i3lock -k --bar-indicator -e -f -c 303030 -i "$image"
+
+if [ "$?" -eq 0 -a "$1" = "--dpms" ]; then
+    sleep 1 && xset dpms force off
+fi

@@ -61,10 +61,6 @@ Plug 'junegunn/fzf.vim'
 " vifm
 Plug 'vifm/vifm.vim'
 
-" js
-Plug 'pangloss/vim-javascript'
-Plug 'maksimr/vim-jsbeautify'
-
 " c++
 Plug 'zchee/deoplete-clang'
 Plug 'google/vim-maktaba'
@@ -74,10 +70,6 @@ Plug 'uplus/vim-clang-rename'
 
 " tags
 Plug 'majutsushi/tagbar'
-
-" html
-Plug 'mattn/emmet-vim'
-Plug 'othree/html5.vim'
 
 " wal colorscheme
 Plug 'dylanaraps/wal.vim'
@@ -128,8 +120,10 @@ set modeline
 set modelines=5
 set noshowmode
 set showcmd
-set conceallevel=2
+
+set conceallevel=1
 set concealcursor=nc
+
 set wildmenu
 set wildmode=longest,list,full
 set mouse=a
@@ -256,7 +250,7 @@ let g:closetag_shortcut = '>'
 let g:closetag_emptyTags_caseSensitive = 1
 nnoremap <silent> <leader>t :CloseTagToggleBuffer<CR>
 au BufNewFile,BufRead * :CloseTagDisableBuffer<CR>
-au BufNewFile,BufRead *.html,*.xml,*.ejs :CloseTagEnableBuffer<CR>
+au BufNewFile,BufRead *.html,*.xml :CloseTagEnableBuffer<CR>
 
 " Auto-pairs toggling (brackets)
 let g:AutoPairsShortcutToggle = '<leader>P'
@@ -306,15 +300,12 @@ endif
 let g:ale_fixers = {
             \   '*': ['remove_trailing_lines', 'trim_whitespace'],
             \   'python': ['autopep8', 'isort', 'black'],
-            \   'javascript': ['prettier'],
             \}
 let g:ale_linters = {
             \   'python': ['flake8', 'pylint'],
             \   'tex': ['chktex'],
             \   'cpp': ['cppcheck', 'clang', 'gcc'],
             \   'c': ['clang', 'gcc'],
-            \   'html': ['tidy'],
-            \   'css': ['stylelint', 'prettier'],
             \}
 let g:ale_set_highlights = 1
 let g:ale_lint_on_text_changed = 'never'
@@ -371,22 +362,6 @@ nnoremap <silent> <C-W>t :TagbarToggle<CR>
 " c++
 au FileType c,cpp AutoFormatBuffer clang-format
 au FileType c,cpp nmap <buffer><silent> <leader>r <Plug>(clang_rename-current)
-
-" emmet
-let g:user_emmet_install_global = 0
-autocmd FileType html,css EmmetInstall
-
-" json format
-" au BufWritePre *.json :%!jq '.'
-au FileType javascript noremap <buffer>  <c-f> :call JsBeautify()<cr>
-" for json
-au FileType json noremap <buffer> <c-f> :call JsonBeautify()<cr>
-" for jsx
-au FileType jsx noremap <buffer> <c-f> :call JsxBeautify()<cr>
-" for html
-au FileType html noremap <buffer> <c-f> :call HtmlBeautify()<cr>
-" for css or scss
-au FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>
 
 " shfmt
 au FileType sh noremap <buffer> <c-f> :%!shfmt<cr>
