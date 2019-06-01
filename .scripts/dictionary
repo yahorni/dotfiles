@@ -1,0 +1,41 @@
+#!/bin/bash
+
+dictionary_path="$HOME/.local/share/dictionary"
+dictionary="$dictionary_path/dictionary.txt"
+last_word="$dictionary_path/last_word.txt"
+
+notify_title="🇬🇧 Dictionary"
+
+set_word() {
+    shuf -n 1 $dictionary > $last_word
+}
+
+get_word() {
+    [ ! -f $last_word ] && set_word
+    cat $last_word
+}
+
+show_current() {
+    cat $last_word | translate.py -wn
+}
+
+add_word() {
+    pgrep -x dmenu && exit
+    word="$(echo | dmenu -i -p "Enter new word")"
+    if [ ! -z $word ]; then
+        grep "^$word$" "$dictionary"
+        if [ "$?" -ne 0 ]; then
+            echo $word >> "$dictionary"
+            notify-send "$notify_title" "'$word' added"
+        else
+            notify-send "$notify_title" "Word already exists"
+        fi
+    fi
+}
+
+case "$1" in
+    add) add_word ;;
+    show) show_current ;;
+    set) set_word ;;
+    get) get_word ;;
+esac

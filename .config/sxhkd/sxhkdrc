@@ -42,7 +42,7 @@ super + shift + Return
     samedir
 
 super + x
-    dmenu_dict
+    dictionary add
 super + shift + x
     translate.py -dn
 

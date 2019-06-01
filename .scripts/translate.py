@@ -49,7 +49,10 @@ if args.get('selection'):
     if not unknown_word or unknown_word == '\n':
         unknown_word = subprocess.check_output("xsel -b -o", shell=True).decode("utf-8")
 elif args.get('dmenu'):
-    unknown_word = subprocess.check_output('dmenu -i -p "Enter word to translate" <&-', shell=True)[:-1].decode("utf-8")
+    try:
+        unknown_word = subprocess.check_output('dmenu -i -p "Enter word to translate" <&-', shell=True)[:-1].decode("utf-8")
+    except subprocess.CalledProcessError:
+        exit(0)
 elif args.get('word'):
     unknown_word = input().strip()
 else:
