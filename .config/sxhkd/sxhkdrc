@@ -21,14 +21,19 @@ super + p
 super + shift + p
     fastkill
 
+super + {_, shift +} bracketleft
+    translate.py -{s,d}n
+
 super + {_, shift +} bracketright
-    i3dictionary {show,next}
+    dictionary {show,set}
 
 super + backslash
     invert_colors
 
 super + s
     $TERMINAL -e calcurse -D "$XDG_CONFIG_HOME"/calcurse
+super + shift + s
+    dictionary add
 
 super + d
     dmenu_run
@@ -41,15 +46,10 @@ super + Return
 super + shift + Return
     samedir
 
-super + x
-    dictionary add
-super + shift + x
-    translate.py -dn
-
 super + c
     show_selections
 super + shift + c
-    translate.py -sn
+    clipmenu
 
 super + v
     $TERMINAL -e vifmrun

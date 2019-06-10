@@ -8,10 +8,10 @@ transmission-da
 qutebrowser
 safeeyes
 flameshot
-telegram
+telegram-deskto
 vk"
 
-for item in `echo -e $options`; do pgrep "$item" >/dev/null && items="$item\n$items" ; done
+for item in `echo -e $options`; do pgrep -x "$item" >/dev/null && items="$item\n$items" ; done
 
 item=$(echo -e $items | dmenu -i -p "Which one to kill?")
 [[ "$?" -eq "1" ]] && exit 1

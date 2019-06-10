@@ -6,11 +6,8 @@ case $BLOCK_BUTTON in
     1)
         $dictprog show
         ;;
-    3)
+    *)
         $dictprog set    
-        $dictprog get    
-        pkill -RTMIN+13 i3blocks
-        exit
         ;;
 esac
 

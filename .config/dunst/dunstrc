@@ -41,7 +41,7 @@
     # The transparency of the window.  Range: [0; 100].
     # This option will only work if a compositing window manager is
     # present (e.g. xcompmgr, compiz, etc.).
-    transparency = 12
+    transparency = 15
 
     # The height of the entire notification.  If the height is smaller
     # than the font height and padding combined, it will be raised
@@ -61,10 +61,14 @@
 
     # Defines width in pixels of frame around the notification window.
     # Set to 0 to disable.
-    frame_width = 1
+    frame_width = 3
+
+    # Define the corner radius in pixels. A corner radius of 0 will 
+    # result in rectangular shaped notifications.
+    corner_radius = 5
 
     # Defines color of the frame around the notification window.
-    frame_color = "#aaaaaa"
+    frame_color = "#006060"
 
     # Define a color for the separator.
     # possible values are:
@@ -85,7 +89,7 @@
 
     ### Text ###
 
-    font = Liberation Mono 12
+    font = monospace 12
 
     # The spacing between lines.  If the height is smaller than the
     # font height, it will get raised to the font height.
@@ -174,7 +178,7 @@
     sticky_history = yes
 
     # Maximum amount of notifications kept in history
-    history_length = 5
+    history_length = 10
 
     ### Misc/Advanced ###
 
@@ -252,7 +256,7 @@
     #icon = /path/to/icon
 
 [urgency_normal]
-    background = "#406080"
+    background = "#608020"
     foreground = "#ffffff"
     timeout = 3
     # Icon for notifications with normal urgency, uncomment to enable

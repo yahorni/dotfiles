@@ -1,12 +1,6 @@
-# vim: filetype=i3
+# vim: filetype=i3:set fdm=marker foldlevel=0:
 
 set $mod Mod4
-set $ensi exec --no-startup-id
-
-set $mpd_signal         pkill -RTMIN+9 i3blocks
-set $volume_signal      pkill -RTMIN+10 i3blocks
-set $brightness_signal  pkill -RTMIN+11 i3blocks
-set $language_signal    pkill -RTMIN+12 i3blocks
 
 # Colors
 client.focused          #4c7899 #285577 #ffffff #556b2f #00f0a0
@@ -23,8 +17,22 @@ for_window [instance="^.*_dropdown_.*$"] sticky enable
 # gaps size
 gaps inner 9
 
+# i3blocks
+set_from_resource $background color0
+bar {
+    font pango:monospace bold 10
+    status_command i3blocks
+    position top
+    colors {
+        background $background
+    }
+}
+
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
+
+# i3 specific bindings
+# {{{
 
 # fullscreen
 bindsym $mod+f          fullscreen toggle
@@ -49,27 +57,48 @@ bindsym $mod+shift+space    floating toggle
 # scratchpad
 bindsym $mod+slash          move scratchpad
 bindsym $mod+shift+slash    scratchpad show
-bindsym $mod+comma          $ensi i3-msg sticky toggle
+bindsym $mod+comma          exec i3-msg sticky toggle
+
+# }}}
 
 # i3blocks signals
-bindsym $mod+n                  $ensi $mpd_signal
-bindsym $mod+Shift+n            $ensi $mpd_signal
-bindsym $mod+equal              $ensi $mpd_signal
-bindsym $mod+Shift+equal        $ensi $mpd_signal
-bindsym $mod+minus              $ensi $mpd_signal
-bindsym $mod+Shift+minus        $ensi $mpd_signal
-bindsym XF86AudioMute           $ensi $volume_signal
-bindsym XF86AudioLowerVolume    $ensi $volume_signal
-bindsym XF86AudioRaiseVolume    $ensi $volume_signal
-bindsym XF86MonBrightnessUp     $ensi $brightness_signal
-bindsym XF86MonBrightnessDown   $ensi $brightness_signal
-bindsym Caps_Lock               $ensi $language_signal
+# {{{
+set $mpd_signal     exec pkill -RTMIN+9  i3blocks
+set $volume_signal  exec pkill -RTMIN+10 i3blocks
+set $bright_signal  exec pkill -RTMIN+11 i3blocks
+set $lang_signal    exec pkill -RTMIN+12 i3blocks
+set $dict_signal    exec pkill -RTMIN+13 i3blocks
 
+bindsym $mod+n                  $mpd_signal
+bindsym $mod+Shift+n            $mpd_signal
+bindsym $mod+equal              $mpd_signal
+bindsym $mod+Shift+equal        $mpd_signal
+bindsym $mod+minus              $mpd_signal
+bindsym $mod+Shift+minus        $mpd_signal
+
+bindsym XF86AudioMute           $volume_signal
+bindsym XF86AudioLowerVolume    $volume_signal
+bindsym XF86AudioRaiseVolume    $volume_signal
+
+bindsym XF86MonBrightnessUp     $bright_signal
+bindsym XF86MonBrightnessDown   $bright_signal
+
+bindsym Caps_Lock               $lang_signal
+
+bindsym $mod+bracketleft        $dict_signal
+bindsym $mod+Shift+bracketleft  $dict_signal
+bindsym $mod+bracketright       $dict_signal
+bindsym $mod+Shift+bracketright $dict_signal
+# }}}
+
+# windows
+# {{{
 # change focus
 bindsym $mod+h focus left
 bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
+
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
@@ -80,11 +109,15 @@ bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
+
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
+# }}}
 
+# workspaces
+# {{{
 # Define names for default workspaces
 set $ws1 "1"
 set $ws2 "2"
@@ -123,10 +156,16 @@ bindsym $mod+Shift+0 move container to workspace $ws10
 
 bindsym $mod+Control+Left  workspace prev
 bindsym $mod+Control+Right workspace next
+
 bindsym $mod+Control+h     workspace prev
 bindsym $mod+Control+l     workspace next
+# }}}
 
-bindsym $mod+r mode "resize"
+# custom modes
+# {{{
+bindsym $mod+r          mode "resize"
+bindsym $mod+Shift+r    mode "gaps"
+
 mode "resize" {
     set $res1 5
     set $res2 1
@@ -135,26 +174,17 @@ mode "resize" {
     bindsym j resize grow height $res1 px or $res1 ppt
     bindsym k resize shrink height $res1 px or $res1 ppt
     bindsym l resize grow width $res1 px or $res1 ppt
-    bindsym Shift+h resize shrink width $res2 px or $res2 ppt
-    bindsym Shift+j resize grow height $res2 px or $res2 ppt
-    bindsym Shift+k resize shrink height $res2 px or $res2 ppt
-    bindsym Shift+l resize grow width $res2 px or $res2 ppt
 
-    bindsym Left resize shrink width $res1 px or $res1 ppt
-    bindsym Down resize grow height $res1 px or $res1 ppt
-    bindsym Up resize shrink height $res1 px or $res1 ppt
+    bindsym Left  resize shrink width $res1 px or $res1 ppt
+    bindsym Down  resize grow height $res1 px or $res1 ppt
+    bindsym Up    resize shrink height $res1 px or $res1 ppt
     bindsym Right resize grow width $res1 px or $res1 ppt
-    bindsym Shift+Left resize shrink width $res2 px or $res2 ppt
-    bindsym Shift+Down resize grow height $res2 px or $res2 ppt
-    bindsym Shift+Up resize shrink height $res2 px or $res2 ppt
-    bindsym Shift+Right resize grow width $res2 px or $res2 ppt
 
     bindsym Return mode "default"
     bindsym Escape mode "default"
     bindsym $mod+r mode "default"
 }
 
-bindsym $mod+Shift+v mode "gaps"
 mode "gaps" {
     set $res1 5
     set $res2 1
@@ -164,18 +194,13 @@ mode "gaps" {
     bindsym k gaps inner current plus $res2
     bindsym l gaps inner current plus $res1
 
+    bindsym Left  gaps inner current minus $res1
+    bindsym Down  gaps inner current minus $res2
+    bindsym Up    gaps inner current plus $res2
+    bindsym Right gaps inner current plus $res1
+
     bindsym Return mode "default"
     bindsym Escape mode "default"
     bindsym $mod+r mode "default"
 }
-
-set_from_resource $background color0
-bar {
-    font pango:liberation mono bold 10
-    status_command i3blocks
-    position top
-    colors {
-        background #121240
-        background $background
-    }
-}
+# }}}

@@ -123,6 +123,9 @@ mark d ~/Documents
 mark w ~/Downloads
 mark m ~/Media
 mark w ~/Work
+mark F ~/Media/films
+mark M ~/Media/music
+mark P ~/Media/pictures
 
 " ------------------------------------------------------------------------------
 
@@ -415,7 +418,7 @@ nnoremap w :view<cr>
 vnoremap w :view<cr>gv
 
 nnoremap o :!$TERMINAL -e $EDITOR %f &<cr>
-nnoremap O :!sxiv %f<cr>
+nnoremap O :!sxiv -t %d<cr>
 nnoremap cx :!chmod +x %f<cr>
 nnoremap cX :!chmod -x %f<cr>
 

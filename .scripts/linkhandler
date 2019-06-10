@@ -1,7 +1,7 @@
 #!/bin/bash
 
 case "$1" in
-    *youtube.com/watch*)
+    *youtube.com/watch*|*youtube.com/playlist*|*youtu.be*)
         notify-send "Opening" "$1"
         setsid ytstream "$1" & ;;
     *mkv|*webm|*mp4|*3gp|*avi)

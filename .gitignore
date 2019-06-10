@@ -13,6 +13,7 @@
 !.inputrc
 !.tmux.conf
 !.xinitrc
+!.xprofile
 !.Xresources
 
 # Local folder

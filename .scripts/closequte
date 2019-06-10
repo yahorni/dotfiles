@@ -1,4 +1,4 @@
 #!/bin/sh
 
-rm -rf "$HOME/databases-incognito" "$HOME/VideoDecodeStats"
-echo "close" >> "$QUTE_FIFO"
+rm -rf "databases-incognito" "VideoDecodeStats"
+echo "close" >> "$QUTE_FIFO" &
