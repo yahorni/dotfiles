@@ -14,4 +14,5 @@ case "$1" in
     "y") echo -n "$file" | xclip -selection clipboard && notify-send "Copied to clipboard" "$file" & ;;
     "Y") echo -n "$(readlink -f "$file")" | xclip -selection clipboard && notify-send "Copied to clipboard" "$(readlink -f "$file")" & ;;
     "d") ([ "$(printf "No\\nYes" | dmenu -i -p "Really delete $file?")" = "Yes" ] && rm "$file" && notify-send "$file deleted.") & ;;
+    "g") dragon "$file" & ;;
 esac

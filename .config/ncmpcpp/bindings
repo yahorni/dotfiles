@@ -573,4 +573,7 @@ def_key "G"
 	move_end
 
 def_key "t"
- jump_to_position_in_song
+    jump_to_position_in_song
+
+def_key "D"
+    delete_stored_playlist

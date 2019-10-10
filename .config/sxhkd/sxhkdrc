@@ -30,13 +30,18 @@ super + {_, shift +} bracketright
 super + backslash
     invert_colors
 
+super + {_, shift +} a
+    power_manager {suspend,lock}
+
 super + s
     $TERMINAL -e calcurse -D "$XDG_CONFIG_HOME"/calcurse
 super + shift + s
-    dictionary add
+    firefox
 
 super + d
     dmenu_run
+super + shift + d
+    dictionary add
 
 super + {_, shift +} g
     corner_window {_,-H left}

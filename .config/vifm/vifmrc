@@ -120,12 +120,16 @@ mark h ~/
 mark s ~/.local/share
 mark c ~/.config
 mark d ~/Documents
-mark w ~/Downloads
+mark l ~/Downloads
 mark m ~/Media
 mark w ~/Work
+
 mark F ~/Media/films
 mark M ~/Media/music
 mark P ~/Media/pictures
+mark V ~/Media/videos
+mark D ~/Media/downloads
+mark S ~/Media/serials
 
 " ------------------------------------------------------------------------------
 
@@ -339,6 +343,9 @@ filetype *.fb2 fbless %f
 " Qt projects
 filextype *.pro qtcreator %f &
 
+" SC-IM spreadsheets
+filetype *.sc sc-im %f
+
 " Directories
 " filextype */
         " \ {View in thunar}
@@ -346,6 +353,10 @@ filextype *.pro qtcreator %f &
 
 " Sqlite3
 filextype *.db,*.sqlite3 sqlitebrowser %f &
+
+" Jupyter ipynb
+fileviewer *.ipynb highlight -O ansi --syntax json %c
+filextype *.ipynb jupyter notebook %f %i &
 
 " Syntax highlighting in preview
 fileviewer *.html,*.htm,*.css,*.py,*.c,*.cpp,*.go,*.h,*.sh,*.diff,*.tex,*.md,*.js,*.json,*.sql,Makefile,*.mk highlight -O ansi %c
@@ -417,13 +428,31 @@ nnoremap S :sort<cr>
 nnoremap w :view<cr>
 vnoremap w :view<cr>gv
 
-nnoremap o :!$TERMINAL -e $EDITOR %f &<cr>
-nnoremap O :!sxiv -t %d<cr>
+" CUSTOM
+
+" edit file
+nnoremap xf :!$TERMINAL -e $EDITOR %f %i &<cr>
+" edit in directory
+nnoremap xd :!$EDITOR .<cr>
+" open with xdg-open
+nnoremap xo :!xdg-open %f &<cr>
+" show pictures
+nnoremap xp :!sxiv -t %d &<cr>
+" edit new file
+nnoremap xn :!$EDITOR<cr>
+" use file for drag'n'drop
+nnoremap xg :!dragon %f &<cr>
+" convert via unoconv
+nnoremap xu :!unoconv %f &<cr>
+" add executable rights
 nnoremap cx :!chmod +x %f<cr>
+" remove executable rights
 nnoremap cX :!chmod -x %f<cr>
 
-nnoremap gd :!dragon %f &<cr>
-vnoremap gd :!dragon %f &<cr>
+nnoremap zq ZQ
+nnoremap zz ZZ
+
+" ---------------------------
 
 " Open file in the background using its default program
 nnoremap gb :file &<cr>l

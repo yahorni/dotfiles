@@ -6,7 +6,8 @@ base="${file%.*}"
 
 cd "$dir" || exit
 
-args="${@:2}"
+mode="$2"
+args="${@:3}"
 
 get_root() {
     grep -q '% !TeX root = ' "$file" || return
@@ -15,18 +16,25 @@ get_root() {
     cd "$(dirname "$file")"
 }
 
-case "$file" in
-    *\.cpp) g++ -g -O0 -Wall -Wextra -pedantic -o "$base" "$file" ;;
-    *\.ms) groff -ms "$file" $args -T pdf > "$base".pdf ;;
-    *\.py) python3 "$1" $args ;;
-    *\.md) pandoc "$file" --pdf-engine=xelatex $args -o "$base".pdf ;;
-    *\.tex) get_root ; xelatex $args "$file" ;;
-    *\.go) go run "$file" $args ;;
-    *\.html) $BROWSER "$file" ;;
-    *\.Xresources) xrdb -merge "$file" ;;
-    *config\.h) make && sudo make install ;;
-    *) sed 1q "$file" | grep "^#!/" | sed "s/^#!//" | xargs -r -I % "$file" $args ;;
-esac
+if [ -z "$mode" -o "$mode" = "-" ]; then
+    case "$file" in
+        *\.cpp) g++ -g -O0 -Wall -Wextra -pedantic -o "$base" "$file" ;;
+        *\.ms) groff -ms "$file" $args -T pdf > "$base".pdf ;;
+        *\.py) python3 "$1" $args ;;
+        *\.md) pandoc "$file" --pdf-engine=xelatex $args -o "$base".pdf ;;
+        *\.tex) get_root ; xelatex $args "$file" ;;
+        *\.go) go run "$file" $args ;;
+        *\.html) $BROWSER "$file" ;;
+        *\.Xresources) xrdb -merge "$file" ;;
+        *config\.h) make && sudo make install ;;
+        *\.r) Rscript "$file" ;;
+        *) sed 1q "$file" | grep "^#!/" | sed "s/^#!//" | xargs -r -I % "$file" $args ;;
+    esac
+else
+    case "$file" in
+        *\.md) pandoc "$file" -t beamer --pdf-engine=xelatex $args -o "$base".pdf ;;
+        *\.tex) pdflatex "$file" ;;
+        *\.cpp|*\.h) cd build && cmake .. && make ;;
+    esac
+fi
 
-# beamer: -t beamer
-# svg pics: --shell-escape

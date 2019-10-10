@@ -13,6 +13,7 @@ let g:NERDSpaceDelims = 1
 let g:NERDDefaultAlign = 'left'
 let g:NERDTrimTrailingWhitespace = 1
 let g:NERDToggleCheckAllLines = 1
+let g:NERDCustomDelimiters = {'': {'left': '#','right': '' }}
 if (&term!='linux')
     nmap <C-_> <plug>NERDCommenterInvert<ESC>j0
     vmap <C-_> <plug>NERDCommenterInvert<ESC>j0
@@ -29,7 +30,7 @@ Plug 'tpope/vim-fugitive'
 " improved quoting/parenthesizing
 Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
-let g:AutoPairsShortcutToggle = '<leader>P'
+let g:AutoPairsShortcutToggle = '<A-P>'
 Plug 'alvan/vim-closetag'
 let g:closetag_filenames = '*'
 let g:closetag_filetypes = '*'
@@ -50,7 +51,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_alt_sep = ''
 let g:airline#extensions#tabline#left_sep = ''
 if (&term!='linux')
-    let g:airline_theme='hybrid'
+    let g:airline_theme='minimalist' "hybrid
     let g:airline#extensions#xkblayout#enabled = 1
     let g:airline_powerline_fonts = 1
     let g:airline_extensions = ['tabline', 'ale', 'branch', 'vimtex', 'whitespace', 'xkblayout']
@@ -137,39 +138,44 @@ endif
 " go
 Plug 'fatih/vim-go'
 au FileType go let g:go_fmt_fail_silently = 1
-au FileType go let g:SuperTabDefaultCompletionType = "context"
 au FileType go call deoplete#custom#buffer_option('auto_complete', v:false)
+au FileType go let g:SuperTabDefaultCompletionType = "context"
 
 " fzf
 Plug '/usr/bin/fzf'
 Plug 'junegunn/fzf.vim'
-nnoremap <silent> <C-W>b :Buffers<CR>
+nnoremap <silent> <C-b> :Buffers<CR>
 
 " vifm
 Plug 'vifm/vifm.vim'
 
 " c++
+" au FileType cpp,c,h let g:SuperTabDefaultCompletionType = <c-x><c-i>
 Plug 'zchee/deoplete-clang'
 let g:deoplete#sources#clang#libclang_path = '/usr/lib/libclang.so.8'
 let g:deoplete#sources#clang#clang_header = '/usr/lib/clang/'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'google/vim-maktaba'
 Plug 'google/vim-codefmt'
-au FileType c,cpp AutoFormatBuffer clang-format
+au FileType c,cpp,h AutoFormatBuffer clang-format
 Plug 'uplus/vim-clang-rename'
-au FileType c,cpp nmap <buffer><silent> <leader>r <Plug>(clang_rename-current)
+au FileType c,cpp,h nn <leader>r :ClangRename<CR>
+Plug 'derekwyatt/vim-fswitch'
+au FileType c,cpp,h nn <silent> <C-s> :FSHere<CR>
+au FileType c,cpp,h ino <silent> <C-s> <ESC>:FSHere<CR>
 
 " tags
 Plug 'majutsushi/tagbar'
-nnoremap <silent> <C-W>t :TagbarToggle<CR>
+nnoremap <silent> <C-T> :TagbarToggle<CR>
 
 " wal colorscheme
 Plug 'dylanaraps/wal.vim'
 
 " indentation
 Plug 'Yggdroot/indentLine'
-au FileType tex,markdown let g:indentLine_setColors = 0
-au FileType tex,markdown let g:indentLine_enabled = 0
+" can break conceallevel
+au FileType tex,markdown,json let g:indentLine_setColors = 0
+au FileType tex,markdown,json let g:indentLine_enabled = 0
 
 if (&term!='linux')
     " language switching
@@ -186,11 +192,19 @@ if (&term!='linux')
     " theme
     Plug 'vim-airline/vim-airline-themes'
     Plug 'drewtempelmeyer/palenight.vim'
+
 endif
 
 call plug#end()
 
 filetype plugin on
+
+set bg=dark
+if (&bg=='dark')
+    colo palenight
+    hi Normal ctermbg=233
+endif
+
 set laststatus=0
 set ffs=unix,dos,mac
 set encoding=utf-8
@@ -210,7 +224,6 @@ set relativenumber
 set nobackup
 set nowritebackup
 set noundofile
-set bg=dark
 set modeline
 set modelines=5
 set noshowmode
@@ -225,11 +238,8 @@ set splitbelow
 set splitright
 set fileformat=unix
 set nolist
-set conceallevel=1
-
-" colors
-colo palenight
-hi Normal ctermbg=233
+set conceallevel=0
+set concealcursor=nvic
 
 " change <paste> command behaviour
 xnoremap p "_dp
@@ -244,6 +254,9 @@ command! W :w
 command! WQ :wq
 command! Wq :wq
 command! -bang Q :q<bang>
+
+" custom exit keys
+nn zq ZQ
 
 " normal mode bindings
 nnoremap <silent> gr :noh<Enter>
@@ -295,13 +308,13 @@ nn gs :call ToggleResizeSplitMode()<CR>
 
 " file executing
 nn <leader>e :w <bar> :!compiler %<CR>
-nn <leader>E :w <bar> :!compiler %<SPACE>
+nn <leader>E :w <bar> :!compiler % 2<CR>
 
+" showing results
+au FileType tex,markdown nn <leader>p :!opout %<CR><CR>
 au FileType c,cpp nn <leader>p :!./%:r<CR>
 
-au FileType tex nn <leader>p :!opout %<CR><CR>
-au FileType tex nn <leader>c :w <bar> :!pdflatex %<CR>
-au FileType tex nn <leader>C :!texclear %:p:h<CR><CR>
+au FileType tex nn <leader>c :!texclear %:p:h<CR><CR>
 au VimLeave *.tex !texclear %:p:h
 
 " calcurse notes as markdown
@@ -318,8 +331,15 @@ au FileType python set textwidth=79
 au FileType c,cpp,javascript set tabstop=2 | set shiftwidth=2
 
 " shfmt
-au FileType sh noremap <buffer> <c-f> :%!shfmt<cr>
+au FileType sh nn <buffer> <c-f> :%!shfmt<cr>
+
+" format json
+au FileType json nn <buffer> <c-f> :%!python -m json.tool<cr>
 
 " buffer manipulation
 nn <silent> <A-h> :bprev<CR>
 nn <silent> <A-l> :bnext<CR>
+
+" line movements
+nn <C-j> gj
+nn <C-k> gk

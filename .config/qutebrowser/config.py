@@ -7,6 +7,22 @@
 ## Remove it to not load settings done via the GUI.
 # config.load_autoconfig()
 
+# fonts
+font_size = 12
+
+c.fonts.completion.category = f'bold {font_size}pt monospace'
+c.fonts.completion.entry = f'{font_size}pt monospace'
+c.fonts.debug_console = f'{font_size}pt monospace'
+c.fonts.downloads = f'{font_size}pt monospace'
+c.fonts.hints = f'bold {font_size}pt monospace'
+c.fonts.keyhint = f'{font_size}pt monospace'
+c.fonts.messages.error = f'{font_size}pt monospace'
+c.fonts.messages.info = f'{font_size}pt monospace'
+c.fonts.messages.warning = f'{font_size}pt monospace'
+c.fonts.prompts = f'{font_size}pt sans-serif'
+c.fonts.statusbar = f'{font_size}pt monospace'
+c.fonts.tabs = f'{font_size}pt monospace'
+
 # Set colors I want to change by command
 parameters = [
     'colors.completion.odd.bg',
@@ -44,18 +60,15 @@ config.bind('ci', set_colors(invert_colors))
 config.bind('cs', set_colors(default_colors))
 #  config.bind('cf', 'set content.images false')
 config.bind('xla', 'spawn tsp ytloader -f a {url}')
-config.bind('xll', 'spawn tsp ytloader -f l {url}')
-config.bind('xlm', 'spawn tsp ytloader -f m {url}')
-config.bind('xlh', 'spawn tsp ytloader -f h {url}')
+config.bind('xlv', 'spawn tsp ytloader {url}')
 config.bind('xhu', 'spawn linkhandler {url}')
-config.bind('xhc', 'spawn linkhandler {clipboard}')
-config.bind('xhp', 'spawn linkhandler {primary}')
 config.bind('xg', 'open -t {primary}')
-config.bind('xe', 'open -t enru {primary}')
-config.bind('xr', 'open -t ruen {primary}')
 config.bind('xw', 'open -t wrd {primary}')
 
-c.editor.command = ['st', '-e', 'nvim', '{}']
+import os
+terminal = os.getenv('TERMINAL', 'st')
+editor = os.getenv("EDITOR", 'nvim')
+c.editor.command = [terminal, '-e', editor, '{}']
 
 ## Aliases for commands. The keys of the given dictionary are the
 ## aliases, while the values are the commands they map to.

@@ -20,12 +20,13 @@ gaps inner 9
 # i3blocks
 set_from_resource $background color0
 bar {
-    font pango:monospace bold 10
+    font pango:monospace bold 11
     status_command i3blocks
     position top
     colors {
         background $background
     }
+    height 25
 }
 
 # Use Mouse+$mod to drag floating windows to their wanted position
@@ -204,3 +205,6 @@ mode "gaps" {
     bindsym $mod+r mode "default"
 }
 # }}}
+
+smart_gaps on
+smart_borders on

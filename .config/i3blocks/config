@@ -34,7 +34,7 @@ signal=14
 separator=true
 
 [words]
-label=🇬🇧
+label=🇬🇧 
 interval=300
 signal=13
 separator=true
@@ -50,12 +50,12 @@ signal=11
 separator=true
 
 [memory]
-label=mem
+label=mem 
 separator=false
 interval=30
 
 [cpu_usage]
-label=cpu
+label=cpu 
 interval=10
 separator=true
 

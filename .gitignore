@@ -18,10 +18,15 @@
 
 # Local folder
 .local/*
+## share
 !.local/share
 .local/share/*
 !.local/share/applications
 !.local/share/external
+## bin
+!.local/bin
+.local/bin/*
+!.local/bin/vifmrun
 
 # Config folders
 .config/*

@@ -2,13 +2,14 @@
 
 dunst &
 compton --invert-color-include "class_i%=\"*_inverted_*\"" &
-wal -Rn &
+# wal -Rn &
 unclutter &
 sxhkd &
 
 setwall &
-timewall &
+# timewall &
 
+redshift &
 safeeyes &
 
 xmodmap -e "keycode 135 = Super_R Menu"

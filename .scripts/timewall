@@ -11,8 +11,9 @@ new_wall_pic="/tmp/wall_with_time.png"
 
 midnight=$(date -u -d "00:00" +"%s")
 
-border_color="brown"
-text_color="orange"
+border_color="purple"
+text_color="#ba6f6a"
+text_size=300
 
 walsetter() {
     current=$(date -u -d "$(date +%R)" +"%s")
@@ -20,7 +21,7 @@ walsetter() {
 
     convert -size 1920x1080 xc:none \
         -stroke $border_color -strokewidth 4 \
-        -pointsize 400 -fill $text_color -gravity center \
+        -pointsize $text_size -fill $text_color -gravity center \
         -draw "text 0,0 '$left_time'" \
         -trim +repage "$time_pic"
 
