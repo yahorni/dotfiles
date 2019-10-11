@@ -11,6 +11,8 @@
 !.gitignore
 !.gtkrc-2.0
 !.inputrc
+!.Rprofile
+!.scimrc
 !.tmux.conf
 !.xinitrc
 !.xprofile
@@ -88,6 +90,7 @@
 # Vifm folder
 .config/vifm/*
 !.config/vifm/vifmrc
+!.config/vifm/colors
 !.config/vifm/scripts
 .config/vifm/scripts/*
 !.config/vifm/scripts/vifmimg
