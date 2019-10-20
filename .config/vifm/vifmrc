@@ -337,6 +337,8 @@ filextype *.odt,*.doc,*.docx,*.xls,*.xlsx,*.odp,*.pptx,*.ppt
 fileviewer *.doc,*.docx,*.ppt,*.pptx
        \ file --dereference -- %f | sed "s/,,/\n/g"
 
+fileviewer *.odt odt2txt %f
+
 " FB2
 filetype *.fb2 fbless %f
 
@@ -442,8 +444,13 @@ nnoremap xp :!sxiv -t %d &<cr>
 nnoremap xn :!$EDITOR<cr>
 " use file for drag'n'drop
 nnoremap xg :!dragon %f &<cr>
+vnoremap xg :!dragon %f &<cr>
 " convert via unoconv
 nnoremap xu :!unoconv %f &<cr>
+vnoremap xu :!unoconv %f &<cr>
+" extract files
+nnoremap xe :!extract %f<cr>
+vnoremap xe :!extract %f<cr>
 " add executable rights
 nnoremap cx :!chmod +x %f<cr>
 " remove executable rights

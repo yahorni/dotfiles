@@ -152,7 +152,7 @@ Plug 'vifm/vifm.vim'
 " c++
 " au FileType cpp,c,h let g:SuperTabDefaultCompletionType = <c-x><c-i>
 Plug 'zchee/deoplete-clang'
-let g:deoplete#sources#clang#libclang_path = '/usr/lib/libclang.so.8'
+let g:deoplete#sources#clang#libclang_path = '/usr/lib/libclang.so'
 let g:deoplete#sources#clang#clang_header = '/usr/lib/clang/'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'google/vim-maktaba'
@@ -259,12 +259,20 @@ command! -bang Q :q<bang>
 nn zq ZQ
 
 " normal mode bindings
-nnoremap <silent> gr :noh<Enter>
+nnoremap <silent> <C-a> :noh<Enter>
 nnoremap Y y$
 
 " moving in insert mpde
 inoremap <C-H> <Left>
 inoremap <C-L> <Right>
+
+" buffer manipulation
+nnoremap <silent> <A-h> :bprev<CR>
+nnoremap <silent> <A-l> :bnext<CR>
+
+" line movements
+nnoremap <C-u> gj
+nnoremap <C-i> gk
 
 " different cursors per mode
 if (&term!='linux')
@@ -304,7 +312,7 @@ nn <silent> <expr> <C-H> !exists('b:SplitResize') ? '<C-W><C-H>' : ':vert res -1
 nn <silent> <expr> <C-J> !exists('b:SplitResize') ? '<C-W><C-J>' : ':res -1<CR>'
 nn <silent> <expr> <C-K> !exists('b:SplitResize') ? '<C-W><C-K>' : ':res +1<CR>'
 nn <silent> <expr> <C-L> !exists('b:SplitResize') ? '<C-W><C-L>' : ':vert res +1<CR>'
-nn gs :call ToggleResizeSplitMode()<CR>
+nn gr :call ToggleResizeSplitMode()<CR>
 
 " file executing
 nn <leader>e :w <bar> :!compiler %<CR>
@@ -335,11 +343,3 @@ au FileType sh nn <buffer> <c-f> :%!shfmt<cr>
 
 " format json
 au FileType json nn <buffer> <c-f> :%!python -m json.tool<cr>
-
-" buffer manipulation
-nn <silent> <A-h> :bprev<CR>
-nn <silent> <A-l> :bnext<CR>
-
-" line movements
-nn <C-j> gj
-nn <C-k> gk
