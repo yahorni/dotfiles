@@ -3,9 +3,10 @@
 [Default Applications]
 application/pdf=zathura.desktop
 inode/directory=vifmrun.desktop
-# text/html=qutebrowser.desktop
 text/x-c=nvim.desktop
 text/x-python=nvim.desktop
+text/html=linkhandler.desktop
+text/htm=linkhandler.desktop
 x-scheme-handler/http=linkhandler.desktop
 x-scheme-handler/https=linkhandler.desktop
 x-scheme-handler/magnet=torrent.desktop;

@@ -230,9 +230,7 @@ fileviewer *.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,
           \ vifmimg clear
 
 " Web
-filextype *.html,*.htm
-        \ qutebrowser %f &,
-        \ firefox %f &,
+filextype *.html,*.htm linkhandler %f &
 filetype *.html,*.htm elinks
 
 " Object
