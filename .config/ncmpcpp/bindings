@@ -542,38 +542,51 @@
 #  quit
 #
 
-def_key "d"
-    select_item
-
 def_key "j"
-	scroll_down
+    scroll_down
 
 def_key "k"
-	scroll_up
+    scroll_up
 
 def_key "J"
-	page_down
+    page_down
 
 def_key "K"
-	page_up
+    page_up
 
 def_key "l"
-	next_column
+    next_column
 
 def_key "h"
-	previous_column
+    previous_column
 
 def_key ";"
-	show_lyrics
+    show_lyrics
 
 def_key "g"
-	move_home
+    move_home
 
 def_key "G"
-	move_end
+    move_end
 
 def_key "t"
     jump_to_position_in_song
 
 def_key "D"
     delete_stored_playlist
+
+def_key "D"
+    delete_playlist_items
+
+def_key "d"
+    remove_selection
+
+def_key "ctrl-v"
+    reverse_selection
+
+def_key "v"
+    select_item
+
+def_key "V"
+    select_range
+

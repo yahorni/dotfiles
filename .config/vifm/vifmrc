@@ -182,6 +182,8 @@ command! reload :write | restart
 " You can also add %CLEAR if you want to clear screen before running FUSE
 " program.
 
+" Plain text
+fileviewer *.txt cat %f
 
 " Pdf
 filextype *.pdf zathura %c %i &, apvlv %c, xpdf %c
@@ -219,7 +221,7 @@ filextype *.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,
          \*.fl[icv],*.m2v,*.mov,*.webm,*.ts,*.mts,*.m4v,*.r[am],*.qt,*.divx,
          \*.as[fx]
          \ {Listen using mpv}
-         \ mpv %f
+         \ mpv --really-quiet %f &
          " \ {View using ffplay}
          " \ ffplay -fs -autoexit %f
 fileviewer *.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,
@@ -449,6 +451,8 @@ vnoremap xu :!unoconv %f &<cr>
 " extract files
 nnoremap xe :!extract %f<cr>
 vnoremap xe :!extract %f<cr>
+" open same directory in other pane
+nnoremap xs :sync<cr>
 " add executable rights
 nnoremap cx :!chmod +x %f<cr>
 " remove executable rights

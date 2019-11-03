@@ -41,7 +41,7 @@ alias ff='ffplay -autoexit -nodisp'
 alias shr='cd $XDG_DATA_HOME'
 alias scm='sc-im'
 
-alias dotgit='/usr/bin/git --git-dir="$HOME/Documents/dotfiles" --work-tree="$HOME"'
+alias dg='/usr/bin/git --git-dir="$HOME/Documents/dotfiles" --work-tree="$HOME"'
 
 alias gst='git status'
 alias gd='git diff'

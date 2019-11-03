@@ -99,13 +99,17 @@ Plug 'w0rp/ale'
 let g:ale_fixers = {
             \   '*': ['remove_trailing_lines', 'trim_whitespace'],
             \   'python': ['autopep8', 'isort', 'black'],
+            \   'cpp': ['clangtidy'],
+            \   'c': ['clangtidy'],
             \}
 let g:ale_linters = {
             \   'python': ['flake8', 'pylint'],
             \   'tex': ['chktex'],
-            \   'cpp': ['cppcheck', 'clang', 'gcc'],
+            \   'cpp': ['clangtidy', 'clangcheck', 'cppcheck',  'cpplint', 'clang', 'gcc'],
             \   'c': ['clang', 'gcc'],
             \}
+let g:ale_c_parse_compile_commands = 1 " cpp headers issue
+
 let g:ale_set_highlights = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
@@ -122,18 +126,15 @@ nn <silent> <A-]> :ALENext<CR>
 
 " python
 Plug 'vim-scripts/indentpython.vim'
-Plug 'zchee/deoplete-jedi'
 Plug 'davidhalter/jedi-vim'
-if !has('nvim')
-    let g:jedi#auto_initialization = 0
-    au FileType python |
-                \ let g:jedi#auto_initialization = 1 |
-                \ let g:jedi#force_py_version = 3 |
-                \ let g:jedi#use_splits_not_buffers = "left" |
-                \ let g:jedi#show_call_signatures = 2 |
-                \ let g:jedi#popup_select_first = 0
-    au FileType python call jedi#configure_call_signatures()
+Plug 'zchee/deoplete-jedi'
+if has('nvim')
+    let g:jedi#completions_enabled = 0
 endif
+let g:jedi#force_py_version = 3
+let g:jedi#use_splits_not_buffers = "left"
+let g:jedi#show_call_signatures = 2
+let g:jedi#popup_select_first = 0
 
 " go
 Plug 'fatih/vim-go'
@@ -271,8 +272,8 @@ nnoremap <silent> <A-h> :bprev<CR>
 nnoremap <silent> <A-l> :bnext<CR>
 
 " line movements
-nnoremap <C-u> gj
-nnoremap <C-i> gk
+nnoremap <A-s> gj
+nnoremap <A-w> gk
 
 " different cursors per mode
 if (&term!='linux')
@@ -317,6 +318,7 @@ nn gr :call ToggleResizeSplitMode()<CR>
 " file executing
 nn <leader>e :w <bar> :!compiler %<CR>
 nn <leader>E :w <bar> :!compiler % 2<CR>
+nn <leader>x :!chmod +x %<CR>
 
 " showing results
 au FileType tex,markdown nn <leader>p :!opout %<CR><CR>
