@@ -4,7 +4,7 @@ read file
 
 case "$1" in
     "w") setwall "$file" & ;;
-    "l") cp "$file" ~/Documents/lockimage & ;;
+    "l") setwall "$file" lock & ;;
     "p") wal -ni "$file" & ;;
     "c") copyimage "$file" & ;;
     "n") newname=$(echo "$file" | dmenu -p "Enter new file name") && mv "$file" "$newname" && notify-send "Moved '$file' to '$newname'" ;;
@@ -16,4 +16,5 @@ case "$1" in
     "Y") echo -n "$(readlink -f "$file")" | xclip -selection clipboard && notify-send "Copied to clipboard" "$(readlink -f "$file")" & ;;
     "d") ([ "$(printf "No\\nYes" | dmenu -i -p "Really delete $file?")" = "Yes" ] && rm "$file" && notify-send "$file deleted.") & ;;
     "g") dragon "$file" & ;;
+    "t") FILE="$file" ${TERMINAL:-st} & ;;
 esac

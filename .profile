@@ -1,13 +1,13 @@
 #!/bin/bash
 
 export GOPATH="/mnt/work/go"
-export PATH="$PATH:$HOME/.scripts:$HOME/.local/bin:$GOPATH/bin"
+export PATH="$PATH:$HOME/.local/bin:$HOME/.local/scripts:$GOPATH/bin"
 export EDITOR="nvim"
 export VISUAL="$EDITOR"
 export BROWSER="firefox"
 export TERMINAL="st"
 export READER="zathura"
-export SUDO_ASKPASS="$HOME/.scripts/dmenu_pass"
+export SUDO_ASKPASS="dmenu_pass"
 export GREP_COLOR="1;31"
 export LESSHISTFILE="-"
 

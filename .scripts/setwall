@@ -1,6 +1,0 @@
-#!/bin/sh
-
-wallpath="$HOME/Documents/wallpaper"
-
-[ ! -z "$1" ] && cp "$1" "$wallpath" && notify-send -i "$wallpath" "Wallpaper changed"
-xwallpaper --stretch "$wallpath"

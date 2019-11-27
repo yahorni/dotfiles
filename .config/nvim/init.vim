@@ -26,9 +26,13 @@ endif
 
 " git
 Plug 'tpope/vim-fugitive'
+nn gdd :Gvdiffsplit!<CR>
+nn gdh :diffget //2<CR>
+nn gdl :diffget //3<CR>
 
 " improved quoting/parenthesizing
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat' " dot command for vim-surround
 Plug 'jiangmiao/auto-pairs'
 let g:AutoPairsShortcutToggle = '<A-P>'
 Plug 'alvan/vim-closetag'
@@ -101,12 +105,14 @@ let g:ale_fixers = {
             \   'python': ['autopep8', 'isort', 'black'],
             \   'cpp': ['clangtidy'],
             \   'c': ['clangtidy'],
+            \   'sh': ['shellcheck'],
             \}
 let g:ale_linters = {
             \   'python': ['flake8', 'pylint'],
             \   'tex': ['chktex'],
             \   'cpp': ['clangtidy', 'clangcheck', 'cppcheck',  'cpplint', 'clang', 'gcc'],
             \   'c': ['clang', 'gcc'],
+            \   'sh': ['shfmt'],
             \}
 let g:ale_c_parse_compile_commands = 1 " cpp headers issue
 

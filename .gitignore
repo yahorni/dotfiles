@@ -29,6 +29,8 @@
 !.local/bin
 .local/bin/*
 !.local/bin/vifmrun
+## scripts
+!.local/scripts
 
 # Config folders
 .config/*
@@ -57,6 +59,8 @@
 # Config files
 !.config/compton.conf
 !.config/mimeapps.list
+!.config/aliases
+!.config/user-dirs.dirs
 
 # Calcurse folder
 .config/calcurse/*

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+pgrep -x i3lock >/dev/null && exit
+
+datapath="${XDG_DATA_HOME:-"$HOME/.local/share"}"
+lockpath="$datapath/lockimage"
+
+i3lock -k --bar-indicator -e -f -c 303030 -i "$lockpath"
+
+if [ "$?" -eq 0 -a "$1" = "--dpms" ]; then
+    sleep 1 && xset dpms force off
+fi
