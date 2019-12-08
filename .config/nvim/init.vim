@@ -184,6 +184,9 @@ Plug 'Yggdroot/indentLine'
 au FileType tex,markdown,json let g:indentLine_setColors = 0
 au FileType tex,markdown,json let g:indentLine_enabled = 0
 
+" solidity
+Plug 'tomlion/vim-solidity'
+
 if (&term!='linux')
     " language switching
     Plug 'lyokha/vim-xkbswitch'
@@ -247,6 +250,7 @@ set fileformat=unix
 set nolist
 set conceallevel=0
 set concealcursor=nvic
+set cursorline
 
 " change <paste> command behaviour
 xnoremap p "_dp
@@ -283,9 +287,9 @@ nnoremap <A-w> gk
 
 " different cursors per mode
 if (&term!='linux')
-    let &t_SI = "\<Esc>[6 q"
-    let &t_SR = "\<Esc>[4 q"
-    let &t_EI = "\<Esc>[2 q"
+    let &t_SI = "\e[6 q"
+    let &t_SR = "\e[4 q"
+    let &t_EI = "\e[2 q"
 endif
 
 " Tab highlighting"

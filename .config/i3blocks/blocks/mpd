@@ -8,9 +8,14 @@ case $BLOCK_BUTTON in
 esac
 
 if [ $(mpc status | wc -l) -lt 3 ]; then
-    echo "🎵 stopped" && exit
+    echo "🎵 MPD stopped" && exit
 else
-    stat="$(mpc status | sed -n '2s/\(\[.*\]\).*/\1/p')"
+    stat="$(mpc status | sed -n '2s/\[\(.*\)\].*/\1/p')"
+    case $stat in
+        playing) stat='[⏸]' ;;
+        paused) stat='[▶]' ;;
+        *) stat='[❓]' ;;
+    esac
 fi
 
 artist="$(mpc status -f "%artist%" | cut -d $'\n' -f1)"

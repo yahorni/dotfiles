@@ -89,3 +89,10 @@ super + {equal,minus}
     mpc {next,prev}
 super + {plus,underscore}
     mpc seek {+,-}10
+
+XF86Audio{Play,Stop}
+    mpc {toggle,stop}
+XF86Audio{Next,Prev}
+    mpc {next,prev}
+shift + XF86Audio{Next,Prev}
+    mpc seek {+,-}10

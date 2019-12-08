@@ -2,20 +2,16 @@
 
 # Folders
 !.config
-!.scripts
 !.local
 
 # Files
-!.profile
 !.bashrc
 !.gitignore
-!.gtkrc-2.0
-!.inputrc
-!.Rprofile
+!.profile
 !.scimrc
 !.tmux.conf
+!.vimrc
 !.xinitrc
-!.xprofile
 !.Xresources
 
 # Local folder
@@ -37,6 +33,7 @@
 !.config/calcurse
 !.config/dunst
 !.config/fontconfig
+!.config/gtk-2.0
 !.config/gtk-3.0
 !.config/i3
 !.config/i3blocks
@@ -57,10 +54,14 @@
 !.config/zathura
 
 # Config files
-!.config/compton.conf
-!.config/mimeapps.list
 !.config/aliases
+!.config/compton.conf
+!.config/inputrc
+!.config/mimeapps.list
+!.config/pythonrc
+!.config/Rprofile
 !.config/user-dirs.dirs
+!.config/xprofile
 
 # Calcurse folder
 .config/calcurse/*

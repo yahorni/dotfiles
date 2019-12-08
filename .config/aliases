@@ -45,6 +45,7 @@ alias \
     gps='git push' \
     gpl='git pull' \
     gl='git log --oneline --graph --branches' \
+    glo='git log --oneline --graph' \
     grh='git reset HEAD' \
     gb='git branch' \
     gch='git checkout' \
@@ -61,7 +62,8 @@ alias \
     vp='$EDITOR ~/.profile' \
     vg='$EDITOR .gitignore' \
     v3='$EDITOR ~/.config/i3/config' \
-    vf='$EDITOR ~/.config/vifm/vifmrc'
+    vf='$EDITOR ~/.config/vifm/vifmrc' \
+    vx='$EDITOR ~/.config/xprofile'
 
 # directories
 alias \

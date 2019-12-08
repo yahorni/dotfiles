@@ -1,4 +1,4 @@
 [Desktop Entry]
-Type=application
+Type=Application
 Name=Custom link handler
 Exec=/home/george/.scripts/linkhandler %u

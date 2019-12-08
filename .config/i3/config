@@ -3,7 +3,7 @@
 set $mod Mod4
 
 # Colors
-client.focused          #4c7899 #285577 #ffffff #556b2f #00f0a0
+client.focused          #4c7899 #285577 #ffffff #556b2f #00a0ff
 client.focused_inactive #333333 #5f676a #ffffff #484e50 #5f676a
 client.unfocused        #333333 #222222 #888888 #292d2e #222222
 client.urgent           #2f343a #900000 #ffffff #900000 #900000
@@ -15,12 +15,12 @@ for_window [instance="^.*_dropdown_.*$"] floating enable
 for_window [instance="^.*_dropdown_.*$"] sticky enable
 
 # gaps size
-gaps inner 9
+gaps inner 1
 
 # i3blocks
 set_from_resource $background color0
 bar {
-    font pango:monospace bold 11
+    font pango:monospace bold 12
     status_command i3blocks
     position top
     colors {
@@ -77,19 +77,19 @@ bindsym $mod+Shift+equal        $mpd_signal
 bindsym $mod+minus              $mpd_signal
 bindsym $mod+Shift+minus        $mpd_signal
 
-bindsym XF86AudioMute           $volume_signal
-bindsym XF86AudioLowerVolume    $volume_signal
-bindsym XF86AudioRaiseVolume    $volume_signal
-
-bindsym XF86MonBrightnessUp     $bright_signal
-bindsym XF86MonBrightnessDown   $bright_signal
-
 bindsym Caps_Lock               $lang_signal
 
 bindsym $mod+bracketleft        $dict_signal
 bindsym $mod+Shift+bracketleft  $dict_signal
 bindsym $mod+bracketright       $dict_signal
 bindsym $mod+Shift+bracketright $dict_signal
+
+bindsym XF86AudioMute           $volume_signal
+bindsym XF86AudioLowerVolume    $volume_signal
+bindsym XF86AudioRaiseVolume    $volume_signal
+
+bindsym XF86MonBrightnessUp     $bright_signal
+bindsym XF86MonBrightnessDown   $bright_signal
 # }}}
 
 # windows

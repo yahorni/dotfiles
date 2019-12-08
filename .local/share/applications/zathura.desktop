@@ -1,4 +1,4 @@
 [Desktop Entry]
-Type=application
+Type=Application
 Name=Zathura PDF/DjVu Reader
 Exec=/usr/bin/zathura %u

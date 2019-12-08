@@ -12,6 +12,8 @@ setwall &
 redshift &
 safeeyes &
 
+i3mpdupdate &
+
 xmodmap -e "keycode 135 = Super_R Menu"
 xset r rate 200 35
 xrdb -merge "$HOME/.Xresources"

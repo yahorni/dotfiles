@@ -1,12 +1,15 @@
-# vim: ft=dosini
-
 [Default Applications]
+application/json=nvim.desktop
 application/pdf=zathura.desktop
+image/gif=sxiv.desktop;
+image/jpeg=sxiv.desktop;
+image/png=sxiv.desktop;
 inode/directory=vifmrun.desktop
+text/htm=linkhandler.desktop
+text/html=linkhandler.desktop
+text/plain=nvim.desktop
 text/x-c=nvim.desktop
 text/x-python=nvim.desktop
-text/html=linkhandler.desktop
-text/htm=linkhandler.desktop
 x-scheme-handler/http=linkhandler.desktop
 x-scheme-handler/https=linkhandler.desktop
 x-scheme-handler/magnet=torrent.desktop;
