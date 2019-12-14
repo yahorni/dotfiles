@@ -96,3 +96,7 @@ XF86Audio{Next,Prev}
     mpc {next,prev}
 shift + XF86Audio{Next,Prev}
     mpc seek {+,-}10
+
+# brightness
+KP_{Add,Subtract}
+    xbacklight -{inc,dec} 3
