@@ -33,11 +33,11 @@ interval=20
 signal=14
 separator=true
 
-[words]
-label=🇬🇧 
-interval=300
-signal=13
-separator=true
+# [words]
+# label=🇬🇧
+# interval=300
+# signal=13
+# separator=true
 
 [volume]
 interval=once

@@ -2,7 +2,7 @@
 
 dunst &
 compton --invert-color-include "class_i%=\"*_inverted_*\"" &
-# wal -Rn &
+wal -Rn &
 unclutter &
 sxhkd &
 
