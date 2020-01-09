@@ -30,6 +30,7 @@
 
 # Config folders
 .config/*
+!.config/bspwm
 !.config/calcurse
 !.config/dunst
 !.config/fontconfig
@@ -43,6 +44,7 @@
 !.config/ncmpcpp
 !.config/newsboat
 !.config/nvim
+!.config/polybar
 !.config/qutebrowser
 !.config/redshift
 !.config/sxiv
@@ -55,7 +57,7 @@
 
 # Config files
 !.config/aliases
-!.config/compton.conf
+!.config/picom.conf
 !.config/inputrc
 !.config/mimeapps.list
 !.config/pythonrc

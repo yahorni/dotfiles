@@ -1,0 +1,147 @@
+; vim: ft=dosini
+
+[colors]
+black = ${xrdb:color0:#1d2021}
+darkred = ${xrdb:color1:#cc241d}
+darkgreen = ${xrdb:color2:#98971a}
+darkyellow = ${xrdb:color3:#d79921}
+darkblue = ${xrdb:color4:#458588}
+darkmagenta = ${xrdb:color5:#b16286}
+darkcyan = ${xrdb:color6:#689d6a}
+lightgray = ${xrdb:color7:#a89984}
+gray = ${xrdb:color8:#928374}
+red = ${xrdb:color9:#fb4934}
+green = ${xrdb:color10:#b8bb26}
+yellow = ${xrdb:color11:#fabd2f}
+blue = ${xrdb:color12:#83a598}
+magenta = ${xrdb:color13:#d3869b}
+cyan = ${xrdb:color14:#8ec07c}
+white = ${xrdb:color15:#ebdbb2}
+background = ${xrdb:color256:#1d2021}
+foreground = ${xrdb:color257:#ebdbb2}
+
+[bar/tombar]
+background = ${colors.background}
+foreground = ${colors.foreground}
+modules-left = bspwm xwindow
+modules-right = cpu backlight-acpi alsa wlan battery xkeyboard date
+
+tray-position = right
+tray-padding = 0
+
+module-margin = 1
+
+wm-restack = bspwm
+
+font-0 = mono:pixelsize=13;1
+font-1 = Noto Color Emoji:scale=10:style=Regular;2
+font-2 = Symbola:pixelsize=9;1
+
+scroll-up = bspwm-desknext
+scroll-down = bspwm-deskprev
+
+[module/xwindow]
+type = internal/xwindow
+label = %title:0:45:...%
+format-foreground = ${colors.blue}
+
+[module/xkeyboard]
+type = internal/xkeyboard
+blacklist-0 = num lock
+blacklist-1 = caps lock
+format = <label-layout>
+format-spacing = 0
+label-layout = %name%
+label-layout-padding = 0
+
+[module/alsa]
+type = internal/alsa
+format-volume = <ramp-volume> <label-volume>
+label-muted = 🔇 muted
+label-muted-foreground = #66
+
+ramp-volume-0 = 🔈
+ramp-volume-1 = 🔉
+ramp-volume-2 = 🔊
+
+[module/cpu]
+type = internal/cpu
+format = <label> <ramp-coreload>
+label = CPU %percentage%%
+
+ramp-coreload-spacing = 1
+ramp-coreload-0 = ▁
+ramp-coreload-1 = ▂
+ramp-coreload-2 = ▃
+ramp-coreload-3 = ▄
+ramp-coreload-4 = ▅
+ramp-coreload-5 = ▆
+ramp-coreload-6 = ▇
+ramp-coreload-7 = █
+
+[module/bspwm]
+type = internal/bspwm
+
+label-focused = %index%
+label-focused-foreground = ${colors.black}
+label-focused-background = ${colors.blue}
+label-focused-underline= ${colors.yellow}
+label-focused-padding = 1
+
+label-occupied = %index%
+label-occupied-underline = ${colors.blue}
+label-occupied-padding = 1
+
+label-urgent = %index%!
+label-urgent-background = ${colors.red}
+label-urgent-padding = 1
+
+label-empty = %index%
+label-empty-foreground = ${colors.lightgray}
+label-empty-padding = 1
+
+[module/xbacklight]
+type = internal/backlight
+card = intel_backlight
+format = <ramp> <label>
+
+ramp-0 = 🌕
+ramp-1 = 🌔
+ramp-2 = 🌓
+ramp-3 = 🌒
+ramp-4 = 🌑
+
+[module/backlight-acpi]
+inherit = module/xbacklight
+type = internal/backlight
+card = intel_backlight
+
+[module/battery]
+type = internal/battery
+battery = BAT0
+adapter = ADP1
+full-at = 98
+
+format-charging = <label-charging>
+format-discharging = <label-discharging>
+label-charging = 🔌 %percentage%%
+label-discharging = 🔋 %percentage%%
+
+[module/wlan]
+type = internal/network
+interface = wlp2s0
+interval = 3.0
+
+format-connected = 📡 <label-connected>
+label-connected = %local_ip%
+format-disconnected = <label-disconnected>
+label-disconnected = 🛑 no wifi
+
+[module/date]
+type = internal/date
+interval = 60
+
+date = "%Y %b %d (%a)"
+time = "%I:%M%p"
+
+label = %date% %time%
