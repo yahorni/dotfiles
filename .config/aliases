@@ -19,10 +19,7 @@ alias \
     sc='systemctl' \
     ssc='sudo systemctl' \
     fm='vifmrun' \
-    nb='newsboat -q' \
-    nbr='newsboat -qr' \
     yt='youtube-viewer' \
-    cl='calcurse' \
     mkd='mkdir -pv' \
     smkd='sudo mkdir -pv' \
     rst='reset && source ~/.bashrc && stty echo && tput cvvis' \
@@ -32,11 +29,14 @@ alias \
     p3='python3' \
     ff='ffplay -autoexit -nodisp' \
     shr='cd $XDG_DATA_HOME' \
+    cl='calcurse' \
+    nb='newsboat -q' \
+    nbr='newsboat -qr' \
     sm='sc-im'
 
 # git
 alias \
-    dg='/usr/bin/git --git-dir="$HOME/Documents/dotfiles" --work-tree="$HOME"' \
+    dg='/usr/bin/git --git-dir="$HOME/reps/df" --work-tree="$HOME"' \
     gst='git status' \
     gd='git diff' \
     gds='git diff --staged' \
@@ -56,39 +56,35 @@ alias \
 
 # files
 alias \
-    va='$EDITOR ~/.config/aliases' \
-    vb='$EDITOR ~/.bashrc' \
-    vv='$EDITOR ~/.vimrc' \
+    va='$EDITOR $XDG_CONFIG_HOME/aliases' \
+    vz='$EDITOR $XDG_CONFIG_HOME/zsh/.zshrc' \
+    vv='$EDITOR $XDG_CONFIG_HOME/nvim/init.vim' \
+    vw='$EDITOR $XDG_CONFIG_HOME/bspwm/bspwmrc' \
+    vs='$EDITOR $XDG_CONFIG_HOME/sxhkd/sxhkdrc' \
+    vf='$EDITOR $XDG_CONFIG_HOME/vifm/vifmrc' \
     vp='$EDITOR ~/.profile' \
-    vg='$EDITOR .gitignore' \
-    v3='$EDITOR ~/.config/i3/config' \
-    vf='$EDITOR ~/.config/vifm/vifmrc' \
-    vx='$EDITOR ~/.config/xprofile'
+    vb='$EDITOR ~/.bashrc' \
+    vx='$EDITOR ~/.xinitrc' \
+    vg='$EDITOR .gitignore'
 
-# directories
-alias \
-    scr='cd ~/.local/scripts/ && ls' \
-    med='cd ~/Media/ && ls' \
-    wrk='cd ~/Work/ && ls' \
-    gop='cd $GOPATH/src/ && ls' \
-    ltx='cd ~/Work/latex/ && ls'
-
-# completions for aliases
-completions="/usr/share/bash-completion/completions"
-# systemctl
-. $completions/systemctl
-complete -F _systemctl systemctl sc ssc
-# pacman
-. $completions/pacman
-complete -F _pacman pacman sp
-# git
-. $completions/git
-__git_complete gd _git_diff
-__git_complete ga _git_add
-__git_complete gb _git_branch
-__git_complete gc _git_commit
-__git_complete gr _git_remote
-__git_complete gch _git_checkout
-__git_complete gps _git_push
-__git_complete gpl _git_pull
-__git_complete grs _git_reset
+if [ "$SHELL" = "/bin/bash" ] ; then
+    # completions for aliases
+    completions="/usr/share/bash-completion/completions"
+    # systemctl
+    . $completions/systemctl
+    complete -F _systemctl systemctl sc ssc
+    # pacman
+    . $completions/pacman
+    complete -F _pacman pacman sp
+    # git
+    . $completions/git
+    __git_complete gd _git_diff
+    __git_complete ga _git_add
+    __git_complete gb _git_branch
+    __git_complete gc _git_commit
+    __git_complete gr _git_remote
+    __git_complete gch _git_checkout
+    __git_complete gps _git_push
+    __git_complete gpl _git_pull
+    __git_complete grs _git_reset
+fi

@@ -1,14 +1,6 @@
 #!/bin/bash
 
-# notify-send "Select window"
-
-# name="$(echo -e "$info" | sed -n '/^WM_NAME/s/^[^\"]\+\"\([^\"]*\)\"/\1/p')"
-# pid="$(echo -e "$info" | sed -n '/PID/s/.*=\s\(.*\)$/\1/p')"
-
-# info="$(xwininfo)"
-# IFS="|" read -r pid name < <(echo -e "$info" | sed -n '/^xwininfo: Window/s/.*id: \([^ ]\+\) \(.*\)$/\1|\2/p')
-
-default_x=30
+default_x=35
 default_y=40
 usage="Usage: ${0##*/} [-h] [-H left/right] [-v top/bottom] [-x percents] [-y percents]
 
@@ -55,10 +47,15 @@ y_percent="${y_perc:-default_y}"
 
 pid=$(xdotool getwindowfocus)
 name="$(xdotool getwindowname $pid)"
-# notify-send "Window" "Name: $name\nWindow ID: $pid"
 
-is_floating=$(xprop -id $pid | grep I3_FLOATING_WINDOW | wc -l)
-[ "$is_floating" -eq 0 ] && i3-msg "[id=\"$pid\"] floating enable" > /dev/null
+wm="bspwm"
+
+case $wm in
+    i3) is_floating=$(xprop -id $pid | grep I3_FLOATING_WINDOW | wc -l)
+        [ "$is_floating" -eq 0 ] && i3-msg "[id=\"$pid\"] floating enable" > /dev/null
+        ;;
+    bspwm) bspc node $pid -t floating ;;
+esac
 
 read -a geometry < <(xdotool getdisplaygeometry)
 new_width=$((${geometry[0]} * $x_percent / 100))

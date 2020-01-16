@@ -1,4 +1,0 @@
-#!/bin/sh
-
-rm -rf "databases-incognito" "VideoDecodeStats"
-echo "close" >> "$QUTE_FIFO" &

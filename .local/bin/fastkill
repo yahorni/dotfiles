@@ -1,7 +1,7 @@
 #!/bin/sh
 
 options="xcompmgr
-compton
+picom
 nm-applet
 qbittorrent
 transmission-da

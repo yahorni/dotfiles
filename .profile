@@ -1,10 +1,11 @@
-#!/bin/bash
+#!/bin/sh
 
 # path
-export GOPATH="/mnt/work/go"
-export PATH="$PATH:$HOME/.local/bin:$HOME/.local/scripts:$GOPATH/bin"
+export GOPATH="$HOME/go"
+export PATH="$PATH:$HOME/.local/bin:$GOPATH/bin"
 
 # programs
+export SHELL="/bin/zsh"
 export EDITOR="nvim"
 export VISUAL="$EDITOR"
 export BROWSER="firefox"
@@ -17,19 +18,21 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 
 # files
-export HISTFILE="$XDG_DATA_HOME/bash_history"
-export SUDO_ASKPASS="$HOME/.local/scripts/dmenu_pass"
+export HISTFILE="$XDG_DATA_HOME/sh_history"
+export MANPATH="$MANPATH:$XDG_DATA_HOME/man"
+export INPUTRC="$XDG_CONFIG_HOME/inputrc"
+export R_PROFILE_USER="$XDG_CONFIG_HOME/Rprofile"
+export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc-2.0"
+export PYTHONSTARTUP="$XDG_CONFIG_HOME/pythonrc"
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+export SUDO_ASKPASS="$HOME/.local/bin/dmenu_pass"
 export LESSHISTFILE="-"
-export INPUTRC="$HOME/.config/inputrc"
-export PYTHONSTARTUP="$HOME/.config/pythonrc"
-export MANPATH="$MANPATH:$HOME/.local/share/man"
-export R_PROFILE_USER="$HOME/.config/Rprofile"
-export GTK2_RC_FILES="$HOME/.config/gtk-2.0/gtkrc-2.0"
 
 # history
-export HISTSIZE=
-export HISTFILESIZE=
+export HISTSIZE=1000000
+export HISTFILESIZE=$HISTSIZE
 export HISTIGNORE=' *'
+export SAVEHIST=$HISTSIZE
 
 # colors
 export GREP_COLOR="1;31"
@@ -42,18 +45,8 @@ export LESS_TERMCAP_se=$'\E[0m'        # reset reverse video
 export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
 export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 
-# custom
-export MEDIA="$HOME/Media"
-export MUSIC="$MEDIA/music"
-export FILMS="$MEDIA/films"
-export VIDEOS="$MEDIA/videos"
-export SERIALS="$MEDIA/serials"
-export PICTURES="$MEDIA/pictures"
-export SCREENSHOTS="$PICTURES/screenshots"
-export WALLPAPERS="$PICTURES/wallpapers"
-
-[[ -f "$HOME/.bashrc" ]] && . "$HOME/.bashrc"
+[[ -f "$HOME/.zshrc" ]] && . "$HOME/.zshrc"
 
 if [[ $(tty) = "/dev/tty1" ]]; then
-	pgrep -x i3 || exec startx 1>/dev/null 2>/dev/null
+	pgrep -x bspwm || exec startx 1>/dev/null 2>/dev/null
 fi

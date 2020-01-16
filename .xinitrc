@@ -1,12 +1,26 @@
 #!/bin/sh
 
-if [ -d /etc/X11/xinit/xinitrc.d ] ; then
-    for f in /etc/X11/xinit/xinitrc.d/?*.sh ; do
-        [ -x "$f" ] && . "$f"
-    done
-    unset f
-fi
+dunst &
+picom &
+unclutter &
+sxhkd &
+clipmenud &
+transmission-daemon &
+mpd &
 
-[ -f "$HOME/.config/xprofile" ] && . "$HOME/.config/xprofile"
+setwall &
 
-exec i3
+redshift &
+# safeeyes &
+
+xmodmap -e "keycode 135 = Super_R Menu"
+xset r rate 200 35
+xrdb -merge "$HOME/.Xresources"
+
+xset s on
+xset s 600
+xss-lock -- physlock -ms -p "Lang: `xkb-switch`" &
+
+xsetroot -cursor_name left_ptr
+
+exec bspwm

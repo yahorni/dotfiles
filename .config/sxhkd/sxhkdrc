@@ -1,15 +1,16 @@
+# programs
+
 super + grave
     $TERMINAL -e htop
 
 super + w
     $TERMINAL -e ncmpcpp
-super + shift + w
-    bookmarks -a open
 
-super + e
-    $TERMINAL
-super + shift + e
-    $TERMINAL -e neomutt
+super + {_,shift +} e
+    $TERMINAL {_,-c dropdown}
+
+super + shift + r
+    pkill -USR1 -x sxhkd
 
 super + t
     $TERMINAL -e newsboat -q
@@ -21,27 +22,14 @@ super + p
 super + shift + p
     fastkill
 
-super + {_, shift +} bracketleft
-    translate.py -{s,d}n
-
-super + {_, shift +} bracketright
-    dictionary {show,set}
-
-super + backslash
-    invert_colors
-
 super + {_, shift +} a
     power_manager {suspend,lock}
 
 super + s
     $TERMINAL -e calcurse -D "$XDG_CONFIG_HOME"/calcurse
-super + shift + s
-    firefox
 
 super + d
     dmenu_run
-super + shift + d
-    dictionary add
 
 super + {_, shift +} g
     corner_window {_,-H left}
@@ -58,45 +46,98 @@ super + shift + c
 
 super + v
     $TERMINAL -e vifmrun
+super + shift + v
+    $TERMINAL -e neomutt
 
 super + b
     pgrep $BROWSER || $BROWSER
 super + shift + b
     $BROWSER
 
-super + m
-    dmenu_mount
-super + shift + m
-    dmenu_umount
-
-super + period
-    $TERMINAL -n _dropdown_
-super + shift + period
-    dropdown
-
-# screenshots
-Print
-    makescreen
-ctrl + Print
-    makescreen window
-@shift + Print
-    makescreen part
-
-# music
 super + {_,shift +} n
     mpc {toggle,stop}
-super + {equal,minus}
-    mpc {next,prev}
-super + {plus,underscore}
-    mpc seek {+,-}10
 
-XF86Audio{Play,Stop}
-    mpc {toggle,stop}
-XF86Audio{Next,Prev}
-    mpc {next,prev}
-shift + XF86Audio{Next,Prev}
-    mpc seek {+,-}10
+super + {minus,equal}
+    mpc {prev,next}
 
-# brightness
-KP_{Add,Subtract}
-    xbacklight -{inc,dec} 3
+super + shift + {minus,equal}
+    mpc seek {-,+}5
+
+super + {_, shift +} m
+    dmenu_{_,un}mount
+
+# bspwm
+super + {h,j,k,l}
+    opt={1,2,3,4} ; \
+    declare -a dirs cycle ; \
+    dirs=("west" "south" "north" "east") ; \
+    cycle=("prev" "older" "newer" "next") ; \
+    if bspc query -N -n focused.tiled; then \
+        bspc node -f ${dirs[$opt]}.tiled ; \
+    elif bspc query -N -n focused.floating; then \
+        bspc node -f ${cycle[$opt]}.floating.local ; \
+    fi
+
+super + shift + {h,j,k,l}
+    opt={1,2,3,4} ; \
+    declare -a dirs shifts ; \
+    dirs=("west" "south" "north" "east") ; \
+    x=(-20 0 0 20) ; \
+    y=(0 20 -20 0) ; \
+    if bspc query -N -n focused.tiled; then \
+        bspc node -s ${dirs[$opt]} ; \
+    elif bspc query -N -n focused.floating; then \
+        bspc node -v ${x[$opt]} ${y[$opt]} ; \
+    fi
+
+super + {_,shift + }q
+    bspc node -{c,k}
+
+control + alt + BackSpace
+    bspc quit
+
+super + r
+    bspc wm -r
+
+super + {_,shift + }{1-9,0}
+    bspc {desktop -f,node -d} '^{1-9,10}'
+
+control + super + {h,l}
+    bspc desktop -f {prev,next}.local
+
+super + f
+    bspc node -t \~fullscreen
+
+super + alt + {h,j,k,l}
+    bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+super + alt + shift + {h,j,k,l}
+    bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+super + {Left,Down,Up,Right}
+    bspc node -v {-20 0,0 20,0 -20,20 0}
+
+super + space
+    if bspc query -N -n focused.tiled; then \
+        bspc node -f next.floating.local ; \
+    elif bspc query -N -n focused.floating; then \
+        bspc node -f next.tiled.local ; \
+    fi
+
+super + shift + space
+    if bspc query -N -n focused.tiled; then \
+        bspc node -t floating ; \
+    elif bspc query -N -n focused.floating; then \
+        bspc node -t tiled ; \
+    fi
+
+super + comma
+    bspc node -g sticky
+
+super + period
+    winID="$(bspc query -N -n .hidden | tail -n1)" ; \
+    bspc node $winID -g hidden=off ; \
+    bspc node -f $winID
+
+super + slash
+    bspc node -g hidden

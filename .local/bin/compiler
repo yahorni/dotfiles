@@ -19,7 +19,8 @@ get_root() {
 if [ -z "$mode" -o "$mode" = "-" ]; then
     case "$file" in
         *config\.h)         make && sudo make install ;;
-        *\.cpp|*\.h|*\.hpp) g++ -g -O0 -Wall -Wextra -pedantic -o "$base" "$file" ;;
+        *\.cpp|*\.hpp)      g++ -g -O0 -Wall -Wextra -pedantic -o "$base" "$file" ;;
+        *\.c|*\.h)          gcc -g -O0 -Wall -Wextra -pedantic -o "$base" "$file" ;;
         *\.ms)              groff -ms "$file" $args -T pdf > "$base".pdf ;;
         *\.py)              python3 "$1" $args ;;
         *\.md)              pandoc "$file" --pdf-engine=xelatex $args -o "$base".pdf ;;

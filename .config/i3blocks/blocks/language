@@ -1,7 +1,0 @@
-#!/bin/sh
-
-case $BLOCK_BUTTON in
-	1) xkblayout-state set +1 ;;
-esac
-
-echo $(xkbmon -u -o) && exit
