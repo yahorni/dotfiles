@@ -12,6 +12,7 @@ PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magent
 [[ -n $key[Delete] ]] && bindkey -- $key[Delete] delete-char
 [[ -n $key[Up]     ]] && bindkey -- $key[Up]     up-line-or-history
 [[ -n $key[Down]   ]] && bindkey -- $key[Down]   down-line-or-history
+bindkey "^?" backward-delete-char # vi mode backspace fix
 
 # options
 setopt auto_cd

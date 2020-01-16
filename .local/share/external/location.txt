@@ -7,3 +7,4 @@ pacman.conf -> /etc/pacman.conf
 powertop.service -> /etc/systemd/system/powertop.service
 username.conf -> /etc/systemd/system/transmission.service.d/username.conf
 xorg.conf.d/* -> /etc/X11/xorg.conf.d/*
+chrome/* -> $HOME/.mozilla/firefox/<profile>/chrome/*
