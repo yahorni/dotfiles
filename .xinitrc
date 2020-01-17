@@ -19,7 +19,7 @@ xrdb -merge "$HOME/.Xresources"
 
 xset s on
 xset s 600
-xss-lock -- physlock -ms -p "Lang: `xkb-switch`" &
+xss-lock -- physlock -ms &
 
 xsetroot -cursor_name left_ptr
 

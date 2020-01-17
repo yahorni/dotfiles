@@ -1,4 +1,4 @@
 [Desktop Entry]
 Type=Application
 Name=Vifm file manager with Uberzug support
-Exec=/usr/local/bin/st -e /home/george/.local/bin/vifmrun %u
+Exec=/usr/local/bin/st -e /usr/bin/env vifmrun %u

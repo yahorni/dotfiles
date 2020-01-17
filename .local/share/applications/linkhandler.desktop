@@ -1,4 +1,4 @@
 [Desktop Entry]
 Type=Application
 Name=Custom link handler
-Exec=/home/george/.scripts/linkhandler %u
+Exec=/usr/bin/env linkhandler %u
