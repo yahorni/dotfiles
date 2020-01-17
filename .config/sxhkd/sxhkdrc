@@ -9,6 +9,8 @@ super + w
 super + {_,shift +} e
     $TERMINAL {_,-c dropdown}
 
+super + r
+    bspc wm -r
 super + shift + r
     pkill -USR1 -x sxhkd
 
@@ -26,10 +28,19 @@ super + {_, shift +} a
     power_manager {suspend,lock}
 
 super + s
-    $TERMINAL -e calcurse -D "$XDG_CONFIG_HOME"/calcurse
+    openprj
+super + shift + s
+    code
+
+super + x
+    telegram-desktop & bspc desktop -f IX
+super + shift + x
+    slack & bspc desktop -f VIII
 
 super + d
     dmenu_run
+super + shift + d
+    $TERMINAL -e calcurse -D "$XDG_CONFIG_HOME"/calcurse
 
 super + {_, shift +} g
     corner_window {_,-H left}
@@ -66,6 +77,15 @@ super + shift + {minus,equal}
 super + {_, shift +} m
     dmenu_{_,un}mount
 
+XF86Audio{Play,Stop}
+    mpc {toggle,stop}
+
+XF86Audio{Next,Prev}
+    mpc {next,prev}
+
+shift + XF86Audio{Next,Prev}
+    mpc seek {+,-}10
+
 # bspwm
 super + {h,j,k,l}
     opt={1,2,3,4} ; \
@@ -80,7 +100,7 @@ super + {h,j,k,l}
 
 super + shift + {h,j,k,l}
     opt={1,2,3,4} ; \
-    declare -a dirs shifts ; \
+    declare -a dirs x y ; \
     dirs=("west" "south" "north" "east") ; \
     x=(-20 0 0 20) ; \
     y=(0 20 -20 0) ; \
@@ -96,9 +116,6 @@ super + {_,shift + }q
 control + alt + BackSpace
     bspc quit
 
-super + r
-    bspc wm -r
-
 super + {_,shift + }{1-9,0}
     bspc {desktop -f,node -d} '^{1-9,10}'
 
@@ -109,10 +126,7 @@ super + f
     bspc node -t \~fullscreen
 
 super + alt + {h,j,k,l}
-    bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
-
-super + alt + shift + {h,j,k,l}
-    bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+    bspc node -z {right -20 0,bottom 0 20,bottom 0 -20, right 20 0}
 
 super + {Left,Down,Up,Right}
     bspc node -v {-20 0,0 20,0 -20,20 0}

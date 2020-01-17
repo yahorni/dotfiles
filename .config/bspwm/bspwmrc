@@ -1,10 +1,16 @@
 #! /bin/sh
 
-polybar -r ginbar &
+bspc rule -r "*"
 
-bspc monitor -d I II III IV V VI VII VIII IX X
+bspc monitor eDP1 -d I II III IV V VI VII VIII IX X
 
-bspc config border_width         2
-bspc config window_gap           5
+pkill polybar
+polybar -r notebar &
+
+bspc config border_width 2
+bspc config window_gap   3
 
 bspc rule -a dropdown state=floating
+
+bspc rule -a "Slack" desktop=^8
+bspc rule -a "TelegramDesktop" desktop=^9

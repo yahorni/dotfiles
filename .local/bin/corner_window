@@ -50,14 +50,20 @@ name="$(xdotool getwindowname $pid)"
 
 wm="bspwm"
 
-case $wm in
+case "$wm" in
     i3) is_floating=$(xprop -id $pid | grep I3_FLOATING_WINDOW | wc -l)
         [ "$is_floating" -eq 0 ] && i3-msg "[id=\"$pid\"] floating enable" > /dev/null
+        read -a geometry < <(xdotool getdisplaygeometry)
         ;;
-    bspwm) bspc node $pid -t floating ;;
+    bspwm)
+        bspc node $pid -t floating
+        monitor=`bspc query -M -m --names`
+        geometry=(`xrandr -q | grep "$monitor" | \
+            sed -n 's/.* \([[:digit:]]\+\)x\([[:digit:]]\+\)+\([[:digit:]]\+\)+\([[:digit:]]\+\) .*/\1 \2 \3 \4/p'`)
+        ;;
+
 esac
 
-read -a geometry < <(xdotool getdisplaygeometry)
 new_width=$((${geometry[0]} * $x_percent / 100))
 new_height=$((${geometry[1]} * $y_percent / 100))
 xdotool windowsize $pid $new_width $new_height
@@ -66,4 +72,8 @@ new_x=0
 new_y=0
 [ "$x_position" = "right" ] && new_x=$((${geometry[0]} - $new_width))
 [ "$y_position" = "bottom" ] && new_y=$((${geometry[1]} - $new_height))
+
+new_x=$(($new_x + ${geometry[2]}))
+new_y=$(($new_y + ${geometry[3]}))
+
 xdotool windowmove $pid $new_x $new_y

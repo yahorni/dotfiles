@@ -156,6 +156,9 @@ nnoremap <silent> <C-b> :Buffers<CR>
 " vifm
 Plug 'vifm/vifm.vim'
 
+" sxhkd
+Plug 'kovetskiy/sxhkd-vim'
+
 " c++
 " au FileType cpp,c,h let g:SuperTabDefaultCompletionType = <c-x><c-i>
 Plug 'zchee/deoplete-clang'
