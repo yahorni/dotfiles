@@ -100,11 +100,11 @@ pin-workspaces = false
 label-focused = %index%
 label-focused-foreground = ${colors.black}
 label-focused-background = ${colors.blue}
-label-focused-underline= ${colors.yellow}
 label-focused-padding = 1
 
 label-occupied = %index%
-label-occupied-underline = ${colors.blue}
+label-occupied-foreground = ${colors.black}
+label-occupied-background = ${colors.gray}
 label-occupied-padding = 1
 
 label-urgent = %index%!
