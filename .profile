@@ -6,10 +6,10 @@ export PATH="$PATH:$HOME/.local/bin:$GOPATH/bin"
 
 # programs
 export SHELL="/bin/zsh"
+export TERMINAL="st"
 export EDITOR="nvim"
 export VISUAL="$EDITOR"
 export BROWSER="firefox"
-export TERMINAL="st"
 export READER="zathura"
 
 # directories
