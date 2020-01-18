@@ -1,5 +1,5 @@
 #!/bin/sh
 
 prjdir="$HOME/prj"
-prj=`ls "$prjdir" | dmenu -l 5`
+prj=`ls "$prjdir" | dmenu -p "Open project:" -l 5`
 [ ! -z "$prj" ] && code "$prjdir/$prj"
