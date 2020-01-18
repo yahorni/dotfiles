@@ -1,20 +1,22 @@
 #!/bin/bash
 
-filename="%Y-%m-%d_%H-%M-%S.png"
-if [ ! -z $SCREENSHOTS ]; then
-	filename="$SCREENSHOTS/$filename"
-fi
+filedate="`date +%Y-%m-%d_%H-%M-%S-%N`.png"
+pix=`xdg-user-dir PICTURES`
+screendir="$pix/screens"
+[ ! -d "$screendir" ] && mkdir -p "$screendir"
+filename="$screendir/$filedate"
 
 if [ "$1" = 'part' ]; then
-	file=$(scrot -z -s -q 100 $filename -e 'echo $f')
+    maim -s -u "$filename"
 elif [ "$1" = 'window' ]; then
-	file=$(scrot -z -u -q 100 $filename -e 'echo $f')
+    maim -B -u -i $(xdotool getactivewindow) "$filename"
 else
-	file=$(scrot -z -q 100 $filename -e 'echo $f')
+	maim -B -u "$filename"
 fi
 
-[ -z $file ] && exit
-
-xclip -selection clipboard -t image/png -i "$file" && notify-send -i "$file" "Copied to clipboard"
-xclip -i "$file" && notify-send "Copied to primary" "$file"
-xclip-copyfile "$file" && notify-send "Copied to xclip"
+xclip -selection clipboard -t image/png -i "$filename" && \
+    notify-send -i "$filename" "Copied to clipboard"
+xclip -i "$filename" && \
+    notify-send -i "$filename" "Copied to primary" "$filename"
+xclip-copyfile "$filename" && \
+    notify-send -i "$filename" "Copied to xclip"

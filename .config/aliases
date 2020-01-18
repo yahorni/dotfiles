@@ -24,7 +24,6 @@ alias \
     smkd='sudo mkdir -pv' \
     rst='reset && source ~/.bashrc && stty echo && tput cvvis' \
     cp='cp -r' \
-    rm='rm -r' \
     sql='sqlite3' \
     p3='python3' \
     ff='ffplay -autoexit -nodisp' \

@@ -1,18 +1,18 @@
-# programs
+# terminal
+super + {_,shift +} e
+    $TERMINAL {_,-c dropdown}
 
+super + Return
+    $TERMINAL
+super + shift + Return
+    samedir
+
+# programs
 super + grave
     $TERMINAL -e htop
 
 super + w
     $TERMINAL -e ncmpcpp
-
-super + {_,shift +} e
-    $TERMINAL {_,-c dropdown}
-
-super + r
-    bspc wm -r
-super + shift + r
-    pkill -USR1 -x sxhkd
 
 super + t
     $TERMINAL -e newsboat -q
@@ -32,11 +32,6 @@ super + s
 super + shift + s
     code
 
-super + x
-    telegram-desktop & bspc desktop -f IX
-super + shift + x
-    slack & bspc desktop -f VIII
-
 super + d
     dmenu_run
 super + shift + d
@@ -44,27 +39,40 @@ super + shift + d
 
 super + {_, shift +} g
     corner_window {_,-H left}
-
-super + Return
-    $TERMINAL
-super + shift + Return
-    samedir
-
-super + c
-    show_selections
-super + shift + c
-    clipmenu
+# messengers
+super + x
+    telegram-desktop & bspc desktop -f IX
+super + shift + x
+    slack & bspc desktop -f VIII
 
 super + v
     $TERMINAL -e vifmrun
 super + shift + v
     $TERMINAL -e neomutt
 
+# clipboard
+super + c
+    show_selections
+super + shift + c
+    clipmenu
+
+# refreshing
+super + r
+    bspc wm -r
+super + shift + r
+    pkill -USR1 -x sxhkd
+
+# browser
 super + b
     pgrep $BROWSER || $BROWSER
 super + shift + b
     $BROWSER
 
+# mounting
+super + {_, shift +} m
+    dmenu_{_,un}mount
+
+# music
 super + {_,shift +} n
     mpc {toggle,stop}
 
@@ -74,9 +82,6 @@ super + {minus,equal}
 super + shift + {minus,equal}
     mpc seek {-,+}5
 
-super + {_, shift +} m
-    dmenu_{_,un}mount
-
 XF86Audio{Play,Stop}
     mpc {toggle,stop}
 
@@ -85,6 +90,14 @@ XF86Audio{Next,Prev}
 
 shift + XF86Audio{Next,Prev}
     mpc seek {+,-}10
+
+# screenshots
+Print
+    makescreen
+ctrl + Print
+    makescreen window
+@shift + Print
+    makescreen part
 
 # bspwm
 super + {h,j,k,l}
