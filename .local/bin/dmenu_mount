@@ -6,56 +6,79 @@
 # input a novel directory, it will prompt you to create that directory.
 
 getmount() { \
-	[ -z "$chosen" ] && exit 1
-	mp="$(find $1 2>/dev/null | dmenu -i -p "Type in mount point.")"
-	[ "$mp" = "" ] && exit 1
-	if [ ! -d "$mp" ]; then
-		mkdiryn=$(printf "No\\nYes" | dmenu -i -p "$mp does not exist. Create it?")
-		[ "$mkdiryn" = "Yes" ] && (mkdir -p "$mp" || sudo -A mkdir -p "$mp")
-	fi
-	}
+    [ -z "$chosen" ] && exit 1
+    mp="$(find $1 2>/dev/null | dmenu -i -p "Type in mount point.")"
+    [ "$mp" = "" ] && exit 1
+    if [ ! -d "$mp" ]; then
+        mkdiryn=$(printf "No\\nYes" | dmenu -i -p "$mp does not exist. Create it?")
+        if [ "$mkdiryn" = "Yes" ]; then
+            mkdir -p "$mp" || sudo -A mkdir -p "$mp"
+        else
+            exit 1
+        fi
+    fi
+}
 
 mountusb() { \
-	chosen="$(echo "$usbdrives" | dmenu -i -p "Mount which drive?" | awk '{print $1}')"
+    chosen="$(echo "$usbdrives" | dmenu -i -p "Mount which drive?" | awk '{print $1}')"
     [ "$chosen" = "" ] && exit 1
-	sudo -A mount "$chosen" 2>/dev/null && notify-send "💻 USB mounting" "$chosen mounted." && exit 0
-	alreadymounted=$(lsblk -nrpo "name,type,mountpoint" | awk '$2=="part"&&$3!~/\/boot|\/home$|SWAP/&&length($3)>1{printf "-not \\( -path *%s -prune \\) \\ \n",$3}')
-	getmount "/mnt /media /mount /home -maxdepth 5 -type d $alreadymounted"
-	partitiontype="$(lsblk -no "fstype" "$chosen")"
-	case "$partitiontype" in
-		"vfat") sudo -A mount -t vfat "$chosen" "$mp" -o rw,umask=0000;;
-		*) sudo -A mount "$chosen" "$mp"; user="$(whoami)"; ug="$(groups | awk '{print $1}')"; sudo -A chown "$user":"$ug" "$mp";;
-	esac
-	notify-send "💻 USB mounting" "$chosen mounted to $mp."
-	}
+    sudo -A mount "$chosen" 2>/dev/null && notify-send "💻 USB mounting" "$chosen mounted." && exit 0
+    alreadymounted=$(lsblk -nrpo "name,type,mountpoint" | awk '$2=="part"&&$3!~/\/boot|\/home$|SWAP/&&length($3)>1{printf "-not \\( -path *%s -prune \\) \\ \n",$3}')
+    getmount "/mnt /media /mount /home -maxdepth 5 -type d $alreadymounted"
+    partitiontype="$(lsblk -no "fstype" "$chosen")"
+    case "$partitiontype" in
+        "vfat") sudo -A mount -t vfat "$chosen" "$mp" -o rw,umask=0000;;
+        *) sudo -A mount "$chosen" "$mp"; user="$(whoami)"; ug="$(groups | awk '{print $1}')"; sudo -A chown "$user":"$ug" "$mp";;
+    esac
+    notify-send "💻 USB mounting" "$chosen mounted to $mp."
+}
 
 mountandroid() { \
-	chosen=$(echo "$anddrives" | dmenu -i -p "Which Android device?" | cut -d : -f 1)
-	getmount "$HOME -maxdepth 3 -type d"
-	simple-mtpfs --device "$chosen" "$mp"
-	notify-send "🤖 Android Mounting" "Android device mounted to $mp."
-	}
+    chosen=$(echo "$anddrives" | dmenu -i -p "Which Android device?" | cut -d : -f 1)
+    getmount "$HOME -maxdepth 3 -type d"
+    repeats=3
+    idx=1
+    sleeptime=5
+    while [ "$idx" -le "$repeats" ]; do
+        simple-mtpfs -o allow_other -o auto_unmount --device "$chosen" "$mp" || \
+            sudo -A simple-mtpfs -o allow_other -o auto_unmount --device "$chosen" "$mp"
+        if [ "$?" -eq 0 ]; then
+            notify-send "🤖 Android Mounting" "Android device mounted to $mp."
+            break
+        fi
+
+        if [ $idx -lt "$repeats" ]; then
+            notify-send \
+                "Error while mounting android to $mp" \
+                "Attempt $idx: retry after $sleeptime seconds"
+            sleep $sleeptime
+        else
+            notify-send "Can't mount device to $mp"
+        fi
+        idx=$(($idx + 1))
+    done
+}
 
 asktype() { \
-	case $(printf "USB\\nAndroid" | dmenu -i -p "Mount a USB drive or Android device?") in
-		USB) mountusb ;;
-		Android) mountandroid ;;
-	esac
-	}
+    case $(printf "USB\\nAndroid" | dmenu -i -p "Mount a USB drive or Android device?") in
+        USB) mountusb ;;
+        Android) mountandroid ;;
+    esac
+}
 
 anddrives=$(simple-mtpfs -l 2>/dev/null)
 usbdrives="$(lsblk -rpo "name,type,size,mountpoint" | awk '$2=="part"&&$4==""{printf "%s (%s)\n",$1,$3}')"
 
 if [ -z "$usbdrives" ]; then
-	[ -z "$anddrives" ] && echo "No USB drive or Android device detected" && exit
-	echo "Android device(s) detected."
-	mountandroid
+    [ -z "$anddrives" ] && echo "No USB drive or Android device detected" && exit
+    echo "Android device(s) detected."
+    mountandroid
 else
-	if [ -z "$anddrives" ]; then
-		echo "USB drive(s) detected."
-		mountusb
-	else
-		echo "Mountable USB drive(s) and Android device(s) detected."
-		asktype
-	fi
+    if [ -z "$anddrives" ]; then
+        echo "USB drive(s) detected."
+        mountusb
+    else
+        echo "Mountable USB drive(s) and Android device(s) detected."
+        asktype
+    fi
 fi
