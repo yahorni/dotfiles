@@ -157,7 +157,7 @@ nnoremap <silent> <C-b> :Buffers<CR>
 Plug 'vifm/vifm.vim'
 
 " sxhkd
-Plug 'kovetskiy/sxhkd-vim'
+Plug 'baskerville/vim-sxhkdrc'
 
 " c++
 " au FileType cpp,c,h let g:SuperTabDefaultCompletionType = <c-x><c-i>

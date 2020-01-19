@@ -102,25 +102,56 @@ ctrl + Print
 # bspwm
 super + {h,j,k,l}
     opt={1,2,3,4} ; \
-    declare -a dirs cycle ; \
-    dirs=("west" "south" "north" "east") ; \
-    cycle=("prev" "older" "newer" "next") ; \
     if bspc query -N -n focused.tiled; then \
-        bspc node -f ${dirs[$opt]}.tiled ; \
+        case $opt in ; \
+            1) bspc node -f west.tiled ;; \
+            2) bspc node -f south.tiled ;; \
+            3) bspc node -f north.tiled ;; \
+            4) bspc node -f east.tiled ;; \
+        esac ; \
     elif bspc query -N -n focused.floating; then \
-        bspc node -f ${cycle[$opt]}.floating.local ; \
+        case $opt in ; \
+            1) bspc node -f prev.floating.local ;; \
+            2) bspc node -f older.floating.local ;; \
+            3) bspc node -f newer.floating.local ;; \
+            4) bspc node -f next.floating.local ;; \
+        esac ; \
     fi
 
 super + shift + {h,j,k,l}
     opt={1,2,3,4} ; \
-    declare -a dirs x y ; \
-    dirs=("west" "south" "north" "east") ; \
-    x=(-20 0 0 20) ; \
-    y=(0 20 -20 0) ; \
     if bspc query -N -n focused.tiled; then \
-        bspc node -s ${dirs[$opt]} ; \
+        case $opt in ; \
+            1) bspc node -s west  ;; \
+            2) bspc node -s south ;; \
+            3) bspc node -s north ;; \
+            4) bspc node -s east  ;; \
+        esac ; \
     elif bspc query -N -n focused.floating; then \
-        bspc node -v ${x[$opt]} ${y[$opt]} ; \
+        case $opt in ; \
+            1) bspc node -v -20 0 ;; \
+            2) bspc node -v 0 20  ;; \
+            3) bspc node -v 0 -20 ;; \
+            4) bspc node -v 20 0  ;; \
+        esac ; \
+    fi
+
+super + alt + {h,j,k,l}
+    opt={1,2,3,4} ; \
+    if bspc query -N -n focused.floating; then \
+        case $opt in ; \
+            1) bspc node -z left -20 0 ;; \
+            2) bspc node -z top 0 20 ;;   \
+            3) bspc node -z top 0 -20 ;;  \
+            4) bspc node -z left 20 0 ;;  \
+        esac ; \
+    elif bspc query -N -n focused.tiled; then \
+        case $opt in ; \
+            1) bspc node -z left 10 0 ; bspc node -z right -10 0 ;; \
+            2) bspc node -z bottom 0 -10 ; bspc node -z top 0 10 ;; \
+            3) bspc node -z bottom 0 10 ; bspc node -z top 0 -10 ;; \
+            4) bspc node -z left -10 0 ; bspc node -z right 10 0 ;; \
+        esac ; \
     fi
 
 super + {_,shift + }q
@@ -135,11 +166,14 @@ super + {_,shift + }{1-9,0}
 control + super + {h,l}
     bspc desktop -f {prev,next}.local
 
+super + {_,shift +}y
+    bspc node @focused:/ --flip {vertical,horizonal}
+
+super + {_,shift +}u
+    bspc node @focused:/ --rotate {90,270}
+
 super + f
     bspc node -t \~fullscreen
-
-super + alt + {h,j,k,l}
-    bspc node -z {right -20 0,bottom 0 20,bottom 0 -20, right 20 0}
 
 super + {Left,Down,Up,Right}
     bspc node -v {-20 0,0 20,0 -20,20 0}

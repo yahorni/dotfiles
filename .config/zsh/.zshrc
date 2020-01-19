@@ -14,6 +14,9 @@ PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magent
 [[ -n $key[Down]   ]] && bindkey -- $key[Down]   down-line-or-history
 bindkey "^?" backward-delete-char # vi mode backspace fix
 
+# disable Ctrl-s freeze
+stty -ixon
+
 # options
 setopt auto_cd
 setopt menu_complete
