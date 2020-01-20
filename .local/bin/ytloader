@@ -2,8 +2,8 @@
 
 OPTIND=1
 
-outvideo="$HOME/Media/videos"
-outaudio="$HOME/Media/music/downloads"
+outvideo="`xdg-user-dir VIDEOS`"
+outaudio="`xdg-user-dir MUSIC`/downloads"
 filename='%(title)s.%(ext)s'
 format="m"
 

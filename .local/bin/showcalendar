@@ -1,2 +1,3 @@
+#!/usr/bin/env sh
 cal -3 --monday
 read -rsp $'Press any key to continue...\n' -n1

@@ -44,7 +44,7 @@ modules-right = cpu alsa wired-network xkeyboard date
 inherit = bar/basebar
 monitor = DP2
 modules-left = bspwm
-modules-right = cpu alsa wired-network xkeyboard date
+modules-right = alsa wired-network xkeyboard date
 
 [bar/notebar]
 inherit = bar/basebar

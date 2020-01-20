@@ -39,6 +39,7 @@ super + shift + d
 
 super + {_, shift +} g
     corner_window {_,-H left}
+
 # messengers
 super + x
     telegram-desktop & bspc desktop -f IX
@@ -147,10 +148,10 @@ super + alt + {h,j,k,l}
         esac ; \
     elif bspc query -N -n focused.tiled; then \
         case $opt in ; \
-            1) bspc node -z left 10 0 ; bspc node -z right -10 0 ;; \
-            2) bspc node -z bottom 0 -10 ; bspc node -z top 0 10 ;; \
-            3) bspc node -z bottom 0 10 ; bspc node -z top 0 -10 ;; \
-            4) bspc node -z left -10 0 ; bspc node -z right 10 0 ;; \
+            1) bspc node -z left 15 0 ; bspc node -z right -15 0 ;; \
+            2) bspc node -z bottom 0 -15 ; bspc node -z top 0 15 ;; \
+            3) bspc node -z bottom 0 15 ; bspc node -z top 0 -15 ;; \
+            4) bspc node -z left -15 0 ; bspc node -z right 15 0 ;; \
         esac ; \
     fi
 
@@ -197,6 +198,7 @@ super + comma
 
 super + period
     winID="$(bspc query -N -n .hidden | tail -n1)" ; \
+    bspc node $winID --to-desktop focused ; \
     bspc node $winID -g hidden=off ; \
     bspc node -f $winID
 

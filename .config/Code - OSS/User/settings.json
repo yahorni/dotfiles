@@ -38,5 +38,6 @@
     "solidity.solhintRules": {
       "avoid-sha3": "warn"
     },
-    "vsicons.dontShowNewVersionMessage": true
+    "vsicons.dontShowNewVersionMessage": true,
+    "editor.lineNumbers": "relative"
 }
