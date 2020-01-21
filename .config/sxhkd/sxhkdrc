@@ -119,6 +119,24 @@ super + {h,j,k,l}
         esac ; \
     fi
 
+super + {Left,Down,Up,Right}
+    opt={1,2,3,4} ; \
+    if bspc query -N -n focused.tiled; then \
+        case $opt in ; \
+            1) bspc node -f west.tiled ;; \
+            2) bspc node -f south.tiled ;; \
+            3) bspc node -f north.tiled ;; \
+            4) bspc node -f east.tiled ;; \
+        esac ; \
+    elif bspc query -N -n focused.floating; then \
+        case $opt in ; \
+            1) bspc node -f prev.floating.local ;; \
+            2) bspc node -f older.floating.local ;; \
+            3) bspc node -f newer.floating.local ;; \
+            4) bspc node -f next.floating.local ;; \
+        esac ; \
+    fi
+
 super + shift + {h,j,k,l}
     opt={1,2,3,4} ; \
     if bspc query -N -n focused.tiled; then \
@@ -175,9 +193,6 @@ super + {_,shift +}u
 
 super + f
     bspc node -t \~fullscreen
-
-super + {Left,Down,Up,Right}
-    bspc node -v {-20 0,0 20,0 -20,20 0}
 
 super + space
     if bspc query -N -n focused.tiled; then \
