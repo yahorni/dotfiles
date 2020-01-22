@@ -9,3 +9,4 @@ username.conf -> /etc/systemd/system/transmission.service.d/username.conf
 xorg.conf.d/* -> /etc/X11/xorg.conf.d/*
 chrome/* -> $HOME/.mozilla/firefox/<profile>/chrome/*
 10-monitor.conf -> /etc/X11/xorg.conf.d/10-monitor.conf # job dual monitors
+logind.conf -> /etc/systemd/logind.conf

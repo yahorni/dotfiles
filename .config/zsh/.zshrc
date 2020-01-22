@@ -13,6 +13,12 @@ PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magent
 [[ -n $key[Up]     ]] && bindkey -- $key[Up]     up-line-or-history
 [[ -n $key[Down]   ]] && bindkey -- $key[Down]   down-line-or-history
 bindkey "^?" backward-delete-char # vi mode backspace fix
+bindkey '^[[Z' reverse-menu-complete # shift-tab
+bindkey -M vicmd 'k' history-beginning-search-backward  # backward search in vi
+bindkey -M vicmd 'j' history-beginning-search-forward   # forward search in vi
+
+# vi escape key delay
+export KEYTIMEOUT=1
 
 # disable Ctrl-s freeze
 stty -ixon
@@ -34,13 +40,6 @@ setopt globdots
 setopt hist_ignore_dups
 unsetopt nomatch
 
-# vi escape key delay
-export KEYTIMEOUT=1
-
-# history search
-bindkey -M vicmd 'k' history-beginning-search-backward
-bindkey -M vicmd 'j' history-beginning-search-forward
-
 # completions
 autoload -Uz compinit && compinit
 zstyle ':completion:*' menu select
@@ -49,25 +48,29 @@ zmodload zsh/complist
 compinit
 
 # cursor
+function _set_cursor() {
+    if [ -z $TMUX ]; then
+      echo -ne $1
+    else
+      echo -ne "\ePtmux;\e\e$1\e\\"
+    fi
+}
+function _set_block_cursor() { _set_cursor '\e[2 q' }
+function _set_beam_cursor() { _set_cursor '\e[6 q' }
 function zle-keymap-select {
-  if [[ ${KEYMAP} == vicmd ]] ||
-     [[ $1 = 'block' ]]; then
-    echo -ne '\e[1 q'
-
-  elif [[ ${KEYMAP} == main ]] ||
-       [[ ${KEYMAP} == viins ]] ||
-       [[ ${KEYMAP} = '' ]] ||
-       [[ $1 = 'beam' ]]; then
-    echo -ne '\e[5 q'
+    if [[ ${KEYMAP} == vicmd ]] || [[ $1 = 'block' ]]; then
+        _set_block_cursor
+    # elif [[ ${KEYMAP} == main ]] || [[ ${KEYMAP} == viins ]] ||
+       # [[ ${KEYMAP} = '' ]] || [[ $1 = 'beam' ]]; then
+    else
+        _set_beam_cursor
   fi
 }
 zle -N zle-keymap-select
-
-zle-line-init() {
-    zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
-    echo -ne "\e[5 q"
-}
-zle -N zle-line-init
+# ensure beam cursor when starting new terminal
+precmd_functions+=(_set_beam_cursor) #
+# ensure insert mode and beam cursor when exiting vim
+zle-line-init() { zle -K viins; _set_beam_cursor }
 
 # aliases
 [ -f $HOME/.config/aliases ] && source "$HOME/.config/aliases" 1>/dev/null
@@ -79,30 +82,6 @@ function scr {
     [ ! -z "$file" ] && $EDITOR "$bindir/$file"
 }
 
-# cursor modes
-function _set_cursor() {
-    if [[ $TMUX = '' ]]; then
-      echo -ne $1
-    else
-      echo -ne "\ePtmux;\e\e$1\e\\"
-    fi
-}
-
-function _set_block_cursor() { _set_cursor '\e[2 q' }
-function _set_beam_cursor() { _set_cursor '\e[6 q' }
-
-function zle-keymap-select {
-  if [[ ${KEYMAP} == vicmd ]] || [[ $1 = 'block' ]]; then
-      _set_block_cursor
-  else
-      _set_beam_cursor
-  fi
-}
-zle -N zle-keymap-select
-# ensure beam cursor when starting new terminal
-precmd_functions+=(_set_beam_cursor) #
-# ensure insert mode and beam cursor when exiting vim
-zle-line-init() { zle -K viins; _set_beam_cursor }
-
 # syntax highlight
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
