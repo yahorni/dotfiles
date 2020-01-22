@@ -171,8 +171,8 @@ au FileType c,cpp,h AutoFormatBuffer clang-format
 Plug 'uplus/vim-clang-rename'
 au FileType c,cpp,h nn <leader>r :ClangRename<CR>
 Plug 'derekwyatt/vim-fswitch'
-au FileType c,cpp,h nn <silent> <C-s> :FSHere<CR>
-au FileType c,cpp,h ino <silent> <C-s> <ESC>:FSHere<CR>
+au FileType c,cpp,h nn <silent> <A-o> :FSHere<CR>
+au FileType c,cpp,h ino <silent> <A-o> <ESC>:FSHere<CR>
 
 " tags
 Plug 'majutsushi/tagbar'
@@ -273,7 +273,7 @@ command! -bang Q :q<bang>
 nn zq ZQ
 
 " normal mode bindings
-nnoremap <silent> <C-a> :noh<Enter>
+nnoremap <silent> <C-x> :noh<Enter>
 nnoremap Y y$
 
 " moving in insert mpde
@@ -281,8 +281,8 @@ inoremap <C-H> <Left>
 inoremap <C-L> <Right>
 
 " buffer manipulation
-nnoremap <silent> <A-h> :bprev<CR>
-nnoremap <silent> <A-l> :bnext<CR>
+nnoremap <silent> <C-s> :bprev<CR>
+nnoremap <silent> <C-w> :bnext<CR>
 
 " line movements
 nnoremap <A-s> gj
