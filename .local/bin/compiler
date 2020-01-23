@@ -7,7 +7,6 @@ base="${file%.*}"
 cd "$dir" || exit
 
 mode="$2"
-args="${@:3}"
 
 get_root() {
     grep -q '% !TeX root = ' "$file" || return
@@ -21,23 +20,23 @@ if [ -z "$mode" -o "$mode" = "-" ]; then
         *config\.h)         make && sudo make install ;;
         *\.cpp|*\.hpp)      g++ -g -O0 -Wall -Wextra -pedantic -o "$base" "$file" ;;
         *\.c|*\.h)          gcc -g -O0 -Wall -Wextra -pedantic -o "$base" "$file" ;;
-        *\.ms)              groff -ms "$file" $args -T pdf > "$base".pdf ;;
-        *\.py)              python3 "$1" $args ;;
-        *\.md)              pandoc "$file" --pdf-engine=xelatex $args -o "$base".pdf ;;
-        *\.tex)             get_root ; xelatex $args "$file" ;;
-        *\.go)              go run "$file" $args ;;
+        *\.py)              python3 "$file" ;;
+        *\.md)              pandoc "$file" --pdf-engine=xelatex -o "$base".pdf ;;
+        *\.tex)             get_root ; xelatex "$file" ;;
+        *\.go)              go run "$file" ;;
         *\.html)            $BROWSER "$file" ;;
         *\.Xresources)      xrdb -merge "$file" ;;
         *\.r)               Rscript "$file" ;;
         *CMakeLists\.txt)   cd ./build && cmake .. && make ;;
-        *)                  sed 1q "$file" | grep "^#!/" | sed "s/^#!//" | xargs -r -I % "$file" $args ;;
+        *)                  sed 1q "$file" | grep "^#!/" | sed "s/^#!//" | xargs -r -I % "$file" ;;
     esac
 else
     case "$file" in
-        *\.md)              pandoc "$file" -t beamer --pdf-engine=xelatex $args -o "$base".pdf ;;
+        *\.md)              pandoc "$file" -t beamer --pdf-engine=xelatex -o "$base".pdf ;;
         *\.tex)             pdflatex "$file" ;;
         *\.go)              go build . ;;
-        *\.cpp|*\.h|*\.hpp) cd ../build && cmake .. && make ;;
+        *\.c|*\.cpp|*\.h|*\.hpp)
+            cd ../build && cmake .. && make ;;
     esac
 fi
 
