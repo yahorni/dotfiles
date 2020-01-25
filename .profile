@@ -45,6 +45,8 @@ export LESS_TERMCAP_se=$'\E[0m'        # reset reverse video
 export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
 export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+
 [[ -f "$HOME/.zshrc" ]] && . "$HOME/.zshrc"
 
 if [[ $(tty) = "/dev/tty1" ]]; then

@@ -1,10 +1,14 @@
 set nocompatible
 
+" set leader key
+let mapleader = " "
+
 call plug#begin('~/.vim/plugged')
 
 " buffer manipulation
 Plug 'scrooloose/nerdtree'
-nnoremap <silent> <C-N> :NERDTreeToggle<CR>
+nn <silent> <C-n> :NERDTreeToggle<CR>
+nn <silent> <leader>n :NERDTreeFocus<CR>
 Plug 'qpkorr/vim-bufkill'
 
 " comments
@@ -40,12 +44,15 @@ let g:closetag_filenames = '*'
 let g:closetag_filetypes = '*'
 let g:closetag_shortcut = '>'
 let g:closetag_emptyTags_caseSensitive = 1
-nnoremap <silent> <leader>t :CloseTagToggleBuffer<CR>
+nn <silent> <leader>t :CloseTagToggleBuffer<CR>
 au BufNewFile,BufRead * :CloseTagDisableBuffer<CR>
 au BufNewFile,BufRead *.html,*.xml :CloseTagEnableBuffer<CR>
 
 " highlight for substituion
 Plug 'markonm/traces.vim'
+
+" rename file
+Plug 'vim-scripts/Rename2'
 
 " status line
 Plug 'vim-airline/vim-airline'
@@ -55,7 +62,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_alt_sep = ''
 let g:airline#extensions#tabline#left_sep = ''
 if (&term!='linux')
-    let g:airline_theme='minimalist' "hybrid
+    let g:airline_theme='minimalist'
     let g:airline#extensions#xkblayout#enabled = 1
     let g:airline_powerline_fonts = 1
     let g:airline_extensions = ['tabline', 'ale', 'branch', 'vimtex', 'whitespace', 'xkblayout']
@@ -125,7 +132,7 @@ let b:ale_warn_about_trailing_blank_lines = 1
 let b:ale_warn_about_trailing_whitespace = 1
 au FileType cpp,go,python setlocal completeopt-=preview
 nn <silent> <leader>l :ALELint<CR>
-nn <silent> <leader>f :ALEFix<CR>
+nn <silent> <leader>F :ALEFix<CR>
 nn <silent> <leader>L :ALEToggle<CR>
 nn <silent> <A-[> :ALEPrevious<CR>
 nn <silent> <A-]> :ALENext<CR>
@@ -151,7 +158,8 @@ au FileType go let g:SuperTabDefaultCompletionType = "context"
 " fzf
 Plug '/usr/bin/fzf'
 Plug 'junegunn/fzf.vim'
-nnoremap <silent> <C-b> :Buffers<CR>
+nn <silent> <C-b> :Buffers<CR>
+nn <silent> <leader>b :FZF<CR>
 
 " vifm
 Plug 'vifm/vifm.vim'
@@ -160,23 +168,21 @@ Plug 'vifm/vifm.vim'
 Plug 'baskerville/vim-sxhkdrc'
 
 " c++
-" au FileType cpp,c,h let g:SuperTabDefaultCompletionType = <c-x><c-i>
 Plug 'zchee/deoplete-clang'
 let g:deoplete#sources#clang#libclang_path = '/usr/lib/libclang.so'
 let g:deoplete#sources#clang#clang_header = '/usr/lib/clang/'
 Plug 'octol/vim-cpp-enhanced-highlight'
-Plug 'google/vim-maktaba'
-Plug 'google/vim-codefmt'
-au FileType c,cpp,h AutoFormatBuffer clang-format
+Plug 'rhysd/vim-clang-format'
+let g:clang_format#code_style = 'llvm'
+au FileType c,cpp,h,hpp nn <silent> <C-f> :ClangFormat<CR>
 Plug 'uplus/vim-clang-rename'
-au FileType c,cpp,h nn <leader>r :ClangRename<CR>
+au FileType c,cpp,h,hpp nn <silent> <leader>r :ClangRename<CR>
 Plug 'derekwyatt/vim-fswitch'
-au FileType c,cpp,h nn <silent> <A-o> :FSHere<CR>
-au FileType c,cpp,h ino <silent> <A-o> <ESC>:FSHere<CR>
+au FileType c,cpp,h,hpp nn <silent> <leader>o :FSHere<CR>
 
 " tags
 Plug 'majutsushi/tagbar'
-nnoremap <silent> <C-T> :TagbarToggle<CR>
+nn <silent> <C-T> :TagbarToggle<CR>
 
 " wal colorscheme
 Plug 'dylanaraps/wal.vim'
@@ -254,39 +260,34 @@ set nolist
 set conceallevel=0
 set concealcursor=nvic
 set cursorline
+set cino=N-s,g0
 
 " change <paste> command behaviour
-xnoremap p "_dp
-xnoremap P "_dP
+xn p "_dp
+xn P "_dP
 
 " disable Ex mode
-nnoremap Q <nop>
+nn Q <nop>
 
 " annoying keys
-command! Q :q
-command! W :w
-command! WQ :wq
-command! Wq :wq
-command! -bang Q :q<bang>
+com! Q :q
+com! W :w
+com! WQ :wq
+com! Wq :wq
+com! -bang Q :q<bang>
 
 " custom exit keys
 nn zq ZQ
+nn zz ZZ
 
 " normal mode bindings
-nnoremap <silent> <C-x> :noh<Enter>
-nnoremap Y y$
-
-" moving in insert mpde
-inoremap <C-H> <Left>
-inoremap <C-L> <Right>
+nn <silent> <C-x> :noh<Enter>
+nn Y y$
 
 " buffer manipulation
-nnoremap <silent> <C-s> :bprev<CR>
-nnoremap <silent> <C-w> :bnext<CR>
-
-" line movements
-nnoremap <A-s> gj
-nnoremap <A-w> gk
+nn <silent> <C-s> :w <bar> bprev<CR>
+nn <silent> <C-w> :w <bar> bnext<CR>
+nn <silent> <C-q> :w <bar> :close<CR>
 
 " different cursors per mode
 if (&term!='linux')
@@ -300,21 +301,6 @@ if (&term!='linux')
         let &t_EI = "\e[2 q"
     endif
 endif
-
-" Tab highlighting"
-fun! ToggleTabHighlight()
-    if !exists('b:TabHighlight')
-        let b:TabHighlight=1
-        set list lcs=tab:▷—,trail:○
-        echo "Tab highlight enabled"
-    else
-        unlet b:TabHighlight
-        set nolist
-        echo "Tab highlight disabled"
-    endif
-endfun
-
-nnoremap gS :call ToggleTabHighlight()<CR>
 
 " Split moving/resizing
 fun! ToggleResizeSplitMode()
@@ -338,6 +324,7 @@ nn gr :call ToggleResizeSplitMode()<CR>
 nn <leader>e :w <bar> :!compiler %<CR>
 nn <leader>E :w <bar> :!compiler % 2<CR>
 nn <leader>x :!chmod +x %<CR>
+nn <leader>X :!chmod -x %<CR>
 
 " showing results
 au FileType tex,markdown nn <leader>p :!opout %<CR><CR>
@@ -346,21 +333,21 @@ au FileType c,cpp nn <leader>p :!./%:r<CR>
 au FileType tex nn <leader>c :!texclear %:p:h<CR><CR>
 au VimLeave *.tex !texclear %:p:h
 
+" FILETYPES
 " calcurse notes as markdown
 au BufRead,BufNewFile,VimEnter /tmp/calcurse* set filetype=markdown.pandoc
 au BufRead,BufNewFile,VimEnter ~/.calcurse/notes/* set filetype=markdown.pandoc
-
 " systemd service files
 au BufRead,BufNewFile *.service set filetype=dosini
 
+" STYLES
 " python pep textwidth
 au FileType python set textwidth=79
-
 " c++ style
-au FileType c,cpp,javascript set tabstop=2 | set shiftwidth=2
+au FileType c,cpp,h,hpp set tabstop=4 | set shiftwidth=4 | set textwidth=129
 
-" shfmt
-au FileType sh nn <buffer> <c-f> :%!shfmt<cr>
-
-" format json
-au FileType json nn <buffer> <c-f> :%!python -m json.tool<cr>
+" FORMATTERS
+" shell
+au FileType sh nn <buffer> <C-f> :%!shfmt<cr>
+" json
+au FileType json nn <buffer> <C-f> :%!python -m json.tool<cr>

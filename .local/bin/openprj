@@ -2,4 +2,6 @@
 
 prjdir="$HOME/prj"
 prj=`ls "$prjdir" | dmenu -p "Open project:" -l 5`
-[ ! -z "$prj" ] && code "$prjdir/$prj"
+[ -z "$prj" ] && exit
+code "$prjdir/$prj" || \
+    (cd "$prjdir/$prj" && "$TERMINAL" -e "$EDITOR" "$prjdir/$prj")

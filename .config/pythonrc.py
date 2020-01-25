@@ -1,7 +1,8 @@
 import atexit
 import os
 import readline
-histfile = os.path.join(os.path.expanduser("~"), ".local/share/python_history")
+histfile = os.path.join(os.path.expanduser("~"),
+                        ".local/share/python_history")
 
 try:
     readline.read_history_file(histfile)
