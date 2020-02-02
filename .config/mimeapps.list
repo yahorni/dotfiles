@@ -3,6 +3,7 @@ application/epub+zip=zathura.desktop
 application/json=nvim.desktop
 application/oxps=zathura.desktop
 application/pdf=zathura.desktop
+application/x-bittorrent=torrent.desktop
 image/gif=sxiv.desktop
 image/jpeg=sxiv.desktop
 image/png=sxiv.desktop

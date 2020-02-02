@@ -1,0 +1,30 @@
+#!/bin/bash
+
+[ $(pgrep -x suspender | wc -l) -gt 2 ] && exit 1
+
+low_message="Low battery"
+critical_message="Critical battery"
+remain_time=15
+check_period=45
+
+function check_acpi {
+    acpi -b | awk -F'[,:%]' '{print $2, $3}' | {
+        read -r status capacity
+
+        if [ "$status" = "Discharging" ]; then
+            if [ "$capacity" -le 5  ]; then
+                notify-send -u critical -t 14000 "$critical_message" "$status ${capacity}% \nRemain time: $remain_time sec"
+                sleep $remain_time
+                read -r new_status new_capacity < <(acpi -b | awk -F'[,:%]' '{print $2, $3}')
+                [ "$new_status" = "Discharging" -a "$new_capacity" -le 5  ] && systemctl suspend
+            elif [ "$capacity" -le 10 ]; then
+                notify-send -u critical -t 5000 "$low_message" "$status ${capacity}%"
+            fi
+        fi
+    }
+}
+
+while true ; do
+    check_acpi
+    sleep $check_period
+done

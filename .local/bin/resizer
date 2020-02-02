@@ -1,0 +1,26 @@
+#!/bin/sh
+
+side=${1:-+}
+percent="${2:-5}"
+
+pid=$(xdotool getwindowfocus)
+
+function increase {
+    echo $(($1 * (100 + $percent) / 100))
+}
+
+function decrease {
+    echo $(($1 * (100 - $percent) / 100))
+}
+
+eval "`xdotool getwindowgeometry --shell $pid`"
+
+if [ "$side" = "+" ]; then
+    new_width=`increase $WIDTH`
+    new_height=`increase $HEIGHT`
+elif [ "$side" = "-" ]; then
+    new_width=`decrease $WIDTH`
+    new_height=`decrease $HEIGHT`
+fi
+
+echo "$new_width $new_height"

@@ -173,6 +173,12 @@ super + alt + {h,j,k,l}
         esac ; \
     fi
 
+super + alt + shift + {j,k}
+    if bspc query -N -n focused.floating; then \
+        read w h <<< `resizer {-,+} 3` ; \
+        xdotool windowsize `xdotool getwindowfocus` $w $h ; \
+    fi
+
 super + {_,shift + }q
     bspc node -{c,k}
 

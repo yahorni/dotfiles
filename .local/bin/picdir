@@ -1,5 +1,7 @@
 #!/bin/sh
 
+pix=`xdg-user-dir PICTURES`
+
 folders="wallpapers
 screenshots
 luke"
@@ -7,10 +9,10 @@ luke"
 folder=$(echo -e -n "$folders" | dmenu -i -p "Choose folder:")
 
 case $folder in
-    wallpapers) sxiv -t $WALLPAPERS ;;
-    screenshots) sxiv -t $SCREENSHOTS ;;
+    wallpapers) sxiv -t "$pix" ;;
+    screenshots) sxiv -t "$pix/screens" ;;
     luke) # https://github.com/LukeSmithxyz/wallpapers
-        cd "$PICTURES"/luke/
+        cd "$pix/luke"
         luke=$(ls -1d */ | dmenu -i -p "Choose luke folder:")
         sxiv -t "$luke"
         ;;

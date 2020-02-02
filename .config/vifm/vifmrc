@@ -455,7 +455,7 @@ vnoremap xe :!extract %f<cr>
 " open same directory in other pane
 nnoremap xs :sync<cr>
 " make zip archive of current directory
-nnoremap xz :!zip -r %d.zip %d &<cr>
+nnoremap xz :!zip -r %f.zip %f &<cr>
 " add executable rights
 nnoremap cx :!chmod +x %f<cr>
 " remove executable rights

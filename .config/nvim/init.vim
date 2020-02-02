@@ -1,7 +1,7 @@
 set nocompatible
 
 " set leader key
-let mapleader = " "
+let mapleader=" "
 
 call plug#begin('~/.vim/plugged')
 

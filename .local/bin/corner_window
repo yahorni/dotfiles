@@ -1,7 +1,7 @@
 #!/bin/bash
 
 default_x=35
-default_y=40
+default_y=35
 usage="Usage: ${0##*/} [-h] [-H left/right] [-v top/bottom] [-x percents] [-y percents]
 
 -h — show help.
@@ -17,27 +17,27 @@ warn_perc="option needs value between 0..100"
 warn_num="option needs integer value"
 
 function warn {
-	notify-send "Warning" "$1"
-	exit 1
+    notify-send "Warning" "$1"
+    exit 1
 }
 
 num_regex='^[0-9]+$'
 
 while getopts ":hH:v:x:y:" opt 2>/dev/null; do
-	case $opt in
-		h)	echo "$usage" && exit ;;
-		H)	[ "$OPTARG" != "left" -a "$OPTARG" != "right" ] && warn "$warn_H"
-			x_pos=$OPTARG ;;
-		v)	[ "$OPTARG" != "top" -a "$OPTARG" != "bottom" ] && warn "$warn_v"
-			y_pos=$OPTARG ;;
-		x|y) ! [[ "$OPTARG" =~ $num_regex ]] && warn "\-$opt $warn_num"
-			[ "$OPTARG" -lt 0 -o "$OPTARG" -gt 100 ] && warn "\-$opt $warn_perc"
-			if [ "$opt" = "x" ]; then
-				x_perc=$OPTARG
-			else
-				y_perc=$OPTARG
-			fi ;;
-	esac
+    case $opt in
+        h)  echo "$usage" && exit ;;
+        H)  [ "$OPTARG" != "left" -a "$OPTARG" != "right" ] && warn "$warn_H"
+            x_pos=$OPTARG ;;
+        v)  [ "$OPTARG" != "top" -a "$OPTARG" != "bottom" ] && warn "$warn_v"
+            y_pos=$OPTARG ;;
+        x|y) ! [[ "$OPTARG" =~ $num_regex ]] && warn "\-$opt $warn_num"
+            [ "$OPTARG" -lt 0 -o "$OPTARG" -gt 100 ] && warn "\-$opt $warn_perc"
+            if [ "$opt" = "x" ]; then
+                x_perc=$OPTARG
+            else
+                y_perc=$OPTARG
+            fi ;;
+    esac
 done
 
 x_position="${x_pos:-right}"
@@ -73,7 +73,7 @@ new_y=0
 [ "$x_position" = "right" ] && new_x=$((${geometry[0]} - $new_width))
 [ "$y_position" = "bottom" ] && new_y=$((${geometry[1]} - $new_height))
 
-new_x=$(($new_x + ${geometry[2]}))
-new_y=$(($new_y + ${geometry[3]}))
+new_x=$(($new_x + ${geometry[2]} - 5))
+new_y=$(($new_y + ${geometry[3]} - 5))
 
 xdotool windowmove $pid $new_x $new_y

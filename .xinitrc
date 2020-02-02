@@ -1,5 +1,6 @@
 #!/bin/sh
 
+suspender &
 pgrep mpd || mpd &
 dunst &
 picom &
