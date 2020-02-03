@@ -1,6 +1,5 @@
 #!/bin/sh
 
-suspender &
 pgrep mpd || mpd &
 dunst &
 picom &
@@ -10,6 +9,7 @@ clipmenud &
 
 monitors=`xrandr --listmonitors | wc -l`
 if [ $monitors -eq 2 ]; then
+    suspender &
     transmission-daemon &
     redshift &
 
