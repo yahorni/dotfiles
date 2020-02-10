@@ -38,15 +38,7 @@ nn gdl :diffget //3<CR>
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat' " dot command for vim-surround
 Plug 'jiangmiao/auto-pairs'
-let g:AutoPairsShortcutToggle = '<A-P>'
-Plug 'alvan/vim-closetag'
-let g:closetag_filenames = '*'
-let g:closetag_filetypes = '*'
-let g:closetag_shortcut = '>'
-let g:closetag_emptyTags_caseSensitive = 1
-nn <silent> <leader>t :CloseTagToggleBuffer<CR>
-au BufNewFile,BufRead * :CloseTagDisableBuffer<CR>
-au BufNewFile,BufRead *.html,*.xml :CloseTagEnableBuffer<CR>
+let g:AutoPairsShortcutToggle = ''
 
 " highlight for substituion
 Plug 'markonm/traces.vim'
@@ -61,14 +53,15 @@ let g:airline#extensions#whitespace#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_alt_sep = ''
 let g:airline#extensions#tabline#left_sep = ''
-if (&term!='linux')
+if $TERM != 'linux'
     let g:airline_theme='minimalist'
     let g:airline#extensions#xkblayout#enabled = 1
     let g:airline_powerline_fonts = 1
-    let g:airline_extensions = ['tabline', 'ale', 'branch', 'vimtex', 'whitespace', 'xkblayout']
+    let g:airline_extensions = ['tabline', 'ale', 'branch', 'whitespace', 'xkblayout']
 else
+    let g:airline_theme='jellybeans'
     let g:airline_powerline_fonts = 0
-    let g:airline_extensions = ['tabline', 'ale', 'branch', 'vimtex', 'whitespace']
+    let g:airline_extensions = ['tabline', 'ale', 'branch', 'whitespace']
 endif
 
 " autocomplete
@@ -94,16 +87,11 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 " i3
 Plug 'PotatoesMaster/i3-vim-syntax'
 
-" latex
-Plug 'lervag/vimtex'
-let g:tex_flavor = 'latex'
-let g:tex_conceal = 'abdmg'
-
 " markdown
 Plug 'vim-pandoc/vim-pandoc-syntax'
 au FileType markdown set filetype=markdown.pandoc
 au VimEnter *.md set filetype=markdown
-let g:pandoc#syntax#conceal#use = 1
+let g:pandoc#syntax#conceal#use = 0
 
 " linting
 Plug 'w0rp/ale'
@@ -117,7 +105,7 @@ let g:ale_fixers = {
 let g:ale_linters = {
             \   'python': ['flake8', 'pylint'],
             \   'tex': ['chktex'],
-            \   'cpp': ['clangtidy', 'clangcheck', 'cppcheck',  'cpplint', 'clang', 'gcc'],
+            \   'cpp': ['clang', 'gcc'],
             \   'c': ['clang', 'gcc'],
             \   'sh': ['shfmt'],
             \}
@@ -351,3 +339,9 @@ au FileType c,cpp,h,hpp set tabstop=4 | set shiftwidth=4 | set textwidth=129
 au FileType sh nn <buffer> <C-f> :%!shfmt<cr>
 " json
 au FileType json nn <buffer> <C-f> :%!python -m json.tool<cr>
+
+" TABS
+nn <silent> ts :tabprev<CR>
+nn <silent> tw :tabnext<CR>
+nn <silent> tn :tabnew<CR>
+nn <silent> tc :tabclose<CR>

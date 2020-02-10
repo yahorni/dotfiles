@@ -11,7 +11,7 @@ if [ "$1" = 'part' ]; then
 elif [ "$1" = 'window' ]; then
     maim -B -u -i $(xdotool getactivewindow) "$filename"
 else
-	maim -B -u "$filename"
+    maim -B -u "$filename"
 fi
 
 xclip -selection clipboard -t image/png -i "$filename" && \
