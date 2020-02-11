@@ -28,12 +28,6 @@ else
     imap <C-c> <plug>NERDCommenterInsert
 endif
 
-" git
-Plug 'tpope/vim-fugitive'
-nn gdd :Gvdiffsplit!<CR>
-nn gdh :diffget //2<CR>
-nn gdl :diffget //3<CR>
-
 " improved quoting/parenthesizing
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat' " dot command for vim-surround
@@ -45,6 +39,9 @@ Plug 'markonm/traces.vim'
 
 " rename file
 Plug 'vim-scripts/Rename2'
+
+" search with ripgrep
+Plug 'jremmen/vim-ripgrep'
 
 " status line
 Plug 'vim-airline/vim-airline'
@@ -264,10 +261,6 @@ com! WQ :wq
 com! Wq :wq
 com! -bang Q :q<bang>
 
-" custom exit keys
-nn zq ZQ
-nn zz ZZ
-
 " normal mode bindings
 nn <silent> <C-x> :noh<Enter>
 nn Y y$
@@ -275,7 +268,7 @@ nn Y y$
 " buffer manipulation
 nn <silent> <C-s> :w <bar> bprev<CR>
 nn <silent> <C-w> :w <bar> bnext<CR>
-nn <silent> <C-q> :w <bar> :close<CR>
+nn <silent> <C-q> :w <bar> close<CR>
 
 " different cursors per mode
 if (&term!='linux')
@@ -330,9 +323,10 @@ au BufRead,BufNewFile *.service set filetype=dosini
 
 " STYLES
 " python pep textwidth
-au FileType python set textwidth=79
+au FileType python set textwidth=79 | set colorcolumn=80
 " c++ style
-au FileType c,cpp,h,hpp set tabstop=4 | set shiftwidth=4 | set textwidth=129
+au FileType c,cpp,h,hpp set tabstop=4 | set shiftwidth=4 |
+            \ set textwidth=120 | set colorcolumn=121
 
 " FORMATTERS
 " shell
@@ -345,3 +339,6 @@ nn <silent> ts :tabprev<CR>
 nn <silent> tw :tabnext<CR>
 nn <silent> tn :tabnew<CR>
 nn <silent> tc :tabclose<CR>
+
+" Autoremove trailing whitespaces
+autocmd BufWritePre * %s/\s\+$//e

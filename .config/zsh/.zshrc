@@ -82,6 +82,11 @@ function scr {
     [ ! -z "$file" ] && $EDITOR "$bindir/$file"
 }
 
+# autosuggestions
+ZSH_AUTOSUGGEST_STRATEGY=(history)
+bindkey '^ ' autosuggest-accept
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+
 # syntax highlight
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
