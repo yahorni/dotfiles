@@ -6,9 +6,6 @@ let mapleader=" "
 call plug#begin('~/.vim/plugged')
 
 " buffer manipulation
-Plug 'scrooloose/nerdtree'
-nn <silent> <C-n> :NERDTreeToggle<CR>
-nn <silent> <leader>n :NERDTreeFocus<CR>
 Plug 'qpkorr/vim-bufkill'
 
 " comments
@@ -81,15 +78,6 @@ xmap <C-k> <Plug>(neosnippet_expand_target)
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
             \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
-" i3
-Plug 'PotatoesMaster/i3-vim-syntax'
-
-" markdown
-Plug 'vim-pandoc/vim-pandoc-syntax'
-au FileType markdown set filetype=markdown.pandoc
-au VimEnter *.md set filetype=markdown
-let g:pandoc#syntax#conceal#use = 0
-
 " linting
 Plug 'w0rp/ale'
 let g:ale_fixers = {
@@ -146,12 +134,6 @@ Plug 'junegunn/fzf.vim'
 nn <silent> <C-b> :Buffers<CR>
 nn <silent> <leader>b :FZF<CR>
 
-" vifm
-Plug 'vifm/vifm.vim'
-
-" sxhkd
-Plug 'baskerville/vim-sxhkdrc'
-
 " c++
 Plug 'zchee/deoplete-clang'
 let g:deoplete#sources#clang#libclang_path = '/usr/lib/libclang.so'
@@ -165,12 +147,9 @@ au FileType c,cpp,h,hpp nn <silent> <leader>r :ClangRename<CR>
 Plug 'derekwyatt/vim-fswitch'
 au FileType c,cpp,h,hpp nn <silent> <leader>o :FSHere<CR>
 
-" tags
+" tagbar
 Plug 'majutsushi/tagbar'
 nn <silent> <C-T> :TagbarToggle<CR>
-
-" wal colorscheme
-Plug 'dylanaraps/wal.vim'
 
 " indentation
 Plug 'Yggdroot/indentLine'
@@ -178,16 +157,19 @@ Plug 'Yggdroot/indentLine'
 au FileType tex,markdown,json let g:indentLine_setColors = 0
 au FileType tex,markdown,json let g:indentLine_enabled = 0
 
-" solidity
-Plug 'tomlion/vim-solidity'
+" SYNTAX FILES
+Plug 'vifm/vifm.vim' " vifm
+Plug 'baskerville/vim-sxhkdrc' " sxhkd
+Plug 'tomlion/vim-solidity' " solidity
+Plug 'vim-pandoc/vim-pandoc-syntax' " markdown
+au FileType markdown set filetype=markdown.pandoc
+au VimEnter *.md set filetype=markdown
+let g:pandoc#syntax#conceal#use = 0
 
 if (&term!='linux')
     " language switching
     Plug 'lyokha/vim-xkbswitch'
     let g:XkbSwitchEnabled = 1
-
-    " nerdtree unicode git symbols
-    Plug 'Xuyuanp/nerdtree-git-plugin'
 
     "highlight hex colors
     Plug 'lilydjwg/colorizer'
@@ -195,6 +177,7 @@ if (&term!='linux')
 
     " theme
     Plug 'vim-airline/vim-airline-themes'
+    Plug 'dylanaraps/wal.vim'
     Plug 'drewtempelmeyer/palenight.vim'
 
 endif
@@ -203,11 +186,15 @@ call plug#end()
 
 filetype plugin on
 
+" file manager
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_winsize = 25
+nn <silent> <C-n> :Lexplore<CR>
+
 set bg=dark
-if (&bg=='dark')
-    colo palenight
-    hi Normal ctermbg=233
-endif
+colo palenight
+hi Normal ctermbg=233
 
 set laststatus=0
 set ffs=unix,dos,mac
@@ -216,7 +203,7 @@ set fencs=utf-8,cp1251,koi8-r,ucs-2,cp866
 set autoindent
 set incsearch
 set hlsearch
-set hidden
+" set hidden
 set viminfo="-"
 set clipboard=unnamedplus
 set expandtab
@@ -246,6 +233,7 @@ set conceallevel=0
 set concealcursor=nvic
 set cursorline
 set cino=N-s,g0
+set tags=./tags;/ " use with `ctags -R .`
 
 " change <paste> command behaviour
 xn p "_dp
@@ -265,7 +253,7 @@ com! -bang Q :q<bang>
 nn <silent> <C-x> :noh<Enter>
 nn Y y$
 
-" buffer manipulation
+" buffer switching
 nn <silent> <C-s> :w <bar> bprev<CR>
 nn <silent> <C-w> :w <bar> bnext<CR>
 nn <silent> <C-q> :w <bar> close<CR>
