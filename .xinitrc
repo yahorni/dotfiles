@@ -15,6 +15,8 @@ if [ $monitors -eq 2 ]; then
 
     xwallpaper --output eDP1 --stretch "$HOME/.local/share/wallpaper"
 else
+    safeeyes &
+
     xwallpaper \
         --output HDMI2 --stretch "$HOME/.local/share/wallpaper" \
         --output DP2 --stretch "$HOME/.local/share/vertical"
