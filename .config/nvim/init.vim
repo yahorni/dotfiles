@@ -60,7 +60,7 @@ endif
 
 " autocomplete
 Plug 'ervandew/supertab'
-let g:SuperTabDefaultCompletionType = "<c-n>"
+let g:SuperTabDefaultCompletionType = "<C-n>"
 Plug 'Shougo/deoplete.nvim'
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_smart_case = 1
@@ -149,7 +149,7 @@ au FileType c,cpp,h,hpp nn <silent> <leader>o :FSHere<CR>
 
 " tagbar
 Plug 'majutsushi/tagbar'
-nn <silent> <C-T> :TagbarToggle<CR>
+nn <silent> <C-t> :TagbarToggle<CR>
 
 " indentation
 Plug 'Yggdroot/indentLine'
@@ -191,6 +191,7 @@ let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 let g:netrw_winsize = 20
 nn <silent> <C-n> :Lexplore<CR>
+nn <silent> <leader>_ <Plug>NetrwRefresh
 
 set bg=dark
 colo palenight
@@ -233,7 +234,7 @@ set conceallevel=0
 set concealcursor=nvic
 set cursorline
 set cino=N-s,g0
-set tags=./tags;/ " use with `ctags -R .`
+set tags=./tags;
 
 " change <paste> command behaviour
 xn p "_dp
@@ -282,11 +283,11 @@ fun! ToggleResizeSplitMode()
     endif
 endfun
 
-nn <silent> <expr> <ESC> exists('b:SplitResize') ? '<ESC>:unlet b:SplitResize<CR>:echo "Resizing disabled"<CR>' : '<ESC>'
-nn <silent> <expr> <C-H> !exists('b:SplitResize') ? '<C-W><C-H>' : ':vert res -1<CR>'
-nn <silent> <expr> <C-J> !exists('b:SplitResize') ? '<C-W><C-J>' : ':res -1<CR>'
-nn <silent> <expr> <C-K> !exists('b:SplitResize') ? '<C-W><C-K>' : ':res +1<CR>'
-nn <silent> <expr> <C-L> !exists('b:SplitResize') ? '<C-W><C-L>' : ':vert res +1<CR>'
+nn <silent> <expr> <C-h> !exists('b:SplitResize') ? '<C-w><C-h>' : ':vert res -1<CR>'
+nn <silent> <expr> <C-j> !exists('b:SplitResize') ? '<C-w><C-j>' : ':res -1<CR>'
+nn <silent> <expr> <C-k> !exists('b:SplitResize') ? '<C-w><C-k>' : ':res +1<CR>'
+nn <silent> <expr> <C-l> !exists('b:SplitResize') ? '<C-w><C-l>' : ':vert res +1<CR>'
+ " it's better to not remap ESC button
 nn gr :call ToggleResizeSplitMode()<CR>
 
 " file executing
@@ -329,4 +330,7 @@ nn <silent> tn :tabnew<CR>
 nn <silent> tc :tabclose<CR>
 
 " Autoremove trailing whitespaces
-autocmd BufWritePre * %s/\s\+$//e
+au BufWritePre * %s/\s\+$//e
+
+" Update ctags
+com Ctags execute "!ctags -R --exclude=.git --exclude=node_modules ."
