@@ -162,8 +162,8 @@ Plug 'vifm/vifm.vim' " vifm
 Plug 'baskerville/vim-sxhkdrc' " sxhkd
 Plug 'tomlion/vim-solidity' " solidity
 Plug 'vim-pandoc/vim-pandoc-syntax' " markdown
-au FileType markdown set filetype=markdown.pandoc
-au VimEnter *.md set filetype=markdown
+au FileType markdown setlocal filetype=markdown.pandoc
+au VimEnter *.md setlocal filetype=markdown
 let g:pandoc#syntax#conceal#use = 0
 
 if (&term!='linux')
@@ -305,17 +305,19 @@ au VimLeave *.tex !texclear %:p:h
 
 " FILETYPES
 " calcurse notes as markdown
-au BufRead,BufNewFile,VimEnter /tmp/calcurse* set filetype=markdown.pandoc
-au BufRead,BufNewFile,VimEnter ~/.calcurse/notes/* set filetype=markdown.pandoc
+au BufRead,BufNewFile,VimEnter /tmp/calcurse* setlocal filetype=markdown.pandoc
+au BufRead,BufNewFile,VimEnter ~/.calcurse/notes/* setlocal filetype=markdown.pandoc
 " systemd service files
-au BufRead,BufNewFile *.service set filetype=dosini
+au BufRead,BufNewFile *.service setlocal filetype=dosini
 
 " STYLES
 " python pep textwidth
-au FileType python set textwidth=79 | set colorcolumn=80
+au FileType python setlocal textwidth=79 | setlocal colorcolumn=80
 " c++ style
-au FileType c,cpp,h,hpp set tabstop=4 | set shiftwidth=4 |
-            \ set textwidth=120 | set colorcolumn=121
+au FileType c,cpp,h,hpp setlocal tabstop=4 | setlocal shiftwidth=4 |
+            \ setlocal textwidth=120 | setlocal colorcolumn=121
+" js style
+au FileType javascript setlocal tabstop=2 | setlocal shiftwidth=2
 
 " FORMATTERS
 " shell
