@@ -253,6 +253,7 @@ com! -bang Q :q<bang>
 " normal mode bindings
 nn <silent> <C-x> :noh<Enter>
 nn Y y$
+nn zq ZQ
 
 " buffer switching
 nn <silent> <C-s> :w <bar> bprev<CR>

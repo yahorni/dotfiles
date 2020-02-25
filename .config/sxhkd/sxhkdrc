@@ -191,6 +191,9 @@ super + {_,shift + }{1-9,0}
 control + super + {h,l}
     bspc desktop -f {prev,next}.local.occupied
 
+control + super + {Left,Right}
+    bspc desktop -f {prev,next}.local.occupied
+
 super + {_,shift +}y
     bspc node @focused:/ --flip {vertical,horizonal}
 
