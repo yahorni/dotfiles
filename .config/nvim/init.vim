@@ -322,9 +322,9 @@ au FileType javascript setlocal tabstop=2 | setlocal shiftwidth=2
 
 " FORMATTERS
 " shell
-au FileType sh nn <buffer> <C-f> :%!shfmt<cr>
+au FileType sh nn <buffer> <C-f> :%!shfmt<CR>
 " json
-au FileType json nn <buffer> <C-f> :%!python -m json.tool<cr>
+au FileType json nn <buffer> <C-f> :%!jq<CR>
 
 " TABS
 nn <silent> ts :tabprev<CR>
