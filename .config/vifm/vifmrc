@@ -474,10 +474,10 @@ nnoremap zz ZZ
 nnoremap gb :file &<cr>l
 
 " Yank current directory path into the clipboard
-nnoremap yd :!echo %d | xclip %i<cr>
+nnoremap yd :!echo %d | xclip -sel clip %i<cr>
 
 " Yank current file path into the clipboard
-nnoremap yf :!echo %c:p | xclip %i<cr>
+nnoremap yf :!echo %c:p | xclip -sel clip %i<cr>
 
 " Mappings for faster renaming
 nnoremap I cw<c-a>
