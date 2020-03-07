@@ -14,9 +14,4 @@ else
     maim -B -u "$filename"
 fi
 
-xclip -selection clipboard -t image/png -i "$filename" && \
-    notify-send -i "$filename" "Copied to clipboard"
-xclip -i "$filename" && \
-    notify-send -i "$filename" "Copied to primary" "$filename"
-xclip-copyfile "$filename" && \
-    notify-send -i "$filename" "Copied to xclip"
+copyimage "$filename"

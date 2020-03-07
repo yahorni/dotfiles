@@ -16,6 +16,7 @@ bindkey "^?" backward-delete-char # vi mode backspace fix
 bindkey '^[[Z' reverse-menu-complete # shift-tab
 bindkey -M vicmd 'k' history-beginning-search-backward  # backward search in vi
 bindkey -M vicmd 'j' history-beginning-search-forward   # forward search in vi
+bindkey '^R' history-incremental-search-backward # back incremental search
 
 # vi escape key delay
 export KEYTIMEOUT=1
@@ -41,11 +42,17 @@ setopt hist_ignore_dups
 unsetopt nomatch
 
 # completions
+
 autoload -Uz compinit && compinit
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 zmodload zsh/complist
 compinit
+
+# use bash git completions instead of zsh
+compdef -d git
+autoload bashcompinit && bashcompinit
+source /usr/share/git/completion/git-completion.bash 2>/dev/null
 
 # cursor
 function _set_cursor() {

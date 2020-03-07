@@ -149,7 +149,7 @@ au FileType c,cpp,h,hpp nn <silent> <leader>o :FSHere<CR>
 
 " tagbar
 Plug 'majutsushi/tagbar'
-nn <silent> <C-t> :TagbarToggle<CR>
+nn <silent> <leader>t :TagbarToggle<CR>
 
 " indentation
 Plug 'Yggdroot/indentLine'
@@ -333,7 +333,8 @@ nn <silent> tn :tabnew<CR>
 nn <silent> tc :tabclose<CR>
 
 " Autoremove trailing whitespaces
-au BufWritePre * %s/\s\+$//e
+nn <silent> <leader>w :%s/\s\+$//e<CR>
 
 " Update ctags
 com Ctags execute "!ctags -R --exclude=.git --exclude=node_modules ."
+nn <silent> <leader>T :Ctags<CR>
