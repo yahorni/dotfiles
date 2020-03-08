@@ -1,19 +1,29 @@
 #!/bin/sh
 
-options="xcompmgr
-picom
-nm-applet
-qbittorrent
-transmission-da
-qutebrowser
-safeeyes
-flameshot
-slack
-jupyter-noteboo
+options="vk
 telegram-deskto
-vk"
+jupyter-noteboo
+slack
+flameshot
+safeeyes
+qutebrowser
+transmission-da
+qbittorrent
+nm-applet
+picom
+xcompmgr"
 
-for item in `echo -e $options`; do pgrep -x "$item" >/dev/null && items="$item\n$items" ; done
+is_first=1
+items=""
+for item in `echo -e $options`; do
+    pgrep -x "$item" >/dev/null && \
+        if [ $is_first -eq 0 ]; then
+            items="$items\n$item"
+        else
+            items="$item"
+            is_first=0
+        fi
+done
 
 item=$(echo -e $items | dmenu -i -p "Which one to kill?")
 [[ "$?" -eq "1" ]] && exit 1

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-chosen=$(sed '0,/^EMOJI$/d' "$0" | dmenu -i -l 15 -fn "mono-16")
+chosen=$(sed '0,/^EMOJI$/d' "$0" | dmenu -i -l 15 -fn "mono-16" $@)
 
 [ "$chosen" != "" ] || exit
 
