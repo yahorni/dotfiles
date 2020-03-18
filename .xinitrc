@@ -1,5 +1,12 @@
 #!/bin/sh
 
+nvidia_lock="$XDG_DATA_HOME/nvidia_lock"
+
+if [ -f "$nvidia_lock" ]; then
+    xrandr --setprovideroutputsource modesetting NVIDIA-0
+    xrandr --auto
+fi
+
 pgrep mpd || mpd &
 dunst &
 picom &
@@ -13,13 +20,13 @@ if [ $monitors -eq 2 ]; then
     transmission-daemon &
     redshift &
 
-    xwallpaper --output eDP1 --stretch "$HOME/.local/share/wallpaper"
+    xwallpaper --stretch "$HOME/.local/share/wallpaper"
 else
     safeeyes &
 
     xwallpaper \
-        --output HDMI2 --stretch "$HOME/.local/share/wallpaper" \
-        --output DP2 --stretch "$HOME/.local/share/vertical"
+       --output HDMI2 --stretch "$HOME/.local/share/wallpaper" \
+       --output DP2 --stretch "$HOME/.local/share/vertical"
 fi
 
 xmodmap -e "keycode 135 = Super_R Menu"

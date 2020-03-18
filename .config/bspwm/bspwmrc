@@ -5,7 +5,8 @@ pkill polybar
 
 monitors=`xrandr --listmonitors | wc -l`
 if [ $monitors -eq 2 ]; then
-    bspc monitor eDP1 -d I II III IV V VI VII VIII IX X
+    monitor_id=`xrandr --current | sed -n "2p" | cut -d' ' -f1`
+    bspc monitor "$monitor_id" -d I II III IV V VI VII VIII IX X
     polybar -r notebar &
 else
     bspc monitor HDMI2 -d I II III IV V

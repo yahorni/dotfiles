@@ -11,3 +11,4 @@ chrome/* -> $HOME/.mozilla/firefox/<profile>/chrome/*
 10-monitor.conf -> /etc/X11/xorg.conf.d/10-monitor.conf # job dual monitors
 logind.conf -> /etc/systemd/logind.conf
 mirrorlist -> /etc/pacman.d/mirrorlist
+vconsole.conf -> /etc/vconsole.conf

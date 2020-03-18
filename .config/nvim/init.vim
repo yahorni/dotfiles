@@ -172,8 +172,8 @@ if (&term!='linux')
     let g:XkbSwitchEnabled = 1
 
     "highlight hex colors
-    Plug 'lilydjwg/colorizer'
-    let g:colorizer_maxlines = 1000
+    Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
+    let g:Hexokinase_highlighters = ['backgroundfull']
 
     " theme
     Plug 'vim-airline/vim-airline-themes'
@@ -235,6 +235,7 @@ set concealcursor=nvic
 set cursorline
 set cino=N-s,g0
 set tags=./tags;
+set termguicolors
 
 " change <paste> command behaviour
 xn p "_dp

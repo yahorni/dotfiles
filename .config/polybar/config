@@ -48,7 +48,6 @@ modules-right = alsa wired-network xkeyboard date
 
 [bar/notebar]
 inherit = bar/basebar
-monitor = eDP1
 modules-left = bspwm xwindow
 modules-right = cpu backlight-acpi alsa wlan battery xkeyboard date
 font-0 = mono:pixelsize=13;1

@@ -41,6 +41,9 @@ super + shift + d
 super + {_, shift +} g
     corner_window {_,-H left}
 
+super + {_,shift +} o
+    translate.py -{s,d}n
+
 # messengers
 super + x
     telegram-desktop & bspc desktop -f IX
@@ -161,7 +164,8 @@ super + alt + {h,j,k,l}
     if bspc query -N -n focused.floating; then \
         case $opt in ; \
             1) bspc node -z left -20 0 ;; \
-            2) bspc node -z top 0 20 ;;   \ 3) bspc node -z top 0 -20 ;;  \
+            2) bspc node -z top 0 20 ;;   \
+            3) bspc node -z top 0 -20 ;;  \
             4) bspc node -z left 20 0 ;;  \
         esac ; \
     elif bspc query -N -n focused.tiled; then \
