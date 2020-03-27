@@ -25,7 +25,7 @@ if [ -z "$mode" -o "$mode" = "-" ]; then
         *\.tex)             get_root ; xelatex "$file" ;;
         *\.go)              go run "$file" ;;
         *\.html)            $BROWSER "$file" ;;
-        *\.Xresources)      xrdb -merge "$file" ;;
+        *Xresources)        xrdb -merge "$file" ;;
         *\.r)               Rscript "$file" ;;
         *CMakeLists\.txt)   cd ./build && cmake .. && make ;;
         *)                  sed 1q "$file" | grep "^#!/" | sed "s/^#!//" | xargs -r -I % "$file" ;;

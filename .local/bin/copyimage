@@ -5,6 +5,9 @@ read ext data < <(file -b "$1" | cut -d ' ' -f1,2)
 [ "$data" != "image" ] && exit
 filename="$(readlink -f $1)"
 
+echo "FILE: " "$filename" 1>&2
+echo "EXT:  " "${ext,,}"  1>&2
+
 xclip -selection clipboard -t image/${ext,,} -i "$filename" && \
     notify-send -i "$filename" "Copied to clipboard"
 

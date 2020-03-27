@@ -1,6 +1,6 @@
 #!/bin/sh
 
-prjdir="$HOME/prj"
+prjdir="$HOME/prog/prj"
 prj=`ls "$prjdir" | dmenu -p "Open project:" -l 5`
 [ -z "$prj" ] && exit
 # command -v code && code "$prjdir/$prj" && exit

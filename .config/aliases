@@ -31,7 +31,7 @@ alias \
 
 # git
 alias \
-    dg='/usr/bin/git --git-dir="$HOME/reps/df" --work-tree="$HOME"' \
+    dg='/usr/bin/git --git-dir="$HOME/prog/reps/df" --work-tree="$HOME"' \
     gst='git status' \
     gd='git diff' \
     gds='git diff --staged' \

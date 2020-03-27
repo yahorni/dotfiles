@@ -57,7 +57,7 @@ super + shift + v
 
 # clipboard
 super + c
-    show_selections
+    showselections
 super + shift + c
     clipmenu
 

@@ -13,6 +13,7 @@ picom &
 sxhkd &
 unclutter &
 clipmenud &
+safeeyes &
 
 monitors=`xrandr --listmonitors | wc -l`
 if [ $monitors -eq 2 ]; then
@@ -20,18 +21,16 @@ if [ $monitors -eq 2 ]; then
     transmission-daemon &
     redshift &
 
-    xwallpaper --stretch "$HOME/.local/share/wallpaper"
+    xwallpaper --stretch "$XDG_DATA_HOME/wallpaper"
 else
-    safeeyes &
-
     xwallpaper \
-       --output HDMI2 --stretch "$HOME/.local/share/wallpaper" \
-       --output DP2 --stretch "$HOME/.local/share/vertical"
+       --output HDMI2 --stretch "$XDG_DATA_HOME/wallpaper" \
+       --output DP2 --stretch "$XDG_DATA_HOME/vertical"
 fi
 
 xmodmap -e "keycode 135 = Super_R Menu"
 xset r rate 200 35
-xrdb -merge "$HOME/.Xresources"
+xrdb -merge "$XDG_CONFIG_HOME/Xresources"
 xsetroot -cursor_name left_ptr
 xset s on
 xset s 600

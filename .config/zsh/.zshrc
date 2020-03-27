@@ -5,7 +5,7 @@ autoload -U colors && colors
 PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
 
 # key bindings
-[ -f "$HOME/.zkbd/$TERM.tmp" ] && source  "$HOME/.zkbd/$TERM.tmp"
+[ -f "$HOME/.config/zsh/$TERM.tmp" ] && source "$HOME/.config/zsh/$TERM.tmp"
 
 [[ -n $key[Home]   ]] && bindkey -- $key[Home]   beginning-of-line
 [[ -n $key[End]    ]] && bindkey -- $key[End]    end-of-line
@@ -91,6 +91,7 @@ function scr {
 
 # autosuggestions
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+ZSH_AUTOSUGGEST_USE_ASYNC=1
 bindkey '^ ' autosuggest-accept
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 

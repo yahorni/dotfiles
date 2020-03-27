@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # path
-export GOPATH="$HOME/go"
+export GOPATH="$HOME/prog/go"
 export PATH="$PATH:$HOME/.local/bin:$GOPATH/bin"
 
 # programs
@@ -24,9 +24,16 @@ export INPUTRC="$XDG_CONFIG_HOME/inputrc"
 export R_PROFILE_USER="$XDG_CONFIG_HOME/Rprofile"
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc-2.0"
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/pythonrc.py"
+export PYLINTHOME="$XDG_CACHE_HOME/pylint"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+export ELINKS_CONFDIR="$XDG_CONFIG_HOME/elinks"
 export SUDO_ASKPASS="$HOME/.local/bin/dmenu_pass"
 export LESSHISTFILE="-"
+export TERMINFO="$XDG_DATA_HOME/terminfo"
+export TERMINFO_DIRS="$XDG_DATA_HOME/terminfo:/usr/share/terminfo"
+export RANDFILE="$XDG_CACHE_HOME/rnd"
+export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority"
+export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
 
 # history
 export HISTSIZE=1000000
