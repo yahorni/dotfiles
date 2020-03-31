@@ -36,7 +36,6 @@ super + d
     dmenu_run
 super + shift + d
     $TERMINAL -e joplin
-    # $TERMINAL -e calcurse -D "$XDG_CONFIG_HOME"/calcurse
 
 super + {_, shift +} g
     corner_window {_,-H left}

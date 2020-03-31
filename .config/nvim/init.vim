@@ -6,7 +6,7 @@ let mapleader=" "
 call plug#begin('~/.vim/plugged')
 
 " buffer manipulation
-Plug 'qpkorr/vim-bufkill'
+Plug 'rbgrouleff/bclose.vim'
 
 " comments
 Plug 'scrooloose/nerdcommenter'
@@ -104,7 +104,6 @@ let b:ale_list_window_size = 5
 let b:ale_warn_about_trailing_blank_lines = 1
 let b:ale_warn_about_trailing_whitespace = 1
 au FileType cpp,go,python setlocal completeopt-=preview
-nn <silent> <leader>l :ALELint<CR>
 nn <silent> <leader>F :ALEFix<CR>
 nn <silent> <leader>L :ALEToggle<CR>
 nn <silent> <A-[> :ALEPrevious<CR>
@@ -143,7 +142,7 @@ Plug 'rhysd/vim-clang-format'
 let g:clang_format#code_style = 'llvm'
 au FileType c,cpp,h,hpp nn <silent> <C-f> :ClangFormat<CR>
 Plug 'uplus/vim-clang-rename'
-au FileType c,cpp,h,hpp nn <silent> <leader>r :ClangRename<CR>
+au FileType c,cpp,h,hpp nn <silent> <leader>r :ClangRenameCurrent<CR>
 Plug 'derekwyatt/vim-fswitch'
 au FileType c,cpp,h,hpp nn <silent> <leader>o :FSHere<CR>
 
@@ -189,8 +188,11 @@ filetype plugin on
 " file manager
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
-let g:netrw_winsize = 20
-nn <silent> <C-n> :Lexplore<CR>
+" let g:netrw_winsize = -25
+" nn <silent> <C-n> :Lexplore<CR>
+" nn <silent> <leader>n :Explore<CR>
+nn <silent> <C-n> :Explore<CR>
+nn <silent> <leader>n :Rexplore<CR>
 nn <silent> <leader>_ <Plug>NetrwRefresh
 
 set bg=dark
@@ -204,7 +206,7 @@ set fencs=utf-8,cp1251,koi8-r,ucs-2,cp866
 set autoindent
 set incsearch
 set hlsearch
-" set hidden
+set hidden
 set viminfo="-"
 set clipboard=unnamedplus
 set expandtab
@@ -252,14 +254,14 @@ com! Wq :wq
 com! -bang Q :q<bang>
 
 " normal mode bindings
-nn <silent> <C-x> :noh<Enter>
+nn <silent> <leader>f :noh<Enter>
 nn Y y$
 nn zq ZQ
 
 " buffer switching
-nn <silent> <C-s> :w <bar> bprev<CR>
-nn <silent> <C-w> :w <bar> bnext<CR>
-nn <silent> <C-q> :w <bar> close<CR>
+nn <silent> <leader>h :bprev<CR>
+nn <silent> <leader>l :bnext<CR>
+nn <silent> <C-q> :close<CR>
 
 " different cursors per mode
 if (&term!='linux')
@@ -305,13 +307,6 @@ au FileType c,cpp nn <leader>p :!./%:r<CR>
 au FileType tex nn <leader>c :!texclear %:p:h<CR><CR>
 au VimLeave *.tex !texclear %:p:h
 
-" FILETYPES
-" calcurse notes as markdown
-au BufRead,BufNewFile,VimEnter /tmp/calcurse* setlocal filetype=markdown.pandoc
-au BufRead,BufNewFile,VimEnter ~/.calcurse/notes/* setlocal filetype=markdown.pandoc
-" systemd service files
-au BufRead,BufNewFile *.service setlocal filetype=dosini
-
 " STYLES
 " python pep textwidth
 au FileType python setlocal textwidth=79 | setlocal colorcolumn=80
@@ -328,13 +323,13 @@ au FileType sh nn <buffer> <C-f> :%!shfmt<CR>
 au FileType json nn <buffer> <C-f> :%!jq<CR>
 
 " TABS
-nn <silent> ts :tabprev<CR>
-nn <silent> tw :tabnext<CR>
+nn <silent> th :tabprev<CR>
+nn <silent> tl :tabnext<CR>
 nn <silent> tn :tabnew<CR>
 nn <silent> tc :tabclose<CR>
 
 " Autoremove trailing whitespaces
-nn <silent> <leader>w :%s/\s\+$//e<CR>
+nn <silent> <leader>w :%s/\s\+$//e <bar> nohl<CR>
 
 " Update ctags
 com Ctags execute "!ctags -R --exclude=.git --exclude=node_modules ."
