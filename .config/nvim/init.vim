@@ -41,22 +41,7 @@ Plug 'vim-scripts/Rename2'
 Plug 'jremmen/vim-ripgrep'
 
 " status line
-Plug 'vim-airline/vim-airline'
-let g:airline_exclude_filetypes = ['text']
-let g:airline#extensions#whitespace#enabled = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_alt_sep = ''
-let g:airline#extensions#tabline#left_sep = ''
-if $TERM != 'linux'
-    let g:airline_theme='minimalist'
-    let g:airline#extensions#xkblayout#enabled = 1
-    let g:airline_powerline_fonts = 1
-    let g:airline_extensions = ['tabline', 'ale', 'branch', 'whitespace', 'xkblayout']
-else
-    let g:airline_theme='jellybeans'
-    let g:airline_powerline_fonts = 0
-    let g:airline_extensions = ['tabline', 'ale', 'branch', 'whitespace']
-endif
+Plug 'itchyny/lightline.vim'
 
 " autocomplete
 Plug 'ervandew/supertab'
@@ -156,30 +141,25 @@ Plug 'Yggdroot/indentLine'
 au FileType tex,markdown,json let g:indentLine_setColors = 0
 au FileType tex,markdown,json let g:indentLine_enabled = 0
 
+" language switching
+Plug 'lyokha/vim-xkbswitch'
+let g:XkbSwitchEnabled = 1
+
+"highlight hex colors
+Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
+let g:Hexokinase_highlighters = ['backgroundfull']
+
+" theme
+Plug 'drewtempelmeyer/palenight.vim'
+
 " SYNTAX FILES
-Plug 'vifm/vifm.vim' " vifm
-Plug 'baskerville/vim-sxhkdrc' " sxhkd
-Plug 'tomlion/vim-solidity' " solidity
+Plug 'vifm/vifm.vim'                " vifm
+Plug 'baskerville/vim-sxhkdrc'      " sxhkd
+Plug 'tomlion/vim-solidity'         " solidity
 Plug 'vim-pandoc/vim-pandoc-syntax' " markdown
 au FileType markdown setlocal filetype=markdown.pandoc
 au VimEnter *.md setlocal filetype=markdown
 let g:pandoc#syntax#conceal#use = 0
-
-if (&term!='linux')
-    " language switching
-    Plug 'lyokha/vim-xkbswitch'
-    let g:XkbSwitchEnabled = 1
-
-    "highlight hex colors
-    Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
-    let g:Hexokinase_highlighters = ['backgroundfull']
-
-    " theme
-    Plug 'vim-airline/vim-airline-themes'
-    Plug 'dylanaraps/wal.vim'
-    Plug 'drewtempelmeyer/palenight.vim'
-
-endif
 
 call plug#end()
 
@@ -188,18 +168,16 @@ filetype plugin on
 " file manager
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
-" let g:netrw_winsize = -25
-" nn <silent> <C-n> :Lexplore<CR>
-" nn <silent> <leader>n :Explore<CR>
 nn <silent> <C-n> :Explore<CR>
 nn <silent> <leader>n :Rexplore<CR>
 nn <silent> <leader>_ <Plug>NetrwRefresh
 
+" theme
 set bg=dark
 colo palenight
 hi Normal ctermbg=233
 
-set laststatus=0
+set laststatus=2
 set ffs=unix,dos,mac
 set encoding=utf-8
 set fencs=utf-8,cp1251,koi8-r,ucs-2,cp866

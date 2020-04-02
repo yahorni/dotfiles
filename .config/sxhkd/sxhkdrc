@@ -178,8 +178,7 @@ super + alt + {h,j,k,l}
 
 super + alt + shift + {j,k}
     if bspc query -N -n focused.floating; then \
-        read w h <<< `resizer {-,+} 3` ; \
-        xdotool windowsize `xdotool getwindowfocus` $w $h ; \
+        resizer {-,+} 5 ; \
     fi
 
 super + {_,shift + }q
