@@ -7,11 +7,12 @@ outaudio="`xdg-user-dir MUSIC`/downloads"
 filename='%(title)s.%(ext)s'
 format="m"
 
-while getopts "f:o:" opt; do
-	case $opt in
-		f) format=$OPTARG ;;
-		o) output=$OPTARG ;;
-	esac
+while getopts "f:o:s" opt; do
+    case $opt in
+        f) format=$OPTARG ;;
+        o) output=$OPTARG ;;
+        s) with_subs="--all-subs" ;;
+    esac
 done
 
 shift $(($OPTIND-1))
@@ -20,11 +21,11 @@ link=$1
 notify-send "Downloading" "$link"
 
 case $format in
-	'a') youtube-dl --add-metadata -icxf "bestaudio/best" -o "$outaudio/$filename" "$link" ;;
-	'l') youtube-dl --add-metadata -icf "best[height<=240]" -o "$outvideo/$filename" "$link" ;;
-	'm') youtube-dl --add-metadata -icf "bestvideo[height<=1080]+bestaudio/best" -o "$outvideo/$filename" "$link" ;;
-	'h') youtube-dl --add-metadata -icf "bestvideo+bestaudio/best" -o "$outvideo/$filename" "$link" ;;
-	*) echo "Incorrect format"
+    'a') youtube-dl --add-metadata -icxf "bestaudio/best" -o "$outaudio/$filename" "$link" ;;
+    'l') youtube-dl --add-metadata $with_subs -icf "best[height<=240]" -o "$outvideo/$filename" "$link" ;;
+    'm') youtube-dl --add-metadata $with_subs -icf "bestvideo[height<=1080]+bestaudio/best" -o "$outvideo/$filename" "$link" ;;
+    'h') youtube-dl --add-metadata $with_subs -icf "bestvideo+bestaudio/best" -o "$outvideo/$filename" "$link" ;;
+    *) echo "Incorrect format"
 esac
 
 notify-send "Loaded" "$link"

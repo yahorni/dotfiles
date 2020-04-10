@@ -9,21 +9,8 @@ call plug#begin('~/.vim/plugged')
 Plug 'rbgrouleff/bclose.vim'
 
 " comments
-Plug 'scrooloose/nerdcommenter'
-let g:NERDSpaceDelims = 1
-let g:NERDDefaultAlign = 'left'
-let g:NERDTrimTrailingWhitespace = 1
-let g:NERDToggleCheckAllLines = 1
-let g:NERDCustomDelimiters = {'': {'left': '#','right': '' }}
-if (&term!='linux')
-    nmap <C-_> <plug>NERDCommenterInvert<ESC>j0
-    vmap <C-_> <plug>NERDCommenterInvert<ESC>j0
-    imap <C-_> <plug>NERDCommenterInsert
-else
-    nmap <C-c> <plug>NERDCommenterInvert<ESC>j0
-    vmap <C-c> <plug>NERDCommenterInvert<ESC>j0
-    imap <C-c> <plug>NERDCommenterInsert
-endif
+Plug 'tpope/vim-commentary'
+nmap <C-_> <plug>CommentaryLine<ESC>j
 
 " improved quoting/parenthesizing
 Plug 'tpope/vim-surround'
@@ -145,15 +132,13 @@ au FileType tex,markdown,json let g:indentLine_enabled = 0
 Plug 'lyokha/vim-xkbswitch'
 let g:XkbSwitchEnabled = 1
 
-"highlight hex colors
-Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
-let g:Hexokinase_highlighters = ['backgroundfull']
+" highlight colors
+Plug 'ap/vim-css-color'
 
 " theme
 Plug 'drewtempelmeyer/palenight.vim'
 
 " SYNTAX FILES
-Plug 'vifm/vifm.vim'                " vifm
 Plug 'baskerville/vim-sxhkdrc'      " sxhkd
 Plug 'tomlion/vim-solidity'         " solidity
 Plug 'vim-pandoc/vim-pandoc-syntax' " markdown
@@ -171,6 +156,10 @@ let g:netrw_liststyle = 3
 nn <silent> <C-n> :Explore<CR>
 nn <silent> <leader>n :Rexplore<CR>
 nn <silent> <leader>_ <Plug>NetrwRefresh
+
+" commentstring's
+au FileType xdefaults setlocal commentstring=!\ %s
+au FileType sxhkdrc setlocal commentstring=#\ %s
 
 " theme
 set bg=dark
@@ -293,6 +282,8 @@ au FileType c,cpp,h,hpp setlocal tabstop=4 | setlocal shiftwidth=4 |
             \ setlocal textwidth=120 | setlocal colorcolumn=121
 " js style
 au FileType javascript setlocal tabstop=2 | setlocal shiftwidth=2
+" yaml spaces
+au FileType yaml setlocal tabstop=2 | setlocal shiftwidth=2
 
 " FORMATTERS
 " shell
@@ -310,5 +301,5 @@ nn <silent> tc :tabclose<CR>
 nn <silent> <leader>w :%s/\s\+$//e <bar> nohl<CR>
 
 " Update ctags
-com Ctags execute "!ctags -R --exclude=.git --exclude=node_modules ."
+com! Ctags execute "!ctags -R --exclude=.git --exclude=node_modules ."
 nn <silent> <leader>T :Ctags<CR>

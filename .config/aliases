@@ -7,9 +7,9 @@ alias \
 
 # fast ls
 alias \
-    la='ls -a' \
+    la='ls -A' \
     ll='ls -lsh' \
-    l='ls -lash'
+    l='ls -lAsh'
 
 # progs
 alias \
