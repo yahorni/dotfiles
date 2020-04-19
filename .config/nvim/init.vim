@@ -5,12 +5,16 @@ let mapleader=" "
 
 call plug#begin('~/.vim/plugged')
 
+" theme
+Plug 'arcticicestudio/nord-vim'
+
 " buffer manipulation
 Plug 'rbgrouleff/bclose.vim'
 
 " comments
 Plug 'tpope/vim-commentary'
 nmap <C-_> <plug>CommentaryLine<ESC>j
+vmap <C-_> <plug>Commentary<ESC>
 
 " improved quoting/parenthesizing
 Plug 'tpope/vim-surround'
@@ -118,7 +122,7 @@ au FileType c,cpp,h,hpp nn <silent> <leader>r :ClangRenameCurrent<CR>
 Plug 'derekwyatt/vim-fswitch'
 au FileType c,cpp,h,hpp nn <silent> <leader>o :FSHere<CR>
 
-" tagbar
+" tagbar | TODO: make focusable from any split
 Plug 'majutsushi/tagbar'
 nn <silent> <leader>t :TagbarToggle<CR>
 
@@ -135,10 +139,7 @@ let g:XkbSwitchEnabled = 1
 " highlight colors
 Plug 'ap/vim-css-color'
 
-" theme
-Plug 'drewtempelmeyer/palenight.vim'
-
-" SYNTAX FILES
+" syntax files
 Plug 'baskerville/vim-sxhkdrc'      " sxhkd
 Plug 'tomlion/vim-solidity'         " solidity
 Plug 'vim-pandoc/vim-pandoc-syntax' " markdown
@@ -161,11 +162,12 @@ nn <silent> <leader>_ <Plug>NetrwRefresh
 au FileType xdefaults setlocal commentstring=!\ %s
 au FileType sxhkdrc setlocal commentstring=#\ %s
 
-" theme
+" colortheme
 set bg=dark
-colo palenight
-hi Normal ctermbg=233
+set termguicolors
+colo nord
 
+" options
 set laststatus=2
 set ffs=unix,dos,mac
 set encoding=utf-8
@@ -175,7 +177,7 @@ set incsearch
 set hlsearch
 set hidden
 set viminfo="-"
-set clipboard=unnamedplus
+" set clipboard=unnamedplus
 set expandtab
 set tabstop=4
 set shiftwidth=4
@@ -204,7 +206,15 @@ set concealcursor=nvic
 set cursorline
 set cino=N-s,g0
 set tags=./tags;
-set termguicolors
+
+" clipboard copy-paste
+nn gy "+y
+vn gy "+y
+nn gY "+y$
+nn gp "+p
+nn gP "+P
+vn gp "_d"+p
+vn gP "_d"+P
 
 " change <paste> command behaviour
 xn p "_dp
@@ -290,16 +300,21 @@ au FileType yaml setlocal tabstop=2 | setlocal shiftwidth=2
 au FileType sh nn <buffer> <C-f> :%!shfmt<CR>
 " json
 au FileType json nn <buffer> <C-f> :%!jq<CR>
+" js,yaml,html,css
+au FileType yaml,html,css,javascript nn <buffer> <C-f> :!prettier --write %<CR>
 
-" TABS
+" tabs
 nn <silent> th :tabprev<CR>
 nn <silent> tl :tabnext<CR>
 nn <silent> tn :tabnew<CR>
 nn <silent> tc :tabclose<CR>
 
-" Autoremove trailing whitespaces
+" autoremove trailing whitespaces
 nn <silent> <leader>w :%s/\s\+$//e <bar> nohl<CR>
 
-" Update ctags
+" update ctags
 com! Ctags execute "!ctags -R --exclude=.git --exclude=node_modules ."
 nn <silent> <leader>T :Ctags<CR>
+
+" search visually selected text with '//'
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>

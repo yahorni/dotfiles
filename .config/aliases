@@ -26,7 +26,6 @@ alias \
     cp='cp -r' \
     p3='python3' \
     ff='ffplay -autoexit -nodisp' \
-    shr='cd $XDG_DATA_HOME' \
     sm='sc-im'
 
 # git
@@ -59,8 +58,18 @@ alias \
     vp='$EDITOR ~/.profile' \
     vb='$EDITOR ~/.bashrc' \
     vx='$EDITOR ~/.xinitrc' \
-    vg='$EDITOR .gitignore'
+    vg='$EDITOR .gitignore' \
+    vh='$EDITOR $HISTFILE'
 
+# directories
+alias \
+    cdr='cd ~/prog/reps' \
+    cdj='cd ~/prog/prj' \
+    cds='cd $XDG_DATA_HOME' \
+    cdc='cd $XDG_CONFIG_HOME' \
+    cdd='cd ~/Downloads'
+
+# completion
 if [ "$SHELL" = "/bin/bash" ] ; then
     # completions for aliases
     completions="/usr/share/bash-completion/completions"

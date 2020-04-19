@@ -14,9 +14,14 @@ PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magent
 [[ -n $key[Down]   ]] && bindkey -- $key[Down]   down-line-or-history
 bindkey "^?" backward-delete-char # vi mode backspace fix
 bindkey '^[[Z' reverse-menu-complete # shift-tab
-bindkey -M vicmd 'k' history-beginning-search-backward  # backward search in vi
-bindkey -M vicmd 'j' history-beginning-search-forward   # forward search in vi
-bindkey '^R' history-incremental-search-backward # back incremental search
+bindkey -M vicmd '^K' history-beginning-search-backward # backward search in vi command mode
+bindkey -M viins '^K' history-beginning-search-backward # backward search in vi insert mode
+bindkey -M vicmd '^J' history-beginning-search-forward # forward search in vi command mode
+bindkey -M viins '^J' history-beginning-search-forward # forward search in vi insert mode
+
+# fzf history search
+[ -f "/usr/share/fzf/key-bindings.zsh" ] && source "/usr/share/fzf/key-bindings.zsh"
+bindkey '^R' fzf-history-widget
 
 # vi escape key delay
 export KEYTIMEOUT=1

@@ -202,6 +202,9 @@ super + {_,shift +}y
 super + {_,shift +}u
     bspc node @focused:/ --rotate {90,270}
 
+super + {_,shift +}i
+    bspc node @parent --rotate {90,270}
+
 super + f
     bspc node -t \~fullscreen
 
