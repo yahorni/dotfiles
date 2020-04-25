@@ -462,8 +462,13 @@ nnoremap xs :sync<cr>
 nnoremap xz :!zip -r %f.zip %f &<cr>
 " add executable rights
 nnoremap cx :!chmod +x %f<cr>
+vnoremap cx :!chmod +x %f<cr>
 " remove executable rights
 nnoremap cX :!chmod -x %f<cr>
+vnoremap cX :!chmod -x %f<cr>
+" splits
+nnoremap cv :vsplit<cr>
+nnoremap ch :split<cr>
 
 nnoremap zq ZQ
 nnoremap zz ZZ
