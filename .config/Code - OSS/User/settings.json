@@ -39,5 +39,6 @@
       "avoid-sha3": "warn"
     },
     "vsicons.dontShowNewVersionMessage": true,
-    "editor.lineNumbers": "relative"
+    "editor.lineNumbers": "relative",
+    "files.insertFinalNewline": true
 }

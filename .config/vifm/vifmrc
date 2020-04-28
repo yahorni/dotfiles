@@ -117,20 +117,19 @@ set statusline="  Hint: %z%= %A %10u:%-7g %15s %20d  "
 " :mark mark /full/directory/path [filename]
 
 mark h ~/
-mark s ~/.local/share
+mark r ~/prog/reps
+mark j ~/prog/prj
+mark x ~/.local/share
 mark c ~/.config
-mark d ~/Documents
 mark l ~/Downloads
-mark m ~/Media
-mark w ~/Work
-mark n /mnt
 
-mark F ~/Media/films
-mark M ~/Media/music
-mark P ~/Media/pictures
-mark V ~/Media/videos
-mark D ~/Media/downloads
-mark S ~/Media/serials
+mark d ~/dox
+mark m ~/music
+mark p ~/pix
+mark v ~/vids
+mark s ~/serials
+
+mark n /mnt
 
 " ------------------------------------------------------------------------------
 
@@ -443,6 +442,7 @@ nnoremap xf :!$TERMINAL -e $EDITOR %f %i &<cr>
 nnoremap xd :!$EDITOR .<cr>
 " open with xdg-open
 nnoremap xo :!xdg-open %f &<cr>
+nnoremap xO :!openwith %f &<cr>
 " show pictures
 nnoremap xp :!sxiv -t %d &<cr>
 " edit new file

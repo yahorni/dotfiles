@@ -120,7 +120,7 @@ au FileType c,cpp,h,hpp nn <silent> <C-f> :ClangFormat<CR>
 Plug 'uplus/vim-clang-rename'
 au FileType c,cpp,h,hpp nn <silent> <leader>r :ClangRenameCurrent<CR>
 Plug 'derekwyatt/vim-fswitch'
-au FileType c,cpp,h,hpp nn <silent> <leader>o :FSHere<CR>
+au FileType c,cpp,h,hpp nn <silent> <leader>s :FSHere<CR>
 
 " tagbar | TODO: make focusable from any split
 Plug 'majutsushi/tagbar'
@@ -177,7 +177,6 @@ set incsearch
 set hlsearch
 set hidden
 set viminfo="-"
-" set clipboard=unnamedplus
 set expandtab
 set tabstop=4
 set shiftwidth=4
@@ -206,15 +205,11 @@ set concealcursor=nvic
 set cursorline
 set cino=N-s,g0
 set tags=./tags;
+set spell spelllang=
 
 " clipboard copy-paste
-nn gy "+y
-vn gy "+y
-nn gY "+y$
-nn gp "+p
-nn gP "+P
-vn gp "_d"+p
-vn gP "_d"+P
+nn <silent> <leader>y :let @+=@"<CR>
+nn <silent> <leader>p :let @"=@+<CR>
 
 " change <paste> command behaviour
 xn p "_dp
@@ -278,8 +273,8 @@ nn <leader>x :!chmod +x %<CR>
 nn <leader>X :!chmod -x %<CR>
 
 " showing results
-au FileType tex,markdown nn <leader>p :!opout %<CR><CR>
-au FileType c,cpp nn <leader>p :!./%:r<CR>
+au FileType tex,markdown nn <leader>o :!opout %<CR><CR>
+au FileType c,cpp nn <leader>o :!./%:r<CR>
 
 au FileType tex nn <leader>c :!texclear %:p:h<CR><CR>
 au VimLeave *.tex !texclear %:p:h
@@ -318,3 +313,8 @@ nn <silent> <leader>T :Ctags<CR>
 
 " search visually selected text with '//'
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
+
+" spelling
+nn <silent> <leader>Se :setlocal spell spelllang+=en<CR>
+nn <silent> <leader>Sr :setlocal spell spelllang+=ru<CR>
+nn <silent> <leader>D :setlocal nospell<CR>
