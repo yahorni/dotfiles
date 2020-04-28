@@ -1,53 +1,101 @@
 set editor = `echo \$EDITOR`
 
+### IMAP ###
 set imap_user = "egor1998nick@gmail.com"
-set realname = "Egor"
-set from = "$imap_user"
-
-set folder = "imaps://imap.gmail.com:993"
-set imap_check_subscribed
-
-set header_cache = "~/.cache/mutt/headers"
-set message_cachedir = "~/.cache/mutt/bodies"
-
-set use_from = yes
-
-set sort=reverse-date
-
-set smtp_url = "smtps://$imap_user@smtp.gmail.com:465"
-set ssl_force_tls = yes
-
+# where all mail stored
+set folder = "imaps://egor1998nick@imap.gmail.com:993"
+# imap password
 set imap_pass=`cat ~/.config/mutt/pass`
-set smtp_pass=`cat ~/.config/mutt/pass`
-
+# where unsorted mail stored
 set spoolfile = "+INBOX"
-set record="+[Gmail]/Sent Mail"
-set postponed="+[Gmail]/Drafts"
-set trash = "+[Gmail]/Trash"
-
-mailboxes =INBOX =[Gmail]/Sent\ Mail =[Gmail]/Drafts =[Gmail]/Trash
-
+# 1. below mailboxes to check regularily
+mailboxes =INBOX 
+# 2. to check all subscribed IMAP folders
+# set imap_check_subscribed
+# Store message headers locally to speed things up.
+set header_cache = "~/.cache/mutt/headers"
+# Store messages locally to speed things up, like searching message bodies.
+set message_cachedir = "~/.cache/mutt/bodies"
+# Allow Mutt to open a new IMAP connection automatically.
 unset imap_passive
-
+# Keep the IMAP connection alive by polling intermittently (time in seconds).
 set imap_keepalive = 300
+# How often to check for new mail (time in seconds).
 set mail_check = 120
 
-source colors.muttrc
+### DRAFTS ###
+# Specify where to save and/or look for postponed messages.
+set postponed="+[Gmail]/Drafts"
+mailboxes =[Gmail]/Drafts
 
+### SMTP ###
+# the file into which your outgoing messages should be appended
+set record="+[Gmail]/Sent Mail"
+# set mailbox for sent mail
+mailboxes =[Gmail]/Sent\ Mail
+# name should be used when sending messages
+set realname = "yahor"
+# generate the "From:" header field when sending messages
+set use_from = yes
+# default 'from' address, used with 'use_from'
+set from = "$imap_user"
+# SMTP smarthost where sent messages should relayed for delivery
+set smtp_url = "smtps://$imap_user@smtp.gmail.com:465"
+# require that all connections to remote servers be encrypted
+set ssl_force_tls = yes
+# smtp password
+set smtp_pass=`cat ~/.config/mutt/pass`
+
+### TRASH ###
+# where the mails marked for deletion will be moved, instead of being irremediably purged
+set trash = "+[Gmail]/Trash"
+mailboxes =[Gmail]/Trash
+
+### COMMON ###
+# default sort for index
+set sort=reverse-date
+# used when the $sort value is equal for two messages
+set sort_aux=last-date-received
+# fast switch between mailboxes
+set sleep_time=0
+# show index when viewing message
+set pager_index_lines=5
+# do not confirm recipient and subject every time
+set fast_reply=yes
+# include previous message in reply
+set include=yes
+set sidebar_short_path
+
+### BINDS ###
+bind pager j next-line
+bind pager k previous-line
 bind pager g top
 bind pager G bottom
 bind attach,index g first-entry
 bind attach,index G last-entry
+bind attach,index,pager \CD next-page
+bind attach,index,pager \CU previous-page
 
+### COLORS ###
+source colors.muttrc
+
+### VIEWING ###
+set mailcap_path = ~/.config/mutt/mailcap
+auto_view text/html
+# in index => press 'v' for attachments => choose html attachment => press 'V' to open in browser
+macro attach 'V' "<pipe-entry>iconv -c --to-code=UTF8 > ~/.cache/mutt/mail.html<enter><shell-escape>$BROWSER ~/.cache/mutt/mail.html<enter>"
+
+### SIDEBAR ###
 set sidebar_visible = yes
 set sidebar_width = 25
-set mail_check_stats
 set sidebar_format = '%B%?F? [%F]?%* %?N?%N/?%S'
-
+# periodically calculate message statistics of a mailbox while polling for new mail
+set mail_check_stats
 bind index,pager \Cp sidebar-prev
 bind index,pager \Cn sidebar-next
 bind index,pager \Co sidebar-open
 bind index,pager B sidebar-toggle-visible
 
+### URL SCANNING ###
 macro index,pager \cb "<pipe-message> urlscan<Enter>" "call urlscan to extract URLs out of a message"
 macro attach,compose \cb "<pipe-entry> urlscan<Enter>" "call urlscan to extract URLs out of a message"
