@@ -100,6 +100,9 @@ ZSH_AUTOSUGGEST_USE_ASYNC=1
 bindkey '^ ' autosuggest-accept
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
+# extra settings (for temporary purposes)
+[ -f "$XDG_CONFIG_HOME/zshrc_extra" ] && source "$XDG_CONFIG_HOME/zshrc_extra"
+
 # syntax highlight
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

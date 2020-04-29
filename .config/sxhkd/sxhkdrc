@@ -45,9 +45,9 @@ super + {_,shift +} o
 
 # messengers
 super + x
-    telegram-desktop & bspc desktop -f IX
+    telegram-desktop
 super + shift + x
-    slack & bspc desktop -f VIII
+    slack
 
 super + v
     $TERMINAL -e vifmrun
@@ -60,9 +60,7 @@ super + c
 super + shift + c
     clipmenu
 
-# refreshing
-super + r
-    bspc wm -r
+# refresh sxhkd (super+r left for wm)
 super + shift + r
     pkill -USR1 -x sxhkd
 
@@ -104,6 +102,9 @@ ctrl + Print
     makescreen part
 
 # bspwm
+super + r
+    bspc wm -r
+
 super + {h,j,k,l}
     opt={1,2,3,4} ; \
     if bspc query -N -n focused.tiled; then \

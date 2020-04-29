@@ -1,0 +1,34 @@
+# vim: ft=muttrc
+
+### IMAP ###
+set imap_user = "egor1998nick@gmail.com"
+# where all mail stored
+set folder = "imaps://egor1998nick@imap.gmail.com:993"
+# imap password
+set imap_pass=$my_gmail_password
+# where unsorted mail stored
+set spoolfile = "+INBOX"
+mailboxes =INBOX
+
+### SMTP ###
+# the file into which your outgoing messages should be appended
+set record="+[Gmail]/Sent Mail"
+mailboxes =[Gmail]/Sent\ Mail
+# default 'from' address, used with 'use_from'
+set from = "$imap_user"
+# SMTP smarthost where sent messages should relayed for delivery
+set smtp_url = "smtps://$imap_user@smtp.gmail.com:465"
+# require that all connections to remote servers be encrypted
+set ssl_force_tls = yes
+# smtp password
+set smtp_pass=$my_gmail_password
+
+### DRAFTS ###
+# Specify where to save and/or look for postponed messages.
+set postponed="+[Gmail]/Drafts"
+mailboxes =[Gmail]/Drafts
+
+### TRASH ###
+# where the mails marked for deletion will be moved, instead of being irremediably purged
+set trash = "+[Gmail]/Trash"
+mailboxes =[Gmail]/Trash

@@ -1,0 +1,34 @@
+# vim: ft=muttrc
+
+### IMAP ###
+set imap_user = "maxcoper@yandex.com"
+# where all mail stored
+set folder = "imaps://maxcoper@imap.yandex.com:993"
+# imap password
+set imap_pass=$my_yandex_password
+# where unsorted mail stored
+set spoolfile = "+INBOX"
+mailboxes =INBOX
+
+### SMTP ###
+# the file into which your outgoing messages should be appended
+set record="+Отправленные"
+mailboxes =Отправленные
+# default 'from' address, used with 'use_from'
+set from = "$imap_user"
+# SMTP smarthost where sent messages should relayed for delivery
+set smtp_url = "smtps://$imap_user@smtp.yandex.com:465"
+# require that all connections to remote servers be encrypted
+set ssl_force_tls = yes
+# smtp password
+set smtp_pass=$my_yandex_password
+
+### DRAFTS ###
+# Specify where to save and/or look for postponed messages.
+set postponed="+Черновики"
+mailboxes =Черновики
+
+### TRASH ###
+# where the mails marked for deletion will be moved, instead of being irremediably purged
+set trash = "+Удаленные"
+mailboxes =Удаленные
