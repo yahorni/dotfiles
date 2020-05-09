@@ -49,4 +49,4 @@ elif [ "$side" = "-" ]; then
     pos_y="$(($pos_y + $diff_height))"
 fi
 
-xdotool windowmove $pid $pos_x $pos_y windowsize $pid $new_width $new_height
+xdotool windowsize $pid $new_width $new_height windowmove $pid $pos_x $pos_y

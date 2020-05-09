@@ -3,5 +3,4 @@
 prjdir="$HOME/prog/prj"
 prj=`ls "$prjdir" | dmenu -p "Open project:"`
 [ -z "$prj" ] && exit
-# command -v code && code "$prjdir/$prj" && exit
-cd "$prjdir/$prj" && "$TERMINAL" -e "$EDITOR"
+cd "$prjdir/$prj" && exec "$TERMINAL" -e "$EDITOR"

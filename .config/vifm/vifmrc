@@ -442,7 +442,7 @@ nnoremap xf :!$TERMINAL -e $EDITOR %f %i &<cr>
 nnoremap xd :!$EDITOR .<cr>
 " open with xdg-open
 nnoremap xo :!xdg-open %f &<cr>
-nnoremap xO :!openwith %f &<cr>
+nnoremap xO :!setsid openwith %f &>/dev/null & disown<cr>
 " show pictures
 nnoremap xp :!sxiv -t %d &<cr>
 " edit new file

@@ -22,6 +22,10 @@ Plug 'tpope/vim-repeat' " dot command for vim-surround
 Plug 'jiangmiao/auto-pairs'
 let g:AutoPairsShortcutToggle = ''
 
+" git blame
+Plug 'zivyangll/git-blame.vim'
+nn <Leader>g :call gitblame#echo()<CR>
+
 " highlight for substituion
 Plug 'markonm/traces.vim'
 
@@ -37,10 +41,6 @@ Plug 'itchyny/lightline.vim'
 " autocomplete
 Plug 'ervandew/supertab'
 let g:SuperTabDefaultCompletionType = "<C-n>"
-Plug 'Shougo/deoplete.nvim'
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#enable_smart_case = 1
-Plug 'Shougo/neoinclude.vim'
 
 " snippets
 Plug 'Shougo/neosnippet.vim'
@@ -56,13 +56,7 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 
 " linting
 Plug 'w0rp/ale'
-let g:ale_fixers = {
-            \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-            \   'python': ['autopep8', 'isort', 'black'],
-            \   'cpp': ['clangtidy'],
-            \   'c': ['clangtidy'],
-            \   'sh': ['shellcheck'],
-            \}
+let g:ale_fixers = { '*': ['remove_trailing_lines', 'trim_whitespace'] }
 let g:ale_linters = {
             \   'python': ['flake8', 'pylint'],
             \   'tex': ['chktex'],
@@ -80,22 +74,12 @@ let b:ale_list_window_size = 5
 let b:ale_warn_about_trailing_blank_lines = 1
 let b:ale_warn_about_trailing_whitespace = 1
 au FileType cpp,go,python setlocal completeopt-=preview
-nn <silent> <leader>F :ALEFix<CR>
 nn <silent> <leader>L :ALEToggle<CR>
 nn <silent> <A-[> :ALEPrevious<CR>
 nn <silent> <A-]> :ALENext<CR>
 
 " python
 Plug 'vim-scripts/indentpython.vim'
-Plug 'davidhalter/jedi-vim'
-Plug 'zchee/deoplete-jedi'
-if has('nvim')
-    let g:jedi#completions_enabled = 0
-endif
-let g:jedi#force_py_version = 3
-let g:jedi#use_splits_not_buffers = "left"
-let g:jedi#show_call_signatures = 2
-let g:jedi#popup_select_first = 0
 
 " go
 Plug 'fatih/vim-go'
@@ -110,9 +94,6 @@ nn <silent> <C-b> :Buffers<CR>
 nn <silent> <leader>b :FZF<CR>
 
 " c++
-Plug 'zchee/deoplete-clang'
-let g:deoplete#sources#clang#libclang_path = '/usr/lib/libclang.so'
-let g:deoplete#sources#clang#clang_header = '/usr/lib/clang/'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'rhysd/vim-clang-format'
 let g:clang_format#code_style = 'llvm'
@@ -206,10 +187,7 @@ set cursorline
 set cino=N-s,g0
 set tags=./tags;
 set spell spelllang=
-
-" clipboard copy-paste
-nn <silent> <leader>y :let @+=@"<CR>
-nn <silent> <leader>p :let @"=@+<CR>
+set clipboard=unnamedplus
 
 " change <paste> command behaviour
 xn p "_dp
@@ -273,7 +251,7 @@ nn <leader>x :!chmod +x %<CR>
 nn <leader>X :!chmod -x %<CR>
 
 " showing results
-au FileType tex,markdown nn <leader>o :!opout %<CR><CR>
+au FileType tex,markdown nn <leader>o :!openout %<CR><CR>
 au FileType c,cpp nn <leader>o :!./%:r<CR>
 
 au FileType tex nn <leader>c :!texclear %:p:h<CR><CR>
@@ -286,7 +264,7 @@ au FileType python setlocal textwidth=79 | setlocal colorcolumn=80
 au FileType c,cpp,h,hpp setlocal tabstop=4 | setlocal shiftwidth=4 |
             \ setlocal textwidth=120 | setlocal colorcolumn=121
 " js style
-au FileType javascript setlocal tabstop=2 | setlocal shiftwidth=2
+au FileType javascript,typescript setlocal tabstop=2 | setlocal shiftwidth=2
 " yaml spaces
 au FileType yaml setlocal tabstop=2 | setlocal shiftwidth=2
 
@@ -296,7 +274,7 @@ au FileType sh nn <buffer> <C-f> :%!shfmt<CR>
 " json
 au FileType json nn <buffer> <C-f> :%!jq<CR>
 " js,yaml,html,css
-au FileType yaml,html,css,javascript nn <buffer> <C-f> :!prettier --write %<CR>
+au FileType yaml,html,css,javascript,typescript nn <buffer> <C-f> :!prettier --write %<CR>
 
 " tabs
 nn <silent> th :tabprev<CR>

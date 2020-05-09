@@ -17,6 +17,7 @@ alias \
     sv='sudo $EDITOR' \
     sp='sudo pacman' \
     sc='systemctl' \
+    scu='systemctl --user' \
     ssc='sudo systemctl' \
     fm='vifmrun' \
     yt='youtube-viewer' \
@@ -52,14 +53,15 @@ alias \
     va='$EDITOR $XDG_CONFIG_HOME/aliases' \
     vz='$EDITOR $XDG_CONFIG_HOME/zsh/.zshrc' \
     vv='$EDITOR $XDG_CONFIG_HOME/nvim/init.vim' \
-    vw='$EDITOR $XDG_CONFIG_HOME/bspwm/bspwmrc' \
     vs='$EDITOR $XDG_CONFIG_HOME/sxhkd/sxhkdrc' \
     vf='$EDITOR $XDG_CONFIG_HOME/vifm/vifmrc' \
     vp='$EDITOR ~/.profile' \
     vb='$EDITOR ~/.bashrc' \
     vx='$EDITOR ~/.xinitrc' \
     vg='$EDITOR .gitignore' \
-    vh='$EDITOR $HISTFILE'
+    vh='$EDITOR $HISTFILE' \
+    vr='$EDITOR $XDG_CONFIG_HOME/Xresources' \
+    vw='$EDITOR ~/prog/prj/dwm/config.h'
 
 # directories
 alias \

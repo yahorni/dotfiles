@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 nvidia_lock="$XDG_DATA_HOME/nvidia_lock"
 
@@ -18,7 +18,7 @@ safeeyes &
 monitors=`xrandr --listmonitors | wc -l`
 if [ $monitors -eq 2 ]; then
     suspender &
-    transmission-daemon &
+    pgrep transmission-da || transmission-daemon &
     redshift &
 
     xwallpaper --stretch "$XDG_DATA_HOME/wallpaper"
@@ -36,4 +36,7 @@ xset s on
 xset s 600
 xss-lock -- physlock -ms &
 
-exec bspwm
+# DWM
+dwmbar &
+dwmlistener.sh &
+exec dwm

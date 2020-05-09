@@ -1,6 +1,6 @@
 #!/bin/sh
 
-options="1.poweroff\n2.reboot\n3.suspend\n4.lock\n5.hibernate\n6.shutdown"
+options="🛑 poweroff <1>\n🔄 reboot <2>\n🌙 suspend <3>\n🔒 lock <4>"
 
 if [ ! -z "$1" ]; then
     option="$1"
@@ -8,12 +8,14 @@ else
     option="$(echo -e $options | dmenu -i -p "Option:")"
 fi
 
+[ -z "$option" ] && exit
+
 case $option in
-    *reboot)    reboot ;;
-    *lock)      lockscreen --dpms ;;
-    *shutdown)  shutdown -h now ;;
-    *suspend)   mpc pause >/dev/null 2>&1 && systemctl suspend ;;
-    *hibernate) mpc pause >/dev/null 2>&1 && systemctl hibernate ;;
-    *poweroff)  systemctl poweroff ;;
-    *)          echo "Incorrect option" ;;
+    *reboot*)    reboot ;;
+    *lock*)      lockscreen --dpms ;;
+    *shutdown*)  shutdown -h now ;;
+    *suspend*)   mpc pause >/dev/null 2>&1 && systemctl suspend ;;
+    *hibernate*) mpc pause >/dev/null 2>&1 && systemctl hibernate ;;
+    *poweroff*)  systemctl poweroff ;;
+    *)           notify-send "Power manager" "Incorrect option: '$option'" ;;
 esac

@@ -1,6 +1,7 @@
 Xcursor.size: 9
 xterm*faceName: monospace:pixelsize=18:antialias=true:autohint=true
 st.alpha: 0.80
+dwm.selbgcolor: #660066
 
 ! 3024 theme
 ! *.background: #090300

@@ -12,17 +12,21 @@ get_root() {
     grep -q '% !TeX root = ' "$file" || return
     root_file=$(sed -n 's/^% !TeX root = \(.\+\)$/\1/p' "$file")
     file=$(readlink -f "$root_file")
-    cd "$(dirname "$file")"
+    base="${file%.*}"
+    dir=$(dirname "$file")
+    cd "$dir"
 }
+
+c_libs=(-lpthread -lncurses -lX11)
 
 if [ -z "$mode" -o "$mode" = "-" ]; then
     case "$file" in
-        *config\.h)         make && sudo make install ;;
-        *\.c|*\.h)          gcc -g -O0 -Wall -Wextra -pedantic -o "$base" "$file" -lncurses ;;
-        *\.cpp|*\.hpp)      g++ -g -O0 -Wall -Wextra -pedantic -o "$base" "$file" -lpthread -lncurses ;;
+        *config\.h)         sudo make install clean ;;
+        *\.c|*\.h)          gcc -g -O0 -Wall -Wextra -pedantic -o "$base" "$file" ${c_libs[@]} ;;
+        *\.cpp|*\.hpp)      g++ -g -O0 -Wall -Wextra -pedantic -o "$base" "$file" ${c_libs[@]} ;;
         *\.py)              python3 "$file" ;;
+        *\.tex)             get_root ; pdflatex "$file" ; bibtex "$base" ; pdflatex "$file" ;;
         *\.md)              pandoc "$file" --pdf-engine=xelatex -o "$base".pdf ;;
-        *\.tex)             get_root ; xelatex "$file" ;;
         *\.go)              go run "$file" ;;
         *\.html)            $BROWSER "$file" ;;
         *Xresources)        xrdb -merge "$file" ;;
@@ -33,7 +37,7 @@ if [ -z "$mode" -o "$mode" = "-" ]; then
 else
     case "$file" in
         *\.md)              pandoc "$file" -t beamer --pdf-engine=xelatex -o "$base".pdf ;;
-        *\.tex)             pdflatex "$file" ;;
+        *\.tex)             get_root ; xelatex "$file" ;;
         *\.go)              go build . ;;
         *\.c|*\.cpp|*\.h|*\.hpp)
             cd ../build && cmake .. && make ;;
