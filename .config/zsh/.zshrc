@@ -101,7 +101,7 @@ bindkey '^ ' autosuggest-accept
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # extra settings (for temporary purposes)
-[ -f "$XDG_CONFIG_HOME/zshrc_extra" ] && source "$XDG_CONFIG_HOME/zshrc_extra"
+[ -f "$XDG_CONFIG_HOME/extra.zsh" ] && source "$XDG_CONFIG_HOME/extra.zsh"
 
 # syntax highlight
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)

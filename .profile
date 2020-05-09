@@ -18,7 +18,7 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 
 # files
-export HISTFILE="$XDG_DATA_HOME/sh_history"
+export HISTFILE="$XDG_DATA_HOME/shell.hist"
 export MANPATH="$MANPATH:$XDG_DATA_HOME/man"
 export INPUTRC="$XDG_CONFIG_HOME/inputrc"
 export R_PROFILE_USER="$XDG_CONFIG_HOME/Rprofile"

@@ -40,7 +40,7 @@ Plug 'itchyny/lightline.vim'
 
 " autocomplete
 Plug 'ervandew/supertab'
-let g:SuperTabDefaultCompletionType = "<C-n>"
+let g:SuperTabDefaultCompletionType = "context"
 
 " snippets
 Plug 'Shougo/neosnippet.vim'

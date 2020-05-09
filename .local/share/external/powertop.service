@@ -2,6 +2,7 @@
 Description=Powertop tunings
 
 [Service]
+Type=exec
 ExecStart=/usr/bin/powertop --auto-tune
 RemainAfterExit=true
 
