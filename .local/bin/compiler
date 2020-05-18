@@ -12,9 +12,10 @@ get_root() {
     grep -q '% !TeX root = ' "$file" || return
     root_file=$(sed -n 's/^% !TeX root = \(.\+\)$/\1/p' "$file")
     file=$(readlink -f "$root_file")
-    base="${file%.*}"
     dir=$(dirname "$file")
     cd "$dir"
+    file=$(realpath --relative-to="$PWD" "$file")
+    base="${file%.*}"
 }
 
 c_libs=(-lpthread -lncurses -lX11)
@@ -25,7 +26,7 @@ if [ -z "$mode" -o "$mode" = "-" ]; then
         *\.c|*\.h)          gcc -g -O0 -Wall -Wextra -pedantic -o "$base" "$file" ${c_libs[@]} ;;
         *\.cpp|*\.hpp)      g++ -g -O0 -Wall -Wextra -pedantic -o "$base" "$file" ${c_libs[@]} ;;
         *\.py)              python3 "$file" ;;
-        *\.tex)             get_root ; pdflatex "$file" ; bibtex "$base" ; pdflatex "$file" ;;
+        *\.tex)             get_root ; pdflatex -draftmode "$file" && bibtex "$base" && pdflatex "$file" && pdflatex "$file" ;;
         *\.md)              pandoc "$file" --pdf-engine=xelatex -o "$base".pdf ;;
         *\.go)              go run "$file" ;;
         *\.html)            $BROWSER "$file" ;;

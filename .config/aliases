@@ -70,7 +70,9 @@ alias \
     cds='cd $XDG_DATA_HOME' \
     cdc='cd $XDG_CONFIG_HOME' \
     cdd='cd ~/Downloads' \
-    cdb='cd ~/.local/bin'
+    cdb='cd ~/.local/bin' \
+    cdp='cd ~/pix' \
+    cdm='cd ~/music'
 
 # completion
 if [ "$SHELL" = "/bin/bash" ] ; then

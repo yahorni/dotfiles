@@ -16,3 +16,4 @@ username.conf           -> /etc/systemd/system/transmission.service.d/username.c
 vconsole.conf           -> /etc/vconsole.conf
 xorg.conf.d/*           -> /etc/X11/xorg.conf.d/*
 powertop.service        -> /etc/systemd/system/powertop.service
+locale.conf             -> /etc/locale.conf

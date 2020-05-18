@@ -473,7 +473,7 @@ follow_now_playing_lyrics = yes
 #
 #search_engine_default_search_mode = 1
 #
-#external_editor = nano
+external_editor = $EDITOR
 #
 ## Note: set to yes if external editor is a console application.
 ##

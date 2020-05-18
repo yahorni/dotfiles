@@ -34,6 +34,8 @@ Plug 'vim-scripts/Rename2'
 
 " search with ripgrep
 Plug 'jremmen/vim-ripgrep'
+let g:rg_binary = 'rg'
+let g:rg_command = g:rg_binary . ' --vimgrep -g "!build"'
 
 " status line
 Plug 'itchyny/lightline.vim'
@@ -84,8 +86,6 @@ Plug 'vim-scripts/indentpython.vim'
 " go
 Plug 'fatih/vim-go'
 au FileType go let g:go_fmt_fail_silently = 1
-au FileType go call deoplete#custom#buffer_option('auto_complete', v:false)
-au FileType go let g:SuperTabDefaultCompletionType = "context"
 
 " fzf
 Plug '/usr/bin/fzf'
@@ -263,6 +263,8 @@ au FileType python setlocal textwidth=79 | setlocal colorcolumn=80
 " c++ style
 au FileType c,cpp,h,hpp setlocal tabstop=4 | setlocal shiftwidth=4 |
             \ setlocal textwidth=120 | setlocal colorcolumn=121
+" cmake
+au FileType cmake setlocal tabstop=2 | setlocal shiftwidth=2
 " js style
 au FileType javascript,typescript setlocal tabstop=2 | setlocal shiftwidth=2
 " yaml spaces
@@ -286,7 +288,7 @@ nn <silent> tc :tabclose<CR>
 nn <silent> <leader>w :%s/\s\+$//e <bar> nohl<CR>
 
 " update ctags
-com! Ctags execute "!ctags -R --exclude=.git --exclude=node_modules ."
+com! Ctags execute "!ctags -R --exclude=.git --exclude=node_modules --exclude=build ."
 nn <silent> <leader>T :Ctags<CR>
 
 " search visually selected text with '//'
