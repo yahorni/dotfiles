@@ -244,7 +244,7 @@
     history = ctrl+grave
 
     # Context menu.
-    context = ctrl+shift+period
+    context = ctrl+shift+u
 
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.

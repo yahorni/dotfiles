@@ -51,12 +51,12 @@ alias \
 # files
 alias \
     va='$EDITOR $XDG_CONFIG_HOME/aliases' \
-    vz='$EDITOR $XDG_CONFIG_HOME/zsh/.zshrc' \
     vv='$EDITOR $XDG_CONFIG_HOME/nvim/init.vim' \
     vs='$EDITOR $XDG_CONFIG_HOME/sxhkd/sxhkdrc' \
     vf='$EDITOR $XDG_CONFIG_HOME/vifm/vifmrc' \
-    vp='$EDITOR ~/.profile' \
+    vz='$EDITOR $XDG_CONFIG_HOME/zsh/.zshrc' \
     vb='$EDITOR ~/.bashrc' \
+    vp='$EDITOR ~/.profile' \
     vx='$EDITOR ~/.xinitrc' \
     vg='$EDITOR .gitignore' \
     vh='$EDITOR $HISTFILE' \
@@ -67,12 +67,23 @@ alias \
 alias \
     cdr='cd ~/prog/reps' \
     cdj='cd ~/prog/prj' \
-    cds='cd $XDG_DATA_HOME' \
-    cdc='cd $XDG_CONFIG_HOME' \
-    cdd='cd ~/Downloads' \
     cdb='cd ~/.local/bin' \
-    cdp='cd ~/pix' \
-    cdm='cd ~/music'
+    cds='cd $XDG_DATA_HOME' \
+    cdc='cd $XDG_CONFIG_HOME'
+alias \
+    cdB='cd "$(xdg-user-dir BOOKS)"' \
+    cdx='cd "$(xdg-user-dir DOCUMENTS)"' \
+    cdd='cd "$(xdg-user-dir DOWNLOAD)"' \
+    cdm='cd "$(xdg-user-dir MUSIC)"' \
+    cdp='cd "$(xdg-user-dir PICTURES)"' \
+    cdv='cd "$(xdg-user-dir SERIALS)"'
+    cdv='cd "$(xdg-user-dir VIDEOS)"' \
+alias \
+    cdP='cd /mnt/phone' \
+    cd1='cd /mnt/usb1' \
+    cd2='cd /mnt/usb2' \
+    cd3='cd /mnt/usb3' \
+    cdo='cd /mnt/other'
 
 # completion
 if [ "$SHELL" = "/bin/bash" ] ; then

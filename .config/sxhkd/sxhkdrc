@@ -1,47 +1,81 @@
+# NOTE: keys below reserved
+# q - kill wm
+# super+shift+r - to update wm
+# f - fullscreen
+# h/j/k/l, comma, period, slash — for wm manipulation
+# TODO: movefloat/resizefloat
+
+# system monitor
+super + grave
+    $TERMINAL -e htop
+
+# music player
+super + w
+    $TERMINAL -e ncmpcpp
+
 # terminal
 super + {_,shift +} e
     $TERMINAL {_,-c dropdown}
 
+# hotkey daemon restart
+super + r
+    pkill -USR1 -x sxhkd
+
+# RSS
+super + t
+    $TERMINAL -e newsboat -q
+
+# torrent
+super + shift + t
+    $TERMINAL -e transmission-remote-cli
+
+# search web
+super + {_,shift +} u
+    searchweb {url,query}
+
+# english translator
+super + {_,shift +} o
+    translate.py -{s,d}n
+
+# bookmarks
+super + a ; {o,a,f,e,b}
+    bookmarks.sh {-a open,-a addmark,-a addfolder,-a editmark,_}
+
+# notes
+super + shift + a
+    $TERMINAL -e joplin
+
+# power management
+super + {_, shift +} p
+    powermanager {suspend,_}
+
+# programming
+super + s
+    openprj
+super + shift + s
+    $TERMINAL -c dropdown -e $EDITOR
+
+# program run
+super + d
+    dmenu_run
+
+# program kill
+super + shift + d
+    fastkill
+
+# attach floating window
+super + {_, shift +} g
+    cornerwindow {_,-H left}
+
+# terminal
 super + Return
     $TERMINAL
 super + shift + Return
     samedir
 
-# programs
-super + grave
-    $TERMINAL -e htop
-
-super + w
-    $TERMINAL -e ncmpcpp
-
-super + t
-    $TERMINAL -e newsboat -q
-super + shift + t
-    $TERMINAL -e transmission-remote-cli
-
-super + p
-    power_manager
-super + shift + p
-    fastkill
-
-super + {_, shift +} a
-    power_manager {suspend,lock}
-
-super + s
-    openprj
-super + shift + s
-    code || st -e $EDITOR
-
-super + d
-    dmenu_run
-super + shift + d
-    $TERMINAL -e joplin
-
-super + {_, shift +} g
-    corner_window {_,-H left}
-
-super + {_,shift +} o
-    translate.py -{s,d}n
+# resize floating window with ratio
+super + {_, shift +} z
+    resizeratio {-,+} 5
 
 # messengers
 super + x
@@ -49,8 +83,11 @@ super + x
 super + shift + x
     slack
 
+# file manager
 super + v
     $TERMINAL -e vifmrun
+
+# mail
 super + shift + v
     $TERMINAL -e neomutt
 
@@ -60,10 +97,6 @@ super + c
 super + shift + c
     clipmenu
 
-# refresh sxhkd (super+r left for wm)
-super + shift + r
-    pkill -USR1 -x sxhkd
-
 # browser
 super + b
     pgrep $BROWSER || $BROWSER
@@ -72,7 +105,7 @@ super + shift + b
 
 # mounting
 super + {_, shift +} m
-    dmenu_{_,un}mount
+    dmenu{_,un}mount
 
 # music
 super + {_,shift +} n
@@ -100,19 +133,3 @@ ctrl + Print
     makescreen window
 @shift + Print
     makescreen part
-
-# floating windows
-super + shift + {h,l}
-    movefloat {-,+} 15 x
-
-super + shift + {j,k}
-    movefloat {+,-} 15 y
-
-super + alt + {h,l}
-    resizefloat {-,+} 5 w
-
-super + alt + {j,k}
-    resizefloat {+,-} 5 h
-
-super + {_, shift +} z
-    corner_resizer {-,+} 5

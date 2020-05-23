@@ -9,7 +9,7 @@ export SHELL="/bin/zsh"
 export TERMINAL="st"
 export EDITOR="nvim"
 export VISUAL="$EDITOR"
-export BROWSER="firefox"
+export BROWSER="brave"
 export READER="zathura"
 
 # directories
@@ -27,7 +27,7 @@ export PYTHONSTARTUP="$XDG_CONFIG_HOME/pythonrc.py"
 export PYLINTHOME="$XDG_CACHE_HOME/pylint"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export ELINKS_CONFDIR="$XDG_CONFIG_HOME/elinks"
-export SUDO_ASKPASS="$HOME/.local/bin/dmenu_pass"
+export SUDO_ASKPASS="$HOME/.local/bin/dmenupass"
 export LESSHISTFILE="-"
 export TERMINFO="$XDG_DATA_HOME/terminfo"
 export TERMINFO_DIRS="$XDG_DATA_HOME/terminfo:/usr/share/terminfo"
@@ -52,9 +52,9 @@ export LESS_TERMCAP_se=$'\E[0m'        # reset reverse video
 export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
 export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 
+# program settings
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
-
-[[ -f "$HOME/.zshrc" ]] && . "$HOME/.zshrc"
+export SXHKD_SHELL="/bin/bash"
 
 if [[ $(tty) = "/dev/tty1" ]]; then
 	pgrep -x bspwm || exec startx 1>/dev/null 2>/dev/null

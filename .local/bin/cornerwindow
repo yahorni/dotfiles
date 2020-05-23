@@ -48,21 +48,8 @@ y_percent="${y_perc:-default_y}"
 pid=$(xdotool getwindowfocus)
 name="$(xdotool getwindowname $pid)"
 
-wm="bspwm"
-
-case "$wm" in
-    i3) is_floating=$(xprop -id $pid | grep I3_FLOATING_WINDOW | wc -l)
-        [ "$is_floating" -eq 0 ] && i3-msg "[id=\"$pid\"] floating enable" > /dev/null
-        read -a geometry < <(xdotool getdisplaygeometry)
-        ;;
-    bspwm)
-        bspc node $pid -t floating
-        monitor=`bspc query -M -m --names`
-        geometry=(`xrandr -q | grep "$monitor" | \
-            sed -n 's/.* \([[:digit:]]\+\)x\([[:digit:]]\+\)+\([[:digit:]]\+\)+\([[:digit:]]\+\) .*/\1 \2 \3 \4/p'`)
-        ;;
-
-esac
+geometry=($(xrandr -q | grep "$monitor" | \
+    sed -n 's/.* \([0-9]\+\)x\([0-9]\+\)+\([0-9]\+\)+\([0-9]\+\) .*/\1 \2 \3 \4/p'))
 
 new_width=$((${geometry[0]} * $x_percent / 100))
 new_height=$((${geometry[1]} * $y_percent / 100))

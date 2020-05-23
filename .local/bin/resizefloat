@@ -12,16 +12,16 @@ pid=$(xdotool getwindowfocus)
 increase() { echo $(($1 * (100 + $value) / 100)) ; }
 decrease() { echo $(($1 * (100 - $value) / 100)) ; }
 
-eval "`xdotool getwindowgeometry --shell $pid`"
+eval "$(xdotool getwindowgeometry --shell $pid)"
 
 case $param in
     w) size=$WIDTH ;;
     h) size=$HEIGHT ;;
 esac
 if [ "$side" = "+" ]; then
-    size=`increase $size`
+    size=$(increase $size)
 elif [ "$side" = "-" ]; then
-    size=`decrease $size`
+    size=$(decrease $size)
 fi
 case $param in
     w) WIDTH=$size ;;

@@ -1,6 +1,6 @@
 #!/bin/sh
 
 prjdir="$HOME/prog/prj"
-prj=`ls "$prjdir" | dmenu -p "Open project:"`
+prj=$(ls "$prjdir" | dmenu -p "Open project:")
 [ -z "$prj" ] && exit
 cd "$prjdir/$prj" && exec "$TERMINAL" -e "$EDITOR"

@@ -5,11 +5,9 @@ let mapleader=" "
 
 call plug#begin('~/.vim/plugged')
 
-" theme
-Plug 'arcticicestudio/nord-vim'
-
 " buffer manipulation
 Plug 'rbgrouleff/bclose.vim'
+nn <silent> <leader>q :Bclose<CR>
 
 " comments
 Plug 'tpope/vim-commentary'
@@ -36,6 +34,8 @@ Plug 'vim-scripts/Rename2'
 Plug 'jremmen/vim-ripgrep'
 let g:rg_binary = 'rg'
 let g:rg_command = g:rg_binary . ' --vimgrep -g "!build"'
+" fast search in visual mode
+vnoremap <leader>r y:Rg <C-R>+
 
 " status line
 Plug 'itchyny/lightline.vim'
@@ -60,25 +60,33 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 Plug 'w0rp/ale'
 let g:ale_fixers = { '*': ['remove_trailing_lines', 'trim_whitespace'] }
 let g:ale_linters = {
-            \   'python': ['flake8', 'pylint'],
-            \   'tex': ['chktex'],
-            \   'cpp': ['clang', 'gcc'],
+            \   'cpp': ['cpplint', 'clang', 'gcc'],
             \   'c': ['clang', 'gcc'],
             \   'sh': ['shfmt'],
+            \   'python': ['flake8', 'pylint'],
+            \   'tex': ['chktex'],
             \}
-let g:ale_c_parse_compile_commands = 1 " cpp headers issue
-
 let g:ale_set_highlights = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
-let g:ale_completion_enabled = 0
 let b:ale_list_window_size = 5
-let b:ale_warn_about_trailing_blank_lines = 1
-let b:ale_warn_about_trailing_whitespace = 1
-au FileType cpp,go,python setlocal completeopt-=preview
-nn <silent> <leader>L :ALEToggle<CR>
-nn <silent> <A-[> :ALEPrevious<CR>
-nn <silent> <A-]> :ALENext<CR>
+let g:ale_completion_enabled = 1
+" tex options
+let g:ale_tex_chktex_options = '-n 44'
+" c/c++ options
+" NOTE: cpp headers issue
+let g:ale_c_parse_compile_commands = 1
+let g:ale_cpp_cpplint_options =
+            \'--extensions=cpp,hpp,cc,c,h --filter=-legal/copyright,-build/include_order,
+            \-whitespace/line_length,-whitespace/indent,-whitespace/comments,
+            \-runtime/references,-readability/todo'
+set omnifunc=ale#completion#OmniFunc
+nmap <leader>Al <Plug>(ale_lint)
+nmap <leader>At <Plug>(ale_toggle)
+nmap <leader>Af <Plug>(ale_fix)
+nmap <leader>Ad <Plug>(ale_detail)
+nmap <leader>]  <Plug>(ale_next)
+nmap <leader>[  <Plug>(ale_previous)
 
 " python
 Plug 'vim-scripts/indentpython.vim'
@@ -95,21 +103,16 @@ nn <silent> <leader>b :FZF<CR>
 
 " c++
 Plug 'octol/vim-cpp-enhanced-highlight'
-Plug 'rhysd/vim-clang-format'
-let g:clang_format#code_style = 'llvm'
-au FileType c,cpp,h,hpp nn <silent> <C-f> :ClangFormat<CR>
-Plug 'uplus/vim-clang-rename'
-au FileType c,cpp,h,hpp nn <silent> <leader>r :ClangRenameCurrent<CR>
 Plug 'derekwyatt/vim-fswitch'
 au FileType c,cpp,h,hpp nn <silent> <leader>s :FSHere<CR>
 
-" tagbar | TODO: make focusable from any split
+" tagbar
 Plug 'majutsushi/tagbar'
-nn <silent> <leader>t :TagbarToggle<CR>
+" TODO: make focusable from any split
+nn <silent> <leader>T :TagbarToggle<CR>
 
 " indentation
-Plug 'Yggdroot/indentLine'
-" can break conceallevel
+Plug 'Yggdroot/indentLine' " can break conceallevel
 au FileType tex,markdown,json let g:indentLine_setColors = 0
 au FileType tex,markdown,json let g:indentLine_enabled = 0
 
@@ -128,25 +131,37 @@ au FileType markdown setlocal filetype=markdown.pandoc
 au VimEnter *.md setlocal filetype=markdown
 let g:pandoc#syntax#conceal#use = 0
 
+" theme
+Plug 'arcticicestudio/nord-vim'
+Plug 'morhetz/gruvbox'
+
+" file picker
+Plug 'vifm/vifm.vim'
+
 call plug#end()
 
 filetype plugin on
 
+" colortheme
+set bg=dark
+colo gruvbox
+" NOTE: term colors can break colorscheme in vanilla vim
+set notermguicolors
+
 " file manager
 let g:netrw_banner = 0
+let g:netrw_list_hide = '^\./'
 let g:netrw_liststyle = 3
+let g:netrw_winsize = -30
+let g:netrw_dirhistmax = 0
 nn <silent> <C-n> :Explore<CR>
 nn <silent> <leader>n :Rexplore<CR>
+nn <silent> <leader><C-n> :Lexplore<CR>
 nn <silent> <leader>_ <Plug>NetrwRefresh
 
 " commentstring's
 au FileType xdefaults setlocal commentstring=!\ %s
-au FileType sxhkdrc setlocal commentstring=#\ %s
-
-" colortheme
-set bg=dark
-set termguicolors
-colo nord
+au FileType desktop,sxhkdrc setlocal commentstring=#\ %s
 
 " options
 set laststatus=2
@@ -188,6 +203,7 @@ set cino=N-s,g0
 set tags=./tags;
 set spell spelllang=
 set clipboard=unnamedplus
+set completeopt-=preview
 
 " change <paste> command behaviour
 xn p "_dp
@@ -204,13 +220,11 @@ com! Wq :wq
 com! -bang Q :q<bang>
 
 " normal mode bindings
-nn <silent> <leader>f :noh<Enter>
+nn <silent> <leader>h :noh<Enter>
 nn Y y$
 nn zq ZQ
 
-" buffer switching
-nn <silent> <leader>h :bprev<CR>
-nn <silent> <leader>l :bnext<CR>
+" buffer close
 nn <silent> <C-q> :close<CR>
 
 " different cursors per mode
@@ -289,12 +303,19 @@ nn <silent> <leader>w :%s/\s\+$//e <bar> nohl<CR>
 
 " update ctags
 com! Ctags execute "!ctags -R --exclude=.git --exclude=node_modules --exclude=build ."
-nn <silent> <leader>T :Ctags<CR>
+nn <silent> <leader>t :Ctags<CR>
 
 " search visually selected text with '//'
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
+
+" replace visually selected text
+vnoremap <leader>s y:%s/<C-R>+//g<Left><Left>
 
 " spelling
 nn <silent> <leader>Se :setlocal spell spelllang+=en<CR>
 nn <silent> <leader>Sr :setlocal spell spelllang+=ru<CR>
 nn <silent> <leader>D :setlocal nospell<CR>
+
+" sessions
+nn <silent> <leader>m :mksession! <bar> echo "Session saved"<CR>
+nn <silent> <leader>l :source Session.vim<CR>

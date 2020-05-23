@@ -11,9 +11,7 @@
 " If you would like to use another vi clone such as Elvis or Vile
 " you will need to change this setting.
 
-set vicmd=nvim
-" set vicmd=elvis\ -G\ termcap
-" set vicmd=vile
+set vicmd=$EDITOR
 
 " This makes vifm perform file operations on its own instead of relying on
 " standard utilities like `cp`.  While using `cp` and alike is a more universal
@@ -33,7 +31,7 @@ set trash
 
 " This is how many directories to store in the directory history.
 
-set history=100
+set history=0
 
 " Automatically resolve symbolic links on l or Enter.
 
@@ -119,17 +117,23 @@ set statusline="  Hint: %z%= %A %10u:%-7g %15s %20d  "
 mark h ~/
 mark r ~/prog/reps
 mark j ~/prog/prj
-mark x ~/.local/share
+mark b ~/.local/bin
+mark s ~/.local/share
 mark c ~/.config
-mark l ~/Downloads
 
-mark d ~/dox
+mark B ~/books
+mark x ~/dox
+mark d ~/Downloads
 mark m ~/music
 mark p ~/pix
+mark S ~/serials
 mark v ~/vids
-mark s ~/serials
 
-mark n /mnt
+mark P /mnt/phone
+mark 1 /mnt/usb1
+mark 2 /mnt/usb2
+mark 3 /mnt/usb3
+mark o /mnt/other
 
 " ------------------------------------------------------------------------------
 
@@ -229,7 +233,7 @@ fileviewer *.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,
     \ vifmimg clear
 
 " Web
-filextype <text/htm,text/html> linkhandler %f &, qutebrowser %f &, firefox %f &
+filextype <text/htm,text/html> env-wrapper BROWSER %f &
 filetype <text/htm,text/html> elinks %f
 
 " Object
@@ -325,7 +329,7 @@ filetype *.7z
 fileviewer *.7z 7z l %c
 
 " Office files
-filextype *.odt,*.doc,*.docx,*.xls,*.xlsx,*.odp,*.pptx,*.ppt
+filextype *.odt,*.doc,*.docx,*.xls,*.xlsx,*.odp,*.pptx,*.ppt,*.rtf
     \ libreoffice %f %i &
 
 fileviewer *.ppt,*.pptx

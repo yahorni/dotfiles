@@ -1,6 +1,7 @@
+# vim: ft=desktop
 [Default Applications]
 application/epub+zip=zathura.desktop
-application/json=nvim.desktop
+application/json=editor.desktop
 application/oxps=zathura.desktop
 application/pdf=zathura.desktop
 application/x-bittorrent=torrent.desktop
@@ -11,22 +12,22 @@ image/png=sxiv.desktop
 image/vnd.djvu+multipage=zathura.desktop
 image/vnd.djvu=zathura.desktop
 inode/directory=vifmrun.desktop
-text/htm=linkhandler.desktop
-text/html=linkhandler.desktop
-text/plain=nvim.desktop
-text/x-c=nvim.desktop
-text/x-python=nvim.desktop
-text/x-shellscript=nvim.desktop
-x-scheme-handler/http=linkhandler.desktop
-x-scheme-handler/https=linkhandler.desktop
+text/plain=editor.desktop
+text/x-c=editor.desktop
+text/x-python=editor.desktop
+text/x-shellscript=editor.desktop
 x-scheme-handler/magnet=torrent.desktop
 
-[Added Associations]
-x-scheme-handler/ftp=firefox.desktop;
-x-scheme-handler/chrome=firefox.desktop;
-application/x-extension-htm=firefox.desktop;
-application/x-extension-html=firefox.desktop;
-application/x-extension-shtml=firefox.desktop;
-application/xhtml+xml=firefox.desktop;
-application/x-extension-xhtml=firefox.desktop;
-application/x-extension-xht=firefox.desktop;
+# URLS/HTML/FTP/XML
+text/htm=linkhandler.desktop
+text/html=linkhandler.desktop
+x-scheme-handler/http=linkhandler.desktop
+x-scheme-handler/https=linkhandler.desktop
+x-scheme-handler/ftp=linkhandler.desktop;
+x-scheme-handler/chrome=linkhandler.desktop;
+application/x-extension-htm=linkhandler.desktop;
+application/x-extension-html=linkhandler.desktop;
+application/x-extension-shtml=linkhandler.desktop;
+application/xhtml+xml=linkhandler.desktop;
+application/x-extension-xhtml=linkhandler.desktop;
+application/x-extension-xht=linkhandler.desktop;

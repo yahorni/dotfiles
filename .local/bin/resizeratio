@@ -15,16 +15,16 @@ function decrease {
     echo $(($1 * (100 - $percent) / 100))
 }
 
-eval "`xdotool getwindowgeometry --shell $pid`"
+eval "$(xdotool getwindowgeometry --shell $pid)"
 
 #### RESIZE ####
 
 if [ "$side" = "+" ]; then
-    new_width=`increase $WIDTH`
-    new_height=`increase $HEIGHT`
+    new_width=$(increase $WIDTH)
+    new_height=$(increase $HEIGHT)
 elif [ "$side" = "-" ]; then
-    new_width=`decrease $WIDTH`
-    new_height=`decrease $HEIGHT`
+    new_width=$(decrease $WIDTH)
+    new_height=$(decrease $HEIGHT)
 fi
 
 #### MOVE ####

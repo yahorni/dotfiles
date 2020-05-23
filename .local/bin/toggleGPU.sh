@@ -3,8 +3,8 @@
 nvidia_lock="$XDG_DATA_HOME/nvidia_lock"
 monitors_config="/etc/X11/xorg.conf.d/10-monitor.conf"
 
-intel_cfg=`sed '0,/^INTEL$/d ; /^END_INTEL$/,$d' "$0"`
-nvidia_cfg=`sed '0,/^NVIDIA$/d ; /^END_NVIDIA$/,$d' "$0"`
+intel_cfg=$(sed '0,/^INTEL$/d ; /^END_INTEL$/,$d' "$0")
+nvidia_cfg=$(sed '0,/^NVIDIA$/d ; /^END_NVIDIA$/,$d' "$0")
 
 if [ -f "$nvidia_lock" ]; then # if nvidia enabled
     echo "Disabling NVIDIA"

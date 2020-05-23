@@ -16,7 +16,7 @@ xcompmgr"
 
 is_first=1
 items=""
-for item in `echo -e $options`; do
+for item in $(echo -e $options); do
     pgrep -x "$item" >/dev/null && \
         if [ $is_first -eq 0 ]; then
             items="$items\n$item"

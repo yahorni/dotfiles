@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=Wrapper for env EDITOR
+Terminal=false
+Exec=/usr/local/bin/st -e env-wrapper EDITOR %u

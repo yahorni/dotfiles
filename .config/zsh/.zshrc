@@ -21,7 +21,8 @@ bindkey -M viins '^J' history-beginning-search-forward # forward search in vi in
 
 # fzf history search
 [ -f "/usr/share/fzf/key-bindings.zsh" ] && source "/usr/share/fzf/key-bindings.zsh"
-bindkey '^R' fzf-history-widget
+bindkey -M viins '^R' fzf-history-widget
+bindkey -M vicmd '^R' fzf-history-widget
 
 # vi escape key delay
 export KEYTIMEOUT=1
@@ -44,6 +45,7 @@ setopt octal_zeroes
 setopt vi
 setopt globdots
 setopt hist_ignore_dups
+setopt nobanghist
 unsetopt nomatch
 
 # completions
