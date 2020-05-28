@@ -7,7 +7,6 @@ c.completion.open_categories = ['searchengines']
 c.completion.height = '30%'
 c.content.cookies.store = False
 c.content.dns_prefetch = True
-c.content.fullscreen.window = True
 c.content.pdfjs = True
 c.content.private_browsing = True
 c.zoom.default = '125%'
@@ -17,16 +16,14 @@ c.url.start_pages = ['about:blank']
 # SETTINGS I'M NOT SURE ABOUT
 c.content.plugins = True
 c.content.print_element_backgrounds = False
-# c.qt.highdpi = False
 
 # TABS
 c.tabs.position = 'right'
 c.tabs.title.alignment = 'right'
 c.tabs.width = 250
 c.tabs.last_close = 'close'
-c.tabs.show = 'switching'
-c.tabs.show_switching_delay = 800
-config.bind(',t', 'config-cycle tabs.show always switching')
+c.tabs.show = 'never'
+config.bind(',t', 'config-cycle tabs.show always never')
 config.bind('<Ctrl-Tab>', 'tab-next')
 config.bind('<Alt-Tab>', 'tab-prev')
 
@@ -99,7 +96,7 @@ config.bind('<Ctrl-Q>', closecmd)
 config.bind('ZQ', closecmd)
 config.bind('zq', closecmd)
 
-# BINDINGS
+# BINDS
 config.bind('ci', set_colors(invert_colors))
 config.bind('cs', set_colors(default_colors))
 config.bind('xa', 'spawn ytloader -f a {url}')
@@ -107,10 +104,44 @@ config.bind('xv', 'spawn ytloader {url}')
 config.bind('xh', 'spawn linkhandler {url}')
 config.bind('xe', 'edit-url')
 
+# RUSSIAN LAYOUT BINDS
+config.bind('Р', 'back')                    # H
+config.bind('О', 'tab-next')                # J
+config.bind('Л', 'tab-prev')                # K
+config.bind('Д', 'forward')                 # L
+config.bind('Т', 'search-prev')             # N
+config.bind('ЗЗ', 'open -t -- {primary}')   # PP
+config.bind('Зз', 'open -t -- {clipboard}') # Pp
+config.bind('К', 'reload -f')               # R
+config.bind('ЯЙ', closecmd)                 # ZQ
+config.bind('яй', closecmd)                 # zq
+config.bind('фв', 'download-cancel')        # ad
+config.bind('св', 'download-clear')         # cd
+config.bind('в', 'tab-close')               # d
+config.bind('ш', 'enter-mode insert')       # i
+config.bind('р', 'scroll left')             # h
+config.bind('о', 'scroll down')             # j
+config.bind('л', 'scroll up')               # k
+config.bind('д', 'scroll right')            # l
+config.bind('т', 'search-next')             # n
+config.bind('зЗ', 'open -- {primary}')      # pP
+config.bind('зз', 'open -- {clipboard}')    # pp
+config.bind('к', 'reload')                  # r
+config.bind('г', 'undo')                    # u
+config.bind('нв', 'yank domain')            # yd
+config.bind('нз', 'yank pretty-url')        # yp
+config.bind('не', 'yank title')             # yt
+config.bind('нн', 'yank')                   # yy
+
 # EDITOR
-terminal = os.getenv('TERMINAL', 'st')
+term = os.getenv('TERMINAL', 'st')
+term_args = [term, '-c', 'dropdown', '-e']
 editor = os.getenv("EDITOR", 'nvim')
-c.editor.command = [terminal, '-c', 'dropdown', '-e', editor, '{}']
+if editor == "vim" or editor == "nvim":
+    editor_args = [editor, "-u", "/dev/null", "{}"]
+else:
+    editor_args = [editor, "{}"]
+c.editor.command = term_args + editor_args
 
 # COMMANDS
 c.aliases = {
@@ -133,6 +164,6 @@ c.aliases = {
 c.content.host_blocking.lists = [
     'https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling/hosts',
 ]
-hosts = path.expandvars('file://$XDG_DATA_HOME/qutebrowser/hosts')
+hosts = path.expandvars('$XDG_DATA_HOME/qutebrowser/hosts')
 if path.exists(hosts):
-    c.content.host_blocking.lists.append(hosts)
+    c.content.host_blocking.lists.append('file://' + hosts)
