@@ -11,7 +11,7 @@ super + grave
 
 # music player
 super + w
-    $TERMINAL -e ncmpcpp
+    $TERMINAL -e ncmpcpp -s browser
 
 # terminal
 super + {_,shift +} e
@@ -38,8 +38,8 @@ super + {_,shift +} o
     translate.py -{s,d}n
 
 # bookmarks
-super + a ; {o,a,f,e,b}
-    bookmarks.sh {-a open,-a addmark,-a addfolder,-a editmark,_}
+super + a ; {o,a,f,e,c,b}
+    bookmarks.sh {open,addmark,addfolder,editmark,copy,_}
 
 # notes
 super + shift + a

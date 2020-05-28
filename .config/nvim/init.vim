@@ -1,7 +1,10 @@
+" vim: fdm=marker foldlevel=0
 set nocompatible
 
 " set leader key
 let mapleader=" "
+
+" {{{ PLUGINS
 
 call plug#begin('~/.vim/plugged')
 
@@ -72,7 +75,10 @@ let g:ale_lint_on_enter = 0
 let b:ale_list_window_size = 5
 let g:ale_completion_enabled = 1
 " tex options
-let g:ale_tex_chktex_options = '-n 44'
+" 13 - intersentence spacing
+" 26 - spaces before punctuation
+" 44 - hline in tables
+let g:ale_tex_chktex_options = '-n13 -n26 -n44'
 " c/c++ options
 " NOTE: cpp headers issue
 let g:ale_c_parse_compile_commands = 1
@@ -140,6 +146,8 @@ Plug 'vifm/vifm.vim'
 
 call plug#end()
 
+" }}}
+
 filetype plugin on
 
 " colortheme
@@ -152,7 +160,6 @@ set notermguicolors
 let g:netrw_banner = 0
 let g:netrw_list_hide = '^\./'
 let g:netrw_liststyle = 3
-let g:netrw_winsize = -30
 let g:netrw_dirhistmax = 0
 nn <silent> <C-n> :Explore<CR>
 nn <silent> <leader>n :Rexplore<CR>
@@ -161,13 +168,15 @@ nn <silent> <leader>_ <Plug>NetrwRefresh
 
 " commentstring's
 au FileType xdefaults setlocal commentstring=!\ %s
-au FileType desktop,sxhkdrc setlocal commentstring=#\ %s
+au FileType desktop,sxhkdrc,bib setlocal commentstring=#\ %s
+
+" {{{ OPTIONS
 
 " options
 set laststatus=2
-set ffs=unix,dos,mac
+set fileformats=unix,dos,mac
 set encoding=utf-8
-set fencs=utf-8,cp1251,koi8-r,ucs-2,cp866
+set fileencodings=utf-8,cp1251,koi8-r,ucs-2,cp866
 set autoindent
 set incsearch
 set hlsearch
@@ -204,6 +213,9 @@ set tags=./tags;
 set spell spelllang=
 set clipboard=unnamedplus
 set completeopt-=preview
+set path+=**
+
+" }}}
 
 " change <paste> command behaviour
 xn p "_dp
@@ -227,6 +239,8 @@ nn zq ZQ
 " buffer close
 nn <silent> <C-q> :close<CR>
 
+" {{{ CURSOR
+
 " different cursors per mode
 if (&term!='linux')
     if exists('$TMUX')
@@ -239,6 +253,10 @@ if (&term!='linux')
         let &t_EI = "\e[2 q"
     endif
 endif
+
+" }}}
+
+" {{{ SPLIT RESIZE
 
 " Split moving/resizing
 fun! ToggleResizeSplitMode()
@@ -257,6 +275,8 @@ nn <silent> <expr> <C-k> !exists('b:SplitResize') ? '<C-w><C-k>' : ':res +1<CR>'
 nn <silent> <expr> <C-l> !exists('b:SplitResize') ? '<C-w><C-l>' : ':vert res +1<CR>'
  " it's better to not remap ESC button
 nn gr :call ToggleResizeSplitMode()<CR>
+
+" }}}
 
 " file executing
 nn <leader>e :w <bar> :!compiler %<CR>
@@ -277,12 +297,9 @@ au FileType python setlocal textwidth=79 | setlocal colorcolumn=80
 " c++ style
 au FileType c,cpp,h,hpp setlocal tabstop=4 | setlocal shiftwidth=4 |
             \ setlocal textwidth=120 | setlocal colorcolumn=121
-" cmake
-au FileType cmake setlocal tabstop=2 | setlocal shiftwidth=2
-" js style
-au FileType javascript,typescript setlocal tabstop=2 | setlocal shiftwidth=2
-" yaml spaces
-au FileType yaml setlocal tabstop=2 | setlocal shiftwidth=2
+" cmake, js, yaml, proto
+au FileType cmake,javascript,typescript,yaml,proto
+            \ setlocal tabstop=2 | setlocal shiftwidth=2
 
 " FORMATTERS
 " shell
@@ -291,6 +308,9 @@ au FileType sh nn <buffer> <C-f> :%!shfmt<CR>
 au FileType json nn <buffer> <C-f> :%!jq<CR>
 " js,yaml,html,css
 au FileType yaml,html,css,javascript,typescript nn <buffer> <C-f> :!prettier --write %<CR>
+
+" set filetype for tex
+let g:tex_flavor = "latex"
 
 " tabs
 nn <silent> th :tabprev<CR>
@@ -314,8 +334,8 @@ vnoremap <leader>s y:%s/<C-R>+//g<Left><Left>
 " spelling
 nn <silent> <leader>Se :setlocal spell spelllang+=en<CR>
 nn <silent> <leader>Sr :setlocal spell spelllang+=ru<CR>
-nn <silent> <leader>D :setlocal nospell<CR>
+nn <silent> <leader>Sd :setlocal nospell spelllang=<CR>
 
 " sessions
 nn <silent> <leader>m :mksession! <bar> echo "Session saved"<CR>
-nn <silent> <leader>l :source Session.vim<CR>
+nn <silent> <leader>M :source Session.vim<CR>

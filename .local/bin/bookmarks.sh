@@ -2,10 +2,12 @@
 
 # requirements: dmenu, xdg-open/$BROWSER , xclip (optional), libnotify (optional)
 
+# TODO: Make folder in the end of the mark in dmenu (and maybe add urls)
 # TODO: Write "usage" message
 # TODO: JSON export/import, some check_command for jq
 # TODO: Check for any way to open browser at startup
 # TODO: Add notifications
+# TODO: Add ESC support when add mark
 
 ########################
 # # # # SETTINGS # # # #
@@ -25,6 +27,10 @@ INVALID_ARG="Invalid argument"
 declare folders_str marks_str
 declare -a folders_arr marks_arr
 declare return_value return_value_2
+
+show_help() {
+    echo -e "TODO" && exit 0
+}
 
 init() { 
     # create bookmarks dir
@@ -111,6 +117,7 @@ new_mark() {
 	local folder="$return_value"
 
 	local title=$(dmenu -p "Enter title:" <&-)
+    exit_if_empty "$title" # TODO: accept empty, but handle ESC button
 	local uri=$(dmenu -p "Enter address:" <&-)
     exit_if_empty "$uri"
 
@@ -218,6 +225,7 @@ handler() {
 		open*) open_url ;;
 		copy*) copy_uri ;;
 		move*) move_mark ;;
+        help)  show_help ;;
 		*) echo -e "$INVALID_ARG '$OPTARG'" && exit 1 ;;
 	esac
 }
@@ -242,11 +250,5 @@ if [ -z "$1" ]; then
 	action=$(echo -e -n "$commands" | dmenu -i -p "Choose action")
 	handler "$action"
 else
-	while getopts "ha:" opt; do
-		case $opt in
-			a) handler $OPTARG ;;
-			h) echo -e "$usage" && exit 0 ;;
-			*) echo -e "$INVALID_ARG '$opt'" && exit 1 ;;
-		esac
-	done
+    handler "$1"
 fi

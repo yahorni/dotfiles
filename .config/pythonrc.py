@@ -1,7 +1,7 @@
 import atexit
 import os
 import readline
-histfile = os.path.join(os.path.expanduser("~"), ".local/share/python.hist")
+histfile = os.path.expandvars("$XDG_DATA_HOME/python.hist")
 
 try:
     readline.read_history_file(histfile)

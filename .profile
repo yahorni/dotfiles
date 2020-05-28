@@ -9,7 +9,7 @@ export SHELL="/bin/zsh"
 export TERMINAL="st"
 export EDITOR="nvim"
 export VISUAL="$EDITOR"
-export BROWSER="brave"
+export BROWSER="qutebrowser"
 export READER="zathura"
 
 # directories
