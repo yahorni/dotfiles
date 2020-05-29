@@ -12,6 +12,9 @@ case "$1" in
     *\.png|*\.jpg|*\.jpeg|*\.gif)
         name="$(echo "$1" | sed "s/.*\///")"
         curl -sL "$1" > "/tmp/$name" && sxiv -a "/tmp/$name" ;;
+    *\.pdf)
+        name="$(echo "$1" | sed "s/.*\///")"
+        curl -sL "$1" > "/tmp/$name" && zathura "/tmp/$name" ;;
     *)
         setsid "$BROWSER" "$1" >/dev/null 2>&1 & ;;
 esac &

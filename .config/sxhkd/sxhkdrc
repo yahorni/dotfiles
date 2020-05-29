@@ -31,7 +31,7 @@ super + shift + t
 
 # search web
 super + {_,shift +} u
-    searchweb {url,query}
+    searchweb {query,url}
 
 # english translator
 super + {_,shift +} o

@@ -1,5 +1,4 @@
 import os
-import os.path
 from os import path
 
 # SETTINGS
@@ -9,36 +8,33 @@ c.content.cookies.store = False
 c.content.dns_prefetch = True
 c.content.pdfjs = True
 c.content.private_browsing = True
-c.zoom.default = '125%'
+c.zoom.default = '150%'
 c.url.default_page = 'about:blank'
 c.url.start_pages = ['about:blank']
 
-# SETTINGS I'M NOT SURE ABOUT
-c.content.plugins = True
-c.content.print_element_backgrounds = False
-
 # TABS
+c.tabs.background = True
 c.tabs.position = 'right'
 c.tabs.title.alignment = 'right'
 c.tabs.width = 250
 c.tabs.last_close = 'close'
-c.tabs.show = 'never'
-config.bind(',t', 'config-cycle tabs.show always never')
+c.tabs.show = 'always'
+config.bind('tt', 'config-cycle tabs.show always never')
 config.bind('<Ctrl-Tab>', 'tab-next')
 config.bind('<Alt-Tab>', 'tab-prev')
 
 # SEARCH ENGINES
 c.url.searchengines = {
-        'DEFAULT': 'https://www.google.com/search?&q={}',
-        'dd': 'https://duckduckgo.com/?q={}',
-        'gg': 'https://www.google.com/search?&q={}',
-        'rt': 'http://rutracker.org/forum/search_cse.php?q={}',
-        'yt': 'https://youtube.com/search?q={}',
-        'ym': 'https://music.yandex.ru/search?text={}',
-        'gs': 'https://github.com/search?q={}',
-        'gh': 'https://github.com/{}',
-        'er': 'https://translate.google.com/#en/ru/{}',
-        're': 'https://translate.google.com/#ru/en/{}',
+    'DEFAULT': 'https://duckduckgo.com/?q={}',
+    'dd': 'https://duckduckgo.com/?q={}',
+    'gg': 'https://www.google.com/search?&q={}',
+    'rt': 'http://rutracker.org/forum/search_cse.php?q={}',
+    'yt': 'https://youtube.com/search?q={}',
+    'ym': 'https://music.yandex.ru/search?text={}',
+    'gs': 'https://github.com/search?q={}',
+    'gh': 'https://github.com/{}',
+    'er': 'https://translate.google.com/#en/ru/{}',
+    're': 'https://translate.google.com/#ru/en/{}',
 }
 
 # FONT
@@ -87,8 +83,8 @@ def set_colors(colors):
 
 # THEME
 theme_path = path.expandvars("$XDG_DATA_HOME/qutebrowser/styles/all-sites.css")
-c.content.user_stylesheets = [theme_path]
-config.bind(',s', f'config-cycle content.user_stylesheets {theme_path} "" ;; reload')
+c.content.user_stylesheets = []
+config.bind('cs', f'config-cycle content.user_stylesheets [{theme_path}] [] ;; reload')
 
 # HACKS
 closecmd = "spawn --userscript closequte"
@@ -98,11 +94,12 @@ config.bind('zq', closecmd)
 
 # BINDS
 config.bind('ci', set_colors(invert_colors))
-config.bind('cs', set_colors(default_colors))
+config.bind('cn', set_colors(default_colors))
 config.bind('xa', 'spawn ytloader -f a {url}')
 config.bind('xv', 'spawn ytloader {url}')
 config.bind('xh', 'spawn linkhandler {url}')
 config.bind('xe', 'edit-url')
+config.bind('xj', 'config-cycle content.javascript.enabled false true')
 
 # RUSSIAN LAYOUT BINDS
 config.bind('Р', 'back')                    # H
@@ -110,6 +107,7 @@ config.bind('О', 'tab-next')                # J
 config.bind('Л', 'tab-prev')                # K
 config.bind('Д', 'forward')                 # L
 config.bind('Т', 'search-prev')             # N
+config.bind('Щ', 'set-cmd-text -s :open -t')# O
 config.bind('ЗЗ', 'open -t -- {primary}')   # PP
 config.bind('Зз', 'open -t -- {clipboard}') # Pp
 config.bind('К', 'reload -f')               # R
@@ -124,14 +122,19 @@ config.bind('о', 'scroll down')             # j
 config.bind('л', 'scroll up')               # k
 config.bind('д', 'scroll right')            # l
 config.bind('т', 'search-next')             # n
+config.bind('щ', 'set-cmd-text -s :open')   # o
 config.bind('зЗ', 'open -- {primary}')      # pP
 config.bind('зз', 'open -- {clipboard}')    # pp
 config.bind('к', 'reload')                  # r
 config.bind('г', 'undo')                    # u
+config.bind('м', 'enter-mode caret')        # v
 config.bind('нв', 'yank domain')            # yd
 config.bind('нз', 'yank pretty-url')        # yp
 config.bind('не', 'yank title')             # yt
 config.bind('нн', 'yank')                   # yy
+# non-default
+config.bind('ее', 'config-cycle tabs.show always never') ## tt
+config.bind('сы', f'config-cycle content.user_stylesheets [] [{theme_path}] ;; reload') # cs
 
 # EDITOR
 term = os.getenv('TERMINAL', 'st')
@@ -155,9 +158,6 @@ c.aliases = {
     # tor
     'tor': 'set content.proxy socks://localhost:9050/',
     'sys': 'set content.proxy system',
-    # javascript
-    'jse': 'set content.javascript.enabled true',
-    'jsd': 'set content.javascript.enabled false',
 }
 
 # HOST BLOCKING
