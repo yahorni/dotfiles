@@ -11,6 +11,7 @@ export EDITOR="nvim"
 export VISUAL="$EDITOR"
 export BROWSER="qutebrowser"
 export READER="zathura"
+export WM="dwm"
 
 # directories
 export XDG_CACHE_HOME="$HOME/.cache"
@@ -57,5 +58,5 @@ export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export SXHKD_SHELL="/bin/bash"
 
 if [[ $(tty) = "/dev/tty1" ]]; then
-	pgrep -x bspwm || exec startx 1>/dev/null 2>/dev/null
+	pgrep -x "$WM" || exec startx 1>/dev/null 2>/dev/null
 fi

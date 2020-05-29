@@ -28,6 +28,11 @@ else
        --output DP2 --stretch "$XDG_DATA_HOME/vertical"
 fi
 
+if [ "$WM" = "dwm" ]; then
+    dwmbar &
+    dwmlistener.sh &
+fi
+
 xmodmap -e "keycode 135 = Super_R Menu"
 xset r rate 200 35
 xrdb -merge "$XDG_CONFIG_HOME/Xresources"
@@ -36,7 +41,4 @@ xset s on
 xset s 600
 xss-lock -- physlock -ms &
 
-# DWM
-dwmbar &
-dwmlistener.sh &
-exec dwm
+exec "$WM"
