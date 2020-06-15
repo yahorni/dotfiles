@@ -14,6 +14,7 @@ image/vnd.djvu=zathura.desktop
 inode/directory=vifmrun.desktop
 text/plain=editor.desktop
 text/x-c=editor.desktop
+text/x-tex=editor.desktop
 text/x-python=editor.desktop
 text/x-shellscript=editor.desktop
 x-scheme-handler/magnet=torrent.desktop

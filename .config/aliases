@@ -27,7 +27,8 @@ alias \
     cp='cp -r' \
     p3='python3' \
     ff='ffplay -autoexit -nodisp' \
-    sm='sc-im'
+    sm='sc-im' \
+    xo='xdg-open'
 
 # git
 alias \
@@ -58,9 +59,10 @@ alias \
     vb='$EDITOR ~/.bashrc' \
     vp='$EDITOR ~/.profile' \
     vx='$EDITOR ~/.xinitrc' \
-    vg='$EDITOR .gitignore' \
     vh='$EDITOR $HISTFILE' \
     vr='$EDITOR $XDG_CONFIG_HOME/Xresources' \
+    vg='$EDITOR .gitignore' \
+    vt='$EDITOR TODO' \
     vw='$EDITOR ~/prog/prj/dwm/config.h'
 
 # directories

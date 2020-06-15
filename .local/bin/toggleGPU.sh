@@ -1,19 +1,44 @@
-#!/bin/sh
+#!/bin/bash
+
+[ "$EUID" -ne 0 ] && echo "Please run as root" && exit
 
 nvidia_lock="$XDG_DATA_HOME/nvidia_lock"
+
 monitors_config="/etc/X11/xorg.conf.d/10-monitor.conf"
+kernel_config="/etc/modprobe.d/nvidia.conf"
+grub_config="/etc/default/grub"
 
 intel_cfg=$(sed '0,/^INTEL$/d ; /^END_INTEL$/,$d' "$0")
 nvidia_cfg=$(sed '0,/^NVIDIA$/d ; /^END_NVIDIA$/,$d' "$0")
 
+grub_options="module_blacklist=nvidia,nvidia-current,nvidia_drm,nvidia_uvm,nvidia_modeset,nouveau"
+
 if [ -f "$nvidia_lock" ]; then # if nvidia enabled
     echo "Disabling NVIDIA"
+
+    # update x11 config
     rm "$nvidia_lock"
-    sudo echo "$intel_cfg" > "$monitors_config"
+    echo "$intel_cfg" > "$monitors_config"
+
+    # update kernel modules
+    rm "$kernel_config"
+
+    # update grub
+    sed -in "s/\(^GRUB_CMDLINE_LINUX_DEFAULT=.*\)\"$/\1 $grub_options\"/" "$grub_config"
+    grub-mkconfig -o /boot/grub/grub.cfg
 else # if disabled
     echo "Enabling NVIDIA"
+
+    # update x11 config
     touch "$nvidia_lock"
-    sudo echo "$nvidia_cfg" > "$monitors_config"
+    echo "$nvidia_cfg" > "$monitors_config"
+
+    # update kernel modules
+    echo 'blacklist nvidia,nvidia-current,nvidia_drm,nvidia_uvm,nvidia_modeset' > "$kernel_config"
+
+    # update grub
+    sed -in "s/\(^GRUB_CMDLINE_LINUX_DEFAULT=.*\) $grub_options\"$/\1\"/" "$grub_config"
+    grub-mkconfig -o /boot/grub/grub.cfg
 fi
 
 exit

@@ -17,4 +17,5 @@ case "$1" in
     "d") ([ "$(printf "No\\nYes" | dmenu -i -p "Really delete $file?")" = "Yes" ] && rm "$file" && notify-send "$file deleted.") & ;;
     "g") dragon "$file" & ;;
     "t") FILE="$file" ${TERMINAL:-st} & ;;
+    "e") gimp "$file" & ;;
 esac

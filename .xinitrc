@@ -33,12 +33,12 @@ if [ "$WM" = "dwm" ]; then
     dwmlistener.sh &
 fi
 
-xmodmap -e "keycode 135 = Super_R Menu"
-xset r rate 200 35
-xrdb -merge "$XDG_CONFIG_HOME/Xresources"
-xsetroot -cursor_name left_ptr
-xset s on
-xset s 600
-xss-lock -- physlock -ms &
+xmodmap -e "keycode 135 = Super_R Menu"   # remap 'menu' button
+xset r rate 200 35                        # keyboard speed
+xsetroot -cursor_name left_ptr            # default cursor
+xset s on                                 # enable screensaver
+xset s 600                                # seconds before screensave
+xss-lock -- physlock -ms &                # set screen lock
+xrdb -merge "$XDG_CONFIG_HOME/Xresources" # apply xresources
 
 exec "$WM"

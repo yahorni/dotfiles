@@ -31,7 +31,7 @@ set trash
 
 " This is how many directories to store in the directory history.
 
-set history=0
+set history=10
 
 " Automatically resolve symbolic links on l or Enter.
 
@@ -120,6 +120,8 @@ mark j ~/prog/prj
 mark b ~/.local/bin
 mark s ~/.local/share
 mark c ~/.config
+mark t /tmp
+mark e /etc
 
 mark B ~/books
 mark x ~/dox
@@ -329,7 +331,7 @@ filetype *.7z
 fileviewer *.7z 7z l %c
 
 " Office files
-filextype *.odt,*.doc,*.docx,*.xls,*.xlsx,*.odp,*.pptx,*.ppt,*.rtf
+filextype *.odt,*.doc,*.docx,*.xls,*.xlsx,*.odp,*.pptx,*.ppt,*.rtf,*.odg
     \ libreoffice %f %i &
 
 fileviewer *.ppt,*.pptx
@@ -365,7 +367,7 @@ filextype *.ipynb jupyter notebook %f %i &
 " Syntax highlighting in preview
 fileviewer <text/x-shellscript,text/htm,text/html>
     \ highlight -O ansi %c
-fileviewer *.html,*.htm,*.css,*.py,*.c,*.cpp,*.h,*.hpp,*.cu,*.cuh,*.cl,*.go,*.sh,*.diff,*.tex,*.md,*.js,*.json,*.sql,Makefile,*.mk,CMakeLists.txt,.tmux.conf
+fileviewer *.html,*.htm,*.css,*.py,*.c,*.cpp,*.h,*.hpp,*.cu,*.cuh,*.cl,*.go,*.sh,*.diff,*.tex,*.md,*.js,*.json,*.sql,Makefile,*.mk,CMakeLists.txt,.tmux.conf,*.yml,*.yaml
     \ highlight -O ansi %c
 
 " Plain text
@@ -473,9 +475,8 @@ vnoremap cX :!chmod -x %f<cr>
 " splits
 nnoremap cv :vsplit<cr>
 nnoremap ch :split<cr>
-
+" faster quit
 nnoremap zq ZQ
-nnoremap zz ZZ
 
 " ---------------------------
 

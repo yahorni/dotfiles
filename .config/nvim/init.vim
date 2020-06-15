@@ -85,7 +85,7 @@ let g:ale_c_parse_compile_commands = 1
 let g:ale_cpp_cpplint_options =
             \'--extensions=cpp,hpp,cc,c,h --filter=-legal/copyright,-build/include_order,
             \-whitespace/line_length,-whitespace/indent,-whitespace/comments,
-            \-runtime/references,-readability/todo'
+            \-runtime/references,-readability/todo,-build/include'
 set omnifunc=ale#completion#OmniFunc
 nmap <leader>Al <Plug>(ale_lint)
 nmap <leader>At <Plug>(ale_toggle)
@@ -176,7 +176,7 @@ au FileType desktop,sxhkdrc,bib setlocal commentstring=#\ %s
 set laststatus=2
 set fileformats=unix,dos,mac
 set encoding=utf-8
-set fileencodings=utf-8,cp1251,koi8-r,ucs-2,cp866
+set fileencodings=utf-8,ucs-2,koi8-r,cp866,cp1251
 set autoindent
 set incsearch
 set hlsearch
@@ -214,6 +214,7 @@ set spell spelllang=
 set clipboard=unnamedplus
 set completeopt-=preview
 set path+=**
+set wildignore+=*/build/*
 
 " }}}
 
@@ -337,5 +338,5 @@ nn <silent> <leader>Sr :setlocal spell spelllang+=ru<CR>
 nn <silent> <leader>Sd :setlocal nospell spelllang=<CR>
 
 " sessions
-nn <silent> <leader>m :mksession! <bar> echo "Session saved"<CR>
-nn <silent> <leader>M :source Session.vim<CR>
+nn <silent> <leader>ms :mksession! <bar> echo "Session saved"<CR>
+nn <silent> <leader>ml :source Session.vim<CR>
