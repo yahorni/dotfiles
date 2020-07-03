@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+filename="${1}"
+mimetype="$(file --dereference --brief --mime-type -- "${filename}")"
+syntaxcmd="highlight -t 4 -O ansi"
+
+case "${filename}" in
+    *\.[1-8]|*\.[1-8]\.gz) man ./${filename} | col -b && exit ;;
+    \.tmux\.conf|Makefile)
+        ${syntaxcmd} ${filename} && exit
+        cat "${filename}" && exit
+        ;;
+esac
+
+case "${mimetype}" in
+    text/*|*/xml)
+        ${syntaxcmd} ${filename} 2>/dev/null && exit
+        cat "${filename}" && exit
+        ;;
+    audio/*) mediainfo "${filename}" && exit ;;
+    application/json) ${syntaxcmd} -S json ${filename} && exit ;;
+    application/x-rar)  unrar v "${filename}" && exit ;;
+    application/x-tar)  tar -tf "${filename}" && exit ;;
+    application/gzip)   tar -tzf "${filename}" && exit ;;
+    application/zip)    zip -sf "${filename}" && exit ;;
+    application/vnd.oasis.opendocument.text)
+        odt2txt "${filename}" && exit ;;
+    application/vnd.openxmlformats-officedocument.wordprocessingml.document)
+        docx2txt < "${filename}" && exit ;;
+    application/pdf) pdftotext -nopgbrk "${filename}" - && exit ;;
+esac
+
+echo '----- File Type Classification -----' && \
+    file --dereference -- "${filename}" # && sed "s/,,/\n/g"

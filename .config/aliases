@@ -28,7 +28,8 @@ alias \
     p3='python3' \
     ff='ffplay -autoexit -nodisp' \
     sm='sc-im' \
-    xo='xdg-open'
+    xo='xdg-open' \
+    mim='file --mime-type'
 
 # git
 alias \
