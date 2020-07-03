@@ -28,10 +28,6 @@ declare folders_str marks_str
 declare -a folders_arr marks_arr
 declare return_value return_value_2
 
-show_help() {
-    echo -e "TODO" && exit 0
-}
-
 init() { 
     # create bookmarks dir
     [ ! -d "$bookmarks_dir" ] && mkdir -p "$bookmarks_dir"
@@ -214,6 +210,22 @@ edit_folder() {
     popd > /dev/null
 }
 
+show_help() {
+    echo "Usage: ${0##*/} [command]"
+    echo "Interactive mode enabled when no command given"
+    echo
+    echo 'Commands:'
+    echo '    addmark - add bookmark'
+    echo '    addfolder - add folder'
+    echo '    editmark - edit bookmark'
+    echo '    editfolder - edit folder'
+    echo '    delmark - delete bookmark'
+    echo '    delfolder - delete folder'
+    echo '    open - open bookmark'
+    echo '    copy - copy URI'
+    echo '    move - move bookmark'
+}
+
 handler() {
 	case $1 in
 		add*mark)    new_mark ;;
@@ -226,7 +238,7 @@ handler() {
 		copy*) copy_uri ;;
 		move*) move_mark ;;
         help)  show_help ;;
-		*) echo -e "$INVALID_ARG '$OPTARG'" && exit 1 ;;
+		*) echo -e "$INVALID_ARG '$1'" && exit 1 ;;
 	esac
 }
 

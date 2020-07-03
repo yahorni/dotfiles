@@ -26,6 +26,7 @@ c.tabs.width = 250
 c.tabs.last_close = 'close'
 c.tabs.show = 'never'
 config.bind('B', 'config-cycle tabs.show always never')
+config.bind('И', 'config-cycle tabs.show always never')
 config.bind('<Ctrl-Tab>', 'tab-next')
 config.bind('<Alt-Tab>', 'tab-prev')
 
@@ -47,33 +48,40 @@ c.url.searchengines = {
 font_size = 12
 # maybe use default_family instead of monospace
 c.fonts.completion.category = f'bold {font_size}pt monospace'
-c.fonts.completion.entry = f'{font_size}pt monospace'
-c.fonts.debug_console = f'{font_size}pt monospace'
-c.fonts.downloads = f'{font_size}pt monospace'
-c.fonts.hints = f'bold {font_size}pt monospace'
-c.fonts.keyhint = f'{font_size}pt monospace'
-c.fonts.messages.error = f'{font_size}pt monospace'
-c.fonts.messages.info = f'{font_size}pt monospace'
-c.fonts.messages.warning = f'{font_size}pt monospace'
-c.fonts.prompts = f'{font_size}pt sans-serif'
-c.fonts.statusbar = f'{font_size}pt monospace'
-c.fonts.tabs = f'{font_size}pt monospace'
+c.fonts.completion.entry =    f'{font_size}pt monospace'
+c.fonts.debug_console =       f'{font_size}pt monospace'
+c.fonts.downloads =           f'{font_size}pt monospace'
+c.fonts.hints =               f'bold {font_size}pt monospace'
+c.fonts.keyhint =             f'{font_size}pt monospace'
+c.fonts.messages.error =      f'{font_size}pt monospace'
+c.fonts.messages.info =       f'{font_size}pt monospace'
+c.fonts.messages.warning =    f'{font_size}pt monospace'
+c.fonts.prompts =             f'{font_size}pt sans-serif'
+c.fonts.statusbar =           f'{font_size}pt monospace'
+c.fonts.tabs =                f'{font_size}pt monospace'
 
 # THEME
-theme_path = path.expandvars("$XDG_DATA_HOME/qutebrowser/styles/all-sites.css")
+# theme_path = path.expandvars("$XDG_DATA_HOME/qutebrowser/styles/all-sites.css")
+theme_path = path.expandvars("$XDG_DATA_HOME/qutebrowser/styles/global-dark.css")
 c.content.user_stylesheets = []
 config.bind('cs', f'config-cycle content.user_stylesheets [{theme_path}] [] ;; reload')
+config.bind('сы', f'config-cycle content.user_stylesheets [{theme_path}] [] ;; reload')
 
 # BINDS
 config.bind('xa', 'spawn ytloader -f a {url}')
+config.bind('чф', 'spawn ytloader -f a {url}')
 config.bind('xv', 'spawn ytloader {url}')
-config.bind('xh', 'spawn linkhandler {url}')
+config.bind('чм', 'spawn ytloader {url}')
+config.bind('xo', 'spawn linkhandler {url}')
+config.bind('чщ', 'spawn linkhandler {url}')
 config.bind('xe', 'edit-url')
 config.bind('xj', 'config-cycle content.javascript.enabled false true')
 config.bind('zq', 'quit')
+config.bind('яй', 'quit')
 config.bind('A', 'config-cycle statusbar.hide false true')
 
 # RUSSIAN LAYOUT BINDS
+config.bind('П', 'scroll-to-perc')          # G
 config.bind('Р', 'back')                    # H
 config.bind('О', 'tab-next')                # J
 config.bind('Л', 'tab-prev')                # K
@@ -87,6 +95,7 @@ config.bind('ЯЙ', 'quit')                   # ZQ
 config.bind('фв', 'download-cancel')        # ad
 config.bind('св', 'download-clear')         # cd
 config.bind('в', 'tab-close')               # d
+config.bind('пп', 'scroll-to-perc 0')       # gg
 config.bind('ш', 'enter-mode insert')       # i
 config.bind('р', 'scroll left')             # h
 config.bind('о', 'scroll down')             # j
@@ -103,15 +112,6 @@ config.bind('нв', 'yank domain')            # yd
 config.bind('нз', 'yank pretty-url')        # yp
 config.bind('не', 'yank title')             # yt
 config.bind('нн', 'yank')                   # yy
-# non-default
-config.bind('чф', 'spawn ytloader -f a {url}')# xa
-config.bind('чм', 'spawn ytloader {url}')     # xv
-config.bind('чр', 'spawn linkhandler {url}')  # xh
-config.bind('чу', 'edit-url')                 # xe
-config.bind('яй', 'quit')                     # zq
-config.bind('ее', 'config-cycle tabs.show always never') ## tt
-config.bind('сы', f'config-cycle content.user_stylesheets [] [{theme_path}] ;; reload') # cs
-config.bind('И', 'config-cycle tabs.show always never') # B
 
 # EDITOR
 term = os.getenv('TERMINAL', 'st')
@@ -129,9 +129,6 @@ c.aliases = {
     'q': 'quit',
     'Q': 'quit',
     'wq': 'quit --save',
-    'wQ': 'quit --save',
-    'Wq': 'quit --save',
-    'WQ': 'quit --save',
 
     'tm': 'tab-move',
     'tg': 'tab-give',
