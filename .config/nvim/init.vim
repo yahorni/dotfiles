@@ -137,12 +137,13 @@ au FileType markdown setlocal filetype=markdown.pandoc
 au VimEnter *.md setlocal filetype=markdown
 let g:pandoc#syntax#conceal#use = 0
 
+" file picker
+Plug 'vifm/vifm.vim'
+
 " theme
 Plug 'arcticicestudio/nord-vim'
 Plug 'morhetz/gruvbox'
-
-" file picker
-Plug 'vifm/vifm.vim'
+Plug 'liuchengxu/space-vim-dark'
 
 call plug#end()
 
@@ -151,10 +152,17 @@ call plug#end()
 filetype plugin on
 
 " colortheme
-set bg=dark
-colo gruvbox
 " NOTE: term colors can break colorscheme in vanilla vim
-set notermguicolors
+"""""""""""
+" set bg=dark
+" colo gruvbox
+" set notermguicolors
+"""""""""""
+" colo nord
+" set termguicolors
+"""""""""""
+colo space-vim-dark
+hi Comment cterm=italic
 
 " file manager
 let g:netrw_banner = 0
@@ -176,7 +184,7 @@ au FileType desktop,sxhkdrc,bib setlocal commentstring=#\ %s
 set laststatus=2
 set fileformats=unix,dos,mac
 set encoding=utf-8
-set fileencodings=utf-8,ucs-2,koi8-r,cp866,cp1251
+set fileencodings=utf-8,cp1251,ucs-2,koi8-r,cp866
 set autoindent
 set incsearch
 set hlsearch
@@ -209,7 +217,7 @@ set conceallevel=0
 set concealcursor=nvic
 set cursorline
 set cino=N-s,g0
-set tags=./tags;
+set tags=./tags,tags,~/.local/share/tags
 set spell spelllang=
 set clipboard=unnamedplus
 set completeopt-=preview
@@ -323,7 +331,7 @@ nn <silent> tc :tabclose<CR>
 nn <silent> <leader>w :%s/\s\+$//e <bar> nohl<CR>
 
 " update ctags
-com! Ctags execute "!ctags -R --exclude=.git --exclude=node_modules --exclude=build ."
+com! Ctags execute "!updtags.sh"
 nn <silent> <leader>t :Ctags<CR>
 
 " search visually selected text with '//'
@@ -340,3 +348,4 @@ nn <silent> <leader>Sd :setlocal nospell spelllang=<CR>
 " sessions
 nn <silent> <leader>ms :mksession! <bar> echo "Session saved"<CR>
 nn <silent> <leader>ml :source Session.vim<CR>
+nn <silent> <leader>md :!rm Session.vim<CR>

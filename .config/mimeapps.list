@@ -18,6 +18,7 @@ image/vnd.djvu=zathura.desktop
 inode/directory=vifmrun.desktop
 text/plain=editor.desktop
 text/troff=man.desktop
+text/xml=editor.desktop
 text/x-c=editor.desktop
 text/x-c++=editor.desktop
 text/x-tex=editor.desktop

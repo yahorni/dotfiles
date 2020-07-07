@@ -2,21 +2,25 @@ import os
 from os import path
 
 # SETTINGS
-c.colors.webpage.bg = 'darkslategray'
+c.colors.webpage.bg = 'black'
+c.colors.webpage.darkmode.algorithm = 'lightness-cielab'
+c.colors.webpage.darkmode.enabled = True
+c.colors.webpage.darkmode.policy.page = 'always'
 c.colors.webpage.prefers_color_scheme_dark = True
-c.completion.open_categories = ['searchengines']
-c.completion.height = '30%'
 c.completion.cmd_history_max_items = 0
+c.completion.height = '30%'
+c.completion.open_categories = ['searchengines']
+c.completion.web_history.exclude = ['*']
 c.completion.web_history.max_items = 0
 c.confirm_quit = ['downloads']
 c.content.autoplay = False
 c.content.cookies.store = False
-c.content.dns_prefetch = True
 c.content.pdfjs = True
-c.statusbar.hide = True
-c.zoom.default = '150%'
+c.scrolling.bar = 'when-searching'
+c.statusbar.show = 'in-mode'
 c.url.default_page = 'about:blank'
 c.url.start_pages = ['about:blank']
+c.zoom.default = '150%'
 
 # TABS
 c.tabs.background = True
@@ -26,13 +30,13 @@ c.tabs.width = 250
 c.tabs.last_close = 'close'
 c.tabs.show = 'never'
 config.bind('B', 'config-cycle tabs.show always never')
-config.bind('И', 'config-cycle tabs.show always never')
+config.bind('И', 'config-cycle tabs.show always never') # rus
 config.bind('<Ctrl-Tab>', 'tab-next')
 config.bind('<Alt-Tab>', 'tab-prev')
 
 # SEARCH ENGINES
 c.url.searchengines = {
-    'DEFAULT': 'https://duckduckgo.com/?q={}',
+    'DEFAULT': 'https://www.google.com/search?&q={}',
     'dd': 'https://duckduckgo.com/?q={}',
     'gg': 'https://www.google.com/search?&q={}',
     'rt': 'https://rutracker.org/forum/search_cse.php?q={}',
@@ -45,40 +49,26 @@ c.url.searchengines = {
 }
 
 # FONT
-font_size = 12
-# maybe use default_family instead of monospace
-c.fonts.completion.category = f'bold {font_size}pt monospace'
-c.fonts.completion.entry =    f'{font_size}pt monospace'
-c.fonts.debug_console =       f'{font_size}pt monospace'
-c.fonts.downloads =           f'{font_size}pt monospace'
-c.fonts.hints =               f'bold {font_size}pt monospace'
-c.fonts.keyhint =             f'{font_size}pt monospace'
-c.fonts.messages.error =      f'{font_size}pt monospace'
-c.fonts.messages.info =       f'{font_size}pt monospace'
-c.fonts.messages.warning =    f'{font_size}pt monospace'
-c.fonts.prompts =             f'{font_size}pt sans-serif'
-c.fonts.statusbar =           f'{font_size}pt monospace'
-c.fonts.tabs =                f'{font_size}pt monospace'
+c.fonts.default_family = ['monospace']
+c.fonts.default_size = '12pt'
 
 # THEME
-# theme_path = path.expandvars("$XDG_DATA_HOME/qutebrowser/styles/all-sites.css")
 theme_path = path.expandvars("$XDG_DATA_HOME/qutebrowser/styles/global-dark.css")
-c.content.user_stylesheets = []
 config.bind('cs', f'config-cycle content.user_stylesheets [{theme_path}] [] ;; reload')
 config.bind('сы', f'config-cycle content.user_stylesheets [{theme_path}] [] ;; reload')
 
 # BINDS
 config.bind('xa', 'spawn ytloader -f a {url}')
-config.bind('чф', 'spawn ytloader -f a {url}')
+config.bind('чф', 'spawn ytloader -f a {url}') # rus
 config.bind('xv', 'spawn ytloader {url}')
-config.bind('чм', 'spawn ytloader {url}')
+config.bind('чм', 'spawn ytloader {url}')      # rus
 config.bind('xo', 'spawn linkhandler {url}')
-config.bind('чщ', 'spawn linkhandler {url}')
+config.bind('чщ', 'spawn linkhandler {url}')   # rus
 config.bind('xe', 'edit-url')
-config.bind('xj', 'config-cycle content.javascript.enabled false true')
 config.bind('zq', 'quit')
-config.bind('яй', 'quit')
-config.bind('A', 'config-cycle statusbar.hide false true')
+config.bind('яй', 'quit') # rus
+config.bind('A', 'config-cycle statusbar.show always in-mode')
+config.bind('Ф', 'config-cycle statusbar.show always in-mode') # rus
 
 # RUSSIAN LAYOUT BINDS
 config.bind('П', 'scroll-to-perc')          # G
@@ -129,7 +119,7 @@ c.aliases = {
     'q': 'quit',
     'Q': 'quit',
     'wq': 'quit --save',
-
+    # tabs
     'tm': 'tab-move',
     'tg': 'tab-give',
     # tor
@@ -139,7 +129,7 @@ c.aliases = {
 
 # HOST BLOCKING
 c.content.host_blocking.lists = [
-    'https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling/hosts',
+    'https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts',
 ]
 hosts = path.expandvars('$XDG_DATA_HOME/qutebrowser/hosts')
 if path.exists(hosts):

@@ -82,9 +82,9 @@ fileviewer <image/png,image/jpeg,image/gif,image/bmp,image/x-ms-bmp,image/tiff,i
 " Common
 fileviewer *[^/] vifmpreview %f
 fileviewer .*[^/] vifmpreview %f
-filextype * xdg-open
+filextype *  xdg-open
 filextype .* xdg-open
-filetype * xdg-open
+filetype *  xdg-open
 filetype .* xdg-open
 
 " --- STORED INFO ---

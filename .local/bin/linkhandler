@@ -7,14 +7,14 @@ case "$1" in
         notify-send "Opening in MPV" "$1"
         ERROR=$( (youtube-dl -F "$1" 3>&2 2>&1 1>&3) 2>/dev/null)
         [[ "$?" -ne "0" ]] && notify-send "Youtube-dl error" "$ERROR" && exit 1
-        setsid mpv --ytdl-format="bestvideo[height<=1080]+bestaudio/best[height<=1080]"\
+        exec mpv --ytdl-format="bestvideo[height<=1080]+bestaudio/best[height<=1080]"\
             --really-quiet "$1" & ;;
     *\.png|*\.jpg|*\.jpeg|*\.gif)
         name="$(echo "$1" | sed "s/.*\///")"
-        curl -sL "$1" > "/tmp/$name" && sxiv -a "/tmp/$name" ;;
+        curl -sL "$1" > "/tmp/$name" && exec sxiv -a "/tmp/$name" & ;;
     *\.pdf)
         name="$(echo "$1" | sed "s/.*\///")"
-        curl -sL "$1" > "/tmp/$name" && zathura "/tmp/$name" ;;
+        curl -sL "$1" > "/tmp/$name" && exec zathura "/tmp/$name" & ;;
     *)
-        setsid "$BROWSER" "$1" >/dev/null 2>&1 & ;;
+        exec "$BROWSER" "$1" >/dev/null 2>&1 ;;
 esac &

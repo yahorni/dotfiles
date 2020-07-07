@@ -2,7 +2,7 @@
 
 # path
 export GOPATH="$HOME/prog/go"
-export PATH="$PATH:$HOME/.local/bin:$GOPATH/bin"
+export PATH="$PATH:$HOME/.local/bin:$HOME/.local/bin/specific:$GOPATH/bin"
 
 # programs
 export SHELL="/bin/zsh"
