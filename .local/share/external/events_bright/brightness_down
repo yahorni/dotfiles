@@ -1,0 +1,2 @@
+event=video/brightnessdown
+action=xbacklight -dec 5
