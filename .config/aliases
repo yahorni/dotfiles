@@ -57,6 +57,7 @@ alias \
     vs='$EDITOR $XDG_CONFIG_HOME/sxhkd/sxhkdrc' \
     vf='$EDITOR $XDG_CONFIG_HOME/vifm/vifmrc' \
     vz='$EDITOR $XDG_CONFIG_HOME/zsh/.zshrc' \
+    vq='$EDITOR $XDG_CONFIG_HOME/qutebrowser/config.py' \
     vb='$EDITOR ~/.bashrc' \
     vp='$EDITOR ~/.profile' \
     vx='$EDITOR ~/.xinitrc' \
@@ -79,8 +80,8 @@ alias \
     cdd='cd "$(xdg-user-dir DOWNLOAD)"' \
     cdm='cd "$(xdg-user-dir MUSIC)"' \
     cdp='cd "$(xdg-user-dir PICTURES)"' \
-    cdv='cd "$(xdg-user-dir SERIALS)"'
-    cdv='cd "$(xdg-user-dir VIDEOS)"' \
+    cdS='cd "$(xdg-user-dir SERIALS)"' \
+    cdv='cd "$(xdg-user-dir VIDEOS)"'
 alias \
     cdP='cd /mnt/phone' \
     cd1='cd /mnt/usb1' \

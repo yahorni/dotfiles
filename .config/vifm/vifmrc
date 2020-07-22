@@ -106,7 +106,7 @@ nnoremap xf :!$EDITOR %f<cr>
 " edit in directory
 nnoremap xd :!$EDITOR .<cr>
 " open with xdg-open
-nnoremap xo :!xdg-open %f &<cr>
+nnoremap xo :!setsid xdg-open %f &<cr>
 nnoremap xO :!setsid openwith %f &>/dev/null & disown<cr>
 " show pictures
 nnoremap xp :!sxiv -t %d &<cr>
@@ -159,3 +159,5 @@ nnoremap <f5> :copy<cr>
 nnoremap <f6> :move<cr>
 nnoremap <f7> :mkdir<space>
 nnoremap <f8> :delete<cr>
+" run several files in mpv
+vnoremap xm :!mpv --really-quiet %f %i &<cr>

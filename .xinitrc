@@ -7,7 +7,6 @@ if [ -f "$nvidia_lock" ]; then
     xrandr --auto
 fi
 
-pgrep mpd || mpd &
 dunst &
 picom &
 sxhkd &

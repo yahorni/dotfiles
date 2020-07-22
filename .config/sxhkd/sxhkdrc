@@ -5,9 +5,9 @@
 # h/j/k/l, comma, period, slash — for wm manipulation
 # TODO: movefloat/resizefloat
 
-# system monitor
-super + grave
-    $TERMINAL -e htop
+# system/audio controls
+super + {_,shift +}grave
+    $TERMINAL -e {htop,pulsemixer}
 
 # music player
 super + w

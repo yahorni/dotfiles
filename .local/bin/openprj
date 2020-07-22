@@ -2,5 +2,6 @@
 
 prjdir="$HOME/prog/prj"
 prj=$(ls "$prjdir" | dmenu -p "Open project:")
-[ -z "$prj" ] && exit
+[ -z "$prj" ] && notify-send "No  project entered" && exit
+[ ! -d "$prjdir/$prj" ] && notify-send "No such project" && exit
 cd "$prjdir/$prj" && exec "$TERMINAL" -e "$EDITOR"

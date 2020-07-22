@@ -2,6 +2,7 @@ import os
 from os import path
 
 # SETTINGS
+c.colors.tabs.bar.bg = '#333333'
 c.colors.webpage.bg = 'black'
 c.colors.webpage.darkmode.algorithm = 'lightness-cielab'
 c.colors.webpage.darkmode.enabled = True
@@ -16,6 +17,7 @@ c.confirm_quit = ['downloads']
 c.content.autoplay = False
 c.content.cookies.store = False
 c.content.pdfjs = True
+c.input.mouse.rocker_gestures = True
 c.scrolling.bar = 'when-searching'
 c.statusbar.show = 'in-mode'
 c.url.default_page = 'about:blank'

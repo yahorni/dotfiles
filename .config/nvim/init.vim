@@ -111,6 +111,8 @@ nn <silent> <leader>b :FZF<CR>
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'derekwyatt/vim-fswitch'
 au FileType c,cpp,h,hpp nn <silent> <leader>s :FSHere<CR>
+Plug 'rhysd/vim-clang-format'
+au FileType c,h,cpp,hpp nn <buffer> <C-f> :ClangFormat<CR>
 
 " tagbar
 Plug 'majutsushi/tagbar'
