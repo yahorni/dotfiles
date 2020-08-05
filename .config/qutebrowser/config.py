@@ -17,7 +17,6 @@ c.confirm_quit = ['downloads']
 c.content.autoplay = False
 c.content.cookies.store = False
 c.content.pdfjs = True
-c.input.mouse.rocker_gestures = True
 c.scrolling.bar = 'when-searching'
 c.statusbar.show = 'in-mode'
 c.url.default_page = 'about:blank'

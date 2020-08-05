@@ -1,4 +1,4 @@
-" vim: fdm=marker foldlevel=0
+" vim: fdm=marker fdl=0 ts=2 sw=2 sts=2
 set nocompatible
 
 " set leader key
@@ -23,22 +23,11 @@ Plug 'tpope/vim-repeat' " dot command for vim-surround
 Plug 'jiangmiao/auto-pairs'
 let g:AutoPairsShortcutToggle = ''
 
-" git blame
-Plug 'zivyangll/git-blame.vim'
-nn <Leader>g :call gitblame#echo()<CR>
-
 " highlight for substituion
 Plug 'markonm/traces.vim'
 
 " rename file
 Plug 'vim-scripts/Rename2'
-
-" search with ripgrep
-Plug 'jremmen/vim-ripgrep'
-let g:rg_binary = 'rg'
-let g:rg_command = g:rg_binary . ' --vimgrep -g "!build"'
-" fast search in visual mode
-vnoremap <leader>r y:Rg <C-R>+
 
 " status line
 Plug 'itchyny/lightline.vim'
@@ -149,11 +138,11 @@ Plug 'liuchengxu/space-vim-dark'
 
 call plug#end()
 
-" }}}
-
 filetype plugin on
 
-" colortheme
+" }}}
+
+" {{{ COLORTHEME
 " NOTE: term colors can break colorscheme in vanilla vim
 """""""""""
 " set bg=dark
@@ -165,68 +154,71 @@ filetype plugin on
 """""""""""
 colo space-vim-dark
 hi Comment cterm=italic
-
-" file manager
-let g:netrw_banner = 0
-let g:netrw_list_hide = '^\./'
-let g:netrw_liststyle = 3
-let g:netrw_dirhistmax = 0
-nn <silent> <C-n> :Explore<CR>
-nn <silent> <leader>n :Rexplore<CR>
-nn <silent> <leader><C-n> :Lexplore<CR>
-nn <silent> <leader>_ <Plug>NetrwRefresh
-
-" commentstring's
-au FileType xdefaults setlocal commentstring=!\ %s
-au FileType desktop,sxhkdrc,bib setlocal commentstring=#\ %s
+" }}}
 
 " {{{ OPTIONS
-
-" options
+" status line
 set laststatus=2
-set fileformats=unix,dos,mac
+" encoding/fileformat
 set encoding=utf-8
 set fileencodings=utf-8,cp1251,ucs-2,koi8-r,cp866
-set autoindent
+set fileformat=unix
+set fileformats=unix,dos,mac
+" search
 set incsearch
 set hlsearch
-set hidden
-set viminfo="-"
-set expandtab
-set tabstop=4
-set shiftwidth=4
+" tab/space/indent
+set tabstop=4       " width for Tab
+set shiftwidth=4    " width for shifting with '>>'/'<<'
+set softtabstop=4   " width for Tab in inserting or deleting (Backspace)
 set smarttab
+set expandtab
+set autoindent
+set nolist
+" numbers
 set number
 set relativenumber
+" info/swap/backup
+set viminfo="-"
 set nobackup
 set nowritebackup
 set noundofile
+" modeline
 set modeline
 set modelines=5
 set noshowmode
 set showcmd
+" wildmenu
 set wildmenu
-set wildmode=longest,list,full
+set wildmode=longest,full
+" mouse
 set mouse=a
-set scrolloff=5
+" folding
 set foldmethod=indent
 set foldlevel=99
+" splits
 set splitbelow
 set splitright
-set fileformat=unix
-set nolist
+" conceal
 set conceallevel=0
 set concealcursor=nvic
-set cursorline
-set cino=N-s,g0
+" tags
 set tags=./tags,tags,~/.local/share/tags
+" spell
 set spell spelllang=
-set clipboard=unnamedplus
-set completeopt-=preview
+" file search
 set path+=**
-set wildignore+=*/build/*
-
+set wildignore+=*/build/*,*/.git/*,*/node_modules/*
+" misc
+set completeopt-=preview
+set clipboard=unnamedplus
+set scrolloff=5
+set hidden
+set cursorline
+set cinoptions=N-s,g0
 " }}}
+
+" {{{ MAPPINGS
 
 " change <paste> command behaviour
 xn p "_dp
@@ -250,9 +242,10 @@ nn zq ZQ
 " buffer close
 nn <silent> <C-q> :close<CR>
 
-" {{{ CURSOR
+" }}}
 
-" different cursors per mode
+" {{{ CURSOR
+" NOTE: different cursors per mode
 if (&term!='linux')
     if exists('$TMUX')
         let &t_SI = "\ePtmux;\e\e[6 q\e\\"
@@ -264,12 +257,9 @@ if (&term!='linux')
         let &t_EI = "\e[2 q"
     endif
 endif
-
 " }}}
 
-" {{{ SPLIT RESIZE
-
-" Split moving/resizing
+" {{{ SPLIT/RESIZE
 fun! ToggleResizeSplitMode()
     if !exists('b:SplitResize')
         let b:SplitResize=1
@@ -284,25 +274,60 @@ nn <silent> <expr> <C-h> !exists('b:SplitResize') ? '<C-w><C-h>' : ':vert res -1
 nn <silent> <expr> <C-j> !exists('b:SplitResize') ? '<C-w><C-j>' : ':res -1<CR>'
 nn <silent> <expr> <C-k> !exists('b:SplitResize') ? '<C-w><C-k>' : ':res +1<CR>'
 nn <silent> <expr> <C-l> !exists('b:SplitResize') ? '<C-w><C-l>' : ':vert res +1<CR>'
- " it's better to not remap ESC button
+ " NOTE: it's better to not remap ESC button
 nn gr :call ToggleResizeSplitMode()<CR>
-
 " }}}
 
-" file executing
-nn <leader>e :w <bar> :!compiler %<CR>
-nn <leader>E :w <bar> :!compiler % 2<CR>
-nn <leader>x :!chmod +x %<CR>
-nn <leader>X :!chmod -x %<CR>
+" {{{ GREPPING
+if executable('rg')
+  set grepprg=rg\ --vimgrep\ -g\ '!build'
+endif
 
-" showing results
-au FileType tex,markdown nn <leader>o :!openout %<CR><CR>
-au FileType c,cpp nn <leader>o :!./%:r<CR>
+func! QuickGrep(pattern)
+  exe "silent grep! " . a:pattern
+  copen
+  let l:nr=winnr()
+  exe l:nr . "wincmd J"
+endfunc
 
-au FileType tex nn <leader>c :!texclear %:p:h<CR><CR>
-au VimLeave *.tex !texclear %:p:h
+command! -nargs=1 QuickGrep call QuickGrep(<f-args>)
+nn <leader>g :QuickGrep<space>""<left>
+vn <leader>g y:QuickGrep "<C-r>+"<CR>
+" }}}
 
-" STYLES
+" {{{ NETRW
+let g:netrw_banner = 0
+let g:netrw_list_hide = '^\./'
+let g:netrw_liststyle = 3
+let g:netrw_dirhistmax = 0
+nn <silent> <C-n> :Explore<CR>
+nn <silent> <leader>n :Rexplore<CR>
+nn <silent> <leader><C-n> :Lexplore<CR>
+nn <silent> <leader>_ <Plug>NetrwRefresh
+" }}}
+"
+" {{{ TABS
+nn <silent> th :tabprev<CR>
+nn <silent> tl :tabnext<CR>
+nn <silent> tn :tabnew<CR>
+nn <silent> tc :tabclose<CR>
+nn <silent> tH :tabmove -1<CR>
+nn <silent> tL :tabmove<CR>
+" }}}
+
+" {{{ SPELL
+nn <silent> <leader>Se :setlocal spell spelllang+=en<CR>
+nn <silent> <leader>Sr :setlocal spell spelllang+=ru<CR>
+nn <silent> <leader>Sd :setlocal nospell spelllang=<CR>
+" }}}
+
+" {{{ SESSIONS
+nn <silent> <leader>ms :mksession! <bar> echo "Session saved"<CR>
+nn <silent> <leader>ml :source Session.vim<CR>
+nn <silent> <leader>md :!rm Session.vim<CR>
+" }}}
+
+" {{{ STYLES
 " python pep textwidth
 au FileType python setlocal textwidth=79 | setlocal colorcolumn=80
 " c++ style
@@ -311,23 +336,36 @@ au FileType c,cpp,h,hpp setlocal tabstop=4 | setlocal shiftwidth=4 |
 " cmake, js, yaml, proto
 au FileType cmake,javascript,typescript,yaml,proto
             \ setlocal tabstop=2 | setlocal shiftwidth=2
+" }}}
 
-" FORMATTERS
+" {{{ FORMATTERS
 " shell
 au FileType sh nn <buffer> <C-f> :%!shfmt<CR>
 " json
 au FileType json nn <buffer> <C-f> :%!jq<CR>
 " js,yaml,html,css
 au FileType yaml,html,css,javascript,typescript nn <buffer> <C-f> :!prettier --write %<CR>
+" }}}
 
-" set filetype for tex
-let g:tex_flavor = "latex"
+" {{{ MISC
+" file executing
+nn <leader>e :w <bar> :!compiler %<CR>
+nn <leader>E :w <bar> :!compiler % 2<CR>
+nn <leader>x :!chmod +x %<CR>
+nn <leader>X :!chmod -x %<CR>
 
-" tabs
-nn <silent> th :tabprev<CR>
-nn <silent> tl :tabnext<CR>
-nn <silent> tn :tabnew<CR>
-nn <silent> tc :tabclose<CR>
+" commentstring's
+au FileType xdefaults setlocal commentstring=!\ %s
+au FileType desktop,sxhkdrc,bib setlocal commentstring=#\ %s
+
+" showing results
+au FileType tex,markdown nn <leader>o :!openout %<CR><CR>
+au FileType c,cpp nn <leader>o :!./%:r<CR>
+
+" tex
+let g:tex_flavor = "latex" " set filetype for tex
+au FileType tex nn <leader>c :!texclear %:p:h<CR><CR>
+au VimLeave *.tex !texclear %:p:h
 
 " autoremove trailing whitespaces
 nn <silent> <leader>w :%s/\s\+$//e <bar> nohl<CR>
@@ -337,17 +375,8 @@ com! Ctags execute "!updtags.sh"
 nn <silent> <leader>t :Ctags<CR>
 
 " search visually selected text with '//'
-vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
+vn // y/\V<C-r>=escape(@",'/\')<CR><CR>
 
 " replace visually selected text
-vnoremap <leader>s y:%s/<C-R>+//g<Left><Left>
-
-" spelling
-nn <silent> <leader>Se :setlocal spell spelllang+=en<CR>
-nn <silent> <leader>Sr :setlocal spell spelllang+=ru<CR>
-nn <silent> <leader>Sd :setlocal nospell spelllang=<CR>
-
-" sessions
-nn <silent> <leader>ms :mksession! <bar> echo "Session saved"<CR>
-nn <silent> <leader>ml :source Session.vim<CR>
-nn <silent> <leader>md :!rm Session.vim<CR>
+vn <leader>s y:%s/<C-r>+//g<Left><Left>
+" }}}

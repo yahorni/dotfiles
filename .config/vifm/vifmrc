@@ -159,5 +159,6 @@ nnoremap <f5> :copy<cr>
 nnoremap <f6> :move<cr>
 nnoremap <f7> :mkdir<space>
 nnoremap <f8> :delete<cr>
-" run several files in mpv
+" run files in mpv
+nnoremap xm :!mpv --really-quiet %f %i &<cr>
 vnoremap xm :!mpv --really-quiet %f %i &<cr>
