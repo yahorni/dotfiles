@@ -3,20 +3,46 @@
 OPTIND=1
 
 outvideo="$(xdg-user-dir VIDEOS)"
-outaudio="$(xdg-user-dir MUSIC)/downloads"
-filename='%(title)s.%(ext)s'
+outaudio="$(xdg-user-dir MUSIC)"
+filename='%(uploader)s - %(title)s.%(ext)s'
 format="m"
 
-while getopts "f:o:s" opt; do
+print_help() {
+    echo "Usage: ytloader [options] link"
+    echo "Description: downloads music and video from youtube"
+    echo "    -h - show help and exit"
+    echo "    -f - format."
+    echo "         'a' - audio"
+    echo "         'l' - low quality video (up to 240p)"
+    echo "         'm' - medium quality video (up to 1080p)"
+    echo "         'h' - high quality video (best quality available)"
+    echo "    -s - download video with subtitles (if available)"
+    echo "    -d - subdirectory for file. Appends to default music/video path"
+}
+
+while getopts "f:d:sh" opt; do
     case $opt in
         f) format=$OPTARG ;;
-        o) output=$OPTARG ;;
+        d) subdir=$OPTARG ;;
         s) with_subs="--all-subs" ;;
+        h) print_help ; exit 0 ;;
     esac
 done
 
 shift $(($OPTIND-1))
 link=$1
+
+[ -z "$link" ] && echo -e "Error: No URL to download given\n" && print_help && exit
+
+if [ -z "$subdir" ]; then
+    outaudio="${outaudio}/downloads"
+else
+    outvideo="${outvideo}/${subdir}"
+    outaudio="${outaudio}/${subdir}"
+fi
+
+[ ! -d "$outaudio" ] && mkdir -p "$outaudio"
+[ ! -d "$outvideo" ] && mkdir -p "$outvideo"
 
 notify-send "Downloading" "$link"
 

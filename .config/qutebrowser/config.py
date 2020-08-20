@@ -40,6 +40,7 @@ c.url.searchengines = {
     'DEFAULT': 'https://www.google.com/search?&q={}',
     'dd': 'https://duckduckgo.com/?q={}',
     'gg': 'https://www.google.com/search?&q={}',
+    'ya': 'https://yandex.com/search/?text={}',
     'rt': 'https://rutracker.org/forum/search_cse.php?q={}',
     'yt': 'https://youtube.com/search?q={}',
     'ym': 'https://music.yandex.ru/search?text={}',

@@ -1,0 +1,12 @@
+[Unit]
+Description=Acpi listener for volume events
+After=acpid.service
+Wants=acpid.service
+
+[Service]
+Type=simple
+ExecStart=/home/gin/.local/bin/acpi_volume.sh
+ExecStop=/usr/bin/pkill -x acpi_volume.sh
+
+[Install]
+WantedBy=default.target

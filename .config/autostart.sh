@@ -1,4 +1,3 @@
-#!/bin/sh
+#!/bin/bash
 
-pgrep mpd || mpd &
-acpi_volume.sh &
+pgrep -x mpd || mpd &>/dev/null &

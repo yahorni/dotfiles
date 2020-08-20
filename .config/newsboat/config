@@ -45,6 +45,6 @@ highlight article ":.*\\(image\\)$" blue default
 highlight article ":.*\\(embedded flash\\)$" magenta default
 
 browser "setsid linkhandler"
-macro a set browser "ytloader -f a %u"; open-in-browser ; set browser "setsid linkhandler"
-macro v set browser "ytloader -f m %u"; open-in-browser ; set browser "setsid linkhandler"
-macro y set browser "echo %u | xclip -sel cli"; open-in-browser ; set browser "setsid linkandler"
+macro a set browser "setsid $TERMINAL -e ytloader -f a %u &"; open-in-browser ; set browser "setsid linkhandler"
+macro v set browser "setsid $TERMINAL -e ytloader -d downloads -f m %u &"; open-in-browser ; set browser "setsid linkhandler"
+macro c set browser "echo %u | xclip -sel cli"; open-in-browser ; set browser "setsid linkandler"

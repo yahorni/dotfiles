@@ -125,6 +125,8 @@ vnoremap xe :!extract %f<cr>
 nnoremap xs :sync<cr>
 " make zip archive of current directory
 nnoremap xz :!zip -r %f.zip %f &<cr>
+nnoremap xZ :!zip -r %d.zip %f &<cr>
+vnoremap xZ :!zip -r %d.zip %f &<cr>
 " add executable rights
 nnoremap cx :!chmod +x %f<cr>
 vnoremap cx :!chmod +x %f<cr>

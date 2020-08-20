@@ -1,5 +1,5 @@
 # NOTE: keys below reserved
-# q - kill wm
+# q/Q - kill window/wm
 # super+shift+r - to update wm
 # f - fullscreen
 # h/j/k/l, comma, period, slash — for wm manipulation

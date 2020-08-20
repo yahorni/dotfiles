@@ -24,7 +24,7 @@ alias \
     mkd='mkdir -pv' \
     smkd='sudo mkdir -pv' \
     rst='reset && source ~/.bashrc && stty sane && tput cvvis' \
-    cp='cp -r' \
+    cp='cp -ri' \
     p3='python3' \
     ff='ffplay -autoexit -nodisp' \
     sm='sc-im' \
