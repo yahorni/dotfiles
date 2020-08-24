@@ -46,18 +46,18 @@ imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
 xmap <C-k> <Plug>(neosnippet_expand_target)
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-            \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+      \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 " linting
 Plug 'w0rp/ale'
 let g:ale_fixers = { '*': ['remove_trailing_lines', 'trim_whitespace'] }
 let g:ale_linters = {
-            \   'cpp': ['cpplint', 'clang', 'gcc'],
-            \   'c': ['clang', 'gcc'],
-            \   'sh': ['shfmt'],
-            \   'python': ['flake8', 'pylint'],
-            \   'tex': ['chktex'],
-            \}
+			\   'cpp': ['cpplint', 'clang', 'gcc'],
+      \   'c': ['clang', 'gcc'],
+      \   'sh': ['shfmt'],
+      \   'python': ['flake8', 'pylint'],
+      \   'tex': ['chktex'],
+      \}
 let g:ale_set_highlights = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
@@ -72,9 +72,9 @@ let g:ale_tex_chktex_options = '-n13 -n26 -n44'
 " NOTE: cpp headers issue
 let g:ale_c_parse_compile_commands = 1
 let g:ale_cpp_cpplint_options =
-            \'--extensions=cpp,hpp,cc,c,h --filter=-legal/copyright,-build/include_order,
-            \-whitespace/line_length,-whitespace/indent,-whitespace/comments,
-            \-runtime/references,-readability/todo,-build/include'
+      \'--extensions=cpp,hpp,cc,c,h --filter=-legal/copyright,-build/include_order,
+      \-whitespace/line_length,-whitespace/indent,-whitespace/comments,
+      \-runtime/references,-readability/todo,-build/include'
 set omnifunc=ale#completion#OmniFunc
 nmap <leader>Al <Plug>(ale_lint)
 nmap <leader>At <Plug>(ale_toggle)
@@ -232,6 +232,7 @@ com! Q :q
 com! W :w
 com! WQ :wq
 com! Wq :wq
+com! Qa :qa
 com! -bang Q :q<bang>
 
 " normal mode bindings
@@ -247,27 +248,27 @@ nn <silent> <C-q> :close<CR>
 " {{{ CURSOR
 " NOTE: different cursors per mode
 if (&term!='linux')
-    if exists('$TMUX')
-        let &t_SI = "\ePtmux;\e\e[6 q\e\\"
-        let &t_SR = "\ePtmux;\e\e[4 q\e\\"
-        let &t_EI = "\ePtmux;\e\e[2 q\e\\"
-    else
-        let &t_SI = "\e[6 q"
-        let &t_SR = "\e[4 q"
-        let &t_EI = "\e[2 q"
-    endif
+  if exists('$TMUX')
+    let &t_SI = "\ePtmux;\e\e[6 q\e\\"
+    let &t_SR = "\ePtmux;\e\e[4 q\e\\"
+    let &t_EI = "\ePtmux;\e\e[2 q\e\\"
+  else
+    let &t_SI = "\e[6 q"
+    let &t_SR = "\e[4 q"
+    let &t_EI = "\e[2 q"
+  endif
 endif
 " }}}
 
 " {{{ SPLIT/RESIZE
 fun! ToggleResizeSplitMode()
-    if !exists('b:SplitResize')
-        let b:SplitResize=1
-        echo "Resizing enabled"
-    else
-        unlet b:SplitResize
-        echo "Resizing disabled"
-    endif
+  if !exists('b:SplitResize')
+    let b:SplitResize=1
+    echo "Resizing enabled"
+  else
+    unlet b:SplitResize
+    echo "Resizing disabled"
+  endif
 endfun
 
 nn <silent> <expr> <C-h> !exists('b:SplitResize') ? '<C-w><C-h>' : ':vert res -1<CR>'
@@ -286,8 +287,13 @@ endif
 func! QuickGrep(pattern)
   exe "silent grep! " . a:pattern
   copen
-  let l:nr=winnr()
-  exe l:nr . "wincmd J"
+  if line('$') == 1 && getline(1) == ''
+    echo "No search results"
+    cclose
+  else
+    let l:nr=winnr()
+    exe l:nr . "wincmd J"
+  endif
 endfunc
 
 command! -nargs=1 QuickGrep call QuickGrep(<f-args>)
@@ -332,10 +338,10 @@ nn <silent> <leader>md :!rm Session.vim<CR>
 au FileType python setlocal textwidth=79 | setlocal colorcolumn=80
 " c++ style
 au FileType c,cpp,h,hpp setlocal tabstop=4 | setlocal shiftwidth=4 |
-            \ setlocal textwidth=120 | setlocal colorcolumn=121
+      \ setlocal textwidth=120 | setlocal colorcolumn=121
 " cmake, js, yaml, proto
 au FileType cmake,javascript,typescript,yaml,proto
-            \ setlocal tabstop=2 | setlocal shiftwidth=2
+      \ setlocal tabstop=2 | setlocal shiftwidth=2
 " }}}
 
 " {{{ FORMATTERS
@@ -375,8 +381,8 @@ com! Ctags execute "!updtags.sh"
 nn <silent> <leader>t :Ctags<CR>
 
 " search visually selected text with '//'
-vn // y/\V<C-r>=escape(@",'/\')<CR><CR>
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 " replace visually selected text
-vn <leader>s y:%s/<C-r>+//g<Left><Left>
+vnoremap <leader>s y:%s/<C-R>+//g<Left><Left>
 " }}}

@@ -105,9 +105,9 @@ vnoremap w :view<cr>gv
 nnoremap xf :!$EDITOR %f<cr>
 " edit in directory
 nnoremap xd :!$EDITOR .<cr>
-" open with xdg-open
-nnoremap xo :!setsid xdg-open %f &<cr>
-nnoremap xO :!setsid openwith %f &>/dev/null & disown<cr>
+" open with xdg-open/openwith
+nnoremap L :!setsid xdg-open %f &<cr>
+nnoremap xo :!setsid openwith %f %i & disown<cr>
 " show pictures
 nnoremap xp :!sxiv -t %d &<cr>
 " edit new file

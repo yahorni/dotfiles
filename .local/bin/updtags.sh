@@ -16,4 +16,5 @@ out=${2:-tags}
 ctags -R \
     --exclude=.git --exclude=node_modules --exclude=build \
     --kinds-c++=+ANUx --fields=+iaSR --extras=+qr \
+    --langmap=c++:+.ipp \
     -f ${out} ${dir}
