@@ -311,7 +311,7 @@ nn <silent> <leader>n :Rexplore<CR>
 nn <silent> <leader><C-n> :Lexplore<CR>
 nn <silent> <leader>_ <Plug>NetrwRefresh
 " }}}
-"
+
 " {{{ TABS
 nn <silent> th :tabprev<CR>
 nn <silent> tl :tabnext<CR>

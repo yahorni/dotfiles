@@ -96,6 +96,10 @@ function scr {
     [ ! -z "$file" ] && $EDITOR "$bindir/$file"
 }
 
+function snc {
+    watch -d grep -e Dirty: -e Writeback: /proc/meminfo
+}
+
 # autosuggestions
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 ZSH_AUTOSUGGEST_USE_ASYNC=1

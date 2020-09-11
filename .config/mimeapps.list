@@ -6,6 +6,7 @@ application/oxps=zathura.desktop
 application/pdf=zathura.desktop
 application/x-bittorrent=torrent.desktop
 application/x-sc=scim.desktop
+application/octet-stream=audio.desktop
 image/gif=sxiv.desktop
 image/jpeg=sxiv.desktop
 image/png=sxiv.desktop
