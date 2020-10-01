@@ -27,7 +27,7 @@ super + t
 
 # torrent
 super + shift + t
-    $TERMINAL -e transmission-remote-cli
+    $TERMINAL -e tremc
 
 # search web
 super + {_,shift +} u

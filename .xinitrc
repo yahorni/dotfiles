@@ -1,37 +1,31 @@
 #!/bin/bash
 
+# nvidia card hacks
 nvidia_lock="$XDG_DATA_HOME/nvidia_lock"
-
 if [ -f "$nvidia_lock" ]; then
     xrandr --setprovideroutputsource modesetting NVIDIA-0
     xrandr --auto
 fi
 
+# autostart
 dunst &
 picom &
 sxhkd &
 unclutter &
 clipmenud &
 safeeyes &
+suspender &
+pgrep transmission-da || transmission-daemon &
+redshift &
 
-monitors=`xrandr --listmonitors | wc -l`
-if [ $monitors -eq 2 ]; then
-    suspender &
-    pgrep transmission-da || transmission-daemon &
-    redshift &
-
-    xwallpaper --stretch "$XDG_DATA_HOME/wallpaper"
-else
-    xwallpaper \
-       --output HDMI2 --stretch "$XDG_DATA_HOME/wallpaper" \
-       --output DP2 --stretch "$XDG_DATA_HOME/vertical"
-fi
-
+# WM autostart
 if [ "$WM" = "dwm" ]; then
     dwmbar &
     dwmlistener.sh &
 fi
 
+# Xorg settings
+xwallpaper --stretch "$XDG_DATA_HOME/wallpaper"
 xmodmap -e "keycode 135 = Super_R Menu"   # remap 'menu' button
 xset r rate 200 35                        # keyboard speed
 xsetroot -cursor_name left_ptr            # default cursor

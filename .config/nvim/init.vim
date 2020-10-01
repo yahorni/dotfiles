@@ -3,10 +3,31 @@ set nocompatible
 
 " set leader key
 let mapleader=" "
+let maplocalleader=","
 
 " {{{ PLUGINS
 
 call plug#begin('~/.vim/plugged')
+
+" file treeview
+Plug 'antoinemadec/FixCursorHold.nvim'
+Plug 'lambdalisue/fern.vim'
+Plug 'lambdalisue/fern-hijack.vim'
+nn <silent> <C-n> :Fern . -reveal=%<CR>
+nn <silent> <leader>n :Fern . -reveal=% -drawer -toggle<CR>
+let g:fern#disable_default_mappings = 1
+let g:fern#disable_viewer_hide_cursor = 1
+
+function! FernInit() abort
+  nmap <buffer><nowait> l <Plug>(fern-action-expand)
+  nmap <buffer><nowait> h <Plug>(fern-action-collapse)
+  nmap <buffer> za <Plug>(fern-action-hidden-toggle)
+endfunction
+
+augroup FernGroup
+  autocmd!
+  autocmd FileType fern call FernInit()
+augroup END
 
 " buffer manipulation
 Plug 'rbgrouleff/bclose.vim'
@@ -216,6 +237,7 @@ set scrolloff=5
 set hidden
 set cursorline
 set cinoptions=N-s,g0
+set matchpairs+=<:>
 " }}}
 
 " {{{ MAPPINGS
@@ -281,7 +303,7 @@ nn gr :call ToggleResizeSplitMode()<CR>
 
 " {{{ GREPPING
 if executable('rg')
-  set grepprg=rg\ --vimgrep\ -g\ '!build'
+  set grepprg=rg\ --vimgrep\ -g\ '!build'\ -F
 endif
 
 func! QuickGrep(pattern)
@@ -306,9 +328,8 @@ let g:netrw_banner = 0
 let g:netrw_list_hide = '^\./'
 let g:netrw_liststyle = 3
 let g:netrw_dirhistmax = 0
-nn <silent> <C-n> :Explore<CR>
-nn <silent> <leader>n :Rexplore<CR>
-nn <silent> <leader><C-n> :Lexplore<CR>
+nn <silent> <localleader><C-n> :Explore<CR>
+nn <silent> <localleader><leader>n :Lexplore<CR>
 nn <silent> <leader>_ <Plug>NetrwRefresh
 " }}}
 
@@ -385,4 +406,17 @@ vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 " replace visually selected text
 vnoremap <leader>s y:%s/<C-R>+//g<Left><Left>
+" }}}
+
+" {{{ TEMP (Ctrl not working)
+nn <silent> <leader><leader>n :Fern . -reveal=%<CR>
+nn <silent> <expr> <leader><leader>h !exists('b:SplitResize') ? '<C-w><C-h>' : ':vert res -1<CR>'
+nn <silent> <expr> <leader><leader>j !exists('b:SplitResize') ? '<C-w><C-j>' : ':res -1<CR>'
+nn <silent> <expr> <leader><leader>k !exists('b:SplitResize') ? '<C-w><C-k>' : ':res +1<CR>'
+nn <silent> <expr> <leader><leader>l !exists('b:SplitResize') ? '<C-w><C-l>' : ':vert res +1<CR>'
+nn <leader><leader>= <C-w>=
+nn <leader><leader>o <C-o>
+nn <leader><leader>i <C-i>
+nn <leader><leader>t <C-]>
+nn <leader><leader>r <C-r>
 " }}}

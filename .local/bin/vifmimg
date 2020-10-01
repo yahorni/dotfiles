@@ -17,7 +17,7 @@ if [ -e "$FIFO_UEBERZUG" ]; then
 
 	elif [[ "$1" == "pdf" ]]; then
 		[[ ! -f "/tmp/$6.png" ]] && pdftoppm -f 1 -l 1 \
-			-scale-to-x 1920 -scale-to-y -1 -singlefile \
+			-scale-to-x 800 -scale-to-y -1 -singlefile \
 			-jpeg -tiffcompression jpeg -- "${PWD}/$6" "/tmp/$6"
 
 		declare -p -A cmd=([action]=add [identifier]="$ID_PREVIEW"
