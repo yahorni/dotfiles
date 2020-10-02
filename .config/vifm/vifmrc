@@ -46,6 +46,7 @@ mark p ~/pix
 mark S ~/serials
 mark v ~/vids
 
+mark M /mnt
 mark P /mnt/phone
 mark 1 /mnt/usb1
 mark 2 /mnt/usb2

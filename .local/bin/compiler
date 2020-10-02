@@ -33,6 +33,7 @@ if [ -z "$mode" -o "$mode" = "-" ]; then
         *Xresources)        xrdb -merge "$file" ;;
         *\.r)               Rscript "$file" ;;
         *CMakeLists\.txt)   cd ./build && cmake .. && make ;;
+        *\.js)              node "$file" ;;
         *)                  sed 1q "$file" | grep "^#!/" | sed "s/^#!//" | xargs -r -I % "$file" ;;
     esac
 else

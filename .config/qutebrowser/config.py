@@ -71,6 +71,8 @@ config.bind('zq', 'quit')
 config.bind('яй', 'quit') # rus
 config.bind('A', 'config-cycle statusbar.show always in-mode')
 config.bind('Ф', 'config-cycle statusbar.show always in-mode') # rus
+config.bind('<Ctrl-H>', 'tab-move -')
+config.bind('<Ctrl-L>', 'tab-move +')
 
 # RUSSIAN LAYOUT BINDS
 config.bind('П', 'scroll-to-perc')          # G

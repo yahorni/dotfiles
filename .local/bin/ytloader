@@ -4,7 +4,7 @@ OPTIND=1
 
 outvideo="$(xdg-user-dir VIDEOS)"
 outaudio="$(xdg-user-dir MUSIC)"
-filename='%(uploader)s - %(title)s.%(ext)s'
+filename='%(title)s.%(ext)s'
 format="m"
 
 print_help() {
@@ -18,13 +18,15 @@ print_help() {
     echo "         'h' - high quality video (best quality available)"
     echo "    -s - download video with subtitles (if available)"
     echo "    -d - subdirectory for file. Appends to default music/video path"
+    echo "    -u - add uploader at the title"
 }
 
-while getopts "f:d:sh" opt; do
+while getopts "f:d:suh" opt; do
     case $opt in
         f) format=$OPTARG ;;
         d) subdir=$OPTARG ;;
         s) with_subs="--all-subs" ;;
+        u) filename='%(uploader)s - %(title)s.%(ext)s' ;;
         h) print_help ; exit 0 ;;
     esac
 done

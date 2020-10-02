@@ -9,7 +9,7 @@ let maplocalleader=","
 
 call plug#begin('~/.vim/plugged')
 
-" file treeview
+" treeview
 Plug 'antoinemadec/FixCursorHold.nvim'
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-hijack.vim'
@@ -19,8 +19,10 @@ let g:fern#disable_default_mappings = 1
 let g:fern#disable_viewer_hide_cursor = 1
 
 function! FernInit() abort
-  nmap <buffer><nowait> l <Plug>(fern-action-expand)
+  nmap <buffer><nowait> l <Plug>(fern-action-open-or-expand)
   nmap <buffer><nowait> h <Plug>(fern-action-collapse)
+  nmap <buffer><nowait> s <Plug>(fern-action-open:split)
+  nmap <buffer><nowait> v <Plug>(fern-action-open:vsplit)
   nmap <buffer> za <Plug>(fern-action-hidden-toggle)
 endfunction
 
@@ -323,7 +325,7 @@ nn <leader>g :QuickGrep<space>""<left>
 vn <leader>g y:QuickGrep "<C-r>+"<CR>
 " }}}
 
-" {{{ NETRW
+" {{{ FILETREE
 let g:netrw_banner = 0
 let g:netrw_list_hide = '^\./'
 let g:netrw_liststyle = 3
@@ -339,7 +341,7 @@ nn <silent> tl :tabnext<CR>
 nn <silent> tn :tabnew<CR>
 nn <silent> tc :tabclose<CR>
 nn <silent> tH :tabmove -1<CR>
-nn <silent> tL :tabmove<CR>
+nn <silent> tL :tabmove +1<CR>
 " }}}
 
 " {{{ SPELL
