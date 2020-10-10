@@ -23,6 +23,7 @@ function! FernInit() abort
   nmap <buffer><nowait> h <Plug>(fern-action-collapse)
   nmap <buffer><nowait> s <Plug>(fern-action-open:split)
   nmap <buffer><nowait> v <Plug>(fern-action-open:vsplit)
+  nmap <buffer><nowait> r <Plug>(fern-action-reload)
   nmap <buffer> za <Plug>(fern-action-hidden-toggle)
 endfunction
 

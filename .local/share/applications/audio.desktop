@@ -1,0 +1,4 @@
+[Desktop Entry]
+Type=Application
+Name=Inline player
+Exec=/usr/local/bin/st -e /usr/bin/mpv --no-video %u

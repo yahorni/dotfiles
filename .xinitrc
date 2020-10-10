@@ -12,7 +12,7 @@ dunst &
 picom &
 sxhkd &
 unclutter &
-clipmenud &
+greenclip daemon &
 safeeyes &
 suspender &
 pgrep transmission-da || transmission-daemon &
@@ -31,7 +31,7 @@ xset r rate 200 35                        # keyboard speed
 xsetroot -cursor_name left_ptr            # default cursor
 xset s on                                 # enable screensaver
 xset s 600                                # seconds before screensave
-xss-lock -- physlock -ms &                # set screen lock
 xrdb -merge "$XDG_CONFIG_HOME/Xresources" # apply xresources
+# xss-lock -- physlock -ms &                # set screen lock
 
 exec "$WM"

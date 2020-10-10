@@ -95,7 +95,7 @@ super + shift + v
 super + c
     showselections
 super + shift + c
-    clipmenu
+    showcliphistory
 
 # browser
 super + b
