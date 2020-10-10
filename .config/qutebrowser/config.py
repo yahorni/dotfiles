@@ -62,10 +62,10 @@ config.bind('сы', f'config-cycle content.user_stylesheets [{theme_path}] [] ;;
 # BINDS
 config.bind('xa', 'spawn ytloader -f a {url}')
 config.bind('чф', 'spawn ytloader -f a {url}') # rus
-config.bind('xv', 'spawn ytloader {url}')
-config.bind('чм', 'spawn ytloader {url}')      # rus
+config.bind('xv', 'spawn ytloader -u -d downloads {url}')
+config.bind('чм', 'spawn ytloader -u -d downloads {url}') # rus
 config.bind('xo', 'spawn linkhandler {url}')
-config.bind('чщ', 'spawn linkhandler {url}')   # rus
+config.bind('чщ', 'spawn linkhandler {url}') # rus
 config.bind('xe', 'edit-url')
 config.bind('zq', 'quit')
 config.bind('яй', 'quit') # rus

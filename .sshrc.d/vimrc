@@ -1,0 +1,155 @@
+" vim: fdm=marker fdl=0 ts=2 sw=2 sts=2
+set nocompatible
+
+" set leader key
+let mapleader=" "
+
+" {{{ OPTIONS
+" status line
+set laststatus=2
+" encoding/fileformat
+set encoding=utf-8
+set fileencodings=utf-8,cp1251,ucs-2,koi8-r,cp866
+set fileformat=unix
+set fileformats=unix,dos,mac
+" search
+set incsearch
+set hlsearch
+" tab/space/indent
+set tabstop=4       " width for Tab
+set shiftwidth=4    " width for shifting with '>>'/'<<'
+set softtabstop=4   " width for Tab in inserting or deleting (Backspace)
+set smarttab
+set expandtab
+set autoindent
+set nolist
+" numbers
+set number
+set relativenumber
+" info/swap/backup
+set viminfo="-"
+set nobackup
+set nowritebackup
+set noundofile
+" modeline
+set modeline
+set modelines=5
+set noshowmode
+set showcmd
+" wildmenu
+set wildmenu
+set wildmode=longest,full
+" mouse
+set mouse=a
+" folding
+set foldmethod=indent
+set foldlevel=99
+" splits
+set splitbelow
+set splitright
+" conceal
+set conceallevel=0
+set concealcursor=nvic
+" tags
+set tags=./tags,tags,~/.local/share/tags
+" spell
+set spell spelllang=
+" file search
+set path+=**
+set wildignore+=*/build/*,*/.git/*,*/node_modules/*
+" misc
+set completeopt-=preview
+set clipboard=unnamedplus
+set scrolloff=5
+set hidden
+set cursorline
+set cinoptions=N-s,g0
+" }}}
+
+" {{{ MAPPINGS
+
+" change <paste> command behaviour
+xn p "_dp
+xn P "_dP
+
+" disable Ex mode
+nn Q <nop>
+
+" annoying keys
+com! Q :q
+com! W :w
+com! WQ :wq
+com! Wq :wq
+com! Qa :qa
+com! -bang Q :q<bang>
+
+" normal mode bindings
+nn <silent> <leader>h :noh<Enter>
+nn Y y$
+nn zq ZQ
+
+" buffer close
+nn <silent> <C-q> :close<CR>
+
+" }}}
+
+" {{{ SPLIT/RESIZE
+fun! ToggleResizeSplitMode()
+  if !exists('b:SplitResize')
+    let b:SplitResize=1
+    echo "Resizing enabled"
+  else
+    unlet b:SplitResize
+    echo "Resizing disabled"
+  endif
+endfun
+
+nn <silent> <expr> <C-h> !exists('b:SplitResize') ? '<C-w><C-h>' : ':vert res -1<CR>'
+nn <silent> <expr> <C-j> !exists('b:SplitResize') ? '<C-w><C-j>' : ':res -1<CR>'
+nn <silent> <expr> <C-k> !exists('b:SplitResize') ? '<C-w><C-k>' : ':res +1<CR>'
+nn <silent> <expr> <C-l> !exists('b:SplitResize') ? '<C-w><C-l>' : ':vert res +1<CR>'
+ " NOTE: it's better to not remap ESC button
+nn gr :call ToggleResizeSplitMode()<CR>
+" }}}
+
+" {{{ NETRW
+let g:netrw_banner = 0
+let g:netrw_list_hide = '^\./'
+let g:netrw_liststyle = 3
+let g:netrw_dirhistmax = 0
+nn <silent> <C-n> :Explore<CR>
+nn <silent> <leader>n :Lexplore<CR>
+nn <silent> <leader>_ <Plug>NetrwRefresh
+" }}}
+
+" {{{ TABS
+nn <silent> th :tabprev<CR>
+nn <silent> tl :tabnext<CR>
+nn <silent> tn :tabnew<CR>
+nn <silent> tc :tabclose<CR>
+nn <silent> tH :tabmove -1<CR>
+nn <silent> tL :tabmove +1<CR>
+" }}}
+
+" {{{ STYLES
+
+" python pep textwidth
+au FileType python setlocal textwidth=79 | setlocal colorcolumn=80
+" c++ style
+au FileType c,cpp,h,hpp setlocal tabstop=4 | setlocal shiftwidth=4 |
+      \ setlocal textwidth=120 | setlocal colorcolumn=121
+" cmake, js, yaml, proto
+au FileType cmake,javascript,typescript,yaml,proto
+      \ setlocal tabstop=2 | setlocal shiftwidth=2
+" }}}
+
+" {{{ MISC
+" autoremove trailing whitespaces
+nn <silent> <leader>w :%s/\s\+$//e <bar> nohl<CR>
+
+" search visually selected text with '//'
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
+
+" replace visually selected text
+vnoremap <leader>s y:%s/<C-R>+//g<Left><Left>
+" }}}

@@ -19,6 +19,7 @@ let g:fern#disable_default_mappings = 1
 let g:fern#disable_viewer_hide_cursor = 1
 
 function! FernInit() abort
+  nmap <buffer><nowait> <CR> <Plug>(fern-action-open-or-expand)
   nmap <buffer><nowait> l <Plug>(fern-action-open-or-expand)
   nmap <buffer><nowait> h <Plug>(fern-action-collapse)
   nmap <buffer><nowait> s <Plug>(fern-action-open:split)

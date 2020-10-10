@@ -29,7 +29,8 @@ alias \
     ff='ffplay -autoexit -nodisp' \
     sm='sc-im' \
     xo='xdg-open' \
-    mim='file --mime-type'
+    mim='file --mime-type' \
+    shr='sshrc'
 
 # git
 alias \
@@ -90,7 +91,7 @@ alias \
     cdo='cd /mnt/other'
 
 # completion
-if [ "$SHELL" = "/bin/bash" ] ; then
+if [ ! -z "$BASH" ]; then
     # completions for aliases
     completions="/usr/share/bash-completion/completions"
     # systemctl
@@ -110,4 +111,9 @@ if [ "$SHELL" = "/bin/bash" ] ; then
     __git_complete gps _git_push
     __git_complete gpl _git_pull
     __git_complete grs _git_reset
+    # sshrc
+    . $completions/ssh
+    complete -F _ssh ssh sshrc shr
+elif [ ! -z "$ZSH_NAME" ]; then
+    compdef sshrc=ssh shr=ssh
 fi

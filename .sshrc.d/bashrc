@@ -1,0 +1,87 @@
+#!/bin/bash
+
+# disable Ctrl-R freeze
+stty -ixon
+
+# colors
+bold='\e[1m'
+green='\e[32m'
+yellow='\e[33m'
+red='\e[31m'
+blue='\e[34m'
+magenta='\e[35m'
+default='\e[39;0m'
+
+# prompts
+PS1="\[$bold$red\][\[$yellow\]\u\[$green\]@\[$blue\]\h \[$magenta\]\W\[$red\]]\[$default\]\$ "
+
+# options
+set -o vi
+shopt -s autocd
+shopt -s cdspell
+shopt -s checkwinsize
+shopt -s direxpand
+bind TAB:menu-complete
+
+# colors
+alias \
+    ls='ls --color=auto --group-directories-first' \
+    grep='grep --color=auto'
+
+# fast ls
+alias \
+    la='ls -A' \
+    ll='ls -lsh' \
+    l='ls -lAsh'
+
+# progs
+alias \
+    v='${EDITOR:-vim}' \
+    sv='sudo ${EDITOR:-vim}' \
+    sc='systemctl' \
+    scu='systemctl --user' \
+    ssc='sudo systemctl' \
+    mkd='mkdir -pv' \
+    smkd='sudo mkdir -pv' \
+    cp='cp -ri' \
+    p3='python3' \
+    xo='xdg-open' \
+    mim='file --mime-type'
+
+# git
+alias \
+    gst='git status' \
+    gd='git diff' \
+    gds='git diff --staged' \
+    ga='git add' \
+    gc='git commit' \
+    gps='git push' \
+    gpl='git pull' \
+    gl='git log --oneline --graph --branches' \
+    glo='git log --oneline --graph' \
+    gb='git branch' \
+    gch='git checkout' \
+    gr='git remote' \
+    gsh='git stash' \
+    gcp='git cherry-pick' \
+    grs='git reset'
+
+
+source /usr/share/bash-completion/bash_completion
+
+# completions for aliases
+completions="/usr/share/bash-completion/completions"
+# systemctl
+. $completions/systemctl
+complete -F _systemctl systemctl sc ssc
+# git
+. $completions/git
+__git_complete gd _git_diff
+__git_complete ga _git_add
+__git_complete gb _git_branch
+__git_complete gc _git_commit
+__git_complete gr _git_remote
+__git_complete gch _git_checkout
+__git_complete gps _git_push
+__git_complete gpl _git_pull
+__git_complete grs _git_reset
