@@ -6,10 +6,16 @@ map K scroll half-up
 set selection-clipboard clipboard
 
 map p print
-map i recolor
-map f toggle_fullscreen
-map u follow
+map [fullscreen] p print
 
+map i recolor
 map [fullscreen] i recolor
+
+map f toggle_fullscreen
 map [fullscreen] f toggle_fullscreen
+
+map u follow
 map [fullscreen] u follow
+
+map za toggle_statusbar
+map [fullscreen] za toggle_statusbar

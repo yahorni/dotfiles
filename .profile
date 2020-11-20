@@ -56,6 +56,8 @@ export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 # program settings
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export SXHKD_SHELL="/bin/bash"
+export TS_SLOTS=3
+export MERGETOOL="nvim -d"
 
 if [ -f "$XDG_CONFIG_HOME/autostart.sh" ]; then
     source "$XDG_CONFIG_HOME/autostart.sh"

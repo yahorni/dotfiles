@@ -13,6 +13,10 @@ super + {_,shift +}grave
 super + w
     $TERMINAL -e ncmpcpp -s browser
 
+# calendar
+super + shift + w
+    $TERMINAL -e calcurse
+
 # terminal
 super + {_,shift +} e
     $TERMINAL {_,-c dropdown}
@@ -37,17 +41,17 @@ super + {_,shift +} u
 super + {_,shift +} o
     translate.py -{s,d}n
 
+# power management
+super + {_, shift +} p
+    powermanager {suspend,_}
+
 # bookmarks
 super + a ; {o,a,f,e,c,b}
     bookmarks.sh {open,addmark,addfolder,editmark,copy,_}
 
 # notes
 super + shift + a
-    $TERMINAL -e joplin
-
-# power management
-super + {_, shift +} p
-    powermanager {suspend,_}
+    $TERMINAL -e bash -c "source /usr/share/nvm/init-nvm.sh ; joplin"
 
 # programming
 super + s

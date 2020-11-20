@@ -79,7 +79,7 @@ let g:ale_fixers = { '*': ['remove_trailing_lines', 'trim_whitespace'] }
 let g:ale_linters = {
 			\   'cpp': ['cpplint', 'clang', 'gcc'],
       \   'c': ['clang', 'gcc'],
-      \   'sh': ['shfmt'],
+      \   'sh': ['shfmt', 'shellcheck'],
       \   'python': ['flake8', 'pylint'],
       \   'tex': ['chktex'],
       \}
@@ -148,17 +148,15 @@ Plug 'ap/vim-css-color'
 " syntax files
 Plug 'baskerville/vim-sxhkdrc'      " sxhkd
 Plug 'tomlion/vim-solidity'         " solidity
-Plug 'vim-pandoc/vim-pandoc-syntax' " markdown
-au FileType markdown setlocal filetype=markdown.pandoc
-au VimEnter *.md setlocal filetype=markdown
-let g:pandoc#syntax#conceal#use = 0
+
+" markdown
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
 
 " file picker
 Plug 'vifm/vifm.vim'
 
 " theme
-Plug 'arcticicestudio/nord-vim'
-Plug 'morhetz/gruvbox'
 Plug 'liuchengxu/space-vim-dark'
 
 call plug#end()
@@ -168,15 +166,6 @@ filetype plugin on
 " }}}
 
 " {{{ COLORTHEME
-" NOTE: term colors can break colorscheme in vanilla vim
-"""""""""""
-" set bg=dark
-" colo gruvbox
-" set notermguicolors
-"""""""""""
-" colo nord
-" set termguicolors
-"""""""""""
 colo space-vim-dark
 hi Comment cterm=italic
 " }}}
@@ -307,10 +296,11 @@ nn gr :call ToggleResizeSplitMode()<CR>
 
 " {{{ GREPPING
 if executable('rg')
-  set grepprg=rg\ --vimgrep\ -g\ '!build'\ -F
+  set grepprg=rg\ --vimgrep\ -g\ '!build'\ -F\ --hidden
 endif
 
 func! QuickGrep(pattern)
+  " TODO: add check for empty string
   exe "silent grep! " . a:pattern
   copen
   if line('$') == 1 && getline(1) == ''
@@ -423,4 +413,9 @@ nn <leader><leader>o <C-o>
 nn <leader><leader>i <C-i>
 nn <leader><leader>t <C-]>
 nn <leader><leader>r <C-r>
+nn <leader><leader>v <C-v>
+nn <leader><leader>] <C-]>
+nn <leader><leader>a <C-a>
+nn <leader><leader>x <C-x>
+imap \\k <C-k>
 " }}}

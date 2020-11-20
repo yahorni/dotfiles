@@ -7,6 +7,7 @@ c.colors.webpage.bg = 'black'
 c.colors.webpage.darkmode.algorithm = 'lightness-cielab'
 c.colors.webpage.darkmode.enabled = True
 c.colors.webpage.darkmode.policy.page = 'always'
+c.colors.webpage.darkmode.policy.images = 'smart'
 c.colors.webpage.prefers_color_scheme_dark = True
 c.completion.cmd_history_max_items = 0
 c.completion.height = '30%'
@@ -60,10 +61,10 @@ config.bind('cs', f'config-cycle content.user_stylesheets [{theme_path}] [] ;; r
 config.bind('сы', f'config-cycle content.user_stylesheets [{theme_path}] [] ;; reload')
 
 # BINDS
-config.bind('xa', 'spawn ytloader -f a {url}')
-config.bind('чф', 'spawn ytloader -f a {url}') # rus
-config.bind('xv', 'spawn ytloader -u -d downloads {url}')
-config.bind('чм', 'spawn ytloader -u -d downloads {url}') # rus
+config.bind('xa', 'spawn setsid tsp ytloader -f a {url}')
+config.bind('чф', 'spawn setsid tsp ytloader -f a {url}') # rus
+config.bind('xv', 'spawn setsid tsp ytloader -u -d downloads {url}')
+config.bind('чм', 'spawn setsid tsp ytloader -u -d downloads {url}') # rus
 config.bind('xo', 'spawn linkhandler {url}')
 config.bind('чщ', 'spawn linkhandler {url}') # rus
 config.bind('xe', 'edit-url')
@@ -106,6 +107,11 @@ config.bind('нв', 'yank domain')            # yd
 config.bind('нз', 'yank pretty-url')        # yp
 config.bind('не', 'yank title')             # yt
 config.bind('нн', 'yank')                   # yy
+config.bind('Т', 'prompt-accept --save no', mode='yesno') # N
+config.bind('Н', 'prompt-accept --save yes', mode='yesno')# Y
+config.bind('т', 'prompt-accept no', mode='yesno')        # n
+config.bind('н', 'prompt-accept yes', mode='yesno')       # y
+config.bind('н', 'yank selection', mode='caret') # y
 
 # EDITOR
 term = os.getenv('TERMINAL', 'st')

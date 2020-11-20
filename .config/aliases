@@ -13,8 +13,8 @@ alias \
 
 # progs
 alias \
-    v='$EDITOR' \
-    sv='sudo $EDITOR' \
+    v='${EDITOR}' \
+    sv='sudo ${EDITOR}' \
     sp='sudo pacman' \
     sc='systemctl' \
     scu='systemctl --user' \
@@ -34,7 +34,7 @@ alias \
 
 # git
 alias \
-    dg='/usr/bin/git --git-dir="$HOME/prog/reps/df" --work-tree="$HOME"' \
+    dg='/usr/bin/git --git-dir="${HOME}/prog/reps/df" --work-tree="${HOME}"' \
     gst='git status' \
     gd='git diff' \
     gds='git diff --staged' \
@@ -49,32 +49,33 @@ alias \
     gr='git remote' \
     gsh='git stash' \
     gcp='git cherry-pick' \
-    grs='git reset'
+    grs='git reset' \
+    gm='git merge'
 
 # files
 alias \
-    va='$EDITOR $XDG_CONFIG_HOME/aliases' \
-    vv='$EDITOR $XDG_CONFIG_HOME/nvim/init.vim' \
-    vs='$EDITOR $XDG_CONFIG_HOME/sxhkd/sxhkdrc' \
-    vf='$EDITOR $XDG_CONFIG_HOME/vifm/vifmrc' \
-    vz='$EDITOR $XDG_CONFIG_HOME/zsh/.zshrc' \
-    vq='$EDITOR $XDG_CONFIG_HOME/qutebrowser/config.py' \
-    vb='$EDITOR ~/.bashrc' \
-    vp='$EDITOR ~/.profile' \
-    vx='$EDITOR ~/.xinitrc' \
-    vh='$EDITOR $HISTFILE' \
-    vr='$EDITOR $XDG_CONFIG_HOME/Xresources' \
-    vg='$EDITOR .gitignore' \
-    vt='$EDITOR TODO' \
-    vw='$EDITOR ~/prog/prj/dwm/config.h'
+    va='${EDITOR} ${XDG_CONFIG_HOME}/aliases' \
+    vv='${EDITOR} ${XDG_CONFIG_HOME}/nvim/init.vim' \
+    vs='${EDITOR} ${XDG_CONFIG_HOME}/sxhkd/sxhkdrc' \
+    vf='${EDITOR} ${XDG_CONFIG_HOME}/vifm/vifmrc' \
+    vz='${EDITOR} ${XDG_CONFIG_HOME}/zsh/.zshrc' \
+    vq='${EDITOR} ${XDG_CONFIG_HOME}/qutebrowser/config.py' \
+    vb='${EDITOR} ~/.bashrc' \
+    vp='${EDITOR} ~/.profile' \
+    vx='${EDITOR} ~/.xinitrc' \
+    vh='${EDITOR} ${HISTFILE}' \
+    vr='${EDITOR} ${XDG_CONFIG_HOME}/Xresources' \
+    vg='${EDITOR} .gitignore' \
+    vt='${EDITOR} TODO' \
+    vw='${EDITOR} ~/prog/prj/dwm/config.h'
 
 # directories
 alias \
     cdr='cd ~/prog/reps' \
     cdj='cd ~/prog/prj' \
     cdb='cd ~/.local/bin' \
-    cds='cd $XDG_DATA_HOME' \
-    cdc='cd $XDG_CONFIG_HOME'
+    cds='cd ${XDG_DATA_HOME}' \
+    cdc='cd ${XDG_CONFIG_HOME}'
 alias \
     cdB='cd "$(xdg-user-dir BOOKS)"' \
     cdx='cd "$(xdg-user-dir DOCUMENTS)"' \
@@ -91,17 +92,17 @@ alias \
     cdo='cd /mnt/other'
 
 # completion
-if [ ! -z "$BASH" ]; then
+if [ -n "${BASH}" ]; then
     # completions for aliases
     completions="/usr/share/bash-completion/completions"
     # systemctl
-    . $completions/systemctl
+    . ${completions}/systemctl
     complete -F _systemctl systemctl sc ssc
     # pacman
-    . $completions/pacman
+    . ${completions}/pacman
     complete -F _pacman pacman sp
     # git
-    . $completions/git
+    . ${completions}/git
     __git_complete gd _git_diff
     __git_complete ga _git_add
     __git_complete gb _git_branch
@@ -112,8 +113,8 @@ if [ ! -z "$BASH" ]; then
     __git_complete gpl _git_pull
     __git_complete grs _git_reset
     # sshrc
-    . $completions/ssh
+    . ${completions}/ssh
     complete -F _ssh ssh sshrc shr
-elif [ ! -z "$ZSH_NAME" ]; then
+elif [ -n "${ZSH_NAME}" ]; then
     compdef sshrc=ssh shr=ssh
 fi

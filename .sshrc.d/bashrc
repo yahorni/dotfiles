@@ -3,17 +3,12 @@
 # disable Ctrl-R freeze
 stty -ixon
 
-# colors
-bold='\e[1m'
-green='\e[32m'
-yellow='\e[33m'
-red='\e[31m'
-blue='\e[34m'
-magenta='\e[35m'
-default='\e[39;0m'
-
-# prompts
-PS1="\[$bold$red\][\[$yellow\]\u\[$green\]@\[$blue\]\h \[$magenta\]\W\[$red\]]\[$default\]\$ "
+# prompt
+blue='\[\e[34m\]'
+magenta='\[\e[35m\]'
+default='\[\e[39;0m\]'
+bold='\[\e[1m\]'
+PS1="${bold}${magenta}[\u@\h ${blue}\W${magenta}]${default}$ "
 
 # options
 set -o vi
@@ -46,7 +41,8 @@ alias \
     cp='cp -ri' \
     p3='python3' \
     xo='xdg-open' \
-    mim='file --mime-type'
+    mim='file --mime-type' \
+    vh='${EDITOR} ${HISTFILE:-$HOME/.bash_history}'
 
 # git
 alias \

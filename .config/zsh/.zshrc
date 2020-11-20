@@ -110,5 +110,4 @@ source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 [ -f "$XDG_CONFIG_HOME/extra.zsh" ] && source "$XDG_CONFIG_HOME/extra.zsh"
 
 # syntax highlight
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
-source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh

@@ -2,7 +2,6 @@
 
 categories="Downloads\nFilms\nMusic\nSerials\nBooks\nCustom..."
 
-folder_prefix="$HOME"
 folder=""
 
 case $(echo -e $categories | dmenu -i -p "Option:") in
@@ -12,6 +11,7 @@ case $(echo -e $categories | dmenu -i -p "Option:") in
     Books)      folder="$(xdg-user-dir BOOKS)" ;;
     Downloads)  folder="$(xdg-user-dir DOWNLOAD)" ;;
     Custom*)    folder="$HOME/$(dmenu -p "Enter path in '$HOME':" <&-)" ;;
+    "")         notify-send "Canceled torrent" && exit 0 ;;
     *)          notify-send "Invalid directory" && exit 1 ;;
 esac
 

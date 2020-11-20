@@ -129,7 +129,7 @@ delete_mark() {
     select_mark
 	local mark="$return_value"
     local folder="$return_value_2"
-    sed -i "/^$mark$/d" "$bookmarks_dir/$folder"
+    sed -i "/^${mark//\//\/\/}/d" "$bookmarks_dir/$folder"
 }
 
 new_folder() {
