@@ -2,3 +2,5 @@
 	excludesfile = ~/.config/git/ignore
 [pull]
 	ff = only
+[init]
+	defaultBranch = main

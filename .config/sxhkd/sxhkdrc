@@ -133,7 +133,7 @@ shift + XF86Audio{Next,Prev}
 # screenshots
 Print
     makescreen
-ctrl + Print
+alt + Print
     makescreen window
 @shift + Print
     makescreen part

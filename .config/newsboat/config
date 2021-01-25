@@ -44,10 +44,14 @@ highlight article ":.*\\(link\\)$" cyan default
 highlight article ":.*\\(image\\)$" blue default
 highlight article ":.*\\(embedded flash\\)$" magenta default
 
+scrolloff 5
+
 browser "setsid linkhandler"
 
 macro a set browser "setsid tsp ytloader -u -f a %u"; open-in-browser ; set browser "setsid linkhandler"
 macro v set browser "setsid tsp ytloader -u -d downloads %u"; open-in-browser ; set browser "setsid linkhandler"
+macro l set browser "setsid tsp ytloader -u -d downloads -f l %u"; open-in-browser ; set browser "setsid linkhandler"
+macro o set browser "setsid mpv --ytdl-format=\"best[height<=360]\" --really-quiet --osc %u &"; open-in-browser ; set browser "setsid linkhandler"
 
 macro c set browser "echo %u | xclip -sel cli"; open-in-browser ; set browser "setsid linkhandler"
 macro t set browser "curl $(youtube-dl %u --skip-download --get-thumbnail) -s -o /tmp/thumbnail && mpv /tmp/thumbnail --really-quiet --loop-file=inf" ; open-in-browser ; set browser "setsid linkhandler"

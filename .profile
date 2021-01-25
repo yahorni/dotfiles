@@ -9,7 +9,7 @@ export SHELL="/bin/zsh"
 export TERMINAL="st"
 export EDITOR="nvim"
 export VISUAL="$EDITOR"
-export BROWSER="qutebrowser"
+export BROWSER="firefox"
 export READER="zathura"
 export WM="dwm"
 
@@ -20,7 +20,7 @@ export XDG_DATA_HOME="$HOME/.local/share"
 
 # files
 export HISTFILE="$XDG_DATA_HOME/shell.hist"
-export MANPATH="$MANPATH:$XDG_DATA_HOME/man"
+export MANPATH="$MANPATH:$XDG_DATA_HOME/man:$XDG_CACHE_HOME/cppman/cppreference.com"
 export INPUTRC="$XDG_CONFIG_HOME/inputrc"
 export R_PROFILE_USER="$XDG_CONFIG_HOME/Rprofile"
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc-2.0"
@@ -35,6 +35,7 @@ export TERMINFO_DIRS="$XDG_DATA_HOME/terminfo:/usr/share/terminfo"
 export RANDFILE="$XDG_CACHE_HOME/rnd"
 export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority"
 export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
+export _Z_DATA="$XDG_DATA_HOME/z"
 
 # history
 export HISTSIZE=1000000

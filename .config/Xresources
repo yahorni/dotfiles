@@ -1,48 +1,8 @@
 Xcursor.size: 9
 xterm*faceName: monospace:pixelsize=18:antialias=true:autohint=true
-st.alpha: 0.80
+st.alpha: 0.85
 
-dmenu.selbackground: #660000
-
-! 3024 theme
-! *.background: #090300
-! *.foreground: #a5a2a2
-! *color0:      #090300
-! *color1:      #db2d20
-! *color2:      #01a252
-! *color3:      #fded02
-! *color4:      #01a0e4
-! *color5:      #a16a94
-! *color6:      #b5e4f4
-! *color7:      #a5a2a2
-! *color8:      #5c5855
-! *color9:      #db2d20
-! *color10:     #01a252
-! *color11:     #fded02
-! *color12:     #01a0e4
-! *color13:     #a16a94
-! *color14:     #b5e4f4
-! *color15:     #f7f7f7
-
-! Nord
-! *.background:  #353535
-! *.foreground:  #439ECF
-! *color0:       #353535
-! *color1:       #E64569
-! *color2:       #89D287
-! *color3:       #DAB752
-! *color4:       #439ECF
-! *color5:       #D961DC
-! *color6:       #64AAAF
-! *color7:       #B3B3B3
-! *color8:       #535353
-! *color9:       #E4859A
-! *color10:      #A2CCA1
-! *color11:      #E1E387
-! *color12:      #6FBBE2
-! *color13:      #E586E7
-! *color14:      #96DCDA
-! *color15:      #DEDEDE
+dmenu.selbackground: #004466
 
 ! Gruvbox
 ! hard contrast: *background: #1d2021

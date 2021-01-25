@@ -1,0 +1,10 @@
+{
+    "languageserver": {
+        "clangd": {
+            "command": "clangd",
+            "filetypes": ["c", "cpp", "h", "hpp", "ipp"],
+            "args": ["--compile-commands-dir=build/"]
+        }
+    },
+    "diagnostic.enable": false
+}

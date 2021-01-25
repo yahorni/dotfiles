@@ -109,5 +109,8 @@ source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 # extra settings (for temporary purposes)
 [ -f "$XDG_CONFIG_HOME/extra.zsh" ] && source "$XDG_CONFIG_HOME/extra.zsh"
 
+# z lua
+[[ -r "/usr/share/z/z.sh" ]] && source /usr/share/z/z.sh
+
 # syntax highlight
 source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh

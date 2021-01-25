@@ -50,7 +50,9 @@ alias \
     gsh='git stash' \
     gcp='git cherry-pick' \
     grs='git reset' \
-    gm='git merge'
+    gm='git merge' \
+    gsb='git submodule' \
+    ghist='git log --follow -p --'
 
 # files
 alias \
