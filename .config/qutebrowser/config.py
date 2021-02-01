@@ -1,7 +1,10 @@
 import os
 from os import path
 
+config.load_autoconfig(False)
+
 # SETTINGS
+c.changelog_after_upgrade = 'never'
 c.colors.tabs.bar.bg = '#333333'
 c.colors.webpage.bg = 'black'
 c.colors.webpage.darkmode.algorithm = 'lightness-cielab'
@@ -18,10 +21,12 @@ c.confirm_quit = ['downloads']
 c.content.autoplay = False
 c.content.cookies.store = False
 c.content.pdfjs = True
+c.messages.timeout = 1500
 c.scrolling.bar = 'when-searching'
 c.statusbar.show = 'in-mode'
 c.url.default_page = 'about:blank'
 c.url.start_pages = ['about:blank']
+c.window.transparent = True
 c.zoom.default = '150%'
 
 # TABS
@@ -31,6 +36,7 @@ c.tabs.title.alignment = 'right'
 c.tabs.width = 250
 c.tabs.last_close = 'close'
 c.tabs.show = 'never'
+c.tabs.background = True
 config.bind('B', 'config-cycle tabs.show always never')
 config.bind('И', 'config-cycle tabs.show always never') # rus
 config.bind('<Ctrl-Tab>', 'tab-next')
@@ -55,6 +61,12 @@ c.url.searchengines = {
 c.fonts.default_family = ['monospace']
 c.fonts.default_size = '12pt'
 
+# AD/HOST BLOCKS
+c.content.blocking.enabled = True
+c.content.blocking.adblock.lists = ['https://easylist.to/easylist/easylist.txt', 'https://easylist.to/easylist/easyprivacy.txt']
+c.content.blocking.hosts.lists = ['https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts']
+c.content.blocking.method = 'both'
+
 # THEME
 theme_path = path.expandvars("$XDG_DATA_HOME/qutebrowser/styles/global-dark.css")
 config.bind('cs', f'config-cycle content.user_stylesheets [{theme_path}] [] ;; reload')
@@ -74,44 +86,6 @@ config.bind('A', 'config-cycle statusbar.show always in-mode')
 config.bind('Ф', 'config-cycle statusbar.show always in-mode') # rus
 config.bind('<Ctrl-H>', 'tab-move -')
 config.bind('<Ctrl-L>', 'tab-move +')
-
-# RUSSIAN LAYOUT BINDS
-config.bind('П', 'scroll-to-perc')          # G
-config.bind('Р', 'back')                    # H
-config.bind('О', 'tab-next')                # J
-config.bind('Л', 'tab-prev')                # K
-config.bind('Д', 'forward')                 # L
-config.bind('Т', 'search-prev')             # N
-config.bind('Щ', 'set-cmd-text -s :open -t')# O
-config.bind('ЗЗ', 'open -t -- {primary}')   # PP
-config.bind('Зз', 'open -t -- {clipboard}') # Pp
-config.bind('К', 'reload -f')               # R
-config.bind('ЯЙ', 'quit')                   # ZQ
-config.bind('фв', 'download-cancel')        # ad
-config.bind('св', 'download-clear')         # cd
-config.bind('в', 'tab-close')               # d
-config.bind('пп', 'scroll-to-perc 0')       # gg
-config.bind('ш', 'enter-mode insert')       # i
-config.bind('р', 'scroll left')             # h
-config.bind('о', 'scroll down')             # j
-config.bind('л', 'scroll up')               # k
-config.bind('д', 'scroll right')            # l
-config.bind('т', 'search-next')             # n
-config.bind('щ', 'set-cmd-text -s :open')   # o
-config.bind('зЗ', 'open -- {primary}')      # pP
-config.bind('зз', 'open -- {clipboard}')    # pp
-config.bind('к', 'reload')                  # r
-config.bind('г', 'undo')                    # u
-config.bind('м', 'enter-mode caret')        # v
-config.bind('нв', 'yank domain')            # yd
-config.bind('нз', 'yank pretty-url')        # yp
-config.bind('не', 'yank title')             # yt
-config.bind('нн', 'yank')                   # yy
-config.bind('Т', 'prompt-accept --save no', mode='yesno') # N
-config.bind('Н', 'prompt-accept --save yes', mode='yesno')# Y
-config.bind('т', 'prompt-accept no', mode='yesno')        # n
-config.bind('н', 'prompt-accept yes', mode='yesno')       # y
-config.bind('н', 'yank selection', mode='caret') # y
 
 # EDITOR
 term = os.getenv('TERMINAL', 'st')
@@ -137,10 +111,40 @@ c.aliases = {
     'sys': 'set content.proxy system',
 }
 
-# HOST BLOCKING
-c.content.host_blocking.lists = [
-    'https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts',
-]
-hosts = path.expandvars('$XDG_DATA_HOME/qutebrowser/hosts')
-if path.exists(hosts):
-    c.content.host_blocking.lists.append('file://' + hosts)
+# RUSSIAN LAYOUT BINDS
+config.bind('П', 'scroll-to-perc')          # G
+config.bind('Р', 'back')                    # H
+config.bind('О', 'tab-next')                # J
+config.bind('Л', 'tab-prev')                # K
+config.bind('Д', 'forward')                 # L
+config.bind('Т', 'search-prev')             # N
+config.bind('Щ', 'set-cmd-text -s :open -t')# O
+config.bind('ЗЗ', 'open -t -- {primary}')   # PP
+config.bind('Зз', 'open -t -- {clipboard}') # Pp
+config.bind('К', 'reload -f')               # R
+config.bind('ЯЙ', 'quit')                   # ZQ
+config.bind('фв', 'download-cancel')        # ad
+config.bind('св', 'download-clear')         # cd
+config.bind('в', 'tab-close')               # d
+config.bind('пп', 'scroll-to-perc 0')       # gg
+config.bind('ш', 'mode-enter insert')       # i
+config.bind('р', 'scroll left')             # h
+config.bind('о', 'scroll down')             # j
+config.bind('л', 'scroll up')               # k
+config.bind('д', 'scroll right')            # l
+config.bind('т', 'search-next')             # n
+config.bind('щ', 'set-cmd-text -s :open')   # o
+config.bind('зЗ', 'open -- {primary}')      # pP
+config.bind('зз', 'open -- {clipboard}')    # pp
+config.bind('к', 'reload')                  # r
+config.bind('г', 'undo')                    # u
+config.bind('м', 'mode-enter caret')        # v
+config.bind('нв', 'yank domain')            # yd
+config.bind('нз', 'yank pretty-url')        # yp
+config.bind('не', 'yank title')             # yt
+config.bind('нн', 'yank')                   # yy
+config.bind('Т', 'prompt-accept --save no', mode='yesno') # N
+config.bind('Н', 'prompt-accept --save yes', mode='yesno')# Y
+config.bind('т', 'prompt-accept no', mode='yesno')        # n
+config.bind('н', 'prompt-accept yes', mode='yesno')       # y
+config.bind('н', 'yank selection', mode='caret') # y
