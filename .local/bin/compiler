@@ -24,7 +24,7 @@ if [ -z "$mode" -o "$mode" = "-" ]; then
     case "$file" in
         *config\.h)         sudo make install clean ;;
         *\.c|*\.h)          gcc -g -O0 -Wall -Wextra -pedantic -o "$base" "$file" ${c_libs[@]} ;;
-        *\.cpp|*\.hpp)      g++ -g -O0 -Wall -Wextra -pedantic -o "$base" "$file" ${c_libs[@]} ;;
+        *\.cpp|*\.hpp)      g++ -g -O0 -Wall -Wextra -pedantic --std=c++17 -o "$base" "$file" ${c_libs[@]} ;;
         *\.py)              python3 "$file" ;;
         *\.tex)             get_root ; pdflatex -draftmode "$file" ; bibtex "$base" ; pdflatex "$file" ; pdflatex "$file" ;;
         *\.md)              pandoc "$file" --pdf-engine=xelatex -o "$base".pdf ;;

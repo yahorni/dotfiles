@@ -25,17 +25,19 @@ function! FernInit() abort
   nm <buffer><nowait> s <Plug>(fern-action-open:split)
   nm <buffer><nowait> v <Plug>(fern-action-open:vsplit)
   nm <buffer><nowait> r <Plug>(fern-action-reload)
-  nm <buffer> za <Plug>(fern-action-hidden-toggle)
+  nm <buffer><nowait> R <Plug>(fern-action-reload:cursor)
+  nm <buffer><nowait> d <Plug>(fern-action-enter)
+  nm <buffer><nowait> u <Plug>(fern-action-leave)
+  nm <buffer><nowait> c <Plug>(fern-action-cancel)
+  nm <buffer> za <Plug>(fern-action-hidden:toggle)
+  nm <buffer> yy <Plug>(fern-action-yank:label)
+  nm <buffer> yb <Plug>(fern-action-yank)
 endfunction
 
 augroup FernGroup
   autocmd!
   autocmd FileType fern call FernInit()
 augroup END
-
-" buffer manipulation
-Plug 'rbgrouleff/bclose.vim'
-nn <silent> <leader>q :Bclose<CR>
 
 " comments
 Plug 'tpope/vim-commentary'
@@ -100,8 +102,8 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 Plug 'w0rp/ale'
 let g:ale_fixers = { '*': ['remove_trailing_lines', 'trim_whitespace'] }
 let g:ale_linters = {
-      \   'cpp': ['cpplint', 'cc', 'clangtidy', 'clang-format'],
-      \   'c': ['cc', 'clangtidy', 'clang-format'],
+      \   'cpp': ['cpplint', 'cc', 'clang-format'],
+      \   'c': ['cc', 'clang-format'],
       \   'sh': ['shfmt', 'shellcheck'],
       \   'python': ['flake8', 'pylint'],
       \   'tex': ['chktex'],
@@ -139,6 +141,7 @@ Plug 'vim-scripts/indentpython.vim'
 " go
 Plug 'fatih/vim-go'
 au FileType go let g:go_fmt_fail_silently = 1
+au FileType go let g:go_fmt_autosave = 0
 
 " fzf
 Plug '/usr/bin/fzf'
@@ -182,6 +185,7 @@ Plug 'vifm/vifm.vim'
 
 " theme
 Plug 'liuchengxu/space-vim-dark'
+Plug 'Rigellute/shades-of-purple.vim'
 
 call plug#end()
 
@@ -190,8 +194,10 @@ filetype plugin on
 " }}}
 
 " {{{ COLORTHEME
-colo space-vim-dark
+set termguicolors
+colo shades_of_purple
 hi Comment cterm=italic
+let g:lightline = { 'colorscheme': 'shades_of_purple' }
 " }}}
 
 " {{{ OPTIONS
@@ -323,7 +329,8 @@ nn gr :call ToggleResizeSplitMode()<CR>
 
 " {{{ GREPPING
 if executable('rg')
-  set grepprg=rg\ --vimgrep\ -g\ '!build'\ -g\ '!.git'\ -F\ --hidden\ --no-messages
+  " set grepprg=rg\ --vimgrep\ -g\ '!build'\ -g\ '!.git'\ -F\ --hidden\ --no-messages
+  set grepprg=rg\ --vimgrep\ -g\ '!build'\ -g\ '!tests'\ -g\ '!.git'\ -F\ --hidden\ --no-messages
 endif
 
 func! QuickGrep(pattern)
@@ -388,8 +395,8 @@ au FileType cmake,javascript,typescript,yaml,proto
 
 " {{{ FORMATTERS
 " c/c++
-au FileType c,cpp,javascript,typescript nn <buffer> <C-f> :ClangFormat<CR>
-au FileType c,cpp,javascript,typescript vn <buffer> <C-f> :ClangFormat<CR>
+au FileType c,cpp,javascript,typescript,proto nn <buffer> <C-f> :ClangFormat<CR>
+au FileType c,cpp,javascript,typescript,proto vn <buffer> <C-f> :ClangFormat<CR>
 " shell
 au FileType sh nn <buffer> <C-f> :%!shfmt<CR>
 au FileType sh vn <buffer> <C-f> :%!shfmt<CR>
@@ -445,15 +452,15 @@ nn <silent> <expr> <leader><leader>j !exists('b:SplitResize') ? '<C-w><C-j>' : '
 nn <silent> <expr> <leader><leader>k !exists('b:SplitResize') ? '<C-w><C-k>' : ':res +1<CR>'
 nn <silent> <expr> <A-l> !exists('b:SplitResize') ? '<C-w><C-l>' : ':vert res +1<CR>'
 nn <leader><leader>o <C-o>
-nn <leader><leader>i <C-i>
-nn <leader><leader>v <C-v>
-nn <leader><leader>] <C-]>
+nn <A-i> <C-i>
+nn <A-v> <C-v>
+nn <A-]> <C-]>
 nn <A-r> <C-r>
 nn <A-a> <C-a>
 nn <A-x> <C-x>
 nn <A-w> <C-w>
 nm <A-f> <C-f>
-nn <silent> <leader><leader>n :Fern . -reveal=%<CR>
+nm <silent> <leader><leader>n :Fern . -reveal=%<CR>
 im \\k <C-k>
 im \\f <C-x><C-f>
 " }}}

@@ -30,8 +30,7 @@ colorscheme Gruvbox
 " --- MARKS ---
 
 mark h ~/
-mark r ~/prog/reps
-mark j ~/prog/prj
+mark j ~/prog
 mark b ~/.local/bin
 mark s ~/.local/share
 mark c ~/.config

@@ -34,7 +34,7 @@ alias \
 
 # git
 alias \
-    dg='/usr/bin/git --git-dir="${HOME}/prog/reps/df" --work-tree="${HOME}"' \
+    dg='/usr/bin/git --git-dir="${HOME}/prog/df" --work-tree="${HOME}"' \
     gst='git status' \
     gd='git diff' \
     gds='git diff --staged' \
@@ -52,7 +52,8 @@ alias \
     grs='git reset' \
     gm='git merge' \
     gsb='git submodule' \
-    ghist='git log --follow -p --'
+    ghist='git log --follow -p --' \
+    grb='git rebase'
 
 # files
 alias \
@@ -69,15 +70,15 @@ alias \
     vr='${EDITOR} ${XDG_CONFIG_HOME}/Xresources' \
     vg='${EDITOR} .gitignore' \
     vt='${EDITOR} TODO' \
-    vw='${EDITOR} ~/prog/prj/dwm/config.h'
+    vw='${EDITOR} ~/prog/my-env/dwm/config.h'
 
 # directories
 alias \
-    cdr='cd ~/prog/reps' \
-    cdj='cd ~/prog/prj' \
+    cdj='cd ~/prog' \
     cdb='cd ~/.local/bin' \
     cds='cd ${XDG_DATA_HOME}' \
-    cdc='cd ${XDG_CONFIG_HOME}'
+    cdc='cd ${XDG_CONFIG_HOME}' \
+    cd_='cd $_'
 alias \
     cdB='cd "$(xdg-user-dir BOOKS)"' \
     cdx='cd "$(xdg-user-dir DOCUMENTS)"' \

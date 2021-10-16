@@ -1,6 +1,6 @@
 #!/bin/sh
 
-prjdir="$HOME/prog/prj"
+prjdir="$HOME/prog"
 prj=$(ls "$prjdir" | dmenu -p "Open project:")
 [ -z "$prj" ] && notify-send "No project entered" && exit
 [ ! -d "$prjdir/$prj" ] && notify-send "No such project" && exit
