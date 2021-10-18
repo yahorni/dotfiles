@@ -11,7 +11,7 @@ export EDITOR="nvim"
 export VISUAL="$EDITOR"
 export BROWSER="firefox"
 export READER="zathura"
-export WM="dwm"
+export WM="dwm-polybar"
 
 # directories
 export XDG_CACHE_HOME="$HOME/.cache"

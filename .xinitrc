@@ -22,6 +22,8 @@ redshift &
 if [ "$WM" = "dwm" ]; then
     dwmbar &
     dwmlistener.sh &
+elif [ "$WM" = "dwm-polybar" ]; then
+    sleep 3 && exec polybar -r notebar &
 fi
 
 # Xorg settings

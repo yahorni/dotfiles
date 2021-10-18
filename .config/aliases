@@ -53,7 +53,9 @@ alias \
     gm='git merge' \
     gsb='git submodule' \
     ghist='git log --follow -p --' \
-    grb='git rebase'
+    grb='git rebase' \
+    gff='git log --full-history --' \
+    gff1='git log --full-history -1 --'
 
 # files
 alias \
