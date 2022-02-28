@@ -95,19 +95,23 @@ alias \
     cd2='cd /mnt/usb2' \
     cd3='cd /mnt/usb3' \
     cdo='cd /mnt/other'
+alias \
+    .1='cd ..' \
+    .2='cd ../..' \
+    .3='cd ../../..' \
 
 # completion
 if [ -n "${BASH}" ]; then
     # completions for aliases
     completions="/usr/share/bash-completion/completions"
     # systemctl
-    . ${completions}/systemctl
+    source ${completions}/systemctl
     complete -F _systemctl systemctl sc ssc
     # pacman
-    . ${completions}/pacman
+    source ${completions}/pacman
     complete -F _pacman pacman sp
     # git
-    . ${completions}/git
+    source ${completions}/git
     __git_complete gd _git_diff
     __git_complete ga _git_add
     __git_complete gb _git_branch
@@ -117,8 +121,11 @@ if [ -n "${BASH}" ]; then
     __git_complete gps _git_push
     __git_complete gpl _git_pull
     __git_complete grs _git_reset
+    __git_complete grb _git_rebase
+    __git_complete gsh _git_stash
+    __git_complete gcp _git_cherry_pick
     # sshrc
-    . ${completions}/ssh
+    source ${completions}/ssh
     complete -F _ssh ssh sshrc shr
 elif [ -n "${ZSH_NAME}" ]; then
     compdef sshrc=ssh shr=ssh

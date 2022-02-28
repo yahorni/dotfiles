@@ -1,6 +1,7 @@
 #!/bin/sh
 
 options="vk
+chromium
 telegram-deskto
 slack
 steam

@@ -5,7 +5,7 @@
 # be prompted to give a mountpoint from already existsing directories. If you
 # input a novel directory, it will prompt you to create that directory.
 
-getmount() { \
+getmount() {
     [ -z "$chosen" ] && exit 1
     mp="$(find $1 2>/dev/null | dmenu -i -p "Type in mount point.")"
     [ "$mp" = "" ] && exit 1
@@ -19,11 +19,11 @@ getmount() { \
     fi
 }
 
-mountusb() { \
+mountusb() {
     chosen="$(echo "$usbdrives" | dmenu -i -p "Mount which drive?" | awk '{print $1}')"
     [ "$chosen" = "" ] && exit 1
     sudo -A mount "$chosen" 2>/dev/null && notify-send "💻 USB mounting" "$chosen mounted." && exit 0
-    alreadymounted=$(lsblk -nrpo "name,type,mountpoint" | awk '$2=="part"&&$3!~/\/boot|\/home$|SWAP/&&length($3)>1{printf "-not \\( -path *%s -prune \\) \\ \n",$3}')
+    alreadymounted=$(lsblk -nrpo "name,type,mountpoint" | awk '$3!~/\/boot|\/home$|SWAP/&&length($3)>1{printf "-not ( -path *%s -prune ) ",$3}')
     getmount "/mnt -maxdepth 1 -type d $alreadymounted"
     partitiontype="$(lsblk -no "fstype" "$chosen")"
     case "$partitiontype" in
@@ -33,33 +33,32 @@ mountusb() { \
     notify-send "💻 USB mounting" "$chosen mounted to $mp."
 }
 
-mountandroid() { \
+mountandroid() {
     chosen=$(echo "$anddrives" | dmenu -i -p "Which Android device?" | cut -d : -f 1)
     getmount "/mnt $HOME -maxdepth 3 -type d"
-    repeats=3
-    idx=1
-    sleeptime=5
-    while [ "$idx" -le "$repeats" ]; do
+    attempts=5
+    delay=7
+    for attempt in $(seq "$attempts"); do
         simple-mtpfs -o allow_other -o auto_unmount --device "$chosen" "$mp" || \
             sudo -A simple-mtpfs -o allow_other -o auto_unmount --device "$chosen" "$mp"
+
         if [ "$?" -eq 0 ]; then
             notify-send "🤖 Android Mounting" "Android device mounted to $mp."
             break
         fi
 
-        if [ $idx -lt "$repeats" ]; then
+        if [ "$attempt" -eq "$attempts" ]; then
+            notify-send "Can't mount device to $mp" && exit 1
+        else
             notify-send \
                 "Error while mounting android to $mp" \
-                "Attempt $idx: retry after $sleeptime seconds"
-            sleep $sleeptime
-        else
-            notify-send "Can't mount device to $mp"
+                "Attempt $attempt: retry after $delay seconds"
+            sleep ${delay}s
         fi
-        idx=$(($idx + 1))
     done
 }
 
-asktype() { \
+asktype() {
     case $(printf "USB\\nAndroid" | dmenu -i -p "Mount a USB drive or Android device?") in
         USB) mountusb ;;
         Android) mountandroid ;;

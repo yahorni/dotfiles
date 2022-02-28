@@ -3,6 +3,7 @@
 # nvidia card hacks
 nvidia_lock="$XDG_DATA_HOME/nvidia_lock"
 if [ -f "$nvidia_lock" ]; then
+    echo "NVIDIA lock detected"
     xrandr --setprovideroutputsource modesetting NVIDIA-0
     xrandr --auto
 fi
@@ -13,18 +14,16 @@ picom &
 sxhkd &
 unclutter &
 greenclip daemon &
-safeeyes &
 suspender &
 pgrep transmission-da || transmission-daemon &
-redshift &
+nm-applet &
+# safeeyes &
+# redshift &
 
 # WM autostart
-if [ "$WM" = "dwm" ]; then
-    dwmbar &
-    dwmlistener.sh &
-elif [ "$WM" = "dwm-polybar" ]; then
-    sleep 3 && exec polybar -r notebar &
-fi
+dwmbar &
+dwmlistener.sh &
+# sleep 5 && exec polybar -r notebar &
 
 # Xorg settings
 xwallpaper --stretch "$XDG_DATA_HOME/wallpaper"

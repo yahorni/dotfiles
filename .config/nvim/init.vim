@@ -24,8 +24,8 @@ function! FernInit() abort
   nm <buffer><nowait> h <Plug>(fern-action-collapse)
   nm <buffer><nowait> s <Plug>(fern-action-open:split)
   nm <buffer><nowait> v <Plug>(fern-action-open:vsplit)
-  nm <buffer><nowait> r <Plug>(fern-action-reload)
-  nm <buffer><nowait> R <Plug>(fern-action-reload:cursor)
+  nm <buffer><nowait> r <Plug>(fern-action-reload:cursor)
+  nm <buffer><nowait> R <Plug>(fern-action-reload:all)
   nm <buffer><nowait> d <Plug>(fern-action-enter)
   nm <buffer><nowait> u <Plug>(fern-action-leave)
   nm <buffer><nowait> c <Plug>(fern-action-cancel)
@@ -62,7 +62,7 @@ Plug 'itchyny/lightline.vim'
 " autocomplete
 Plug 'Shougo/neoinclude.vim'
 Plug 'jsfaint/coc-neoinclude'
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+Plug 'neoclide/coc.nvim'
 " extensions
 let g:coc_global_extensions = ['coc-cmake', 'coc-json']
 " tab completion
@@ -154,11 +154,6 @@ Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'rhysd/vim-clang-format'
 Plug 'derekwyatt/vim-fswitch'
 au FileType c,cpp nn <silent> <leader>s :FSHere<CR>
-
-" tagbar
-Plug 'majutsushi/tagbar'
-" TODO: make focusable from any split
-nn <silent> <leader>T :TagbarToggle<CR>
 
 " indentation
 Plug 'Yggdroot/indentLine' " can break conceallevel
@@ -380,6 +375,11 @@ nn <silent> <leader>Sd :setlocal nospell spelllang=<CR>
 nn <silent> <leader>ms :mksession! <bar> echo "Session saved"<CR>
 nn <silent> <leader>ml :source Session.vim<CR>
 nn <silent> <leader>md :!rm Session.vim<CR>
+
+nn <silent> <leader>mm :!mkdir .vim<CR>
+nn <silent> <leader>ms :mksession! .vim/session.vim <bar> echo "Session saved"<CR>
+nn <silent> <leader>ml :source .vim/session.vim<CR>
+nn <silent> <leader>md :!rm .vim/session.vim<CR>
 " }}}
 
 " {{{ STYLES
@@ -444,6 +444,15 @@ vn <leader>s y:%s/<C-R>+//g<Left><Left>
 
 " use K for c++ man pages
 au FileType c,cpp setlocal keywordprg=cppman
+
+" git blame
+nn gb :execute "! git blame -L " . eval(line(".")-5) . ",+10 %"<cr>
+
+" }}}
+
+" {{{ REFERENCE
+" set fileformat=unix fileencoding=utf-8
+" set ff=unix fenc=utf-8
 " }}}
 
 " {{{ TEMP (Ctrl not working)

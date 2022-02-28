@@ -28,40 +28,40 @@ class WrdParser(HTMLParser):
         self.in_block = False
 
     def handle_starttag(self, tag, attrs):
-        # parse basic translation options
-        if tag == 'span':
+        if tag == 'div':
+            # parse basic translation options
             for name, value in attrs:
                 if name == 'class' and value == 't_inline_en':
                     self.accepted = True
-        # parse type of extended translations (verb, noun, adj, ...)
-        elif tag == 'h4':
-            self.in_h4 = True
-        # parse examples of one type of translation
-        elif tag == 'div' and self.in_h4 == True:
-            if self.in_div:
-                self.in_lvl += 1
-            else:
-                for name, value in attrs:
-                    if name == 'class' and value == 'tr':
-                        self.in_div = True
-        # parse small notes
-        elif tag == 'i' and self.in_h4:
-            self.in_i = True
-        # parse collocations
-        elif tag == 'div':
+            # parse collocations
             for name, value in attrs:
                 if name == 'class' and value == 'block phrases':
                     self.in_block = True
                     self.collocations.append("")
-        # newlines in translations
-        elif tag == 'br' and self.in_h4:
-            self.extended[self.h4_title][-1] = \
-                self.extended[self.h4_title][-1].strip()
-            self.extended[self.h4_title].append("")
-        # newlines in collocations
-        elif tag == 'br' and self.in_block:
-            self.collocations[-1] = self.collocations[-1].strip()
-            self.collocations.append("")
+            # parse examples of one type of translation
+            if self.in_h4 == True:
+                if self.in_div:
+                    self.in_lvl += 1
+                else:
+                    for name, value in attrs:
+                        if name == 'class' and value == 'tr':
+                            self.in_div = True
+        # parse type of extended translations (verb, noun, adj, ...)
+        elif tag == 'h4':
+            self.in_h4 = True
+        # parse small notes
+        elif tag == 'i' and self.in_h4:
+            self.in_i = True
+        elif tag == 'br':
+            # newlines in translations
+            if self.in_h4:
+                self.extended[self.h4_title][-1] = \
+                    self.extended[self.h4_title][-1].strip()
+                self.extended[self.h4_title].append("")
+            # newlines in collocations
+            elif self.in_block:
+                self.collocations[-1] = self.collocations[-1].strip()
+                self.collocations.append("")
         # remove 'snoska' in translations
         elif tag == 'p' and self.in_block:
             for name, value in attrs:
@@ -72,21 +72,22 @@ class WrdParser(HTMLParser):
 
 
     def handle_endtag(self, tag):
-        if tag == 'div' and self.in_div:
-            if self.in_lvl > 0:
-                self.in_lvl -= 1
-            else:
-                if self.extended[self.h4_title][-1] == "":
-                    self.extended[self.h4_title].pop()
-                self.h4_title = ""
-                self.in_h4 = False
-                self.in_div = False
-                self.last_lvl = 0
-                # not checking in_lvl cause it should be 0 now
-        elif tag == 'div' and self.in_block:
-            if len(self.collocations[-1].strip()) == 0:
-                self.collocations.pop()
-            self.in_block = False
+        if tag == 'div':
+            if self.in_div:
+                if self.in_lvl > 0:
+                    self.in_lvl -= 1
+                else:
+                    if self.extended[self.h4_title][-1] == "":
+                        self.extended[self.h4_title].pop()
+                    self.h4_title = ""
+                    self.in_h4 = False
+                    self.in_div = False
+                    self.last_lvl = 0
+                    # not checking in_lvl cause it should be 0 now
+            elif self.in_block:
+                if len(self.collocations[-1].strip()) == 0:
+                    self.collocations.pop()
+                self.in_block = False
 
 
     def handle_data(self, data):
@@ -104,10 +105,16 @@ class WrdParser(HTMLParser):
             # add brackets for <i> elements
             if self.in_i:
                 self.in_i = False
-                if self.extended[self.h4_title][-1] == "- " and \
-                   data.strip()[0] != "(" and data.strip()[-1] != ")":
-                    data = "(" + data.strip() + ") "
-            # add new example (no empty or useless rows)
+                previous = self.extended[self.h4_title][-1]
+                stripped_data = data.strip()
+                # put <i></i> in '()'
+                if previous == "- " and stripped_data[0] != "(" and stripped_data[-1] != ")":
+                    data = "(" + stripped_data + ") "
+                # concatenate several <i>...</i> tags in '()'
+                elif previous.endswith(") ") and stripped_data[0] != "(" and stripped_data[-1] != ")":
+                    self.extended[self.h4_title][-1] = previous[:-2]
+                    data = " " + stripped_data + ") "
+            # add new example (no empty or useless rows) ['if' left intentionally]
             if data != "" and data[0:3] != "ещё":
                 # check depth level of tags in <div>
                 if len(self.extended[self.h4_title]) > 0:
@@ -123,16 +130,16 @@ class WrdParser(HTMLParser):
 
 
 def init_argparse():
-    argparser = argparse.ArgumentParser(description='Translate words from english to russian')
-    argparser.add_argument('-e', '--extended', action='store_true', help='Shows extended output')
+    argparser = argparse.ArgumentParser(description='translate words from english to russian')
+    argparser.add_argument('-e', '--extended', action='store_true', help='show extended output')
     outputgroup = argparser.add_mutually_exclusive_group(required=False)
-    outputgroup.add_argument('-n', '--notify', action='store_true', help='Uses libnotify to show translation')
-    outputgroup.add_argument('-j', '--json', action='store_true', help='Shows output in json')
+    outputgroup.add_argument('-n', '--notify', action='store_true', help='use libnotify to show translation')
+    outputgroup.add_argument('-j', '--json', action='store_true', help='show output in json')
     inputgroup = argparser.add_mutually_exclusive_group(required=True)
-    inputgroup.add_argument('-s', '--selection', action='store_true', help='Uses xsel to get unknown word')
-    inputgroup.add_argument('-d', '--dmenu', action='store_true', help='Uses dmenu to input unknown word')
-    inputgroup.add_argument('-w', '--word', type=str, help='Word to translate. Passes as argument')
-    inputgroup.add_argument('-i', '--input', action='store_true', help='Reads word for translate from stdin')
+    inputgroup.add_argument('-s', '--selection', action='store_true', help='use xsel to get unknown word')
+    inputgroup.add_argument('-d', '--dmenu', action='store_true', help='use dmenu to input unknown word')
+    inputgroup.add_argument('-w', '--word', type=str, help='word to translate')
+    inputgroup.add_argument('-i', '--input', action='store_true', help='reads word for translate from stdin')
     return vars(argparser.parse_args())
 
 def get_word(args):
@@ -164,9 +171,9 @@ def main():
     parser.feed(response.content.decode("utf-8"))
 
     if args.get('notify'):
-        MESSAGE = 'notify-send -u normal -t 5000 "{}" "{}"'
+        MESSAGE = "notify-send -u normal -t 5000 '{}' '{}'"
     else:
-        MESSAGE = 'printf "{}\n{}\n"'
+        MESSAGE = "printf '{}\n{}\n'"
 
     if len(parser.result) < 1:
         os.system(MESSAGE.format(unknown_word, "No result"))

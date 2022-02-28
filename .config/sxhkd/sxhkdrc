@@ -13,9 +13,9 @@ super + {_,shift +}grave
 super + w
     $TERMINAL -e ncmpcpp -s browser
 
-# calendar
+# bar
 super + shift + w
-    $TERMINAL -e calcurse
+    pkill polybar ; setsid polybar -r notebar &
 
 # terminal
 super + {_,shift +} e
@@ -103,7 +103,7 @@ super + shift + c
 
 # browser
 super + b
-    pgrep $BROWSER || $BROWSER
+    pgrep -fi $BROWSER || $BROWSER
 super + shift + b
     $BROWSER
 

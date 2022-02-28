@@ -1,11 +1,15 @@
 #!/bin/bash
 
+# NOTE: nvidia_lock sets in /nvidia_lock instead of XDG_DATA_HOME
+# NOTE: do something with modules in /etc/modprobe.d/
+
 [ "$EUID" -ne 0 ] && echo "Please run as root" && exit
 
-nvidia_lock="$XDG_DATA_HOME/nvidia_lock"
+nvidia_lock="$HOME/nvidia_lock"
 
 monitors_config="/etc/X11/xorg.conf.d/10-monitor.conf"
-kernel_config="/etc/modprobe.d/nvidia.conf"
+nvidia_module="/etc/modprobe.d/nvidia.conf"
+nouveau_module="/etc/modprobe.d/nouveau.conf"
 grub_config="/etc/default/grub"
 
 intel_cfg=$(sed '0,/^INTEL$/d ; /^END_INTEL$/,$d' "$0")
@@ -13,40 +17,48 @@ nvidia_cfg=$(sed '0,/^NVIDIA$/d ; /^END_NVIDIA$/,$d' "$0")
 
 grub_options="module_blacklist=nvidia,nvidia-current,nvidia_drm,nvidia_uvm,nvidia_modeset,nouveau"
 
-if [ -f "$nvidia_lock" ]; then # if nvidia enabled
+disable_nvidia() {
     echo "Disabling NVIDIA"
 
     # update x11 config
     rm "$nvidia_lock"
     echo "$intel_cfg" > "$monitors_config"
 
-    # update kernel modules
-    rm "$kernel_config"
+    # kernel modules blacklist
+    echo "blacklist nouveau" > "$nouveau_module"
+    echo "blacklist nvidia,nvidia-current,nvidia_drm,nvidia_uvm,nvidia_modeset" > "$nvidia_module"
 
     # update grub
     sed -in "s/\(^GRUB_CMDLINE_LINUX_DEFAULT=.*\)\"$/\1 $grub_options\"/" "$grub_config"
     grub-mkconfig -o /boot/grub/grub.cfg
-else # if disabled
+}
+
+enable_nvidia() {
     echo "Enabling NVIDIA"
 
     # update x11 config
     touch "$nvidia_lock"
     echo "$nvidia_cfg" > "$monitors_config"
 
-    # update kernel modules
-    echo 'blacklist nvidia,nvidia-current,nvidia_drm,nvidia_uvm,nvidia_modeset' > "$kernel_config"
+    rm -f "$nvidia_module" "$nouveau_module"
 
     # update grub
     sed -in "s/\(^GRUB_CMDLINE_LINUX_DEFAULT=.*\) $grub_options\"$/\1\"/" "$grub_config"
     grub-mkconfig -o /boot/grub/grub.cfg
+}
+
+if [ -f "$nvidia_lock" ]; then # if nvidia enabled
+    disable_nvidia
+else # if disabled
+    enable_nvidia
 fi
 
 exit
 
 #############################################################################
+INTEL
 # vim: ft=xf86conf
 
-INTEL
 Section "Device"
     Identifier "intel_gpu"
     Driver     "intel"

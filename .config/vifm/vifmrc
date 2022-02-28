@@ -103,10 +103,11 @@ nnoremap w :view<cr>
 vnoremap w :view<cr>gv
 " edit file
 nnoremap xf :!$EDITOR %f<cr>
+nnoremap xl :!libreoffice %f<cr>
 " edit in directory
 nnoremap xd :!$EDITOR .<cr>
 " open with xdg-open/openwith
-nnoremap L :!setsid xdg-open %f &<cr>
+nnoremap L  :!setsid xdg-open %f &<cr>
 nnoremap xo :!setsid openwith %f %i & disown<cr>
 " show pictures
 nnoremap xp :!sxiv -t %d &<cr>

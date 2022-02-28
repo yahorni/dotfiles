@@ -11,7 +11,7 @@ export EDITOR="nvim"
 export VISUAL="$EDITOR"
 export BROWSER="firefox"
 export READER="zathura"
-export WM="dwm-polybar"
+export WM="dwm"
 
 # directories
 export XDG_CACHE_HOME="$HOME/.cache"
@@ -58,6 +58,7 @@ export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export SXHKD_SHELL="/bin/bash"
 export TS_SLOTS=3
 export MERGETOOL="nvim -d"
+export SYSTEMD_PAGER=less
 
 if [ -f "$XDG_CONFIG_HOME/autostart.sh" ]; then
     source "$XDG_CONFIG_HOME/autostart.sh"

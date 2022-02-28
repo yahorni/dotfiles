@@ -1,6 +1,13 @@
 [core]
-	excludesfile = ~/.config/git/ignore
+    excludesfile = ~/.config/git/ignore
 [pull]
-	ff = only
+    ff = only
 [init]
-	defaultBranch = master
+    defaultBranch = master
+[color]
+    diff = auto
+    status = auto
+    branch = auto
+    interactive = auto
+    ui = true
+    pager = true

@@ -67,11 +67,14 @@ check_error() {
     [ $error_code -ne 0 ] && notify-send "$msg_fail" "Error code ($error_code)\n$link" && exit $error_code
 }
 
+downloader="yt-dlp"
+
 case $format in
-    'a') youtube-dl --add-metadata -icxf "bestaudio/best" --audio-format mp3 -o "$outaudio/$filename" "$link" ;;
-    'l') youtube-dl --add-metadata ${other_args[@]} -icf "best[height<=360]" -o "$outvideo/$filename" "$link" ;;
-    'm') youtube-dl --add-metadata ${other_args[@]} -icf "bestvideo[height<=1080]+bestaudio/best" -o "$outvideo/$filename" "$link" ;;
-    'h') youtube-dl --add-metadata ${other_args[@]} -icf "bestvideo+bestaudio/best" -o "$outvideo/$filename" "$link" ;;
+    'a') "$downloader" --add-metadata -icxf "bestaudio/best" --audio-format mp3 -o "$outaudio/$filename" "$link" ;;
+    'd') "$downloader" --add-metadata ${other_args[@]} -ic -o "$outvideo/$filename" "$link" ;;
+    'l') "$downloader" --add-metadata ${other_args[@]} -icf "best[height<=360]" -o "$outvideo/$filename" "$link" ;;
+    'm') "$downloader" --add-metadata ${other_args[@]} -icf "bestvideo[height<=1080]+bestaudio/best" -o "$outvideo/$filename" "$link" ;;
+    'h') "$downloader" --add-metadata ${other_args[@]} -icf "bestvideo+bestaudio/best" -o "$outvideo/$filename" "$link" ;;
     *) notify-send "$msg_invalid_format" "Format ($format)\n$link" ; exit 1 ;;
 esac ; check_error
 

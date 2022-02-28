@@ -5,7 +5,7 @@ case "$1" in
     *youtube\.com%2Fwatch*|*youtube\.com%2Fplaylist*|\
     *\.mkv|*\.webm|*\.mp4|*\.3gp|*\.avi)
         notify-send "Opening in MPV" "$1"
-        ERROR=$( (youtube-dl -F "$1" 3>&2 2>&1 1>&3) 2>/dev/null)
+        ERROR=$( (yt-dlp -F "$1" 3>&2 2>&1 1>&3) 2>/dev/null)
         [[ "$?" -ne "0" ]] && notify-send "Youtube-dl error" "$ERROR" && exit 1
         exec mpv --ytdl-format="bestvideo[height<=1080]+bestaudio/best[height<=1080]"\
             --really-quiet --osc "$1" & ;;
