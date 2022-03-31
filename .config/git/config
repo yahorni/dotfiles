@@ -4,6 +4,10 @@
     ff = only
 [init]
     defaultBranch = master
+[push]
+    default = current
+[http]
+    sslVerify = false
 [color]
     diff = auto
     status = auto
@@ -11,3 +15,6 @@
     interactive = auto
     ui = true
     pager = true
+
+# To manage bare repo:
+# git config status.showUntrackedFiles no

@@ -20,17 +20,17 @@ alias \
     scu='systemctl --user' \
     ssc='sudo systemctl' \
     fm='vifmrun' \
-    yt='youtube-viewer' \
     mkd='mkdir -pv' \
     smkd='sudo mkdir -pv' \
     rst='reset && source ~/.bashrc && stty sane && tput cvvis' \
     cp='cp -ri' \
     p3='python3' \
     ff='ffplay -autoexit -nodisp' \
-    sm='sc-im' \
     xo='xdg-open' \
     mim='file --mime-type' \
-    shr='sshrc'
+    shr='sshrc' \
+    ide="make -f .nvim/Makefile" \
+    ide_s="sudo make -f .nvim/Makefile"
 
 # git
 alias \
@@ -55,11 +55,12 @@ alias \
     ghist='git log --follow -p --' \
     grb='git rebase' \
     gff='git log --full-history --' \
-    gff1='git log --full-history -1 --'
+    gff1='git log --full-history -1 --' \
+    gcl='git clean -dfx'
 
 # files
 alias \
-    va='${EDITOR} ${XDG_CONFIG_HOME}/aliases' \
+    va='${EDITOR} ${XDG_CONFIG_HOME}/aliases.sh' \
     vv='${EDITOR} ${XDG_CONFIG_HOME}/nvim/init.vim' \
     vs='${EDITOR} ${XDG_CONFIG_HOME}/sxhkd/sxhkdrc' \
     vf='${EDITOR} ${XDG_CONFIG_HOME}/vifm/vifmrc' \
@@ -72,11 +73,10 @@ alias \
     vr='${EDITOR} ${XDG_CONFIG_HOME}/Xresources' \
     vg='${EDITOR} .gitignore' \
     vt='${EDITOR} TODO' \
-    vw='${EDITOR} ~/prog/my-env/dwm/config.h'
+    vw='${EDITOR} ~/prog/env/dwm/config.h'
 
 # directories
 alias \
-    cdj='cd ~/prog' \
     cdb='cd ~/.local/bin' \
     cds='cd ${XDG_DATA_HOME}' \
     cdc='cd ${XDG_CONFIG_HOME}' \
@@ -100,16 +100,34 @@ alias \
     .2='cd ../..' \
     .3='cd ../../..' \
 
+# utils
+cdj() {
+  cd "$HOME/prog"
+  [ -n "$1" ] && cd "$1"
+}
+
+scr() {
+    bindir="$HOME/.local/bin"
+    file="$(ls $bindir | fzf)"
+    [ ! -z "$file" ] && $EDITOR "$bindir/$file"
+}
+
+snc() {
+    watch -d grep -e Dirty: -e Writeback: /proc/meminfo
+}
+
+sf() {
+    du -a . | cut -f2 | grep "$1"
+}
+
 # completion
 if [ -n "${BASH}" ]; then
     # completions for aliases
+    source /usr/share/bash-completion/bash_completion
     completions="/usr/share/bash-completion/completions"
     # systemctl
     source ${completions}/systemctl
     complete -F _systemctl systemctl sc ssc
-    # pacman
-    source ${completions}/pacman
-    complete -F _pacman pacman sp
     # git
     source ${completions}/git
     __git_complete gd _git_diff
@@ -117,6 +135,8 @@ if [ -n "${BASH}" ]; then
     __git_complete gb _git_branch
     __git_complete gc _git_commit
     __git_complete gr _git_remote
+    __git_complete gm _git_merge
+    __git_complete gst _git_status
     __git_complete gch _git_checkout
     __git_complete gps _git_push
     __git_complete gpl _git_pull
@@ -124,9 +144,42 @@ if [ -n "${BASH}" ]; then
     __git_complete grb _git_rebase
     __git_complete gsh _git_stash
     __git_complete gcp _git_cherry_pick
+    __git_complete gsb _git_submodule
+    # bare repo alias
+    __git_complete dg git
+    # pacman
+    if command -v pacman 1>/dev/null ; then
+      source ${completions}/pacman
+      complete -F _pacman pacman sp
+    fi
     # sshrc
-    source ${completions}/ssh
-    complete -F _ssh ssh sshrc shr
+    if command -v sshrc 1>/dev/null ; then
+      source ${completions}/ssh
+      complete -F _ssh ssh sshrc shr
+    fi
+    # ide
+    source ${completions}/make
+    make-completion-wrapper() {
+        local function_name="$2"
+        local arg_count=$(($#-3))
+        local comp_function_name="$1"
+        shift 2
+        local function="
+      $function_name() {
+        ((COMP_CWORD+=$arg_count))
+        COMP_WORDS=( "$@" \${COMP_WORDS[@]:1} )
+        COMP_LINE=\"\${COMP_WORDS[*]}\"
+        COMP_POINT=\"\${#COMP_LINE}\"
+        "$comp_function_name"
+        return 0
+    }"
+        eval "$function"
+    }
+    make-completion-wrapper _make _make_f make -f .nvim/Makefile
+    complete -F _make_f ide ide_s
+    # cdj
+    _cdj() { COMPREPLY=($(cd $HOME/prog ; compgen -d "$2")) ; }
+    complete -F _cdj cdj
 elif [ -n "${ZSH_NAME}" ]; then
     compdef sshrc=ssh shr=ssh
 fi

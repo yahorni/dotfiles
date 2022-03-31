@@ -30,11 +30,15 @@ tray-padding = 3
 
 module-margin = 1
 
+enable-ipc = true
+
 font-0 = monospace:pixelsize=12;1
 font-1 = JoyPixels:scale=10
+; font-1 = Noto Color Emoji:scale=10
 
 modules-left = dwm
 modules-right = mpd alsa backlight wlan memory cpu battery temperature xkeyboard date
+; modules-right = memory cpu xkeyboard date
 
 override-redirect = false
 

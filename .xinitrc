@@ -21,13 +21,14 @@ nm-applet &
 # redshift &
 
 # WM autostart
-dwmbar &
-dwmlistener.sh &
-# sleep 5 && exec polybar -r notebar &
+if [ "$WM" = "dwm" ]; then
+    dwmbar &
+    dwmlistener.sh &
+    # sleep 5 && exec polybar -r notebar &
+fi
 
 # Xorg settings
 xwallpaper --stretch "$XDG_DATA_HOME/wallpaper"
-xmodmap -e "keycode 135 = Super_R Menu"   # remap 'menu' button
 xset r rate 200 35                        # keyboard speed
 xsetroot -cursor_name left_ptr            # default cursor
 xset s on                                 # enable screensaver
@@ -35,4 +36,9 @@ xset s 600                                # seconds before screensave
 xrdb -merge "$XDG_CONFIG_HOME/Xresources" # apply xresources
 # xss-lock -- physlock -ms &                # set screen lock
 
-exec "$WM"
+# Xorg autostart
+if [ -f "$XDG_CONFIG_HOME/autostart/on_x11.sh" ]; then
+    sleep 10 && "$XDG_CONFIG_HOME/autostart/on_x11.sh" &
+fi
+
+[ -n "$WM" ] && exec "$WM"

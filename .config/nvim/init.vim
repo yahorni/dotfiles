@@ -26,9 +26,9 @@ function! FernInit() abort
   nm <buffer><nowait> v <Plug>(fern-action-open:vsplit)
   nm <buffer><nowait> r <Plug>(fern-action-reload:cursor)
   nm <buffer><nowait> R <Plug>(fern-action-reload:all)
-  nm <buffer><nowait> d <Plug>(fern-action-enter)
   nm <buffer><nowait> u <Plug>(fern-action-leave)
   nm <buffer><nowait> c <Plug>(fern-action-cancel)
+  nm <buffer><nowait> d <Plug>(fern-action-enter)
   nm <buffer> za <Plug>(fern-action-hidden:toggle)
   nm <buffer> yy <Plug>(fern-action-yank:label)
   nm <buffer> yb <Plug>(fern-action-yank)
@@ -58,6 +58,10 @@ Plug 'vim-scripts/Rename2'
 
 " status line
 Plug 'itchyny/lightline.vim'
+let g:lightline = {
+  \   'active': {'left': [['mode', 'paste'], ['readonly', 'relativepath', 'modified']]},
+  \   'inactive': {'left': [['relativepath', 'modified']]}
+  \}
 
 " autocomplete
 Plug 'Shougo/neoinclude.vim'
@@ -102,8 +106,8 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 Plug 'w0rp/ale'
 let g:ale_fixers = { '*': ['remove_trailing_lines', 'trim_whitespace'] }
 let g:ale_linters = {
-      \   'cpp': ['cpplint', 'cc', 'clang-format'],
-      \   'c': ['cc', 'clang-format'],
+      \   'cpp': ['cpplint', 'cc', 'clangtidy', 'clang-format'],
+      \   'c': ['cc', 'clangtidy', 'clang-format'],
       \   'sh': ['shfmt', 'shellcheck'],
       \   'python': ['flake8', 'pylint'],
       \   'tex': ['chktex'],
@@ -125,6 +129,9 @@ let g:ale_cpp_cpplint_options =
       \'--linelength=120 --filter=-legal/copyright,-readability/todo,
       \-runtime/references,-build/include_order,-build/include'
 let g:ale_cpp_cc_options = '-std=c++17 -Wall -Wextra -pedantic'
+" python
+let g:ale_python_flake8_options = '--max-line-length=120'
+" completion
 set omnifunc=ale#completion#OmniFunc
 nm <leader>l <Plug>(ale_lint)
 nm <leader>a <Plug>(ale_toggle)
@@ -175,12 +182,10 @@ Plug 'tomlion/vim-solidity'         " solidity
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 
-" file picker
-Plug 'vifm/vifm.vim'
-
 " theme
-Plug 'liuchengxu/space-vim-dark'
 Plug 'Rigellute/shades-of-purple.vim'
+Plug 'liuchengxu/space-vim-dark'
+Plug 'NLKNguyen/papercolor-theme'
 
 call plug#end()
 
@@ -193,6 +198,12 @@ set termguicolors
 colo shades_of_purple
 hi Comment cterm=italic
 let g:lightline = { 'colorscheme': 'shades_of_purple' }
+" ---
+" colo space-vim-dark
+" ---
+" set t_Co=256
+" set background=dark
+" colo PaperColor
 " }}}
 
 " {{{ OPTIONS
@@ -242,7 +253,8 @@ set splitright
 set conceallevel=0
 set concealcursor=nvic
 " tags
-set tags=./tags,tags,~/.local/share/tags
+set tags=./tags,tags,.nvim/tags,~/.local/share/tags
+set notagrelative " prevent '.nvim' prefix for tag
 " spell
 set spell spelllang=
 " file search
@@ -257,8 +269,10 @@ set clipboard=unnamedplus
 set scrolloff=5
 set hidden
 set cursorline
+set noautoread
 set cinoptions=N-s,g0
 set matchpairs+=<:>
+set sessionoptions-=blank
 " }}}
 
 " {{{ MAPPINGS
@@ -322,28 +336,47 @@ nn <silent> <expr> <C-l> !exists('b:SplitResize') ? '<C-w><C-l>' : ':vert res +1
 nn gr :call ToggleResizeSplitMode()<CR>
 " }}}
 
-" {{{ GREPPING
+" {{{ GREP
 if executable('rg')
-  " set grepprg=rg\ --vimgrep\ -g\ '!build'\ -g\ '!.git'\ -F\ --hidden\ --no-messages
-  set grepprg=rg\ --vimgrep\ -g\ '!build'\ -g\ '!tests'\ -g\ '!.git'\ -F\ --hidden\ --no-messages
+  set grepprg=rg-vim.sh
+
+  func! QuickGrep(pattern, type)
+    if a:pattern == '""'
+      echo "Empty search string given"
+      return 1
+    endif
+
+    if a:type == 'all'
+      exe "silent grep! " . a:pattern
+    elseif a:type == 'file'
+      exe "silent grep! " . a:pattern . " " . expand('%')
+    elseif a:type == 'dir'
+      exe "silent grep! " . a:pattern . " " . expand('%:p:h')
+    endif
+
+    copen
+    if line('$') == 1 && getline(1) == ''
+      echo "No search results"
+      cclose
+    else
+      let l:nr=winnr()
+      exe l:nr . "wincmd J"
+    endif
+  endfunc
+
+  command! -nargs=1 QuickGrep call QuickGrep(<f-args>, "all")
+  nn <leader>gg :QuickGrep<space>""<left>
+  vn <leader>gg y:QuickGrep "<C-r>+"<CR>
+  nn <leader>g/ :QuickGrep<space>"<C-r>0"<CR>
+
+  command! -nargs=1 QuickGrepFile call QuickGrep(<f-args>, "file")
+  nn <leader>gf :QuickGrepFile<space>""<left>
+  vn <leader>gf y:QuickGrepFile "<C-r>+"<CR>
+
+  command! -nargs=1 QuickGrepDir call QuickGrep(<f-args>, "dir")
+  nn <leader>gd :QuickGrepDir<space>""<left>
+  vn <leader>gd y:QuickGrepDir "<C-r>+"<CR>
 endif
-
-func! QuickGrep(pattern)
-  " TODO: add check for empty string
-  exe "silent grep! " . a:pattern
-  copen
-  if line('$') == 1 && getline(1) == ''
-    echo "No search results"
-    cclose
-  else
-    let l:nr=winnr()
-    exe l:nr . "wincmd J"
-  endif
-endfunc
-
-command! -nargs=1 QuickGrep call QuickGrep(<f-args>)
-nn <leader>g :QuickGrep<space>""<left>
-vn <leader>g y:QuickGrep "<C-r>+"<CR>
 " }}}
 
 " {{{ FILETREE
@@ -359,10 +392,13 @@ nn <silent> <leader>_ <Plug>NetrwRefresh
 " {{{ TABS
 nn <silent> th :tabprev<CR>
 nn <silent> tl :tabnext<CR>
-nn <silent> tn :tabnew<CR>
+nn <silent> tn :tabnew %<CR>
 nn <silent> tc :tabclose<CR>
 nn <silent> tH :tabmove -1<CR>
 nn <silent> tL :tabmove +1<CR>
+
+nn <silent> <Tab> :tabnext<CR>
+nn <silent> <S-Tab> :tabprev<CR>
 " }}}
 
 " {{{ SPELL
@@ -372,21 +408,17 @@ nn <silent> <leader>Sd :setlocal nospell spelllang=<CR>
 " }}}
 
 " {{{ SESSIONS
-nn <silent> <leader>ms :mksession! <bar> echo "Session saved"<CR>
-nn <silent> <leader>ml :source Session.vim<CR>
-nn <silent> <leader>md :!rm Session.vim<CR>
-
-nn <silent> <leader>mm :!mkdir .vim<CR>
-nn <silent> <leader>ms :mksession! .vim/session.vim <bar> echo "Session saved"<CR>
-nn <silent> <leader>ml :source .vim/session.vim<CR>
-nn <silent> <leader>md :!rm .vim/session.vim<CR>
+nn <silent> <leader>mm :!mkdir .nvim<CR>
+nn <silent> <leader>ms :mksession! .nvim/session.vim <bar> echo "Session saved"<CR>
+nn <silent> <leader>ml :source .nvim/session.vim<CR>
+nn <silent> <leader>md :!rm .nvim/session.vim<CR>
 " }}}
 
 " {{{ STYLES
 " python pep textwidth
 au FileType python setlocal textwidth=119 | setlocal colorcolumn=120
 " c++ style
-au FileType c,cpp setlocal tabstop=4 | setlocal shiftwidth=4 |
+au FileType c,cpp setlocal tabstop=4 | setlocal shiftwidth=4 | setlocal softtabstop=4 |
       \ setlocal textwidth=119 | setlocal colorcolumn=120
 " cmake, js, yaml, proto
 au FileType cmake,javascript,typescript,yaml,proto
@@ -419,6 +451,7 @@ nn <leader>X :!chmod -x %<CR>
 " commentstring's
 au FileType xdefaults setlocal commentstring=!\ %s
 au FileType desktop,sxhkdrc,bib setlocal commentstring=#\ %s
+au FileType c,cpp setlocal commentstring=//\ %s
 
 " showing results
 au FileType tex,markdown nn <leader>o :!openout %<CR><CR>
@@ -433,7 +466,7 @@ au VimLeave *.tex !texclear %:p:h
 nn <silent> <leader>w :%s/\s\+$//e <bar> nohl<CR>
 
 " update ctags
-com! Ctags execute "!updtags.sh"
+com! Ctags execute "!mkdir -p .nvim ; updtags.sh . .nvim/tags"
 nn <silent> <leader>t :Ctags<CR>
 
 " search visually selected text with '//'
@@ -446,11 +479,19 @@ vn <leader>s y:%s/<C-R>+//g<Left><Left>
 au FileType c,cpp setlocal keywordprg=cppman
 
 " git blame
-nn gb :execute "! git blame -L " . eval(line(".")-5) . ",+10 %"<cr>
+nn gb :execute "! git blame -L " . max([eval(line(".")-5), 1]) . ",+10 %"<cr>
 
+" remove swaps
+nn <leader>r !rm ~/.local/share/nvim/swap/*.swp<cr>
+
+" prevent 'file changed' warnings
+autocmd FileChangedShell * :
+
+" close all buffers except opened one
+command! BufOnly silent! execute "%bd|e#|bd#"
 " }}}
 
-" {{{ REFERENCE
+" {{{ NOTES
 " set fileformat=unix fileencoding=utf-8
 " set ff=unix fenc=utf-8
 " }}}

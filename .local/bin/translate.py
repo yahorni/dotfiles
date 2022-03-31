@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 import argparse
 import json
 import os
@@ -176,7 +177,12 @@ def main():
         MESSAGE = "printf '{}\n{}\n'"
 
     if len(parser.result) < 1:
-        os.system(MESSAGE.format(unknown_word, "No result"))
+        if args.get('json'):
+            error = {"error": "no result"}
+            error_json = json.dumps(error, ensure_ascii=False, indent=2)
+            print(error_json)
+        else:
+            os.system(MESSAGE.format(unknown_word, "No result"))
         exit(1)
     else:
         ext = '\n'.join([k + ":\n" + '\n'.join(v) for k, v in

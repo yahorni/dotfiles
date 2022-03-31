@@ -1,0 +1,7 @@
+/usr/bin/dwm-run
+/usr/share/xsessions/dwm.desktop
+/usr/share/xsessions/custom.desktop
+
+# NOTE
+/etc/X11/xinit/Xsession
+/etc/X11/Xsession

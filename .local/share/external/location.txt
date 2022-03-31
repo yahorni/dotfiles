@@ -6,7 +6,6 @@ firefox/*               -> ~/.mozilla/firefox/<profile>/chrome/*
 fstab                   -> /etc/fstab
 locale.conf             -> /etc/locale.conf
 logind.conf             -> /etc/systemd/logind.conf
-mirrorlist              -> /etc/pacman.d/mirrorlist
 modprobe.d/*            -> /etc/modprobe.d/*
 pacman.conf             -> /etc/pacman.conf
 pulse_alsa/*            -> /etc/pulse/*

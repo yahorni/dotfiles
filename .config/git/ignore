@@ -1,5 +1,4 @@
-Session.vim
-tags
 TODO
 .clangd
 .cache
+.nvim

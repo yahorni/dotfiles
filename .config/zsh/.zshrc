@@ -20,7 +20,18 @@ bindkey -M vicmd '^J' history-beginning-search-forward # forward search in vi co
 bindkey -M viins '^J' history-beginning-search-forward # forward search in vi insert mode
 
 # fzf history search
-[ -f "/usr/share/fzf/key-bindings.zsh" ] && source "/usr/share/fzf/key-bindings.zsh"
+fzf_binds=(
+    "/usr/share/fzf/key-bindings.zsh"
+    "/usr/share/fzf/shell/key-bindings.zsh"
+    "/usr/share/doc/fzf/examples/key-bindings.zsh"
+)
+if [ -f "${fzf_binds[0]}" ]; then
+    source "${fzf_binds[0]}"
+elif [ -f "${fzf_binds[1]}" ]; then
+    source "${fzf_binds[1]}"
+elif [ -f "${fzf_binds[2]}" ]; then
+    source "${fzf_binds[3]}"
+fi
 bindkey -M viins '^R' fzf-history-widget
 bindkey -M vicmd '^R' fzf-history-widget
 
@@ -87,30 +98,25 @@ precmd_functions+=(_set_beam_cursor) #
 zle-line-init() { zle -K viins; _set_beam_cursor }
 
 # aliases
-[ -f $HOME/.config/aliases ] && source "$HOME/.config/aliases" 1>/dev/null
-
-# utils
-function scr {
-    bindir="$HOME/.local/bin"
-    file="$(ls $bindir | fzf)"
-    [ ! -z "$file" ] && $EDITOR "$bindir/$file"
-}
-
-function snc {
-    watch -d grep -e Dirty: -e Writeback: /proc/meminfo
-}
+[ -f "$XDG_CONFIG_HOME/aliases.sh" ] && source "$XDG_CONFIG_HOME/aliases.sh"
+# extra settings (for temporary purposes)
+[ -f "$XDG_CONFIG_HOME/extra.sh" ] && source "$XDG_CONFIG_HOME/extra.sh"
 
 # autosuggestions
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 ZSH_AUTOSUGGEST_USE_ASYNC=1
 bindkey '^ ' autosuggest-accept
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-# extra settings (for temporary purposes)
-[ -f "$XDG_CONFIG_HOME/extra.zsh" ] && source "$XDG_CONFIG_HOME/extra.zsh"
-
-# z lua
-[[ -r "/usr/share/z/z.sh" ]] && source /usr/share/z/z.sh
+autosuggests=(
+    "/usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+    "/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
+)
+if [ -f "${autosuggests[0]}" ]; then
+    source "${autosuggests[0]}"
+elif [ -f "${autosuggests[1]}" ]; then
+    source "${autosuggests[1]}"
+fi
 
 # syntax highlight
-source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+syntax_highlighting_script="/usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
+[ -f "$syntax_highlighting_script" ] && source "$syntax_highlighting_script" 1>/dev/null
