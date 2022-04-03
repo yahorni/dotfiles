@@ -13,18 +13,29 @@ get_root() {
     root_file=$(sed -n 's/^% !TeX root = \(.\+\)$/\1/p' "$file")
     file=$(readlink -f "$root_file")
     dir=$(dirname "$file")
-    cd "$dir"
+    cd "$dir" || return
     file=$(realpath --relative-to="$PWD" "$file")
     base="${file%.*}"
 }
 
-c_libs=(-lpthread -lncurses -lX11)
+run_c_cpp_build() {
+    local gcc_options=(-g -O0 -Wall -Wextra -pedantic)
+    local c_libs=(-lpthread -lncurses -lX11)
 
-if [ -z "$mode" -o "$mode" = "-" ]; then
+    if [ -f "CMakeLists.txt" ]; then
+        cmake -S . -B build && cmake --build build -- -j3
+    elif [ "$1" = "c" ]; then
+        gcc "${gcc_options[@]}" -o "$base" "$file" "${c_libs[@]}"
+    elif [ "$1" = "cpp" ]; then
+        g++ "${gcc_options[@]}" --std=c++17 -o "$base" "$file" "${c_libs[@]}"
+    fi
+}
+
+if [ -z "$mode" ] || [ "$mode" = "-" ]; then
     case "$file" in
         *config\.h)         sudo make install clean ;;
-        *\.c|*\.h)          gcc -g -O0 -Wall -Wextra -pedantic -o "$base" "$file" ${c_libs[@]} ;;
-        *\.cpp|*\.hpp)      g++ -g -O0 -Wall -Wextra -pedantic --std=c++17 -o "$base" "$file" ${c_libs[@]} ;;
+        *\.c|*\.h)          run_c_cpp_build c ;;
+        *\.cpp|*\.hpp)      run_c_cpp_build cpp ;;
         *\.py)              python3 "$file" ;;
         *\.tex)             get_root ; pdflatex -draftmode "$file" ; bibtex "$base" ; pdflatex "$file" ; pdflatex "$file" ;;
         *\.md)              pandoc "$file" --pdf-engine=xelatex -o "$base".pdf ;;
@@ -41,8 +52,7 @@ else
         *\.md)              pandoc "$file" -t beamer --pdf-engine=xelatex -o "$base".pdf ;;
         *\.tex)             get_root ; xelatex "$file" ;;
         *\.go)              go build . ;;
-        *\.c|*\.cpp|*\.h|*\.hpp)
-            cd ../build && cmake .. && make ;;
+        *)                  "$base" ;;
     esac
 fi
 

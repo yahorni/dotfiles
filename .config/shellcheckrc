@@ -1,0 +1,10 @@
+external-sources=true
+
+# $'...'
+disable=SC3003
+# can't follow non-constant source
+disable=SC1090
+# file doesn't exist
+disable=SC1091
+# 'source' instead of '.'
+disable=SC3046

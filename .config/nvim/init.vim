@@ -6,11 +6,12 @@ let mapleader=" "
 let maplocalleader=","
 
 " {{{ PLUGINS
-
-call plug#begin('~/.vim/plugged')
+call plug#begin()
 
 " treeview
-Plug 'antoinemadec/FixCursorHold.nvim'
+if has('nvim')
+  Plug 'antoinemadec/FixCursorHold.nvim'
+endif
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-hijack.vim'
 nn <silent> <C-n> :Fern . -reveal=%<CR>
@@ -63,32 +64,32 @@ let g:lightline = {
   \   'inactive': {'left': [['relativepath', 'modified']]}
   \}
 
-" autocomplete
-Plug 'Shougo/neoinclude.vim'
-Plug 'jsfaint/coc-neoinclude'
-Plug 'neoclide/coc.nvim'
-" extensions
-let g:coc_global_extensions = ['coc-cmake', 'coc-json']
-" tab completion
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
-ino <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-ino <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-ino <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-ino <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-" remap keys for gotos
-nm <silent> gd <Plug>(coc-definition)
-nm <silent> gy <Plug>(coc-type-definition)
-nm <silent> gi <Plug>(coc-implementation)
-" refresh
-ino <silent><expr> <C-space> coc#refresh()
-" symbol renaming
-nm <leader>rn <Plug>(coc-rename)
+" " autocomplete
+" Plug 'Shougo/neoinclude.vim'
+" Plug 'jsfaint/coc-neoinclude'
+" Plug 'neoclide/coc.nvim'
+" " extensions
+" let g:coc_global_extensions = ['coc-cmake', 'coc-json']
+" " tab completion
+" function! s:check_back_space() abort
+"   let col = col('.') - 1
+"   return !col || getline('.')[col - 1]  =~ '\s'
+" endfunction
+" ino <silent><expr> <TAB>
+"       \ pumvisible() ? "\<C-n>" :
+"       \ <SID>check_back_space() ? "\<TAB>" :
+"       \ coc#refresh()
+" ino <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" ino <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" ino <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" " remap keys for gotos
+" nm <silent> gd <Plug>(coc-definition)
+" nm <silent> gy <Plug>(coc-type-definition)
+" nm <silent> gi <Plug>(coc-implementation)
+" " refresh
+" ino <silent><expr> <C-space> coc#refresh()
+" " symbol renaming
+" nm <leader>R <Plug>(coc-rename)
 
 " snippets
 Plug 'Shougo/neosnippet.vim'
@@ -101,6 +102,11 @@ smap <C-k> <Plug>(neosnippet_expand_or_jump)
 xm <C-k> <Plug>(neosnippet_expand_target)
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
       \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+" autocomplete
+Plug 'ycm-core/YouCompleteMe'
+let g:ycm_global_ycm_extra_conf = getcwd() . "/.nvim/ycm.py"
+let g:ycm_confirm_extra_conf = 0
 
 " linting
 Plug 'w0rp/ale'
@@ -133,14 +139,14 @@ let g:ale_cpp_cc_options = '-std=c++17 -Wall -Wextra -pedantic'
 let g:ale_python_flake8_options = '--max-line-length=120'
 " completion
 set omnifunc=ale#completion#OmniFunc
-nm <leader>l <Plug>(ale_lint)
-nm <leader>a <Plug>(ale_toggle)
-nm <leader>f <Plug>(ale_fix)
-nm <leader>d <Plug>(ale_detail)
-nm <leader>] <Plug>(ale_next)
-nm <leader>[ <Plug>(ale_previous)
-nm <leader>} <Plug>(ale_next_error)
-nm <leader>{ <Plug>(ale_previous_error)
+nm <localleader>l <Plug>(ale_lint)
+nm <localleader>t <Plug>(ale_toggle)
+nm <localleader>f <Plug>(ale_fix)
+nm <localleader>d <Plug>(ale_detail)
+nm <localleader>] <Plug>(ale_next)
+nm <localleader>[ <Plug>(ale_previous)
+nm <localleader>} <Plug>(ale_next_error)
+nm <localleader>{ <Plug>(ale_previous_error)
 
 " python
 Plug 'vim-scripts/indentpython.vim'
@@ -160,10 +166,13 @@ nn <silent> <leader>b :FZF<CR>
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'rhysd/vim-clang-format'
 Plug 'derekwyatt/vim-fswitch'
-au FileType c,cpp nn <silent> <leader>s :FSHere<CR>
+au FileType c,cpp nn <silent> <leader>o :FSHere<CR>
 
 " indentation
 Plug 'Yggdroot/indentLine' " can break conceallevel
+if !has('nvim')
+  let g:indentLine_char = '|'
+endif
 au FileType tex,markdown,json let g:indentLine_setColors = 0
 au FileType tex,markdown,json let g:indentLine_enabled = 0
 
@@ -190,11 +199,12 @@ Plug 'NLKNguyen/papercolor-theme'
 call plug#end()
 
 filetype plugin on
-
 " }}}
 
 " {{{ COLORTHEME
-set termguicolors
+if has('nvim')
+  set termguicolors
+endif
 colo shades_of_purple
 let g:lightline = { 'colorscheme': 'shades_of_purple' }
 " ---
@@ -261,9 +271,6 @@ set spell spelllang=
 " file search
 set path+=**
 set wildignore+=*/build/*,*/.git/*,*/node_modules/*
-" local .vimrc support
-set exrc
-set secure
 " misc
 set completeopt-=preview
 set clipboard=unnamedplus
@@ -274,6 +281,7 @@ set cursorline
 set cinoptions=N-s,g0
 set matchpairs+=<:>
 set sessionoptions-=blank
+set noexrc
 " }}}
 
 " {{{ MAPPINGS
@@ -397,9 +405,6 @@ nn <silent> tn :tabnew %<CR>
 nn <silent> tc :tabclose<CR>
 nn <silent> tH :tabmove -1<CR>
 nn <silent> tL :tabmove +1<CR>
-
-nn <silent> <Tab> :tabnext<CR>
-nn <silent> <S-Tab> :tabprev<CR>
 " }}}
 
 " {{{ SPELL
@@ -409,10 +414,9 @@ nn <silent> <leader>Sd :setlocal nospell spelllang=<CR>
 " }}}
 
 " {{{ SESSIONS
-nn <silent> <leader>mm :!mkdir .nvim<CR>
-nn <silent> <leader>ms :mksession! .nvim/session.vim <bar> echo "Session saved"<CR>
-nn <silent> <leader>ml :source .nvim/session.vim<CR>
-nn <silent> <leader>md :!rm .nvim/session.vim<CR>
+nn <silent> <leader>s :mksession! .nvim/session.vim <bar> echo "Session saved"<CR>
+nn <silent> <leader>l :source .nvim/session.vim<CR>
+nn <silent> <leader>r :!rm .nvim/session.vim<CR><CR>:echo "Session removed"<CR>
 " }}}
 
 " {{{ STYLES
@@ -456,7 +460,6 @@ au FileType c,cpp setlocal commentstring=//\ %s
 
 " showing results
 au FileType tex,markdown nn <leader>o :!openout %<CR><CR>
-au FileType c,cpp nn <leader>o :!./%:r<CR>
 
 " tex
 let g:tex_flavor = "latex" " set filetype for tex
@@ -483,23 +486,16 @@ au FileType c,cpp setlocal keywordprg=cppman
 nn gb :execute "! git blame -L " . max([eval(line(".")-5), 1]) . ",+10 %"<cr>
 
 " remove swaps
-nn <leader>r !rm ~/.local/share/nvim/swap/*.swp<cr>
+nn <leader>D !rm ~/.local/share/nvim/swap/*.swp<cr>
 
 " prevent 'file changed' warnings
 autocmd FileChangedShell * :
 
 " close all buffers except opened one
 command! BufOnly silent! execute "%bd|e#|bd#"
-" }}}
 
-" {{{ NOTES
-" # reformat file for linux/utf-8
-" set fileformat=unix fileencoding=utf-8
-" set ff=unix fenc=utf-8
-"
-" # open nvim without config
-" $ nvim --clean                      # since v8
-" $ nvim -u DEFAULTS -U NONE -i NONE  # before v8
+" create '.nvim' directory
+nn <silent> <leader>d :!mkdir .nvim ; touch .nvim/Makefile<CR>
 " }}}
 
 " {{{ TEMP (Ctrl not working)
@@ -519,4 +515,36 @@ nm <A-f> <C-f>
 nm <silent> <leader><leader>n :Fern . -reveal=%<CR>
 im \\k <C-k>
 im \\f <C-x><C-f>
+" }}}
+
+" {{{ LOCAL VIMRC
+" NOTE: should be in the end to override previous options
+if filereadable(".nvim/init.vim")
+  exec "source " . ".nvim/init.vim"
+endif
+" }}}
+
+" {{{ NOTES
+" # reformat file for linux/utf-8
+" set fileformat=unix fileencoding=utf-8
+" set ff=unix fenc=utf-8
+"
+" # open nvim without config
+" $ nvim --clean                      # since v8
+" $ nvim -u DEFAULTS -U NONE -i NONE  # before v8
+"
+" # vim-plug installation
+" 1. vim
+" $ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+"       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+" 2. neovim
+" $ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+"       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+" 3. after updating plugins in neovim - create link for vim
+" $ ln -s ~/.local/share/nvim/plugged ~/.vim/plugged
+"
+" # YCM installation
+" > don't forget to use corresponding gcc version
+" $ cd .vim/plugged/YouCompleteMe/
+" $ python3 install.py --clang-completer
 " }}}

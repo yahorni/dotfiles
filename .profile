@@ -8,7 +8,7 @@ export VISUAL="code"
 export BROWSER="firefox"
 export READER="zathura"
 export WM="dwm"
-export TOPBAR="dwmbar"
+export WMBAR="dwmbar"
 
 # XDG directories
 export XDG_CACHE_HOME="$HOME/.cache"
@@ -46,6 +46,7 @@ export RANDFILE="$XDG_CACHE_HOME/rnd"
 export SYSTEMD_PAGER=less
 export TERMINFO="$XDG_DATA_HOME/terminfo"
 export TERMINFO_DIRS="$XDG_DATA_HOME/terminfo:/usr/share/terminfo"
+export VIMINIT="source $XDG_CONFIG_HOME/nvim/init.vim"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
 # other
@@ -59,7 +60,7 @@ export TS_SLOTS=3
 export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
 
 # path
-export PATH="$PATH:$HOME/.local/bin:$HOME/.local/bin/specific:$GOPATH/bin"
+export PATH="$PATH:$HOME/.local/bin:$HOME/.local/bin/user:$HOME/.local/bin/wm:$GOPATH/bin"
 
 if [ -f "$XDG_CONFIG_HOME/autostart/on_login.sh" ]; then
     source "$XDG_CONFIG_HOME/autostart/on_login.sh"

@@ -16,7 +16,7 @@ warn_v="\-v option needs top/bottom value"
 warn_perc="option needs value between 0..100"
 warn_num="option needs integer value"
 
-function warn {
+warn() {
     notify-send "Warning" "$1"
     exit 1
 }
@@ -24,19 +24,20 @@ function warn {
 num_regex='^[0-9]+$'
 
 while getopts ":hH:v:x:y:" opt 2>/dev/null; do
-    case $opt in
+    case "$opt" in
         h)  echo "$usage" && exit ;;
-        H)  [ "$OPTARG" != "left" -a "$OPTARG" != "right" ] && warn "$warn_H"
+        H)  [ "$OPTARG" != "left" ] && [ "$OPTARG" != "right" ] && warn "$warn_H"
             x_pos=$OPTARG ;;
-        v)  [ "$OPTARG" != "top" -a "$OPTARG" != "bottom" ] && warn "$warn_v"
+        v)  [ "$OPTARG" != "top" ] && [ "$OPTARG" != "bottom" ] && warn "$warn_v"
             y_pos=$OPTARG ;;
         x|y) ! [[ "$OPTARG" =~ $num_regex ]] && warn "\-$opt $warn_num"
-            [ "$OPTARG" -lt 0 -o "$OPTARG" -gt 100 ] && warn "\-$opt $warn_perc"
+            [ "$OPTARG" -lt 0 ] || [ "$OPTARG" -gt 100 ] && warn "\-$opt $warn_perc"
             if [ "$opt" = "x" ]; then
                 x_perc=$OPTARG
             else
                 y_perc=$OPTARG
             fi ;;
+        *)  echo "invalid arg: '$opt'" && exit 1
     esac
 done
 
@@ -46,21 +47,21 @@ x_percent="${x_perc:-default_x}"
 y_percent="${y_perc:-default_y}"
 
 pid=$(xdotool getwindowfocus)
-name="$(xdotool getwindowname $pid)"
+# name="$(xdotool getwindowname "$pid")"
 
 geometry=($(xrandr -q | grep "$monitor" | \
     sed -n 's/.* \([0-9]\+\)x\([0-9]\+\)+\([0-9]\+\)+\([0-9]\+\) .*/\1 \2 \3 \4/p'))
 
-new_width=$((${geometry[0]} * $x_percent / 100))
-new_height=$((${geometry[1]} * $y_percent / 100))
-xdotool windowsize $pid $new_width $new_height
+new_width=$((geometry[0] * x_percent / 100))
+new_height=$((geometry[1] * y_percent / 100))
+xdotool windowsize "$pid" $new_width $new_height
 
 new_x=0
 new_y=0
-[ "$x_position" = "right" ] && new_x=$((${geometry[0]} - $new_width))
-[ "$y_position" = "bottom" ] && new_y=$((${geometry[1]} - $new_height))
+[ "$x_position" = "right" ] && new_x=$((geometry[0] - new_width))
+[ "$y_position" = "bottom" ] && new_y=$((geometry[1] - new_height))
 
-new_x=$(($new_x + ${geometry[2]} - 5))
-new_y=$(($new_y + ${geometry[3]} - 5))
+new_x=$((new_x + geometry[2] - 5))
+new_y=$((new_y + geometry[3] - 5))
 
-xdotool windowmove $pid $new_x $new_y
+xdotool windowmove "$pid" $new_x $new_y

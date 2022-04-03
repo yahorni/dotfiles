@@ -104,7 +104,7 @@ alias \
 
 # utils
 cdj() {
-  cd "$HOME/prog"
+  cd "$HOME/prog" || return 1
   [ -n "$1" ] && cd "$1"
 }
 
@@ -116,11 +116,6 @@ scr() {
 
 snc() {
     watch -d grep -e Dirty: -e Writeback: /proc/meminfo
-}
-
-sf() {
-    [ "$#" -lt 1 ] && echo "no argument" && return 1
-    du -a . | cut -f2 | grep "$1"
 }
 
 # completion
