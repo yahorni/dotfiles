@@ -5,16 +5,14 @@
 # disable Ctrl-R freeze
 stty -ixon
 
-# colors for prompt
-bold='\e[1m'
-green='\e[32m'
-yellow='\e[33m'
-red='\e[31m'
-blue='\e[34m'
-magenta='\e[35m'
-default='\e[39;0m'
-
 # prompt
+blue='\e[34m'
+bold='\e[1m'
+default='\e[39;0m'
+green='\e[32m'
+magenta='\e[35m'
+red='\e[31m'
+yellow='\e[33m'
 PS1="\[$bold$red\][\[$yellow\]\u\[$green\]@\[$blue\]\h \[$magenta\]\W\[$red\]]\[$default\]\$ "
 
 # simple prompt

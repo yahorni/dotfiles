@@ -27,8 +27,8 @@ function! FernInit() abort
   nm <buffer><nowait> r <Plug>(fern-action-reload:cursor)
   nm <buffer><nowait> R <Plug>(fern-action-reload:all)
   nm <buffer><nowait> u <Plug>(fern-action-leave)
-  nm <buffer><nowait> c <Plug>(fern-action-cancel)
   nm <buffer><nowait> d <Plug>(fern-action-enter)
+  nm <buffer><nowait> c <Plug>(fern-action-cancel)
   nm <buffer> za <Plug>(fern-action-hidden:toggle)
   nm <buffer> yy <Plug>(fern-action-yank:label)
   nm <buffer> yb <Plug>(fern-action-yank)
@@ -196,7 +196,6 @@ filetype plugin on
 " {{{ COLORTHEME
 set termguicolors
 colo shades_of_purple
-hi Comment cterm=italic
 let g:lightline = { 'colorscheme': 'shades_of_purple' }
 " ---
 " colo space-vim-dark
@@ -204,6 +203,8 @@ let g:lightline = { 'colorscheme': 'shades_of_purple' }
 " set t_Co=256
 " set background=dark
 " colo PaperColor
+" ---
+hi Comment cterm=italic
 " }}}
 
 " {{{ OPTIONS
@@ -268,8 +269,8 @@ set completeopt-=preview
 set clipboard=unnamedplus
 set scrolloff=5
 set hidden
-set cursorline
 set noautoread
+set cursorline
 set cinoptions=N-s,g0
 set matchpairs+=<:>
 set sessionoptions-=blank
@@ -384,9 +385,9 @@ let g:netrw_banner = 0
 let g:netrw_list_hide = '^\./'
 let g:netrw_liststyle = 3
 let g:netrw_dirhistmax = 0
-nn <silent> <localleader><C-n> :Explore<CR>
-nn <silent> <localleader><leader>n :Lexplore<CR>
-nn <silent> <leader>_ <Plug>NetrwRefresh
+nn <silent> <localleader>N :Explore<CR>
+nn <silent> <localleader>n :Lexplore<CR>
+nn <silent> <localleader>_ <Plug>NetrwRefresh
 " }}}
 
 " {{{ TABS
@@ -416,13 +417,13 @@ nn <silent> <leader>md :!rm .nvim/session.vim<CR>
 
 " {{{ STYLES
 " python pep textwidth
-au FileType python setlocal textwidth=119 | setlocal colorcolumn=120
+au FileType python setlocal textwidth=120 | setlocal colorcolumn=120
 " c++ style
 au FileType c,cpp setlocal tabstop=4 | setlocal shiftwidth=4 | setlocal softtabstop=4 |
-      \ setlocal textwidth=119 | setlocal colorcolumn=120
+      \ setlocal textwidth=120 | setlocal colorcolumn=120
 " cmake, js, yaml, proto
 au FileType cmake,javascript,typescript,yaml,proto
-      \ setlocal tabstop=2 | setlocal shiftwidth=2
+      \ setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal softtabstop=2
 " }}}
 
 " {{{ FORMATTERS
@@ -492,8 +493,13 @@ command! BufOnly silent! execute "%bd|e#|bd#"
 " }}}
 
 " {{{ NOTES
+" # reformat file for linux/utf-8
 " set fileformat=unix fileencoding=utf-8
 " set ff=unix fenc=utf-8
+"
+" # open nvim without config
+" $ nvim --clean                      # since v8
+" $ nvim -u DEFAULTS -U NONE -i NONE  # before v8
 " }}}
 
 " {{{ TEMP (Ctrl not working)

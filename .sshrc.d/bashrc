@@ -1,24 +1,55 @@
 #!/bin/bash
 
+setup_editor() {
+    local editors=(nvim vim vi nano)
+    for editor in "${editors[@]}"; do
+        if command -v "$editor" 1>/dev/null; then
+            export EDITOR="$editor"
+            break
+        fi
+    done
+}
+
+setup_editor
+
+# colors
+export GREP_COLOR="1;31"
+export LESS=-R
+export LESS_TERMCAP_mb=$'\E[1;31m'     # begin bold
+export LESS_TERMCAP_md=$'\E[1;36m'     # begin blink
+export LESS_TERMCAP_me=$'\E[0m'        # reset bold/blink
+export LESS_TERMCAP_so=$'\E[01;44;33m' # begin reverse video
+export LESS_TERMCAP_se=$'\E[0m'        # reset reverse video
+export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
+export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
+
+# settings
+export LESSHISTFILE="-"
+export SYSTEMD_PAGER=less
+
+# path
+export PATH="$PATH:$HOME/.local/bin"
+
 # disable Ctrl-R freeze
 stty -ixon
 
 # prompt
 blue='\[\e[34m\]'
-magenta='\[\e[35m\]'
-default='\[\e[39;0m\]'
 bold='\[\e[1m\]'
+default='\[\e[39;0m\]'
+magenta='\[\e[35m\]'
 PS1="${bold}${magenta}[\u@\h ${blue}\W${magenta}]${default}$ "
-
-# path
-export PATH="$PATH:$HOME/.local/bin"
 
 # options
 set -o vi
 shopt -s autocd
 shopt -s cdspell
 shopt -s checkwinsize
+shopt -s direxpand
 bind TAB:menu-complete
+bind "set show-all-if-ambiguous on"
+bind -m vi-command 'Control-l: clear-screen'
+bind -m vi-insert 'Control-l: clear-screen'
 
 # colors
 alias \
@@ -33,20 +64,14 @@ alias \
 
 # progs
 alias \
-    v='${EDITOR:-vim}' \
-    sv='sudo ${EDITOR:-vim}' \
+    v='${EDITOR}' \
+    sv='sudo ${EDITOR}' \
     sc='systemctl' \
     scu='systemctl --user' \
     ssc='sudo systemctl' \
-    mkd='mkdir -pv' \
-    smkd='sudo mkdir -pv' \
-    cp='cp -ri' \
     p3='python3' \
-    xo='xdg-open' \
-    mim='file --mime-type' \
-    vh='${EDITOR} ${HISTFILE:-$HOME/.bash_history}' \
-    vb='${EDITOR} ~/.bashrc' \
-    va='${EDITOR} .gitignore'
+    cp='cp -ri' \
+    mim='file --mime-type'
 
 # git
 alias \
@@ -68,23 +93,50 @@ alias \
     gm='git merge' \
     gsb='git submodule' \
     ghist='git log --follow -p --' \
-    grb='git rebase'
+    grb='git rebase' \
+    gff='git log --full-history --' \
+    gff1='git log --full-history -1 --' \
+    gcl='git clean -dfx'
 
-source /usr/share/bash-completion/bash_completion
+# files
+alias \
+    vh='${EDITOR} ${HISTFILE:-$HOME/.bash_history}' \
+    vb='${EDITOR} ${HOME}/.bashrc' \
+    vg='${EDITOR} .gitignore' \
+    vt='${EDITOR} TODO.md' \
+    v_='${EDITOR} $_'
+if [ "${EDITOR}" = "nvim" ]; then
+    alias vv="${EDITOR} .config/nvim/init.vim"
+elif [ "${EDITOR}" = "vim" ] || [ "${EDITOR}" = "vi" ]; then
+    alias vv="${EDITOR} .vimrc"
+fi
+
+# directories
+alias \
+    .1='cd ..' \
+    .2='cd ../..' \
+    .3='cd ../../..' \
 
 # completions for aliases
+source /usr/share/bash-completion/bash_completion
 completions="/usr/share/bash-completion/completions"
 # systemctl
-. $completions/systemctl
-complete -F _systemctl systemctl sc ssc
+source ${completions}/systemctl
+complete -F _systemctl systemctl sc ssc scu
 # git
-. $completions/git
+source ${completions}/git
 __git_complete gd _git_diff
 __git_complete ga _git_add
 __git_complete gb _git_branch
 __git_complete gc _git_commit
 __git_complete gr _git_remote
+__git_complete gm _git_merge
+__git_complete gst _git_status
 __git_complete gch _git_checkout
 __git_complete gps _git_push
 __git_complete gpl _git_pull
 __git_complete grs _git_reset
+__git_complete grb _git_rebase
+__git_complete gsh _git_stash
+__git_complete gcp _git_cherry_pick
+__git_complete gsb _git_submodule

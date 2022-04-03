@@ -1,17 +1,14 @@
 #!/bin/sh
 
-# path
-export GOPATH="$HOME/prog/go"
-export PATH="$PATH:$HOME/.local/bin:$HOME/.local/bin/specific:$GOPATH/bin"
-
 # programs
 export SHELL="/bin/zsh"
 export TERMINAL="st"
 export EDITOR="nvim"
-export VISUAL="$EDITOR"
+export VISUAL="code"
 export BROWSER="firefox"
 export READER="zathura"
 export WM="dwm"
+export TOPBAR="dwmbar"
 
 # XDG directories
 export XDG_CACHE_HOME="$HOME/.cache"
@@ -38,6 +35,7 @@ export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 
 # settings
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export GOPATH="$HOME/prog/go"
 export INPUTRC="$XDG_CONFIG_HOME/inputrc"
 export LESSHISTFILE="-"
 export MANPATH="$MANPATH:$XDG_DATA_HOME/man:$XDG_CACHE_HOME/cppman/cppreference.com"
@@ -60,12 +58,15 @@ export SXHKD_SHELL="/bin/bash"
 export TS_SLOTS=3
 export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
 
+# path
+export PATH="$PATH:$HOME/.local/bin:$HOME/.local/bin/specific:$GOPATH/bin"
+
 if [ -f "$XDG_CONFIG_HOME/autostart/on_login.sh" ]; then
     source "$XDG_CONFIG_HOME/autostart/on_login.sh"
 fi
 
 if [ "$(tty)" = "/dev/tty1" ] && [ -n "$WM" ]; then
-	pgrep -x "$WM" || exec startx \
+    pgrep -x "$WM" || exec startx \
         1>"$XDG_CACHE_HOME/Xorg.1.log" \
         2>"$XDG_CACHE_HOME/Xorg.2.log"
 fi

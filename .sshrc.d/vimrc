@@ -3,6 +3,7 @@ set nocompatible
 
 " set leader key
 let mapleader=" "
+let maplocalleader=","
 
 " {{{ OPTIONS
 " status line
@@ -51,7 +52,8 @@ set splitright
 set conceallevel=0
 set concealcursor=nvic
 " tags
-set tags=./tags,tags,~/.local/share/tags
+set tags=./tags,tags,.nvim/tags,~/.local/share/tags
+set notagrelative " prevent '.nvim' prefix for tag
 " spell
 set spell spelllang=
 " file search
@@ -62,8 +64,11 @@ set completeopt-=preview
 set clipboard=unnamedplus
 set scrolloff=5
 set hidden
+set noautoread
 set cursorline
 set cinoptions=N-s,g0
+set matchpairs+=<:>
+set sessionoptions-=blank
 " }}}
 
 " {{{ MAPPINGS
@@ -112,38 +117,44 @@ nn <silent> <expr> <C-l> !exists('b:SplitResize') ? '<C-w><C-l>' : ':vert res +1
 nn gr :call ToggleResizeSplitMode()<CR>
 " }}}
 
-" {{{ NETRW
+" {{{ FILETREE
 let g:netrw_banner = 0
 let g:netrw_list_hide = '^\./'
 let g:netrw_liststyle = 3
 let g:netrw_dirhistmax = 0
-nn <silent> <C-n> :Explore<CR>
-nn <silent> <leader>n :Lexplore<CR>
-nn <silent> <leader>_ <Plug>NetrwRefresh
+nn <silent> <localleader>N :Explore<CR>
+nn <silent> <localleader>n :Lexplore<CR>
+nn <silent> <localleader>_ <Plug>NetrwRefresh
 " }}}
 
 " {{{ TABS
 nn <silent> th :tabprev<CR>
 nn <silent> tl :tabnext<CR>
-nn <silent> tn :tabnew<CR>
+nn <silent> tn :tabnew %<CR>
 nn <silent> tc :tabclose<CR>
 nn <silent> tH :tabmove -1<CR>
 nn <silent> tL :tabmove +1<CR>
+
+nn <silent> <Tab> :tabnext<CR>
+nn <silent> <S-Tab> :tabprev<CR>
 " }}}
 
 " {{{ STYLES
 
 " python pep textwidth
-au FileType python setlocal textwidth=79 | setlocal colorcolumn=80
+au FileType python setlocal textwidth=120 | setlocal colorcolumn=120
 " c++ style
-au FileType c,cpp,h,hpp setlocal tabstop=4 | setlocal shiftwidth=4 |
-      \ setlocal textwidth=120 | setlocal colorcolumn=121
+au FileType c,cpp setlocal tabstop=4 | setlocal shiftwidth=4 | setlocal softtabstop=4 |
+      \ setlocal textwidth=120 | setlocal colorcolumn=120
 " cmake, js, yaml, proto
 au FileType cmake,javascript,typescript,yaml,proto
-      \ setlocal tabstop=2 | setlocal shiftwidth=2
+      \ setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal softtabstop=2
 " }}}
 
 " {{{ MISC
+" commentstring's
+au FileType c,cpp setlocal commentstring=//\ %s
+
 " autoremove trailing whitespaces
 nn <silent> <leader>w :%s/\s\+$//e <bar> nohl<CR>
 
@@ -152,4 +163,16 @@ vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 " replace visually selected text
 vnoremap <leader>s y:%s/<C-R>+//g<Left><Left>
+
+" git blame
+nn gb :execute "! git blame -L " . max([eval(line(".")-5), 1]) . ",+10 %"<cr>
+
+" remove swaps
+nn <leader>r !rm ~/.local/share/nvim/swap/*.swp<cr>
+
+" prevent 'file changed' warnings
+autocmd FileChangedShell * :
+
+" close all buffers except opened one
+command! BufOnly silent! execute "%bd|e#|bd#"
 " }}}

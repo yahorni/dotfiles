@@ -11,30 +11,31 @@ alias \
     ll='ls -lsh' \
     l='ls -lAsh'
 
-# progs
+# system progs
 alias \
     v='${EDITOR}' \
     sv='sudo ${EDITOR}' \
-    sp='sudo pacman' \
     sc='systemctl' \
     scu='systemctl --user' \
     ssc='sudo systemctl' \
-    fm='vifmrun' \
-    mkd='mkdir -pv' \
-    smkd='sudo mkdir -pv' \
-    rst='reset && source ~/.bashrc && stty sane && tput cvvis' \
-    cp='cp -ri' \
     p3='python3' \
-    ff='ffplay -autoexit -nodisp' \
-    xo='xdg-open' \
+    cp='cp -ri' \
     mim='file --mime-type' \
+
+# other progs
+alias \
+    dg='/usr/bin/git --git-dir="${HOME}/prog/df" --work-tree="${HOME}"' \
+    sp='sudo pacman' \
+    fm='vifmrun' \
+    ff='ffplay -autoexit -nodisp' \
+    rst='reset && source ~/.bashrc && stty sane && tput cvvis' \
+    xo='xdg-open' \
     shr='sshrc' \
     ide="make -f .nvim/Makefile" \
     ide_s="sudo make -f .nvim/Makefile"
 
 # git
 alias \
-    dg='/usr/bin/git --git-dir="${HOME}/prog/df" --work-tree="${HOME}"' \
     gst='git status' \
     gd='git diff' \
     gds='git diff --staged' \
@@ -72,8 +73,9 @@ alias \
     vh='${EDITOR} ${HISTFILE}' \
     vr='${EDITOR} ${XDG_CONFIG_HOME}/Xresources' \
     vg='${EDITOR} .gitignore' \
-    vt='${EDITOR} TODO' \
-    vw='${EDITOR} ~/prog/env/dwm/config.h'
+    vt='${EDITOR} TODO.md' \
+    vw='${EDITOR} ~/prog/env/dwm/config.h' \
+    v_='${EDITOR} $_'
 
 # directories
 alias \
@@ -117,6 +119,7 @@ snc() {
 }
 
 sf() {
+    [ "$#" -lt 1 ] && echo "no argument" && return 1
     du -a . | cut -f2 | grep "$1"
 }
 
@@ -127,7 +130,7 @@ if [ -n "${BASH}" ]; then
     completions="/usr/share/bash-completion/completions"
     # systemctl
     source ${completions}/systemctl
-    complete -F _systemctl systemctl sc ssc
+    complete -F _systemctl systemctl sc ssc scu
     # git
     source ${completions}/git
     __git_complete gd _git_diff
