@@ -10,7 +10,7 @@ Options:
 while getopts "hc" opt; do
 	case "${opt}" in
 		c) extracthere="true" ;;
-		*) printf && exit ;;
+		*) echo "$usage" && exit ;;
 	esac 
 done
 

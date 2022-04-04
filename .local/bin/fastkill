@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 options="vk
 chromium
@@ -19,7 +19,7 @@ xcompmgr"
 
 is_first=1
 items=""
-for item in $(echo -e $options); do
+for item in $(echo -e "$options"); do
     pgrep -x "$item" >/dev/null && \
         if [ $is_first -eq 0 ]; then
             items="$items\n$item"
@@ -29,7 +29,7 @@ for item in $(echo -e $options); do
         fi
 done
 
-item=$(echo -e $items | dmenu -i -p "Which one to kill?")
+item=$(echo -e "$items" | dmenu -i -p "Which one to kill?")
 [[ "$?" -eq "1" ]] && exit 1
 [[ -z $item ]] && exit 1
 pkill --signal 9 "$item"

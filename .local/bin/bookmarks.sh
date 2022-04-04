@@ -68,7 +68,7 @@ contains_element () {
 }
 
 select_folder() {
-    pushd "$bookmarks_dir" > /dev/null
+    pushd "$bookmarks_dir" 1>/dev/null || exit 1
 
     [ ${#folders_arr} -eq 0 ] && show_message "$INFO_MSG" "No folders" && exit 0
 
@@ -78,11 +78,11 @@ select_folder() {
     contains_element "$folder" "${folders_arr[@]}"
 	[ "$?" -ne 0 ] && show_message "$ERROR_MSG" "No such folder" && exit 1
 	return_value="$folder"
-    popd > /dev/null
+    popd 1>/dev/null || exit 1
 }
 
 select_mark() {
-    pushd "$bookmarks_dir" > /dev/null
+    pushd "$bookmarks_dir" 1>/dev/null || exit 1
     local mark folder
 
 	mark=$(echo -e "${marks_str[@]}" | dmenu -i -l 10 -p "Choose mark:")
@@ -97,7 +97,7 @@ select_mark() {
     return_value="$(sed -n "/^$mark\t/p" "$bookmarks_dir/$folder")"
     return_value_2="$folder"
 
-    popd > /dev/null
+    popd 1>/dev/null || exit 1
 }
 
 is_prefixed_uri() {
@@ -119,7 +119,7 @@ new_mark() {
 
     if [ -z "$title" ]; then
         answer=$(echo "Yes\nNo" | dmenu -p "Use address as name?")
-        [ "$answer" = "No" -o -z "$answer" ] && exit 1
+        [ "$answer" = "No" ] || [ -z "$answer" ] && exit 1
     fi
 
     echo -e "$title\t$uri" >> "$bookmarks_dir/$folder"
@@ -133,19 +133,19 @@ delete_mark() {
 }
 
 new_folder() {
-    pushd "$bookmarks_dir" > /dev/null
+    pushd "$bookmarks_dir" 1>/dev/null || exit 1
 	local folder="$(dmenu -p "Enter folder name:" <&-)"
     exit_if_empty "$folder"
     touch "$folder"
-    popd > /dev/null
+    popd 1>/dev/null || exit 1
 }
 
 delete_folder() {
-    pushd "$bookmarks_dir" > /dev/null
+    pushd "$bookmarks_dir" 1>/dev/null || exit 1
 	select_folder
     local folder="$return_value"
     rm "$folder"
-    popd > /dev/null
+    popd 1>/dev/null || exit 1
 }
 
 open_url() {
@@ -153,7 +153,7 @@ open_url() {
 	local mark="$return_value"
 
     local uri="$(echo "$mark" | cut -d $'\t' -f2)"
-    is_prefixed_uri $uri
+    is_prefixed_uri "$uri"
 	[ "$?" -ne "0" ] && uri="https://$uri"
 	setsid xdg-open "$uri" &>/dev/null &
 }
@@ -196,7 +196,7 @@ move_mark() {
 }
 
 edit_folder() {
-    pushd "$bookmarks_dir" > /dev/null
+    pushd "$bookmarks_dir" 1>/dev/null || exit 1
 	select_folder
     local folder="$return_value"
 
@@ -207,7 +207,7 @@ edit_folder() {
         exit 1
 
     mv "$folder" "$new_folder"
-    popd > /dev/null
+    popd 1>/dev/null || exit 1
 }
 
 show_help() {

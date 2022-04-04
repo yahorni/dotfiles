@@ -1,18 +1,12 @@
 #!/usr/bin/env bash
 
-mode="phys"
-
-if [ "$mode" = "i3" ]; then
-    pgrep -x i3lock >/dev/null && exit
-
-    datapath="${XDG_DATA_HOME:-"$HOME/.local/share"}"
-    lockpath="$datapath/lockimage"
-
-    i3lock -k --bar-indicator -e -f -c 303030 -i "$lockpath"
+if [ "$WM" = "i3" ]; then
+    pgrep -x i3lock 1>/dev/null && exit
+    i3lock -k --bar-indicator -e -f -c 303030 -i "$XDG_DATA_HOME/lockimage"
 else
     physlock -d -m -s
 fi
 
-if [ "$?" -eq 0 -a "$1" = "--dpms" ]; then
+if [ "$?" -eq 0 ] && [ "$1" = "--dpms" ]; then
     sleep 1 && xset dpms force off
 fi

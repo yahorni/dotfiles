@@ -1,14 +1,14 @@
 #!/bin/bash
 
 pix=$(xdg-user-dir PICTURES)
-cd "$pix"
+cd "$pix" || exit 1
 
 folders="$(ls -p | grep ".*/")"
 folder=$(echo -e -n "$folders" | dmenu -i -p "Choose folder:")
 
 case $folder in
     luke) # https://github.com/LukeSmithxyz/wallpapers
-        cd "luke"
+        cd "luke" || exit 1
         luke=$(ls -1d */ | dmenu -i -p "Choose luke folder:")
         sxiv -t "$luke"
         ;;

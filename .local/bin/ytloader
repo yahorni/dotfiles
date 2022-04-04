@@ -36,12 +36,12 @@ while getopts "f:d:p:c:suh" opt; do
     case $opt in
         f) format=$OPTARG ;;
         d) subdir=$OPTARG ;;
-        p) other_args+=("--playlist-start" $OPTARG) ;;
+        p) other_args+=("--playlist-start" "$OPTARG") ;;
         s) other_args+=("--all-subs") ;;
-        c) other_args+=("--cookies" $OPTARG) ;;
+        c) other_args+=("--cookies" "$OPTARG") ;;
         u) filename='%(uploader)s - %(title)s.%(ext)s' ;;
         h) print_help ; exit 0 ;;
-        *) exit 1 ;;
+        *) notify-send "$msg_invalid_flag" && exit 1 ;;
     esac
 done
 
@@ -71,10 +71,10 @@ downloader="yt-dlp"
 
 case $format in
     'a') "$downloader" --add-metadata -icxf "bestaudio/best" --audio-format mp3 -o "$outaudio/$filename" "$link" ;;
-    'd') "$downloader" --add-metadata ${other_args[@]} -ic -o "$outvideo/$filename" "$link" ;;
-    'l') "$downloader" --add-metadata ${other_args[@]} -icf "best[height<=360]" -o "$outvideo/$filename" "$link" ;;
-    'm') "$downloader" --add-metadata ${other_args[@]} -icf "bestvideo[height<=1080]+bestaudio/best" -o "$outvideo/$filename" "$link" ;;
-    'h') "$downloader" --add-metadata ${other_args[@]} -icf "bestvideo+bestaudio/best" -o "$outvideo/$filename" "$link" ;;
+    'd') "$downloader" --add-metadata "${other_args[@]}" -ic -o "$outvideo/$filename" "$link" ;;
+    'l') "$downloader" --add-metadata "${other_args[@]}" -icf "best[height<=360]" -o "$outvideo/$filename" "$link" ;;
+    'm') "$downloader" --add-metadata "${other_args[@]}" -icf "bestvideo[height<=1080]+bestaudio/best" -o "$outvideo/$filename" "$link" ;;
+    'h') "$downloader" --add-metadata "${other_args[@]}" -icf "bestvideo+bestaudio/best" -o "$outvideo/$filename" "$link" ;;
     *) notify-send "$msg_invalid_format" "Format ($format)\n$link" ; exit 1 ;;
 esac ; check_error
 

@@ -9,7 +9,7 @@ filename="$screendir/$filedate"
 if [ "$1" = 'part' ]; then
     maim -s -u "$filename"
 elif [ "$1" = 'window' ]; then
-    maim -B -u -i $(xdotool getactivewindow) "$filename"
+    maim -B -u -i "$(xdotool getactivewindow)" "$filename"
 else
     maim -B -u "$filename"
 fi

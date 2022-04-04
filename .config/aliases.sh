@@ -20,7 +20,7 @@ alias \
     ssc='sudo systemctl' \
     p3='python3' \
     cp='cp -ri' \
-    mim='file --mime-type' \
+    mim='file --mime-type'
 
 # other progs
 alias \
@@ -105,13 +105,13 @@ alias \
 # utils
 cdj() {
   cd "$HOME/prog" || return 1
-  [ -n "$1" ] && cd "$1"
+  [ -n "$1" ] && cd "$1" || return 1
 }
 
 scr() {
     bindir="$HOME/.local/bin"
-    file="$(ls $bindir | fzf)"
-    [ ! -z "$file" ] && $EDITOR "$bindir/$file"
+    file="$(cd "$bindir" || return 1 ; find . -type f | fzf)"
+    [ -n "$file" ] && $EDITOR "$bindir/$file"
 }
 
 snc() {
@@ -157,7 +157,7 @@ if [ -n "${BASH}" ]; then
     fi
     # ide
     source ${completions}/make
-    make-completion-wrapper() {
+    make_completion_wrapper() {
         local function_name="$2"
         local arg_count=$(($#-3))
         local comp_function_name="$1"
@@ -168,15 +168,15 @@ if [ -n "${BASH}" ]; then
         COMP_WORDS=( "$@" \${COMP_WORDS[@]:1} )
         COMP_LINE=\"\${COMP_WORDS[*]}\"
         COMP_POINT=\"\${#COMP_LINE}\"
-        "$comp_function_name"
+        "$comp_function_name" "$1"
         return 0
     }"
         eval "$function"
     }
-    make-completion-wrapper _make _make_f make -f .nvim/Makefile
+    make_completion_wrapper _make _make_f make -f .nvim/Makefile
     complete -F _make_f ide ide_s
     # cdj
-    _cdj() { COMPREPLY=($(cd $HOME/prog ; compgen -d "$2")) ; }
+    _cdj() { COMPREPLY=($(cd "$HOME/prog" || return 1 ; compgen -d "$2")) ; }
     complete -F _cdj cdj
 elif [ -n "${ZSH_NAME}" ]; then
     compdef sshrc=ssh shr=ssh

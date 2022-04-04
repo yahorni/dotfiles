@@ -3,7 +3,7 @@
 case "$1" in
     query)
         query="${2:-$(dmenu -p "Enter query:" <&-)}"
-        [ ! -z "$query" ] && \
+        [ -n "$query" ] && \
             case "$BROWSER" in
                 firefox)      exec "$BROWSER" -search "$query" ;;
                 chrom*|brave) exec "$BROWSER" "? $query" ;;
@@ -12,7 +12,7 @@ case "$1" in
         ;;
     url)
         url="${2:-$(dmenu -p "Enter URL:" <&-)}"
-        [ ! -z "$url" ] && linkhandler "$url"
+        [ -n "$url" ] && linkhandler "$url"
         ;;
     *) echo "invalid type" && exit 1
 esac

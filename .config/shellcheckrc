@@ -7,4 +7,12 @@ disable=SC1090
 # file doesn't exist
 disable=SC1091
 # 'source' instead of '.'
-disable=SC3046
+disable=SC3046,SC3051
+# use `if mycmd` instead of '$?'
+disable=SC2181
+# in posix sh 'local' is undefined
+disable=SC3043
+# in posix sh 'complete' is undefined
+disable=SC3044
+# in posix sh arrays are undefined
+disable=SC3030

@@ -4,7 +4,7 @@
 export SHELL="/bin/zsh"
 export TERMINAL="st"
 export EDITOR="nvim"
-export VISUAL="code"
+export VISUAL="$EDITOR"
 export BROWSER="firefox"
 export READER="zathura"
 export WM="dwm"
@@ -60,7 +60,7 @@ export TS_SLOTS=3
 export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
 
 # path
-export PATH="$PATH:$HOME/.local/bin:$HOME/.local/bin/user:$HOME/.local/bin/wm:$GOPATH/bin"
+export PATH="$PATH:$HOME/.local/bin:$HOME/.local/bin/user:$GOPATH/bin"
 
 if [ -f "$XDG_CONFIG_HOME/autostart/on_login.sh" ]; then
     source "$XDG_CONFIG_HOME/autostart/on_login.sh"

@@ -1,6 +1,4 @@
 #!/bin/bash
 
-[ -d "$1" ] || exit
-
-cd $1
-rm *.aux *.log *.out *.bbl *.blg *.toc *.dvi 2>/dev/null
+cd "$1" || exit
+rm ./*.aux ./*.log ./*.out ./*.bbl ./*.blg ./*.toc ./*.dvi 2>/dev/null

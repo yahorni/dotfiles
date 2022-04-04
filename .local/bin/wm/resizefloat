@@ -18,13 +18,16 @@ case $param in
     w) size=$WIDTH ;;
     h) size=$HEIGHT ;;
 esac
+
 if [ "$side" = "+" ]; then
     size=$(increase "$size")
 elif [ "$side" = "-" ]; then
     size=$(decrease "$size")
 fi
+
 case $param in
     w) WIDTH=$size ;;
     h) HEIGHT=$size ;;
 esac
+
 xdotool windowsize "$pid" "$WIDTH" "$HEIGHT"

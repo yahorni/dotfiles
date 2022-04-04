@@ -1,4 +1,4 @@
-" vim: fdm=marker fdl=0 ts=2 sw=2 sts=2
+" vim: fdm=marker fdl=0
 set nocompatible
 
 " set leader key
@@ -60,8 +60,8 @@ Plug 'vim-scripts/Rename2'
 " status line
 Plug 'itchyny/lightline.vim'
 let g:lightline = {
-  \   'active': {'left': [['mode', 'paste'], ['readonly', 'relativepath', 'modified']]},
-  \   'inactive': {'left': [['relativepath', 'modified']]}
+  \  'active': {'left': [['mode', 'paste'], ['readonly', 'relativepath', 'modified']]},
+  \  'inactive': {'left': [['relativepath', 'modified']]}
   \}
 
 " " autocomplete
@@ -76,9 +76,9 @@ let g:lightline = {
 "   return !col || getline('.')[col - 1]  =~ '\s'
 " endfunction
 " ino <silent><expr> <TAB>
-"       \ pumvisible() ? "\<C-n>" :
-"       \ <SID>check_back_space() ? "\<TAB>" :
-"       \ coc#refresh()
+"   \  pumvisible() ? "\<C-n>" :
+"   \  <SID>check_back_space() ? "\<TAB>" :
+"   \  coc#refresh()
 " ino <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 " ino <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 " ino <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
@@ -101,7 +101,7 @@ im <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
 xm <C-k> <Plug>(neosnippet_expand_target)
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-      \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+  \  "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 " autocomplete
 Plug 'ycm-core/YouCompleteMe'
@@ -112,12 +112,12 @@ let g:ycm_confirm_extra_conf = 0
 Plug 'w0rp/ale'
 let g:ale_fixers = { '*': ['remove_trailing_lines', 'trim_whitespace'] }
 let g:ale_linters = {
-      \   'cpp': ['cpplint', 'cc', 'clangtidy', 'clang-format'],
-      \   'c': ['cc', 'clangtidy', 'clang-format'],
-      \   'sh': ['shfmt', 'shellcheck'],
-      \   'python': ['flake8', 'pylint'],
-      \   'tex': ['chktex'],
-      \}
+  \  'cpp': ['cpplint', 'cc', 'clangtidy', 'clang-format'],
+  \  'c': ['cc', 'clangtidy', 'clang-format'],
+  \  'sh': ['shfmt', 'shellcheck'],
+  \  'python': ['flake8', 'pylint'],
+  \  'tex': ['chktex'],
+  \}
 let g:ale_set_highlights = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
@@ -132,8 +132,8 @@ let g:ale_tex_chktex_options = '-n13 -n26 -n44'
 " NOTE: cpp headers issue
 let g:ale_c_parse_compile_commands = 1
 let g:ale_cpp_cpplint_options =
-      \'--linelength=120 --filter=-legal/copyright,-readability/todo,
-      \-runtime/references,-build/include_order,-build/include'
+  \'--linelength=120 --filter=-legal/copyright,-readability/todo,
+  \-runtime/references,-build/include_order,-build/include'
 let g:ale_cpp_cc_options = '-std=c++17 -Wall -Wextra -pedantic'
 " python
 let g:ale_python_flake8_options = '--max-line-length=120'
@@ -157,8 +157,11 @@ au FileType go let g:go_fmt_fail_silently = 1
 au FileType go let g:go_fmt_autosave = 0
 
 " fzf
-Plug '/usr/bin/fzf'
-Plug 'junegunn/fzf.vim'
+if filereadable('/usr/bin/fzf')
+  Plug '/usr/bin/fzf'
+else
+  Plug 'junegunn/fzf.vim'
+endif
 nn <silent> <C-b> :Buffers<CR>
 nn <silent> <leader>b :FZF<CR>
 
@@ -420,14 +423,13 @@ nn <silent> <leader>r :!rm .nvim/session.vim<CR><CR>:echo "Session removed"<CR>
 " }}}
 
 " {{{ STYLES
-" python pep textwidth
-au FileType python setlocal textwidth=120 | setlocal colorcolumn=120
-" c++ style
-au FileType c,cpp setlocal tabstop=4 | setlocal shiftwidth=4 | setlocal softtabstop=4 |
-      \ setlocal textwidth=120 | setlocal colorcolumn=120
-" cmake, js, yaml, proto
-au FileType cmake,javascript,typescript,yaml,proto
-      \ setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal softtabstop=2
+" textwidth
+au FileType c,cpp,sh,python setlocal textwidth=120 | setlocal colorcolumn=120
+" tab style (4 spaces)
+au FileType c,cpp,sh setlocal tabstop=4 | setlocal shiftwidth=4 | setlocal softtabstop=4
+" tab style (2 spaces)
+au FileType vim,cmake,javascript,typescript,yaml,proto
+  \  setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal softtabstop=2
 " }}}
 
 " {{{ FORMATTERS
@@ -470,7 +472,7 @@ au VimLeave *.tex !texclear %:p:h
 nn <silent> <leader>w :%s/\s\+$//e <bar> nohl<CR>
 
 " update ctags
-com! Ctags execute "!mkdir -p .nvim ; updtags.sh . .nvim/tags"
+com! Ctags execute "!mkdir -p .nvim ; updtags.sh .nvim/tags ."
 nn <silent> <leader>t :Ctags<CR>
 
 " search visually selected text with '//'

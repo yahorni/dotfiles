@@ -3,10 +3,11 @@
 import argparse
 import json
 import os
-import requests
-import subprocess
 import sys
+import subprocess
 from html.parser import HTMLParser
+
+import requests
 
 WRDHUNT = 'https://wooordhunt.ru/word/{}'
 
@@ -40,7 +41,7 @@ class WrdParser(HTMLParser):
                     self.in_block = True
                     self.collocations.append("")
             # parse examples of one type of translation
-            if self.in_h4 == True:
+            if self.in_h4:
                 if self.in_div:
                     self.in_lvl += 1
                 else:
@@ -71,7 +72,6 @@ class WrdParser(HTMLParser):
                         self.collocations.pop()
                     self.in_block = False
 
-
     def handle_endtag(self, tag):
         if tag == 'div':
             if self.in_div:
@@ -89,7 +89,6 @@ class WrdParser(HTMLParser):
                 if len(self.collocations[-1].strip()) == 0:
                     self.collocations.pop()
                 self.in_block = False
-
 
     def handle_data(self, data):
         # get simple translation
@@ -143,6 +142,7 @@ def init_argparse():
     inputgroup.add_argument('-i', '--input', action='store_true', help='reads word for translate from stdin')
     return vars(argparser.parse_args())
 
+
 def get_word(args):
     if args.get('selection'):
         unknown_word = subprocess.check_output("xsel -o", shell=True).decode("utf-8")
@@ -150,31 +150,33 @@ def get_word(args):
             unknown_word = subprocess.check_output("xsel -b -o", shell=True).decode("utf-8")
     elif args.get('dmenu'):
         try:
-            unknown_word = subprocess.check_output('dmenu -i -p "Enter word to translate" <&-', shell=True)[:-1].decode("utf-8")
+            unknown_word = subprocess.check_output(
+                'dmenu -i -p "Enter word to translate" <&-', shell=True)[:-1].decode("utf-8")
         except subprocess.CalledProcessError:
-            exit(0)
+            sys.exit()
     elif args.get('input'):
         unknown_word = input().strip()
     else:
         unknown_word = args.get('word')
     return unknown_word
 
+
 def main():
     args = init_argparse()
     unknown_word = get_word(args)
 
+    if args.get('notify'):
+        notification = "notify-send -u normal -t 5000 '{}' '{}'"
+    else:
+        notification = "printf '{}\n{}\n'"
+
     if not unknown_word or unknown_word == '\n':
-        os.system(MESSAGE.format("Translation", "No input"))
-        exit(1)
+        os.system(notification.format("translate.py", "no input"))
+        sys.exit()
 
     response = requests.get(WRDHUNT.format(unknown_word))
     parser = WrdParser()
     parser.feed(response.content.decode("utf-8"))
-
-    if args.get('notify'):
-        MESSAGE = "notify-send -u normal -t 5000 '{}' '{}'"
-    else:
-        MESSAGE = "printf '{}\n{}\n'"
 
     if len(parser.result) < 1:
         if args.get('json'):
@@ -182,8 +184,8 @@ def main():
             error_json = json.dumps(error, ensure_ascii=False, indent=2)
             print(error_json)
         else:
-            os.system(MESSAGE.format(unknown_word, "No result"))
-        exit(1)
+            os.system(notification.format(unknown_word, "no result"))
+        sys.exit(1)
     else:
         ext = '\n'.join([k + ":\n" + '\n'.join(v) for k, v in
                          parser.extended.items()])
@@ -199,10 +201,10 @@ def main():
             print(json_info)
         else:
             if args.get('extended'):
-                os.system(MESSAGE.format(unknown_word, parser.result[0] + '\n' + ext))
+                os.system(notification.format(unknown_word, parser.result[0] + '\n' + ext))
             else:
-                os.system(MESSAGE.format(unknown_word, parser.result[0]))
-        exit(0)
+                os.system(notification.format(unknown_word, parser.result[0]))
+        sys.exit()
 
 
 if __name__ == "__main__":

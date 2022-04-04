@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 categories="Downloads\nFilms\nMusic\nSerials\nBooks\nCustom..."
 

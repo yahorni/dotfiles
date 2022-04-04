@@ -5,7 +5,8 @@ pgrep -x dunst || exit 1
 clipboard=$(xclip -o -selection clipboard)
 primary=$(xclip -o -selection primary)
 
-[ -z "$clipboard" -a -z "$primary" ] && notify-send "Empty selections" && exit
+[ -z "$clipboard" ] && [ -z "$primary" ] && \
+    notify-send "Empty selections" && exit
 
-[ ! -z "$clipboard" ] && notify-send "Clipboard" "$clipboard"
-[ ! -z "$primary" ] && notify-send "Primary" "$primary"
+[ -n "$clipboard" ] && notify-send "Clipboard" "$clipboard"
+[ -n "$primary" ] && notify-send "Primary" "$primary"

@@ -2,7 +2,7 @@ SHELL=/bin/bash
 IDE_DIR=$(CURDIR)/.nvim
 
 ### INTERNAL ###
-.PHONY: help edit notes
+.PHONY: help edit notes todo root_target prepare
 .DEFAULT_GOAL := help
 
 help:
@@ -15,6 +15,9 @@ edit:
 
 todo:
 	@$(EDITOR) $(IDE_DIR)/TODO.md
+
+vim:
+	@$(EDITOR) $(IDE_DIR)/init.vim
 
 root_target:
 	@if [[ $${EUID} -ne 0 ]]; then\

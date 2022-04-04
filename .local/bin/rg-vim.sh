@@ -23,6 +23,6 @@ for dir in "${ignored_dirs[@]}"; do
 done
 
 rg --vimgrep -F --hidden --no-messages \
-    -g '!.git' -g '!build' '!node_modules' \
+    -g '!.git' -g '!build' -g '!node_modules' \
     "${kw_args[@]}" \
     "${pos_args[@]}"

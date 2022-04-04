@@ -1,0 +1,7 @@
+! remap 'Menu' button
+keycode 135 = Super_R Menu
+
+! use 'Del' button as 'Control'
+clear control
+keycode 91 = Control_L NoSymbol Control_L
+add control = Control_L
