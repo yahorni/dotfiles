@@ -1,8 +1,15 @@
 SHELL=/bin/bash
 IDE_DIR=$(CURDIR)/.nvim
+USER=$(shell whoami)
+
+# targets with args
+# ifneq (,$(filter $(firstword $(MAKECMDGOALS)),<target1> <target2>...))
+#   RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+#   $(eval $(RUN_ARGS):;@:)
+# endif
 
 ### INTERNAL ###
-.PHONY: help edit notes todo root_target prepare
+.PHONY: help edit todo vim root notes
 .DEFAULT_GOAL := help
 
 help:
@@ -19,14 +26,11 @@ todo:
 vim:
 	@$(EDITOR) $(IDE_DIR)/init.vim
 
-root_target:
+root:
 	@if [[ $${EUID} -ne 0 ]]; then\
 		echo "FAIL: Run target as root" ;\
 		exit 1 ;\
 	fi
-
-prepare:
-	ln -s ~/.config/ide/ycm.py .nvim/
 
 notes:
 	# empty project

@@ -28,7 +28,7 @@ declare folders_str marks_str
 declare -a folders_arr marks_arr
 declare return_value return_value_2
 
-init() { 
+init() {
     # create bookmarks dir
     [ ! -d "$bookmarks_dir" ] && mkdir -p "$bookmarks_dir"
 

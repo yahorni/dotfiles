@@ -10,7 +10,7 @@ UUID=F054-5990	/boot/efi	vfat	rw,relatime,fmask=0022,dmask=0022,codepage=437,ioc
 
 # /dev/sda6 LABEL=Arch_Swap
 UUID=4ee39dab-4165-4d1a-b05e-6c90f3502cfe	none	swap	defaults,pri=-2	0 0
- 
+
 # /dev/sda7 LABEL=media
 UUID=27937329669D0EEA	/mnt/media	ntfs	defaults,user,uid=1000,gid=985,umask=013	0 2
 

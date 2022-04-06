@@ -34,7 +34,8 @@ else
 fi
 
 $bin -R \
-    --exclude=.git --exclude=node_modules --exclude=build --exclude=venv \
+    --exclude=.git --exclude=.nvim \
+    --exclude=node_modules --exclude=build --exclude=venv \
     --fields=+iaSRl --extras=+qr \
     --sort=foldcase \
     --kinds-c++=+ANUx --langmap=c++:+.ipp \
