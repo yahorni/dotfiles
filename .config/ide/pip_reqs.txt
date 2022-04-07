@@ -1,0 +1,16 @@
+# vim: ft=sh
+
+# common
+neovim
+
+# c++
+cpplint
+cppman
+
+# python
+flake8
+pylint
+pylint-venv
+autoimport
+autoflake
+isort

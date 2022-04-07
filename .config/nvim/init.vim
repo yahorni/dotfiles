@@ -78,13 +78,19 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 
 " linting
 Plug 'w0rp/ale'
-let g:ale_fixers = { '*': ['remove_trailing_lines', 'trim_whitespace'] }
 let g:ale_linters = {
-  \  'cpp': ['cpplint', 'cc', 'clangtidy', 'clang-format'],
-  \  'c': ['cc', 'clangtidy', 'clang-format'],
-  \  'sh': ['shfmt', 'shellcheck'],
+  \  'cpp': ['cpplint', 'cc', 'clangtidy', 'clangd'],
+  \  'c': ['cpplint', 'cc', 'clangtidy', 'clangd'],
+  \  'sh': ['shellcheck'],
   \  'python': ['flake8', 'pylint'],
   \  'tex': ['chktex'],
+  \}
+let g:ale_fixers = {
+  \  '*': ['remove_trailing_lines', 'trim_whitespace'],
+  \  'cpp': ['clangtidy', 'clang-format'],
+  \  'c': ['clangtidy', 'clang-format'],
+  \  'sh': ['shfmt'],
+  \  'python': ['autoimport', 'autoflake', 'isort'],
   \}
 let g:ale_set_highlights = 1
 let g:ale_lint_on_text_changed = 'never'
@@ -99,9 +105,11 @@ let g:ale_tex_chktex_options = '-n13 -n26 -n44'
 " c/c++ options
 " NOTE: cpp headers issue
 let g:ale_c_parse_compile_commands = 1
-let g:ale_cpp_cpplint_options =
-  \'--linelength=120 --filter=-legal/copyright,-readability/todo,
-  \-runtime/references,-build/include_order,-build/include'
+let g:ale_c_cpplint_options =
+  \'--linelength=120 --filter=-legal/copyright,-legal/license,
+  \-whitespace/todo,-readability/todo,-runtime/references,
+  \-build/include_order,-build/include'
+let g:ale_cpp_cpplint_options = g:ale_c_cpplint_options
 let g:ale_cpp_cc_options = '-std=c++17 -Wall -Wextra -pedantic'
 " python
 let g:ale_python_flake8_options = '--max-line-length=120'
@@ -153,6 +161,9 @@ Plug 'Rigellute/shades-of-purple.vim'
 Plug 'liuchengxu/space-vim-dark'
 Plug 'NLKNguyen/papercolor-theme'
 
+" git
+Plug 'airblade/vim-gitgutter'
+
 " additional plugins
 if filereadable(expand('<sfile>:p:h') . '/extra.vim')
   exec "source " . expand('<sfile>:p:h') . '/extra.vim'
@@ -160,7 +171,7 @@ endif
 
 call plug#end()
 
-filetype plugin on
+filetype plugin indent on
 " }}}
 
 " {{{ COLORTHEME
@@ -197,8 +208,10 @@ set softtabstop=4   " width for Tab in inserting or deleting (Backspace)
 set smarttab
 set expandtab
 set autoindent
-set nolist
-" numbers
+" nonprintable characters
+set list
+set listchars=tab:>\ ,trail:·
+" line numbers
 set number
 set relativenumber
 " info/swap/backup
@@ -209,8 +222,9 @@ set noundofile
 " modeline
 set modeline
 set modelines=5
+" messages in last line
 set noshowmode
-set showcmd
+set noshowcmd
 " wildmenu
 set wildmenu
 set wildmode=longest,full
@@ -233,17 +247,27 @@ set spell spelllang=
 " file search
 set path+=**
 set wildignore+=*/build/*,*/.git/*,*/node_modules/*
+" enable system clipboard
+set clipboard=unnamedplus
+" minimal lines before/after cursor
+set scrolloff=5
+" do not autoreload changed file
+set noautoread
+" highlight current line
+set cursorline
+" do not indent: N-s - namespaces, g0 - public/private/protected
+set cinoptions=N-s,g0
+" enable <> pair
+set matchpairs+=<:>
+" do not save quickfix to session file
+set sessionoptions-=blank
+" ignore local .vimrc
+set noexrc
+" shorten vim messages
+set shortmess=atT
 " misc
 set completeopt-=preview
-set clipboard=unnamedplus
-set scrolloff=5
 set hidden
-set noautoread
-set cursorline
-set cinoptions=N-s,g0
-set matchpairs+=<:>
-set sessionoptions-=blank
-set noexrc
 " }}}
 
 " {{{ MAPPINGS
@@ -405,6 +429,9 @@ au FileType json vn <buffer> <C-f> :%!jq<CR>
 au FileType yaml,html,css nn <buffer> <C-f> :!prettier --write %<CR>
 " cmake
 au FileType cmake nn <buffer> <C-f> :!cmake-format --line-width 120 -i % <CR><CR>:e<CR>
+" xml
+au FileType xml nn <buffer> <C-f> :%! xmllint --format --recover - 2>/dev/null<CR>
+au FileType xml vn <buffer> <C-f> :! xmllint --format --recover - 2>/dev/null<CR>
 " }}}
 
 " {{{ MISC
@@ -431,8 +458,7 @@ au VimLeave *.tex !texclear %:p:h
 nn <silent> <leader>w :%s/\s\+$//e <bar> nohl<CR>
 
 " update ctags
-com! Ctags execute "!mkdir -p .nvim ; updtags.sh .nvim/tags ."
-nn <silent> <leader>t :Ctags<CR>
+nn <silent> <leader>t :!updtags.sh .nvim/tags .<CR>
 
 " search visually selected text with '//'
 vn // y/\V<C-R>=escape(@",'/\')<CR><CR>
@@ -456,7 +482,7 @@ autocmd FileChangedShell * :
 command! BufOnly silent! execute "%bd|e#|bd#"
 
 " create '.nvim' directory
-nn <silent> <leader>d :!mkdir .nvim ; touch .nvim/Makefile<CR>
+nn <silent> <leader>d :!mkdir .nvim<CR>
 " }}}
 
 " {{{ LOCAL VIMRC
