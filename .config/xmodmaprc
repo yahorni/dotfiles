@@ -3,5 +3,8 @@ keycode 135 = Super_R Menu
 
 ! use 'Del' button as 'Control'
 clear control
+keycode 37 = Control_L NoSymbol Control_L
 keycode 91 = Control_L NoSymbol Control_L
+keycode 105 = Control_R NoSymbol Control_R
 add control = Control_L
+add control = Control_R

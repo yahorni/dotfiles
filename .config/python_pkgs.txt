@@ -1,0 +1,7 @@
+cpplint
+cppman
+flake8
+neovim
+pyflakes
+pylint
+pylint-venv

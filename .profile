@@ -49,16 +49,6 @@ export TERMINFO_DIRS="$XDG_DATA_HOME/terminfo:/usr/share/terminfo"
 export VIMINIT="source $XDG_CONFIG_HOME/nvim/init.vim"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
-# other
-export ELINKS_CONFDIR="$XDG_CONFIG_HOME/elinks"
-export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc-2.0"
-export PYTHONSTARTUP="$XDG_CONFIG_HOME/pythonrc.py"
-export R_PROFILE_USER="$XDG_CONFIG_HOME/Rprofile"
-export SUDO_ASKPASS="$HOME/.local/bin/dmenupass"
-export SXHKD_SHELL="/bin/bash"
-export TS_SLOTS=3
-export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
-
 # path
 export PATH="$PATH:$HOME/.local/bin:$HOME/.local/bin/user:$GOPATH/bin"
 

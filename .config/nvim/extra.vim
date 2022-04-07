@@ -52,3 +52,22 @@ Plug 'tomlion/vim-solidity'         " solidity
 " markdown
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
+
+" {{{ TEMP (Ctrl not working)
+nn <silent> <expr> <A-h> !exists('b:SplitResize') ? '<C-w><C-h>' : ':vert res -1<CR>'
+nn <silent> <expr> <leader><leader>j !exists('b:SplitResize') ? '<C-w><C-j>' : ':res -1<CR>'
+nn <silent> <expr> <leader><leader>k !exists('b:SplitResize') ? '<C-w><C-k>' : ':res +1<CR>'
+nn <silent> <expr> <A-l> !exists('b:SplitResize') ? '<C-w><C-l>' : ':vert res +1<CR>'
+nn <leader><leader>o <C-o>
+nn <A-i> <C-i>
+nn <A-v> <C-v>
+nn <A-]> <C-]>
+nn <A-r> <C-r>
+nn <A-a> <C-a>
+nn <A-x> <C-x>
+nn <A-w> <C-w>
+nm <A-f> <C-f>
+nm <silent> <leader><leader>n :Fern . -reveal=%<CR>
+im \\k <C-k>
+im \\f <C-x><C-f>
+" }}}

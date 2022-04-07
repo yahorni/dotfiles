@@ -46,3 +46,5 @@ application/x-extension-shtml=linkhandler.desktop
 application/xhtml+xml=linkhandler.desktop
 application/x-extension-xhtml=linkhandler.desktop
 application/x-extension-xht=linkhandler.desktop
+x-scheme-handler/viber=viber.desktop
+x-scheme-handler/tg=userapp-Telegram Desktop-EO4BW0.desktop
