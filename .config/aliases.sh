@@ -32,7 +32,7 @@ alias \
     xo='xdg-open' \
     shr='sshrc' \
     ide="make -f .nvim/Makefile" \
-    ide_s="sudo make -f .nvim/Makefile"
+    ides="sudo make -f .nvim/Makefile"
 
 # git
 alias \
@@ -174,7 +174,7 @@ if [ -n "${BASH}" ]; then
         eval "$function"
     }
     make_completion_wrapper _make _make_f make -f .nvim/Makefile
-    complete -F _make_f ide ide_s
+    complete -F _make_f ide ides
     # cdj
     _cdj() { COMPREPLY=($(cd "$HOME/prog" || return 1 ; compgen -d "$2")) ; }
     complete -F _cdj cdj

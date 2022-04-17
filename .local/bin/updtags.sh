@@ -13,9 +13,13 @@ if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
 fi
 
 if [ "$1" = "--system" ]; then
-    output=tags
+    output="$HOME/.local/share/tags"
     shift
-    directories=("/usr/include" $(find /usr/lib -maxdepth 1 -name "python*"))
+    directories=(
+        "/usr/include"
+        $(find /usr/lib/ -maxdepth 1 -name "python*")
+        $(find /usr/local/lib/ -maxdepth 1 -name "python*")
+    )
 else
     output=${1:-tags}
     shift
@@ -35,7 +39,7 @@ fi
 
 $bin -R \
     --exclude=.git --exclude=.nvim \
-    --exclude=node_modules --exclude=build --exclude=venv \
+    --exclude=node_modules --exclude=build \
     --fields=+iaSRl --extras=+qr \
     --sort=foldcase \
     --kinds-c++=+ANUx --langmap=c++:+.ipp \

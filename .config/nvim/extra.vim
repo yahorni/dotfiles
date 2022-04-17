@@ -37,6 +37,14 @@ elseif (completeplug=='ycm')
 
 endif
 
+" indentation
+Plug 'Yggdroot/indentLine' " can break conceallevel
+if !has('nvim')
+  let g:indentLine_char = '|'
+endif
+au FileType tex,markdown,json let g:indentLine_setColors = 0
+au FileType tex,markdown,json let g:indentLine_enabled = 0
+
 " language switching
 Plug 'lyokha/vim-xkbswitch'
 let g:XkbSwitchEnabled = 1

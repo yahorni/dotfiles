@@ -48,8 +48,6 @@ vm <C-_> <plug>Commentary<ESC>
 " improved quoting/parenthesizing
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat' " dot command for vim-surround
-Plug 'jiangmiao/auto-pairs'
-let g:AutoPairsShortcutToggle = ''
 
 " highlight for substituion
 Plug 'markonm/traces.vim'
@@ -90,7 +88,8 @@ let g:ale_fixers = {
   \  'cpp': ['clangtidy', 'clang-format'],
   \  'c': ['clangtidy', 'clang-format'],
   \  'sh': ['shfmt'],
-  \  'python': ['autoimport', 'autoflake', 'isort'],
+  \  'python': ['autoimport', 'autoflake', 'isort', 'black',
+  \             'add_blank_lines_for_python_control_statements'],
   \}
 let g:ale_set_highlights = 1
 let g:ale_lint_on_text_changed = 'never'
@@ -147,14 +146,6 @@ Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'rhysd/vim-clang-format'
 Plug 'derekwyatt/vim-fswitch'
 au FileType c,cpp nn <silent> <leader>o :FSHere<CR>
-
-" indentation
-Plug 'Yggdroot/indentLine' " can break conceallevel
-if !has('nvim')
-  let g:indentLine_char = '|'
-endif
-au FileType tex,markdown,json let g:indentLine_setColors = 0
-au FileType tex,markdown,json let g:indentLine_enabled = 0
 
 " theme
 Plug 'Rigellute/shades-of-purple.vim'
@@ -213,7 +204,7 @@ set list
 set listchars=tab:>\ ,trail:·
 " line numbers
 set number
-set relativenumber
+set relativenumber  " NOTE: can cause slowdown in printing
 " info/swap/backup
 set viminfo="-"
 set nobackup
@@ -280,12 +271,17 @@ xn P "_dP
 nn Q <nop>
 
 " annoying keys
-com! Q :q
 com! W :w
-com! WQ :wq
+com! Q :q
 com! Wq :wq
+com! WQ :wq
 com! Qa :qa
+com! QA :qa
 com! -bang Q :q<bang>
+com! -bang Wq :wq<bang>
+com! -bang WQ :wq<bang>
+com! -bang Qa :qa<bang>
+com! -bang QA :qa<bang>
 
 " normal mode bindings
 nn <silent> <leader>h :noh<Enter>
@@ -294,6 +290,10 @@ nn zq ZQ
 
 " buffer close
 nn <silent> <C-q> :close<CR>
+
+" newline without insert mode
+nn <leader>o o<ESC>
+nn <leader>O O<ESC>
 
 " }}}
 
