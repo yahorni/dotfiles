@@ -8,9 +8,10 @@ cpplint
 cppman
 
 # python
+autoflake
+autoimport
+autopep8
 flake8
+isort
 pylint
 pylint-venv
-autoimport
-autoflake
-isort

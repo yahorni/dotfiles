@@ -88,8 +88,7 @@ let g:ale_fixers = {
   \  'cpp': ['clangtidy', 'clang-format'],
   \  'c': ['clangtidy', 'clang-format'],
   \  'sh': ['shfmt'],
-  \  'python': ['autoimport', 'autoflake', 'isort', 'black',
-  \             'add_blank_lines_for_python_control_statements'],
+  \  'python': ['autoimport', 'isort', 'autoflake', 'autopep8']
   \}
 let g:ale_set_highlights = 1
 let g:ale_lint_on_text_changed = 'never'
@@ -112,6 +111,7 @@ let g:ale_cpp_cpplint_options = g:ale_c_cpplint_options
 let g:ale_cpp_cc_options = '-std=c++17 -Wall -Wextra -pedantic'
 " python
 let g:ale_python_flake8_options = '--max-line-length=120'
+let g:ale_python_autopep8_options = '--max-line-length=120'
 " completion
 set omnifunc=ale#completion#OmniFunc
 nm <localleader>l <Plug>(ale_lint)
@@ -517,6 +517,13 @@ endif
 " $ python3 install.py --clang-completer
 "
 " # fzf installation (locally, no package manager)
-" git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-" ~/.fzf/install
+" $ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+" $ ~/.fzf/install
+"
+" # sshrc installation (no package manager)
+" $ curl -O https://raw.githubusercontent.com/cdown/sshrc/master/sshrc
+" $ chmod +x sshrc && sudo mv sshrc /usr/local/bin
+"
+" # pycscope installation (locally)
+" $ pip install git+https://github.com/portante/pycscope
 " }}}

@@ -19,6 +19,7 @@ nm-applet &
 
 # safeeyes &
 # redshift &
+# blueman-applet &
 
 xwallpaper --stretch "$XDG_DATA_HOME/wallpaper"
 xrdb -merge "$XDG_CONFIG_HOME/Xresources" # apply xresources

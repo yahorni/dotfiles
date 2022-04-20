@@ -57,7 +57,8 @@ alias \
     grb='git rebase' \
     gff='git log --full-history --' \
     gff1='git log --full-history -1 --' \
-    gcl='git clean -dfx'
+    gcl='git clean -dfx' \
+    grp='git remote prune'
 
 # files
 alias \
