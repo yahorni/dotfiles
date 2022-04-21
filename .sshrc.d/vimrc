@@ -26,7 +26,7 @@ set autoindent
 set nolist
 " numbers
 set number
-set relativenumber
+" set relativenumber  " may cause freezes
 " info/swap/backup
 set viminfo="-"
 set nobackup
@@ -65,7 +65,7 @@ set clipboard=unnamedplus
 set scrolloff=5
 set hidden
 set noautoread
-set cursorline
+" set cursorline  " may cause freezes
 set cinoptions=N-s,g0
 set matchpairs+=<:>
 set sessionoptions-=blank

@@ -1,47 +1,67 @@
 #!/bin/bash
+# vim: ts=2 sw=2 sts=2
 
 # NOTE: +R (fields) and +r (extras) comes together
 
-if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
-    echo "usage $(basename "$0") <output> <directory>..."
+print_usage() {
+    echo "usage $(basename "$0") [--help] [--system] <output> <positional_args>..."
     echo "    output - 'tags' by default"
-    echo "    directory - current by default"
+    echo "    positional_args - current directory '.' by default"
     echo
     echo "example:"
     echo "    updtags.sh ~/.local/share/tags /usr/include"
-    exit
-fi
+}
 
-if [ "$1" = "--system" ]; then
-    output="$HOME/.local/share/tags"
-    shift
-    directories=(
+set_system_vars() {
+    output_file="$HOME/.local/share/tags"
+    positional_args=(
         "/usr/include"
         $(find /usr/lib/ -maxdepth 1 -name "python*")
         $(find /usr/local/lib/ -maxdepth 1 -name "python*")
     )
-else
-    output=${1:-tags}
-    shift
-    directories=("${@:-.}")
-fi
+}
 
-if command -v ctags-universal 1>/dev/null ; then
-  bin="ctags-universal"
-elif command -v universal-ctags 1>/dev/null ; then
-  bin="universal-ctags"
-elif command -v ctags 1>/dev/null ; then
-  bin="ctags"
-else
-  echo "ctags not found" 1>&2
-  exit 1
-fi
+check_args() {
+    if [ "$1" = "--help" ]; then
+        print_usage
+        exit
+    elif [ "$1" = "--system" ]; then
+        set_system_vars
+        shift
+    else
+        output_file=${1:-tags}
+        shift
+        positional_args=("${@:-.}")
+    fi
+}
 
-$bin -R \
-    --exclude=.git --exclude=.nvim \
-    --exclude=node_modules --exclude=build \
-    --fields=+iaSRl --extras=+qr \
-    --sort=foldcase \
-    --kinds-c++=+ANUx --langmap=c++:+.ipp \
-    --kinds-python=-iv \
-    -f "${output}" "${directories[@]}"
+select_binary() {
+    if command -v ctags-universal 1>/dev/null ; then
+      ctags_exec="ctags-universal"
+    elif command -v universal-ctags 1>/dev/null ; then
+      ctags_exec="universal-ctags"
+    elif command -v ctags 1>/dev/null ; then
+      ctags_exec="ctags"
+    else
+      echo "ctags not found" 1>&2
+      exit 1
+    fi
+}
+
+run_ctags() {
+    $ctags_exec --options="$options_path" -f "${output_file}" "${positional_args[@]}"
+}
+
+# =================================================================================================================== #
+
+options_path="${XDG_CONFIG_HOME:-$HOME/.config}/ctags/options.ctags"
+
+ctags_exec=
+output_file=
+positional_args=
+
+# =================================================================================================================== #
+
+check_args "$@"
+select_binary
+run_ctags

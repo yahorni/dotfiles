@@ -1,0 +1,22 @@
+# vim: ft=sh
+
+# common options
+--recurse=yes
+--sort=foldcase
+
+# excludes
+--exclude=.git
+--exclude=.nvim
+--exclude=node_modules
+--exclude=build
+
+# fields
+--fields=+iaSRl
+--extras=+qr
+
+# c++
+--kinds-c++=+ANUx
+--langmap=c++:+.ipp
+
+# python
+--kinds-python=-iv

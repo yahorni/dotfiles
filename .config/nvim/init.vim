@@ -76,9 +76,10 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 
 " linting
 Plug 'w0rp/ale'
+" NOTE: do not use 'clangd' linter as it's too heavy
 let g:ale_linters = {
-  \  'cpp': ['cpplint', 'cc', 'clangtidy', 'clangd'],
-  \  'c': ['cpplint', 'cc', 'clangtidy', 'clangd'],
+  \  'cpp': ['cpplint', 'cc', 'clangtidy'],
+  \  'c': ['cpplint', 'cc', 'clangtidy'],
   \  'sh': ['shellcheck'],
   \  'python': ['flake8', 'pylint'],
   \  'tex': ['chktex'],
@@ -457,7 +458,7 @@ au VimLeave *.tex !texclear %:p:h
 " autoremove trailing whitespaces
 nn <silent> <leader>w :%s/\s\+$//e <bar> nohl<CR>
 
-" update ctags
+" update ctags manually
 nn <silent> <leader>t :!updtags.sh .nvim/tags .<CR>
 
 " search visually selected text with '//'
@@ -526,4 +527,12 @@ endif
 "
 " # pycscope installation (locally)
 " $ pip install git+https://github.com/portante/pycscope
+"
+" # ctags build/install (no package manager)
+" $ git clone https://github.com/universal-ctags/ctags.git
+" $ cd ctags
+" $ ./autogen.sh
+" $ ./configure --prefix=/where/you/want # defaults to /usr/local
+" $ make
+" $ make install # may require extra privileges depending on where to install
 " }}}

@@ -1,6 +1,6 @@
 " vim: fdm=marker fdl=0
 
-let completeplug='ycm' " coc/ycm/etc...
+let completeplug='etc' " coc/ycm/etc...
 
 " autocomplete
 if (completeplug=='coc')
@@ -64,6 +64,11 @@ Plug 'tomlion/vim-solidity'         " solidity
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 
+" tags management
+Plug 'ludovicchabant/vim-gutentags'
+let g:gutentags_ctags_executable = 'guten.sh'
+let g:gutentags_ctags_tagfile = '.nvim/tags'
+
 " {{{ TEMP (Ctrl not working)
 nn <silent> <expr> <A-h> !exists('b:SplitResize') ? '<C-w><C-h>' : ':vert res -1<CR>'
 nn <silent> <expr> <leader><leader>j !exists('b:SplitResize') ? '<C-w><C-j>' : ':res -1<CR>'
@@ -78,6 +83,7 @@ nn <A-a> <C-a>
 nn <A-x> <C-x>
 nn <A-w> <C-w>
 nm <A-f> <C-f>
+nm <A-t> <C-t>
 nm <silent> <leader><leader>n :Fern . -reveal=%<CR>
 im \\k <C-k>
 im \\f <C-x><C-f>
