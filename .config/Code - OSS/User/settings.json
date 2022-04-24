@@ -33,7 +33,7 @@
       "*.rmd": "markdown"
     },
     "workbench.iconTheme": "vscode-icons",
-
+    "workbench.startupEditor": "newUntitledFile",
     "solidity.linter": "solhint",
     "solidity.solhintRules": {
       "avoid-sha3": "warn"

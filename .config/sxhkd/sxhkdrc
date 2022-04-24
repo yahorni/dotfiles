@@ -15,7 +15,7 @@ super + w
 
 # bar
 super + shift + w
-    pkill polybar ; setsid polybar -r notebar &
+    xmouseless &>/dev/null
 
 # terminal
 super + {_,shift +} e
@@ -36,6 +36,13 @@ super + shift + t
 # search web
 super + {_,shift +} u
     searchweb {query,url}
+
+# reload bar
+super + shift + i
+    case "$WMBAR" in \
+        "dwmbar")   pkill -USR1 dwmbar ;; \
+        "polybar")  pkill polybar ; setsid polybar -r notebar & ;; \
+    esac
 
 # english translator
 super + {_,shift +} o

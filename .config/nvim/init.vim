@@ -511,6 +511,12 @@ endif
 "       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 " 3. after updating plugins in neovim - create link for vim
 " $ ln -s ~/.local/share/nvim/plugged ~/.vim/plugged
+" 4. [optional] link vim setup for root
+" $ sudo mkdir -pv "/root/.local/share/nvim/{plugged,autoload}" "/root/.vim/"
+" $ sudo ln -s ~/.local/share/nvim/site/autoload /root/.local/share/nvim/site/autoload
+" $ sudo ln -s ~/.local/share/nvim/site/autoload /root/.vim/autoload
+" $ sudo ln -s ~/.local/share/nvim/plugged /root/.local/share/nvim/plugged
+" $ sudo ln -s ~/.local/share/nvim/plugged /root/.vim/plugged
 "
 " # YCM installation
 " > don't forget to use corresponding gcc version

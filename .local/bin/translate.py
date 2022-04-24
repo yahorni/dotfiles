@@ -8,24 +8,24 @@ from html.parser import HTMLParser
 
 import requests
 
-WRDHUNT = "https://wooordhunt.ru/word/{}"
+WORDHUNT_URL = "https://wooordhunt.ru/word/{}"
 
 
-class WrdParser(HTMLParser):
+class WordParser(HTMLParser):
     def __init__(self):
         super().__init__()
-        self.result = []
-        self.accepted = False
 
+        self.translations = []
+        self.collocations = []
         self.extended = {}
+
+        self.accepted = False
         self.in_h4 = False
         self.h4_title = ""
         self.in_div = False
         self.in_i = False
         self.in_lvl = 0
         self.last_lvl = 0
-
-        self.collocations = []
         self.in_block = False
 
     def handle_starttag(self, tag, attrs):
@@ -93,7 +93,7 @@ class WrdParser(HTMLParser):
         # get simple translation
         if self.accepted:
             self.accepted = False
-            self.result.append(data)
+            self.translations.append(data)
         # catch header extended examples
         elif self.in_h4 and self.h4_title == "":
             self.h4_title = data.strip()
@@ -191,10 +191,14 @@ def print_error(args, unknown_word):
 
 
 def print_result(args, unknown_word, parser):
-    if parser.result:
-        translation = parser.result[0]
-    else:
+    if parser.translations:
+        translation = parser.translations[0]
+    elif parser.extended:
         translation = get_translation_from_extended(parser.extended)
+    elif parser.collocations:
+        translation = parser.collocations[0]
+    else:
+        raise RuntimeError("failed to acquire translation from parsed data")
 
     if args.get("json"):
         info = {"word": unknown_word, "translate": translation}
@@ -225,16 +229,16 @@ def main():
         send_notification(args, "translate.py", "empty input")
         sys.exit(1)
 
-    response = requests.get(WRDHUNT.format(unknown_word))
-    parser = WrdParser()
+    response = requests.get(WORDHUNT_URL.format(unknown_word))
+    parser = WordParser()
     parser.feed(response.content.decode("utf-8"))
 
-    if not parser.result and not parser.extended:
-        print_error(args, unknown_word)
-        sys.exit(1)
-    else:
+    if parser.translations or parser.extended or parser.collocations:
         print_result(args, unknown_word, parser)
         sys.exit(0)
+    else:
+        print_error(args, unknown_word)
+        sys.exit(1)
 
 
 if __name__ == "__main__":
