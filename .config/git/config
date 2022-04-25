@@ -1,3 +1,4 @@
+# vim: ft=gitconfig
 [core]
     excludesfile = ~/.config/git/ignore
 [pull]

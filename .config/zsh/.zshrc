@@ -56,7 +56,6 @@ setopt octal_zeroes
 setopt vi
 setopt globdots
 setopt hist_ignore_dups
-setopt nobanghist
 unsetopt nomatch
 
 # completions

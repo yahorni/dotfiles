@@ -1,7 +1,6 @@
 #!/bin/bash
 # https://github.com/cdown/sshrc
 
-export EDITOR="vim"
 export INPUTRC="$SSHHOME/.sshrc.d/inputrc"
 export VIMINIT="let \$MYVIMRC='$SSHHOME/.sshrc.d/vimrc' | source \$MYVIMRC"
 
@@ -10,11 +9,16 @@ source "$SSHHOME/.sshrc.d/bashrc"
 tmuxrc() {
     local TMUXDIR=/tmp/yahortmuxserver
     local TMUXSHELL="/bin/bash --rcfile $TMUXDIR/.sshrc.d/bashrc"
-    if [ -d $TMUXDIR ]; then
-        rm -rf $TMUXDIR
-        mkdir -p $TMUXDIR
-    fi
-    rm -rf "$TMUXDIR/.sshrc" "$TMUXDIR/.sshrc.d"
+
+    [ ! -d $TMUXDIR ] && tmuxrc-override
+    SSHHOME="$TMUXDIR" TMUXSHELL="$TMUXSHELL" /usr/bin/tmux -S "$TMUXDIR/tmuxserver" -f "$TMUXDIR/.sshrc.d/tmux.conf" "$@"
+}
+
+tmuxrc-override() {
+    local TMUXDIR=/tmp/yahortmuxserver
+    local TMUXSHELL="/bin/bash --rcfile $TMUXDIR/.sshrc.d/bashrc"
+
+    [ -d $TMUXDIR ] && rm -rf $TMUXDIR
+    mkdir -p $TMUXDIR
     cp -uf "$SSHHOME/.sshrc" "$SSHHOME/.sshrc.d" "$TMUXDIR"
-    SSHHOME="$TMUXDIR" TMUXSHELL="$TMUXSHELL" /usr/bin/tmux -S "$TMUXDIR/tmuxserver" -f "$TMUXDIR/.sshrc.d/tmux.conf" $@
 }

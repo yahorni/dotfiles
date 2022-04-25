@@ -16,6 +16,7 @@ $if mode=vi
 
     set keymap vi-insert
     Control-l: clear-screen
+    Control-a: beginning-of-line
 $endif
 
 set enable-keypad on

@@ -2,13 +2,19 @@
 
 set -e
 
+# TODO:
+# wm-scripts, vifmrun, lf, screenshot (maim), clipboard (greenclip/xclip/xsel/etc)
+# libxft-bgra, neovim/vim (appimage), ripgrep, fzf, xwallpaper, mpd/ncmpcpp
+
+# Dependencies:
+# yum (centos 7): libXft-devel libXtst-devel gtk3-devel
+
 check_args() {
     target="$1"
 
-    [ "$#" -lt 1 ] && echo "target is needed" && exit 1
+    [ "$#" -lt 1 ] && echo "==> target is needed" && exit 1
     # shellcheck disable=SC2076
-    [[ ! " ${progs[*]} " =~ " $target " ]] && echo "prog is not allowed" && exit 1
-    [ -d "$env_dir/$target" ] && echo "repo already exists" && exit 1
+    [[ ! " ${progs[*]} " =~ " $target " ]] && echo "==> prog is not allowed" && exit 1
 
     return 0
 }
@@ -16,12 +22,13 @@ check_args() {
 set_prog_params() {
     # set repo
     case "$target" in
-        *)  repo="https://github.com/NickoEgor/$target" ;;
+        htop-vim)   repo="https://github.com/KoffeinFlummi/htop-vim" ;;
+        *)          repo="https://github.com/NickoEgor/$target" ;;
     esac
 
     # set branch
     case "$target" in
-        st)         branch="patched-unstable-config" ;;
+        st)         branch="patched-config" ;;
         dwm)        branch="config-bar" ;;
         xmouseless) branch="patched" ;;
         *)          branch="master" ;;
@@ -35,7 +42,7 @@ set_upstream() {
         dwm)        upstream="https://git.suckless.org/dwm" ;;
         dragon)     upstream="https://github.com/mwh/dragon" ;;
         xmouseless) upstream="https://github.com/jbensmann/xmouseless" ;;
-        *) echo "skip set_upstream" && return ;;
+        *) echo "==> skip set_upstream()" && return ;;
     esac
 
     git remote add upstream "$upstream"
@@ -45,36 +52,56 @@ prepare_repo() {
     [ ! -d "$env_dir" ] && mkdir -p "$env_dir"
     cd "$env_dir" || exit 1
 
-    git clone "$repo" "$target"
-    cd "$target" || "$env_dir"
+    if [ -d "$target" ]; then
+        cd "$target" || exit 1
+        echo "==> skip prepare_repo()"
+        return
+    fi
 
-    [[ "$repo" == *"NickoEgor"* ]] && \
+    git clone "$repo" "$target"
+    cd "$target" || exit 1
+
+    if [[ "$repo" == *"NickoEgor"* ]]; then
         git remote set-url origin "git@github.com:NickoEgor/$target.git"
-    set_upstream
+
+        git config user.name "$git_name"
+        git config user.email "$git_email"
+
+        set_upstream
+    fi
+
     git checkout "$branch"
     git pull
     git submodule update --init --recursive
-    git config user.name "$git_name"
-    git config user.email "$git_email"
 }
 
 build_target() {
     case "$target" in
         st|dmenu|dwm|dwmbar|dragon|xmouseless) make ;;
-        *) echo "skip build" ;;
+        htop-vim) ./autogen.sh && ./configure && make ;;
+        *) echo "==> skip build_target()" ;;
     esac
 }
 
 install_target() {
     case "$target" in
-        st|dmenu|dwm|dwmbar|dragon|xmouseless) sudo make install ;;
-        *) echo "skip install" ;;
+        st|dmenu|dwm|dwmbar|dragon|xmouseless|htop-vim)
+            sudo make install ;;
+        *) echo "==> skip install_target()" ;;
+    esac
+}
+
+cleanup() {
+    case "$target" in
+        st|dmenu|dwm|dwmbar|dragon|xmouseless|htop-vim)
+            make clean ;;
+        *) echo "==> skip cleanup()" ;;
     esac
 }
 
 # ===================================== #
 
-progs=(st dmenu dwm dwmbar dotfiles df dragon xmouseless term-theme)
+progs=(st dmenu dwm dwmbar dotfiles df dragon xmouseless term-theme htop-vim)
 env_dir="$HOME/prog/env"
 
 git_name="NickoEgor"
@@ -91,3 +118,4 @@ set_prog_params
 prepare_repo
 build_target
 install_target
+cleanup

@@ -31,8 +31,8 @@ alias \
     rst='reset && source ~/.bashrc && stty sane && tput cvvis' \
     xo='xdg-open' \
     shr='sshrc' \
-    ide="make -f .nvim/Makefile" \
-    ides="sudo make -f .nvim/Makefile"
+    ide='make -f ${IDE_DIR}/Makefile' \
+    ides='sudo make -f ${IDE_DIR}/Makefile'
 
 # git
 alias \

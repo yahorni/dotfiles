@@ -1,6 +1,6 @@
 SHELL=/bin/bash
-IDE_DIR=$(CURDIR)/.nvim
 USER=$(shell whoami)
+IDE_DIR:=$(CURDIR)/${IDE_DIR}
 
 # targets with args
 # ifneq (,$(filter $(firstword $(MAKECMDGOALS)),<target1> <target2>...))
@@ -32,10 +32,18 @@ root:
 		exit 1 ;\
 	fi
 
+noroot:
+	@if [[ $${EUID} -eq 0 ]]; then\
+		echo "FAIL: Do not run the target as root" ;\
+		exit 1 ;\
+	fi
+
 notes:
-	# empty project
+	# empty
 
 ################
 
-bu:
+.PHONY: build
+
+build:
 	@echo 'cmake -S . -B build && cmake --build build -- -j'

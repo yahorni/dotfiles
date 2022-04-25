@@ -15,3 +15,7 @@ flake8
 isort
 pylint
 pylint-venv
+
+# cmake
+cmakelang
+cmake-format

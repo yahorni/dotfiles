@@ -1,43 +1,44 @@
 " vim: fdm=marker fdl=0
 
-let completeplug='etc' " coc/ycm/etc...
-
-" autocomplete
-if (completeplug=='coc')
-" {{{ coc.nvim
-Plug 'Shougo/neoinclude.vim'
-Plug 'jsfaint/coc-neoinclude'
-Plug 'neoclide/coc.nvim'
-" extensions
-let g:coc_global_extensions = ['coc-cmake', 'coc-json']
-" tab completion
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
-ino <silent><expr> <TAB>
-  \  pumvisible() ? "\<C-n>" :
-  \  <SID>check_back_space() ? "\<TAB>" :
-  \  coc#refresh()
-ino <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-ino <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-ino <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-" remap keys for gotos
-nm <silent> gd <Plug>(coc-definition)
-nm <silent> gy <Plug>(coc-type-definition)
-nm <silent> gi <Plug>(coc-implementation)
-" refresh
-ino <silent><expr> <C-space> coc#refresh()
-" symbol renaming
-nm <leader>R <Plug>(coc-rename)
-" }}}
-elseif (completeplug=='ycm')
-" {{{ ycm
-Plug 'ycm-core/YouCompleteMe'
-nn <localleader>y :YcmRestartServer<CR>
-let g:ycm_global_ycm_extra_conf = getcwd() . "/.nvim/ycm.py"
-let g:ycm_confirm_extra_conf = 0
-" }}}
+if isdirectory(".nvim")
+  " autocomplete
+  let completeplug='etc' " coc/ycm/etc...
+  if (completeplug=='coc')
+  " {{{ coc.nvim
+  Plug 'Shougo/neoinclude.vim'
+  Plug 'jsfaint/coc-neoinclude'
+  Plug 'neoclide/coc.nvim'
+  " extensions
+  let g:coc_global_extensions = ['coc-cmake', 'coc-json']
+  " tab completion
+  function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+  endfunction
+  ino <silent><expr> <TAB>
+    \  pumvisible() ? "\<C-n>" :
+    \  <SID>check_back_space() ? "\<TAB>" :
+    \  coc#refresh()
+  ino <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+  ino <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+  ino <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+  " remap keys for gotos
+  nm <silent> gd <Plug>(coc-definition)
+  nm <silent> gy <Plug>(coc-type-definition)
+  nm <silent> gi <Plug>(coc-implementation)
+  " refresh
+  ino <silent><expr> <C-space> coc#refresh()
+  " symbol renaming
+  nm <leader>R <Plug>(coc-rename)
+  " }}}
+  elseif (completeplug=='ycm')
+  " {{{ ycm
+  Plug 'ycm-core/YouCompleteMe'
+  nn <localleader>y :YcmRestartServer<CR>
+  let g:ycm_global_ycm_extra_conf = getcwd() . "/.nvim/ycm.py"
+  let g:ycm_confirm_extra_conf = 0
+  " }}}
+  endif
 endif
 
 " indentation
@@ -56,18 +57,12 @@ let g:XkbSwitchLib = '/usr/lib/libxkbswitch.so'
 " highlight colors
 Plug 'ap/vim-css-color'
 
+" python
+Plug 'vim-scripts/indentpython.vim'
+
 " syntax files
 Plug 'baskerville/vim-sxhkdrc'      " sxhkd
 Plug 'tomlion/vim-solidity'         " solidity
-
-" markdown
-Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown'
-
-" tags management
-Plug 'ludovicchabant/vim-gutentags'
-let g:gutentags_ctags_executable = 'guten.sh'
-let g:gutentags_ctags_tagfile = '.nvim/tags'
 
 " {{{ TEMP (Ctrl not working)
 nn <silent> <expr> <A-h> !exists('b:SplitResize') ? '<C-w><C-h>' : ':vert res -1<CR>'
