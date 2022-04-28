@@ -1,20 +1,3 @@
-#!/bin/bash
-
-chosen=$(sed '0,/^EMOJI$/d' "$0" | dmenu -i -l 15 -fn "mono-16" $@)
-
-[ "$chosen" != "" ] || exit
-
-clip=$(echo "$chosen" | sed "s/ .*//")
-echo "$clip" | tr -d '\n' | xclip -selection clipboard
-notify-send "'$clip' copied to clipboard." &
-
-prim=$(echo "$chosen" | sed "s/.*; //" | awk '{print $1}')
-echo "$prim" | tr -d '\n' | xclip
-notify-send "'$prim' copied to primary." &
-
-exit
-
-EMOJI
 😀 grinning face; U+1F600
 😃 grinning face with big eyes; U+1F603
 😄 grinning face with smiling eyes; U+1F604

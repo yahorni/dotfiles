@@ -5,7 +5,7 @@ st.alpha:       0.85
 
 ! Gruvbox
 ! hard contrast: st.background: #1d2021
-! medium contrast: st.background: #282828
+! med. contrast: st.background: #282828
 ! soft contrast: st.background: #32302f
 st.background:  #282828
 st.foreground:  #ebdbb2

@@ -11,7 +11,7 @@ super + {_,shift +}grave
 
 # music player
 super + w
-    $TERMINAL -e ncmpcpp -s browser
+    $TERMINAL -e ncmpcpp
 
 # bar
 super + shift + w
@@ -32,6 +32,9 @@ super + t
 # torrent
 super + shift + t
     $TERMINAL -e tremc
+
+super + {_,shift +} y
+    dmenu_emoji {_,type}
 
 # search web
 super + {_,shift +} u
@@ -116,7 +119,7 @@ super + shift + b
 
 # mounting
 super + {_, shift +} m
-    dmenu{_,un}mount
+    dmenu_{_,un}mount
 
 # music
 super + {_,shift +} n

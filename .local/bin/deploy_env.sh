@@ -36,31 +36,44 @@ set_prog_params() {
 }
 
 set_upstream() {
+    if git remote -v | grep -qm1 upstream ; then
+        echo "==> skip set_upstream()"
+        return 0
+    fi
+
     case "$target" in
         st)         upstream="https://git.suckless.org/st" ;;
         dmenu)      upstream="https://git.suckless.org/dmenu" ;;
         dwm)        upstream="https://git.suckless.org/dwm" ;;
         dragon)     upstream="https://github.com/mwh/dragon" ;;
         xmouseless) upstream="https://github.com/jbensmann/xmouseless" ;;
+        sshrc)      upstream="https://github.com/cdown/sshrc" ;;
         *) echo "==> skip set_upstream()" && return ;;
     esac
 
     git remote add upstream "$upstream"
 }
 
-prepare_repo() {
+clone_repo() {
     [ ! -d "$env_dir" ] && mkdir -p "$env_dir"
     cd "$env_dir" || exit 1
 
     if [ -d "$target" ]; then
         cd "$target" || exit 1
-        echo "==> skip prepare_repo()"
+        echo "==> skip clone_repo()"
         return
     fi
 
     git clone "$repo" "$target"
     cd "$target" || exit 1
 
+    git pull
+    git submodule update --init --recursive
+
+    git checkout "$branch"
+}
+
+setup_repo() {
     if [[ "$repo" == *"NickoEgor"* ]]; then
         git remote set-url origin "git@github.com:NickoEgor/$target.git"
 
@@ -69,10 +82,6 @@ prepare_repo() {
 
         set_upstream
     fi
-
-    git checkout "$branch"
-    git pull
-    git submodule update --init --recursive
 }
 
 build_target() {
@@ -85,23 +94,21 @@ build_target() {
 
 install_target() {
     case "$target" in
-        st|dmenu|dwm|dwmbar|dragon|xmouseless|htop-vim)
-            sudo make install ;;
+        st|dmenu|dwm|dwmbar|dragon|xmouseless|htop-vim|sshrc) sudo make install ;;
         *) echo "==> skip install_target()" ;;
     esac
 }
 
 cleanup() {
     case "$target" in
-        st|dmenu|dwm|dwmbar|dragon|xmouseless|htop-vim)
-            make clean ;;
+        st|dmenu|dwm|dwmbar|dragon|xmouseless|htop-vim) make clean ;;
         *) echo "==> skip cleanup()" ;;
     esac
 }
 
 # ===================================== #
 
-progs=(st dmenu dwm dwmbar dotfiles df dragon xmouseless term-theme htop-vim)
+progs=(st dmenu dwm dwmbar dotfiles df dragon xmouseless term-theme htop-vim sshrc)
 env_dir="$HOME/prog/env"
 
 git_name="NickoEgor"
@@ -115,7 +122,8 @@ branch=
 
 check_args "$@"
 set_prog_params
-prepare_repo
+clone_repo
+setup_repo
 build_target
 install_target
 cleanup

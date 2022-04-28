@@ -1,15 +1,13 @@
 " vim: fdm=marker fdl=0
 
-if isdirectory(".nvim")
+if isdirectory($IDE_DIR)
   " autocomplete
-  let completeplug='etc' " coc/ycm/etc...
+  let completeplug='coc' " coc/ycm/etc...
   if (completeplug=='coc')
   " {{{ coc.nvim
   Plug 'Shougo/neoinclude.vim'
   Plug 'jsfaint/coc-neoinclude'
   Plug 'neoclide/coc.nvim'
-  " extensions
-  let g:coc_global_extensions = ['coc-cmake', 'coc-json']
   " tab completion
   function! s:check_back_space() abort
     let col = col('.') - 1

@@ -62,17 +62,17 @@ alias \
 
 # files
 alias \
-    va='${EDITOR} ${XDG_CONFIG_HOME}/aliases.sh' \
+    va='${EDITOR} ${XDG_CONFIG_HOME}/shell/aliases.sh' \
     vv='${EDITOR} ${XDG_CONFIG_HOME}/nvim/init.vim' \
     vs='${EDITOR} ${XDG_CONFIG_HOME}/sxhkd/sxhkdrc' \
     vf='${EDITOR} ${XDG_CONFIG_HOME}/vifm/vifmrc' \
     vz='${EDITOR} ${XDG_CONFIG_HOME}/zsh/.zshrc' \
     vq='${EDITOR} ${XDG_CONFIG_HOME}/qutebrowser/config.py' \
+    vp='${EDITOR} ${XDG_CONFIG_HOME}/shell/profile' \
+    vr='${EDITOR} ${XDG_CONFIG_HOME}/Xresources' \
     vb='${EDITOR} ~/.bashrc' \
-    vp='${EDITOR} ~/.profile' \
     vx='${EDITOR} ~/.xinitrc' \
     vh='${EDITOR} ${HISTFILE}' \
-    vr='${EDITOR} ${XDG_CONFIG_HOME}/Xresources' \
     vg='${EDITOR} .gitignore' \
     vt='${EDITOR} TODO.md' \
     vw='${EDITOR} ~/prog/env/dwm/config.h' \

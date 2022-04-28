@@ -20,7 +20,8 @@ endif
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-hijack.vim'
 nn <silent> <C-n> :Fern . -reveal=%<CR>
-nn <silent> <leader>n :Fern . -reveal=% -drawer -toggle<CR>
+nn <silent> <leader>n :Fern %:p:h -reveal=%<CR>
+nn <silent> <leader>T :Fern . -reveal=% -drawer -toggle<CR>
 let g:fern#disable_default_mappings = 1
 let g:fern#disable_viewer_hide_cursor = 1
 
@@ -221,9 +222,9 @@ set fileformats=unix,dos,mac
 set incsearch
 set hlsearch
 " tab/space/indent
-set tabstop=4       " width for Tab
-set shiftwidth=4    " width for shifting with '>>'/'<<'
-set softtabstop=4   " width for Tab in inserting or deleting (Backspace)
+set tabstop=4         " width for Tab
+set shiftwidth=4      " width for shifting with '>>'/'<<'
+set softtabstop=4     " width for Tab in inserting or deleting (Backspace)
 set smarttab
 set expandtab
 set autoindent
@@ -232,9 +233,9 @@ set list
 set listchars=tab:>\ ,trail:·
 " line numbers
 set number
-set relativenumber  " NOTE: can cause slowdown in printing
+set relativenumber    " can cause slowdown
 " info/swap/backup
-set viminfo="-"     " NOTE: can't use single quotes here
+set viminfo="-"       " can't use single quotes here
 set nobackup
 set nowritebackup
 set noundofile
@@ -243,7 +244,7 @@ set modeline
 set modelines=5
 " messages in last line
 set noshowmode
-set noshowcmd
+set noshowcmd         " can cause slowdown
 " wildmenu
 set wildmenu
 set wildmode=longest,full
@@ -260,7 +261,7 @@ set conceallevel=0
 set concealcursor=nvic
 " tags
 set tags=./tags,tags,$IDE_DIR/tags,~/.local/share/tags
-set notagrelative " prevent '.nvim' prefix for tag
+set notagrelative     " disable directory prefix for tag file
 " spell
 set spell spelllang=
 " file search
@@ -273,7 +274,7 @@ set scrolloff=5
 " do not autoreload changed file
 set noautoread
 " highlight current line
-set cursorline
+set cursorline        " can cause slowdown
 " do not indent: N-s - namespaces, g0 - public/private/protected
 set cinoptions=N-s,g0
 " enable <> pair
@@ -287,6 +288,8 @@ set shortmess=atT
 " text width
 set textwidth=120
 set colorcolumn=120
+" window title
+set title
 " misc
 set completeopt-=preview
 set hidden
@@ -549,6 +552,11 @@ endif
 " > don't forget to use corresponding gcc version
 " $ cd .vim/plugged/YouCompleteMe/
 " $ python3 install.py --clang-completer
+"
+" # coc.nvim compilation
+" $ cd ~/.local/share/nvim/plugged/coc.nvim/
+" $ yarn install
+" $ yarn build
 "
 " # fzf installation (locally, no package manager)
 " $ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf

@@ -25,13 +25,13 @@ shopt -s cdspell
 shopt -s checkwinsize
 shopt -s direxpand
 bind TAB:menu-complete
-bind "set show-all-if-ambiguous on"
+bind 'set show-all-if-ambiguous on'
 bind -m vi-command 'Control-l: clear-screen'
 bind -m vi-insert 'Control-l: clear-screen'
 
 # aliases
-[ -f "$XDG_CONFIG_HOME/aliases.sh" ] && source "$XDG_CONFIG_HOME/aliases.sh"
+[ -f "$XDG_CONFIG_HOME/shell/aliases.sh" ] && source "$XDG_CONFIG_HOME/shell/aliases.sh"
 # extra settings (for temporary purposes)
-[ -f "$XDG_CONFIG_HOME/extra.sh" ] && source "$XDG_CONFIG_HOME/extra.sh"
+[ -f "$XDG_CONFIG_HOME/shell/extra.sh" ] && source "$XDG_CONFIG_HOME/shell/extra.sh"
 # fzf
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
