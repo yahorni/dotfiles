@@ -1,6 +1,6 @@
 " vim: fdm=marker fdl=0
 
-if isdirectory($IDE_DIR)
+if IsProject()
   " autocomplete
   let completeplug='coc' " coc/ycm/etc...
   if (completeplug=='coc')
@@ -35,6 +35,7 @@ if isdirectory($IDE_DIR)
   nn <localleader>y :YcmRestartServer<CR>
   let g:ycm_global_ycm_extra_conf = getcwd() . "/.nvim/ycm.py"
   let g:ycm_confirm_extra_conf = 0
+  nn <silent> <leader>k :YcmCompleter GetDoc<CR>
   " }}}
   endif
 endif
@@ -51,12 +52,6 @@ au FileType tex,markdown,json let g:indentLine_enabled = 0
 Plug 'lyokha/vim-xkbswitch'
 let g:XkbSwitchEnabled = 1
 let g:XkbSwitchLib = '/usr/lib/libxkbswitch.so'
-
-" highlight colors
-Plug 'ap/vim-css-color'
-
-" python
-Plug 'vim-scripts/indentpython.vim'
 
 " syntax files
 Plug 'baskerville/vim-sxhkdrc'      " sxhkd

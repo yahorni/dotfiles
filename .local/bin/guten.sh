@@ -17,12 +17,13 @@ while [[ $# -gt 0 ]]; do
       shift
       shift
       ;;
-    --options) # ignore 'options' arg
-      options_file="$2"
-      shift
+    # ignore positional options
+    --options=*|--tag-relative=*)
       shift
       ;;
-    --options=*) # ignore 'options' arg
+    # ignore kw options
+    --options|--tag-relative)
+      shift
       shift
       ;;
     *)

@@ -2,21 +2,35 @@
 
 [[ $- == *i* ]] || exit
 
+# history
+export HISTCONTROL=ignoredups
+export HISTFILE="$XDG_CACHE_HOME/bash_history"
+export HISTFILESIZE=
+export HISTIGNORE=' *'
+export HISTSIZE=
+
 # disable Ctrl-R freeze
 stty -ixon
 
 # prompt
-blue='\e[34m'
-bold='\e[1m'
-default='\e[39;0m'
-green='\e[32m'
-magenta='\e[35m'
-red='\e[31m'
-yellow='\e[33m'
-PS1="\[$bold$red\][\[$yellow\]\u\[$green\]@\[$blue\]\h \[$magenta\]\W\[$red\]]\[$default\]\$ "
+set_prompt() {
+    local blue='\e[34m'
+    local green='\e[32m'
+    local magenta='\e[35m'
+    local red='\e[31m'
+    local yellow='\e[33m'
 
-# simple prompt
-# PS1='\[\033[1;34m\][\u@\h \W]\$ \[\033[0m\]'
+    local bold='\e[1m'
+    local default='\e[39;0m'
+
+    # shellcheck disable=SC2155
+    local symbol=$([ "$EUID" -eq 0 ] && printf '#' || printf '\$')
+
+    # square brackets -- non-printing escape sequence
+    # line overwrite itself when escape sequences not in '[]'
+    PS1="\[$bold$red\][\[$yellow\]\u\[$green\]@\[$blue\]\h \[$magenta\]\W\[$red\]]\[$default\]$symbol "
+}
+set_prompt
 
 # options
 set -o vi
@@ -31,7 +45,9 @@ bind -m vi-insert 'Control-l: clear-screen'
 
 # aliases
 [ -f "$XDG_CONFIG_HOME/shell/aliases.sh" ] && source "$XDG_CONFIG_HOME/shell/aliases.sh"
+# completions
+[ -f "$XDG_CONFIG_HOME/shell/completions.bash" ] && source "$XDG_CONFIG_HOME/shell/completions.bash"
 # extra settings (for temporary purposes)
 [ -f "$XDG_CONFIG_HOME/shell/extra.sh" ] && source "$XDG_CONFIG_HOME/shell/extra.sh"
 # fzf
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[ -f "$XDG_CONFIG_HOME/fzf/fzf.bash" ] && source "$XDG_CONFIG_HOME/fzf/fzf.bash"

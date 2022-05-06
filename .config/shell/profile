@@ -7,23 +7,18 @@ export EDITOR='nvim'
 export VISUAL="$EDITOR"
 export BROWSER='firefox'
 export READER='zathura'
-
-# custom
-export WM='dwm'
-export WMBAR='dwmbar'
 export IDE_DIR='.ide'
+
+# gui
+export USE_XSESSION='false'
+export WM='dwm'
+export WM_ARGS=
+export WM_BAR='dwmbar'
 
 # XDG directories
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
-
-# history
-export HISTFILE="$XDG_DATA_HOME/shell.hist"
-export HISTSIZE=1000000
-export HISTFILESIZE=$HISTSIZE
-export HISTIGNORE=' *'
-export SAVEHIST=$HISTSIZE
 
 # colors
 export GREP_COLOR='1;31'
@@ -66,7 +61,7 @@ if [ -f "$XDG_CONFIG_HOME/shell/on_login.sh" ]; then
 fi
 
 # x11 start
-if [ "$(tty)" = '/dev/tty1' ] && [ -n "$WM" ]; then
+if [ "$USE_XSESSION" = 'false' ] && [ "$(tty)" = '/dev/tty1' ] && [ -n "$WM" ]; then
     pgrep -x "$WM" || exec startx \
         1>"$XDG_CACHE_HOME/Xorg.1.log" \
         2>"$XDG_CACHE_HOME/Xorg.2.log"

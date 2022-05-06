@@ -3,7 +3,8 @@
 # colors
 alias \
     ls='ls --color=auto --group-directories-first' \
-    grep='grep --color=auto'
+    grep='grep --color=auto' \
+    diff='diff --color=auto'
 
 # fast ls
 alias \
@@ -69,7 +70,7 @@ alias \
     vz='${EDITOR} ${XDG_CONFIG_HOME}/zsh/.zshrc' \
     vq='${EDITOR} ${XDG_CONFIG_HOME}/qutebrowser/config.py' \
     vp='${EDITOR} ${XDG_CONFIG_HOME}/shell/profile' \
-    vr='${EDITOR} ${XDG_CONFIG_HOME}/Xresources' \
+    vr='${EDITOR} ${XDG_CONFIG_HOME}/xresources' \
     vb='${EDITOR} ~/.bashrc' \
     vx='${EDITOR} ~/.xinitrc' \
     vh='${EDITOR} ${HISTFILE}' \
@@ -118,67 +119,3 @@ scr() {
 snc() {
     watch -d grep -e Dirty: -e Writeback: /proc/meminfo
 }
-
-# completion
-if [ -n "${BASH}" ]; then
-    # completions for aliases
-    source /usr/share/bash-completion/bash_completion
-    completions="/usr/share/bash-completion/completions"
-    # systemctl
-    source ${completions}/systemctl
-    complete -F _systemctl systemctl sc ssc scu
-    # git
-    source ${completions}/git
-    __git_complete gd _git_diff
-    __git_complete ga _git_add
-    __git_complete gb _git_branch
-    __git_complete gc _git_commit
-    __git_complete gr _git_remote
-    __git_complete gm _git_merge
-    __git_complete gst _git_status
-    __git_complete gch _git_checkout
-    __git_complete gps _git_push
-    __git_complete gpl _git_pull
-    __git_complete grs _git_reset
-    __git_complete grb _git_rebase
-    __git_complete gsh _git_stash
-    __git_complete gcp _git_cherry_pick
-    __git_complete gsb _git_submodule
-    # bare repo alias
-    __git_complete dg git
-    # pacman
-    if command -v pacman 1>/dev/null ; then
-      source ${completions}/pacman
-      complete -F _pacman pacman sp
-    fi
-    # sshrc
-    if command -v sshrc 1>/dev/null ; then
-      source ${completions}/ssh
-      complete -F _ssh ssh sshrc shr
-    fi
-    # ide
-    source ${completions}/make
-    make_completion_wrapper() {
-        local function_name="$2"
-        local arg_count=$(($#-3))
-        local comp_function_name="$1"
-        shift 2
-        local function="
-      $function_name() {
-        ((COMP_CWORD+=$arg_count))
-        COMP_WORDS=( "$@" \${COMP_WORDS[@]:1} )
-        COMP_LINE=\"\${COMP_WORDS[*]}\"
-        COMP_POINT=\"\${#COMP_LINE}\"
-        "$comp_function_name" "$1"
-        return 0
-    }"
-        eval "$function"
-    }
-    make_completion_wrapper _make _make_f make -f .nvim/Makefile
-    complete -F _make_f ide ides
-    # cdj
-    _cdj() { COMPREPLY=($(cd "$HOME/prog" || return 1 ; compgen -d "$2")) ; }
-    complete -F _cdj cdj
-elif [ -n "${ZSH_NAME}" ]; then
-    compdef sshrc=ssh shr=ssh
-fi

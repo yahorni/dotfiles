@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# editor
 setup_editor() {
     local editors=(nvim vim vi nano)
     for editor in "${editors[@]}"; do
@@ -9,7 +10,6 @@ setup_editor() {
         fi
     done
 }
-
 setup_editor
 
 # colors
@@ -34,11 +34,19 @@ export PATH="$PATH:$HOME/.local/bin"
 stty -ixon
 
 # prompt
-blue='\[\e[34m\]'
-bold='\[\e[1m\]'
-default='\[\e[39;0m\]'
-magenta='\[\e[35m\]'
-PS1="${bold}${magenta}[\u@\h ${blue}\W${magenta}]${default}$ "
+set_prompt() {
+    local default='\[\e[39;0m\]'
+    local bold='\[\e[1m\]'
+
+    local blue='\[\e[34m\]'
+    local magenta='\[\e[35m\]'
+
+    # shellcheck disable=SC2155
+    local symbol=$([ "$EUID" -eq 0 ] && printf '#' || printf '$')
+
+    PS1="\[$bold$magenta\][\u@\h \[$blue\]\W\[$magenta\]]\[$default\]$symbol "
+}
+set_prompt
 
 # disable prompt command
 unset PROMPT_COMMAND 2>/dev/null
