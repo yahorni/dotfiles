@@ -1,0 +1,4 @@
+[Desktop Entry]
+Type=Application
+Name=Console file manager with Ueberzug support
+Exec=/usr/local/bin/st -e /usr/bin/env fmrun.sh %u

@@ -7,7 +7,8 @@ export EDITOR='nvim'
 export VISUAL="$EDITOR"
 export BROWSER='firefox'
 export READER='zathura'
-export IDE_DIR='.ide'
+export OPENER='xdg-open'
+export PAGER='less'
 
 # gui
 export USE_XSESSION='false'
@@ -54,6 +55,9 @@ export _JAVA_AWT_WM_NONREPARENTING=1    # fix java apps in wm
 # path
 # shellcheck disable=SC2155
 export PATH="$PATH:$(find ~/.local/bin -type d -printf %p:):$GOPATH/bin"
+
+# hidden directory for project files
+export IDE_DIR='.ide'
 
 # login
 if [ -f "$XDG_CONFIG_HOME/shell/on_login.sh" ]; then

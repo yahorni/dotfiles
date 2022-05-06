@@ -1,0 +1,29 @@
+# vim: ft=vim fdm=marker fdl=0 cms=#\ %s
+
+# options
+set icons
+set scrolloff 5
+set shellopts '-eu'
+set tabstop 4
+set period 1
+set incsearch
+set drawbox
+set mouse
+
+# file previews
+set previewer '~/.local/bin/fmpreview.sh'
+set cleaner   '~/.local/bin/fmclear.sh'
+
+# disable 'w' mapping
+map w
+
+# enable mouse
+map <m-up> up
+map <m-down> down
+map <m-1> open
+map <m-2> updir
+
+# mappings
+map DD delete
+map s $$SHELL
+map A rename

@@ -99,7 +99,7 @@ super + shift + x
 
 # file manager
 super + v
-    $TERMINAL -e vifmrun
+    $TERMINAL -e fmrun.sh
 
 # mail
 super + shift + v

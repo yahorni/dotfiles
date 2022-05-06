@@ -67,7 +67,7 @@ check_error() {
     [ $error_code -ne 0 ] && notify-send "$msg_fail" "Error code ($error_code)\n$link" && exit $error_code
 }
 
-downloader="yt-dlp"
+downloader="yt-dlp" # youtube-dl
 
 case $format in
     'a') "$downloader" --add-metadata -icxf "bestaudio/best" --audio-format mp3 -o "$outaudio/$filename" "$link" ;;

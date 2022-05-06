@@ -24,6 +24,7 @@ set incsearch
 set scrolloff=5
 set statusline="  Hint: %z%= %A %10u:%-7g %15s %20d  "
 set slowfs=curlftpfs " Don't do too many requests to slow file systems. Check !has('win')
+set previewoptions+=graphicsdelay:0 " Fasten image previews
 
 colorscheme Gruvbox
 
@@ -52,36 +53,11 @@ mark 2 /mnt/usb2
 mark 3 /mnt/usb3
 mark o /mnt/other
 
-" --- PREVIEW/OPEN ---
+" --- PREVIEW ---
+fileviewer *[^/] fmpreview.sh %d/%c %pw %ph %px %py %pc fmclear.sh
+fileviewer .*[^/] fmpreview.sh %d/%c %pw %ph %px %py %pc fmclear.sh
 
-" Pdf
-fileviewer *.pdf
-    \ vifmimg pdf %px %py %pw %ph %c
-    \ %pc
-    \ vifmimg clear
-
-" Djvu
-fileviewer *.djvu
-    \ vifmimg djvu %px %py %pw %ph %c
-    \ %pc
-    \ vifmimg clear
-
-" Video
-fileviewer *.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,
-    \*.fl[icv],*.m2v,*.mov,*.webm,*.ts,*.mts,*.m4v,*.r[am],*.qt,*.divx,*.as[fx],*.gif
-    \ vifmimg videopreview %px %py %pw %ph %c
-    \ %pc
-    \ vifmimg clear
-
-" Images
-fileviewer <image/png,image/jpeg,image/gif,image/bmp,image/x-ms-bmp,image/tiff,image/webp>
-    \ vifmimg draw %px %py %pw %ph %c
-    \ %pc
-    \ vifmimg clear
-
-" Common
-fileviewer *[^/] vifmpreview %f
-fileviewer .*[^/] vifmpreview %f
+" --- OPEN ---
 filextype *  xdg-open %f %i &
 filextype .* xdg-open %f %i &
 filetype *  xdg-open %f %i &
@@ -139,8 +115,6 @@ nnoremap cv :vsplit<cr>
 nnoremap ch :split<cr>
 " faster quit
 nnoremap zq ZQ
-" open file in the background using its default program
-nnoremap gb :file &<cr>l
 " yank current directory path into the clipboard
 nnoremap yd :!echo %d | xclip -sel clip %i<cr>
 " yank current file path into the clipboard
@@ -149,12 +123,6 @@ nnoremap yf :!echo %c:p | xclip -sel clip %i<cr>
 nnoremap I cw<c-a>
 nnoremap cc cw<c-u>
 nnoremap A cw
-" open editor to edit vifmrc and apply settings after returning to vifm
-nnoremap ,c :write | edit $MYVIFMRC | restart<cr>
-" open gvim to edit vifmrc
-nnoremap ,C :!gvim --remote-tab-silent $MYVIFMRC &<cr>
-" toggle wrap setting on ,w key
-nnoremap ,w :set wrap!<cr>
 " example of standard two-panel file managers mappings
 nnoremap <f3> :!less %f<cr>
 nnoremap <f4> :edit<cr>
@@ -162,6 +130,3 @@ nnoremap <f5> :copy<cr>
 nnoremap <f6> :move<cr>
 nnoremap <f7> :mkdir<space>
 nnoremap <f8> :delete<cr>
-" run files in mpv
-nnoremap xm :!mpv --really-quiet --osc %f %i &<cr>
-vnoremap xm :!mpv --really-quiet --osc %f %i &<cr>
