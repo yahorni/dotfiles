@@ -60,9 +60,7 @@ export PATH="$PATH:$(find ~/.local/bin -type d -printf %p:):$GOPATH/bin"
 export IDE_DIR='.ide'
 
 # login
-if [ -f "$XDG_CONFIG_HOME/shell/on_login.sh" ]; then
-    source "$XDG_CONFIG_HOME/shell/on_login.sh"
-fi
+[ -f "$XDG_CONFIG_HOME/shell/on_login.sh" ] && source "$XDG_CONFIG_HOME/shell/on_login.sh"
 
 # x11 start
 if [ "$USE_XSESSION" = 'false' ] && [ "$(tty)" = '/dev/tty1' ] && [ -n "$WM" ]; then
