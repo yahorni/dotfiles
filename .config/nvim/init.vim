@@ -538,6 +538,9 @@ endif
 " # disable expanding tabs to spaces
 " set noet
 "
+" # modeline example
+" # vim:ft=vim:ts=4:sw=4:sts=4:fdm=marker:fdl=0:cms=#\ %s
+"
 " # open nvim without config
 " $ nvim --clean                      # since v8
 " $ nvim -u DEFAULTS -U NONE -i NONE  # before v8

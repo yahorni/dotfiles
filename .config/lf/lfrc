@@ -1,4 +1,4 @@
-# vim: ft=vim fdm=marker fdl=0 cms=#\ %s
+# vim:ft=vim:ts=4:sw=4:sts=4:fdm=marker:fdl=0:cms=#\ %s
 
 # options
 set icons
@@ -11,19 +11,61 @@ set drawbox
 set mouse
 
 # file previews
-set previewer '~/.local/bin/fmpreview.sh'
-set cleaner   '~/.local/bin/fmclear.sh'
+set previewer '~/.local/bin/fm/fmpreview.sh'
+set cleaner   '~/.local/bin/fm/fmclear.sh'
 
-# disable 'w' mapping
+# commands
+cmd paste &{{
+    set -- $(cat ~/.local/share/lf/files)
+    mode="$1"
+    shift
+    case "$mode" in
+        copy)
+            rsync -av --ignore-existing --progress -- "$@" . |
+            stdbuf -i0 -o0 -e0 tr '\r' '\n' |
+            while IFS= read -r line; do
+                lf -remote "send $id echo $line"
+            done
+            ;;
+        move) mv -n -- "$@" .;;
+    esac
+    rm ~/.local/share/lf/files
+    lf -remote "send clear"
+}}
+
+# --- mappings ---
+map s $$SHELL
+map DD delete
+map P paste
+map <esc> clear
+# disable default mappings
 map w
-
+map c
 # enable mouse
 map <m-up> up
 map <m-down> down
 map <m-1> open
 map <m-2> updir
+# rename
+map A rename                # at the very end
+map c push A<c-u>           # new rename
+map I push A<c-a>           # at the very beginning
+map i push A<a-b><a-b><a-f> # before extension
+map a push A<a-b>           # after extension
 
-# mappings
-map DD delete
-map s $$SHELL
-map A rename
+# --- external mappings ---
+# edit file
+map xf $$EDITOR $f
+# open with openwith
+map xo $setsid openwith $f &
+# show pictures
+map xp $sxiv -t .
+# use file for drag'n'drop
+map xg $setsid dragon $f &
+# extract files
+map xe $extract $f
+# add executable rights
+map xa $chmod +x $f
+map xr $chmod -x $f
+# bulkrename
+map cw $vidir

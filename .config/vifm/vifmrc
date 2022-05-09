@@ -64,12 +64,10 @@ filetype *  xdg-open %f %i &
 filetype .* xdg-open %f %i &
 
 " --- STORED INFO ---
-
 set vifminfo=dhistory,savedirs,chistory,state,tui,shistory,
     \phistory,fhistory,dirstack,registers,bookmarks,bmarks
 
 " --- MAPPINGS ---
-
 " start shell in current directory
 nnoremap s :shell<cr>
 " display sorting dialog
@@ -77,56 +75,39 @@ nnoremap S :sort<cr>
 " toggle visibility of preview window
 nnoremap w :view<cr>
 vnoremap w :view<cr>gv
+" open same directory in other pane
+nnoremap xs :sync<cr>
+" splits
+nnoremap cv :vsplit<cr>
+nnoremap ch :split<cr>
+" faster quit
+nnoremap q ZQ
+" mappings for faster renaming
+nnoremap I cw<c-a>
+nnoremap cc cw<c-u>
+nnoremap A cw
+
+" --- EXTERNAL MAPPINGS ---
 " edit file
 nnoremap xf :!$EDITOR %f<cr>
-nnoremap xl :!libreoffice %f<cr>
-" edit in directory
-nnoremap xd :!$EDITOR .<cr>
 " open with xdg-open/openwith
 nnoremap L  :!setsid xdg-open %f &<cr>
 nnoremap xo :!setsid openwith %f %i & disown<cr>
 " show pictures
 nnoremap xp :!sxiv -t %d &<cr>
-" edit new file
-nnoremap xn :!$EDITOR<cr>
 " use file for drag'n'drop
 nnoremap xg :!dragon %f &<cr>
 vnoremap xg :!dragon %f &<cr>
-" convert via unoconv
-nnoremap xu :!unoconv %f &<cr>
-vnoremap xu :!unoconv %f &<cr>
 " extract files
 nnoremap xe :!extract %f<cr>
 vnoremap xe :!extract %f<cr>
-" open same directory in other pane
-nnoremap xs :sync<cr>
 " make zip archive of current directory
 nnoremap xz :!zip -r %f.zip %f &<cr>
-nnoremap xZ :!zip -r %d.zip %f &<cr>
-vnoremap xZ :!zip -r %d.zip %f &<cr>
+nnoremap xd :!zip -r %d.zip %f &<cr>
+vnoremap xd :!zip -r %d.zip %f &<cr>
 " add executable rights
-nnoremap cx :!chmod +x %f<cr>
-vnoremap cx :!chmod +x %f<cr>
+nnoremap xa :!chmod +x %f<cr>
+vnoremap xa :!chmod +x %f<cr>
 " remove executable rights
-nnoremap cX :!chmod -x %f<cr>
-vnoremap cX :!chmod -x %f<cr>
-" splits
-nnoremap cv :vsplit<cr>
-nnoremap ch :split<cr>
-" faster quit
-nnoremap zq ZQ
-" yank current directory path into the clipboard
-nnoremap yd :!echo %d | xclip -sel clip %i<cr>
-" yank current file path into the clipboard
-nnoremap yf :!echo %c:p | xclip -sel clip %i<cr>
-" mappings for faster renaming
-nnoremap I cw<c-a>
-nnoremap cc cw<c-u>
-nnoremap A cw
-" example of standard two-panel file managers mappings
-nnoremap <f3> :!less %f<cr>
-nnoremap <f4> :edit<cr>
-nnoremap <f5> :copy<cr>
-nnoremap <f6> :move<cr>
-nnoremap <f7> :mkdir<space>
-nnoremap <f8> :delete<cr>
+nnoremap xr :!chmod -x %f<cr>
+vnoremap xr :!chmod -x %f<cr>

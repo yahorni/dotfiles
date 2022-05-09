@@ -1,0 +1,7 @@
+#!/bin/sh
+
+last_dir_path="$HOME/.cache/lf/last-dir"
+# shellcheck disable=SC2155
+last_dir="$(cat "$last_dir_path")"
+[ -n "$last_dir" ] && [ ! -d "$last_dir" ] && last_dir=$(dirname "$last_dir")
+exec lf --last-dir-path "$last_dir_path" "$last_dir"

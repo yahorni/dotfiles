@@ -2,7 +2,7 @@
 
 set -e
 
-file_manager="${FM:-lf}" # lf/vifm
+file_manager="${FM:-lfdir}" # lf/vifm
 commands_type="json" # bash/json
 
 cleanup() {

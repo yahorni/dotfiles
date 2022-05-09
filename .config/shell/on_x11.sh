@@ -32,6 +32,6 @@ pgrep -x suspender || suspender &
 pgrep transmission-da || transmission-daemon &
 nm-applet &
 
+redshift &
+blueman-applet &
 # safeeyes &
-# redshift &
-# blueman-applet &
