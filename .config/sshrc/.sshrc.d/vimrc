@@ -69,7 +69,7 @@ set scrolloff=5
 " do not autoreload changed file
 set noautoread
 " highlight current line
-set cursorline        " can cause slowdown
+set nocursorline      " can cause slowdown
 " do not indent: N-s - namespaces, g0 - public/private/protected
 set cinoptions=N-s,g0
 " enable <> pair

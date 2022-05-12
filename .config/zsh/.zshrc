@@ -2,10 +2,10 @@
 
 # history
 export HISTFILE="$XDG_CACHE_HOME/zsh_history"
+export HISTIGNORE=' *'
+export HISTSIZE=1000000
 export HISTFILESIZE=$HISTSIZE
 export SAVEHIST=$HISTSIZE
-export HISTSIZE=1000000
-export HISTIGNORE=' *'
 
 # prompt
 autoload -U colors && colors

@@ -1,6 +1,7 @@
 SHELL=/bin/bash
 USER=$(shell whoami)
 IDE_DIR:=$(CURDIR)/${IDE_DIR}
+BACKUP_DIR=$(HOME)/backup
 
 # targets with args
 # ifneq (,$(filter $(firstword $(MAKECMDGOALS)),<target1> <target2>...))
@@ -9,7 +10,7 @@ IDE_DIR:=$(CURDIR)/${IDE_DIR}
 # endif
 
 ### INTERNAL ###
-.PHONY: help edit todo vim root notes
+.PHONY: help edit todo vim root noroot backup notes
 .DEFAULT_GOAL := help
 
 help:
@@ -37,6 +38,12 @@ noroot:
 		echo "FAIL: Do not run the target as root" ;\
 		exit 1 ;\
 	fi
+
+backup:
+	zip -r backup.zip $(IDE_DIR)/{Makefile,init.vim,TODO.md,*.sh}
+	mkdir -p $(BACKUP_DIR)
+	cp $(IDE_DIR)/{Makefile,init.vim,TODO.md,*.sh} backup.zip $(BACKUP_DIR)
+	rm backup.zip
 
 notes:
 	# empty

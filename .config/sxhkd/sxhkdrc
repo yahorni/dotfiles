@@ -1,6 +1,6 @@
 # NOTE: keys below reserved
 # q/Q - kill window/wm
-# super+shift+r - to update wm
+# shift+r - to update wm
 # f - fullscreen
 # h/j/k/l, comma, period, slash — for wm manipulation
 # TODO: movefloat/resizefloat
@@ -63,11 +63,9 @@ super + a ; {o,a,f,e,c,b}
 super + shift + a
     $TERMINAL -e bash -c "source /usr/share/nvm/init-nvm.sh ; joplin"
 
-# programming
-super + s
-    openprj
-super + shift + s
-    $TERMINAL -c dropdown -e $EDITOR
+# bluetooth
+super + {_, shift +} s
+    sudo -A systemctl {start,stop} bluetooth
 
 # program run
 super + d
@@ -94,16 +92,14 @@ super + {_, shift +} z
 # messengers
 super + x
     telegram-desktop
-super + shift + x
-    slack
-
-# file manager
-super + v
-    $TERMINAL -e fmrun.sh
 
 # mail
-super + shift + v
+super + shift + x
     $TERMINAL -e neomutt
+
+# file managers
+super + {_, shift +} v
+    {_,FM=vifm} $TERMINAL -e fmrun.sh
 
 # clipboard
 super + c
@@ -121,22 +117,19 @@ super + shift + b
 super + {_, shift +} m
     dmenu_{_,un}mount
 
-# music
+# music (keyboard)
 super + {_,shift +} n
     mpc {toggle,stop}
-
 super + {minus,equal}
     mpc {prev,next}
-
 super + shift + {minus,equal}
     mpc seek {-,+}5
 
-XF86Audio{Play,Stop}
-    mpc {toggle,stop}
-
+# music (audio buttons)
+XF86Audio{Play,Pause,Stop}
+    mpc {toggle,toggle,stop}
 XF86Audio{Next,Prev}
     mpc {next,prev}
-
 shift + XF86Audio{Next,Prev}
     mpc seek {+,-}10
 

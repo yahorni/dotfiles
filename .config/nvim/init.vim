@@ -27,6 +27,7 @@ Plug 'lambdalisue/fern-hijack.vim'
 nn <silent> <C-n> :Fern . -reveal=%<CR>
 nn <silent> <leader>n :Fern %:p:h -reveal=%<CR>
 nn <silent> <leader>T :Fern . -reveal=% -drawer -toggle<CR>
+let g:fern#default_hidden = 1
 let g:fern#disable_default_mappings = 1
 let g:fern#disable_viewer_hide_cursor = 1
 
@@ -171,6 +172,7 @@ Plug 'NLKNguyen/papercolor-theme'
 
 " git
 Plug 'airblade/vim-gitgutter'
+Plug 'rhysd/conflict-marker.vim'
 
 " auto tag management
 Plug 'ludovicchabant/vim-gutentags'
@@ -382,16 +384,24 @@ nn gr :call ToggleResizeSplitMode()<CR>
 if executable('rg')
   set grepprg=rg-vim.sh
 
-  function! QuickGrep(pattern, type)
+  function! RG(pattern, where, type)
     let l:escapedpattern = escape(a:pattern, '%\""')
 
-    if a:type == 'all'
-      exe 'silent grep! "' . l:escapedpattern . '"'
-    elseif a:type == 'file'
-      exe 'silent grep! "' . l:escapedpattern . '" ' . expand('%')
-    elseif a:type == 'dir'
-      exe 'silent grep! "' . l:escapedpattern . '" ' . expand('%:p:h')
+    if a:type == 'fixed'
+      let l:commandprefix = 'silent grep! -F -e "'
+    elseif a:type == 'pattern'
+      let l:commandprefix = 'silent grep! -e "'
     endif
+
+    if a:where == 'all'
+      let l:commandsuffix = '"'
+    elseif a:where == 'file'
+      let l:commandsuffix = '" ' . expand('%')
+    elseif a:where == 'dir'
+      let l:commandsuffix = '" ' . expand('%:p:h')
+    endif
+
+    exe l:commandprefix . l:escapedpattern . l:commandsuffix
 
     copen
     if line('$') == 1 && getline(1) == ''
@@ -403,18 +413,31 @@ if executable('rg')
     endif
   endfunction
 
-  command! -nargs=1 QuickGrep call QuickGrep(<f-args>, 'all')
-  nn <leader>gg :QuickGrep<space>
-  vn <leader>gg y:QuickGrep <C-r>+<CR>
-  nn <leader>g/ :QuickGrep<space><C-r>0<CR>
+  command! -nargs=1 RGFixed call RG(<f-args>, 'all', 'fixed')
+  nn <leader>gg :RGFixed<space>
+  vn <leader>gg y:RGFixed <C-r>+<CR>
+  nn <leader>g/ :RGFixed<space><C-r>0<CR>
 
-  command! -nargs=1 QuickGrepFile call QuickGrep(<f-args>, 'file')
-  nn <leader>gf :QuickGrepFile<space>
-  vn <leader>gf y:QuickGrepFile <C-r>+<CR>
+  command! -nargs=1 RGPattern call RG(<f-args>, 'all', 'pattern')
+  nn <localleader>gg :RGPattern<space>
+  vn <localleader>gg y:RGPattern <C-r>+<CR>
+  nn <localleader>g/ :RGPattern<space><C-r>0<CR>
 
-  command! -nargs=1 QuickGrepDir call QuickGrep(<f-args>, 'dir')
-  nn <leader>gd :QuickGrepDir<space>
-  vn <leader>gd y:QuickGrepDir <C-r>+<CR>
+  command! -nargs=1 RGFixedFile call RG(<f-args>, 'file', 'fixed')
+  nn <leader>gf :RGFixedFile<space>
+  vn <leader>gf y:RGFixedFile <C-r>+<CR>
+
+  command! -nargs=1 RGPatternFile call RG(<f-args>, 'file', 'pattern')
+  nn <localleader>gf :RGPatternFile<space>
+  vn <localleader>gf y:RGPatternFile <C-r>+<CR>
+
+  command! -nargs=1 RGFixedDir call RG(<f-args>, 'dir', 'fixed')
+  nn <leader>gd :RGFixedDir<space>
+  vn <leader>gd y:RGFixedDir <C-r>+<CR>
+
+  command! -nargs=1 RGPatternDir call RG(<f-args>, 'dir', 'pattern')
+  nn <localleader>gd :RGPatternDir<space>
+  vn <localleader>gd y:RGPatternDir <C-r>+<CR>
 endif
 " }}}
 
@@ -540,6 +563,9 @@ endif
 "
 " # modeline example
 " # vim:ft=vim:ts=4:sw=4:sts=4:fdm=marker:fdl=0:cms=#\ %s
+"
+" # filename searching with spaces (32 is space symbol)
+" set isfname=@,48-57,/,.,-,_,+,,,#,$,%,~,=,32
 "
 " # open nvim without config
 " $ nvim --clean                      # since v8

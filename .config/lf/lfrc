@@ -47,8 +47,8 @@ map <m-down> down
 map <m-1> open
 map <m-2> updir
 # rename
+map C push A<c-u>           # new rename
 map A rename                # at the very end
-map c push A<c-u>           # new rename
 map I push A<c-a>           # at the very beginning
 map i push A<a-b><a-b><a-f> # before extension
 map a push A<a-b>           # after extension
@@ -65,7 +65,7 @@ map xg $setsid dragon $f &
 # extract files
 map xe $extract $f
 # add executable rights
-map xa $chmod +x $f
-map xr $chmod -x $f
+map xa $chmod +x "$f"
+map xr $chmod -x "$f"
 # bulkrename
 map cw $vidir

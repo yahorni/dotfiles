@@ -33,5 +33,5 @@ pgrep transmission-da || transmission-daemon &
 nm-applet &
 
 redshift &
-blueman-applet &
+# blueman-applet &
 # safeeyes &

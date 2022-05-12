@@ -4,7 +4,7 @@
 # NOTE: +R (fields) and +r (extras) comes together
 
 print_usage() {
-    echo "usage $(basename "$0") [--help] [--system] <output> <positional_args>..."
+    echo "usage $(basename "$0") [-h|--help] [-s|--system] <output> <positional_args>..."
     echo "    output - 'tags' by default"
     echo "    positional_args - current directory '.' by default"
     echo
@@ -22,10 +22,10 @@ set_system_vars() {
 }
 
 check_args() {
-    if [ "$1" = "--help" ]; then
+    if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
         print_usage
         exit
-    elif [ "$1" = "--system" ]; then
+    elif [ "$1" = "-s" ] || [ "$1" = "--system" ]; then
         set_system_vars
         shift
     else

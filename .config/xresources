@@ -3,6 +3,7 @@
 Xcursor.size:   9
 xterm*faceName: monospace:pixelsize=18:antialias=true:autohint=true
 dmenu.selbackground: #004466
+Sxiv.background: #000000
 st.alpha:       0.85
 
 ! Gruvbox

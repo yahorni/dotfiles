@@ -41,7 +41,7 @@ if [ -z "$mode" ] || [ "$mode" = "-" ]; then
         *\.md)              pandoc "$file" --pdf-engine=xelatex -o "$base".pdf ;;
         *\.go)              go run "$file" ;;
         *\.html)            $BROWSER "$file" ;;
-        *Xresources)        xrdb -merge "$file" ;;
+        *[Xx]resources)     xrdb -merge "$file" ;;
         *\.r)               Rscript "$file" ;;
         *CMakeLists\.txt)   cd ./build && cmake .. && make ;;
         *\.js)              node "$file" ;;

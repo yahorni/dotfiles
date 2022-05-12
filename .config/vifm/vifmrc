@@ -81,7 +81,7 @@ nnoremap xs :sync<cr>
 nnoremap cv :vsplit<cr>
 nnoremap ch :split<cr>
 " faster quit
-nnoremap q ZQ
+nnoremap q ZZ
 " mappings for faster renaming
 nnoremap I cw<c-a>
 nnoremap cc cw<c-u>

@@ -3,8 +3,7 @@
 # colors
 alias \
     ls='ls --color=auto --group-directories-first' \
-    grep='grep --color=auto' \
-    diff='diff --color=auto'
+    grep='grep --color=auto'
 
 # fast ls
 alias \
@@ -27,7 +26,7 @@ alias \
 alias \
     dg='/usr/bin/git --git-dir="${HOME}/prog/df" --work-tree="${HOME}"' \
     sp='sudo pacman' \
-    fm='vifmrun' \
+    fm='FM=vifm fmrun.sh' \
     ff='ffplay -autoexit -nodisp' \
     rst='reset && source ~/.bashrc && stty sane && tput cvvis' \
     xo='xdg-open' \
@@ -67,6 +66,7 @@ alias \
     vv='${EDITOR} ${XDG_CONFIG_HOME}/nvim/init.vim' \
     vs='${EDITOR} ${XDG_CONFIG_HOME}/sxhkd/sxhkdrc' \
     vf='${EDITOR} ${XDG_CONFIG_HOME}/vifm/vifmrc' \
+    vl='${EDITOR} ${XDG_CONFIG_HOME}/lf/lfrc' \
     vz='${EDITOR} ${XDG_CONFIG_HOME}/zsh/.zshrc' \
     vq='${EDITOR} ${XDG_CONFIG_HOME}/qutebrowser/config.py' \
     vp='${EDITOR} ${XDG_CONFIG_HOME}/shell/profile' \
@@ -100,9 +100,9 @@ alias \
     cd3='cd /mnt/usb3' \
     cdo='cd /mnt/other'
 alias \
-    .1='cd ..' \
     .2='cd ../..' \
     .3='cd ../../..' \
+    .4='cd ../../../..'
 
 # utils
 cdj() {
