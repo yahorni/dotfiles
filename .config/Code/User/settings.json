@@ -1,0 +1,23 @@
+{
+    "editor.fontSize": 14,
+    "terminal.integrated.fontSize": 14,
+    "files.autoSave": "onFocusChange",
+    "gitlens.advanced.messages": {
+      "suppressCommitHasNoPreviousCommitWarning": true
+    },
+    "window.zoomLevel": 0,
+    "explorer.confirmDelete": false,
+    "files.associations": {
+      "*.rmd": "markdown"
+    },
+    "workbench.colorTheme": "Default Dark+",
+    "workbench.iconTheme": "vscode-icons",
+    "workbench.startupEditor": "newUntitledFile",
+    "vsicons.dontShowNewVersionMessage": true,
+    "editor.lineNumbers": "relative",
+    "files.insertFinalNewline": true,
+    "vscode-neovim.neovimExecutablePaths.linux": "/usr/bin/nvim",
+    "files.trimFinalNewlines": true,
+    "editor.renderFinalNewline": false,
+    "debug.onTaskErrors": "showErrors"
+}

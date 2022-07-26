@@ -38,6 +38,7 @@ set_program_params() {
         acpilight)  repo="https://gitlab.com/wavexx/acpilight.git" ;;
         libxft-bgra)repo="https://gitlab.freedesktop.org/xorg/lib/libxft.git" ;;
         brillo)     repo="https://gitlab.com/cameronnemo/brillo.git" ;;
+        ncmpcpp)    repo="https://github.com/ncmpcpp/ncmpcpp" ;;
         *)          repo="https://github.com/NickoEgor/$target.git" ;;
     esac
 
@@ -118,6 +119,11 @@ build() {
             ./autogen.sh --prefix="/usr/local" --sysconfdir="/etc" --disable-static
             make
             ;;
+        ncmpcpp)
+            ./autogen.sh
+            BOOST_ROOT=/usr ./configure --enable-visualizer --enable-static-boost
+            make -j"$(nproc)"
+            ;;
         *) log2 "skip build()" ;;
     esac
 }
@@ -126,7 +132,7 @@ install() {
     log2 "install()"
 
     case "$target" in
-        st|dmenu|dwm|dwmbar|xmouseless|htop-vim|sshrc|ctags|xwallpaper|acpilight|brillo)
+        st|dmenu|dwm|dwmbar|xmouseless|htop-vim|sshrc|ctags|xwallpaper|acpilight|brillo|ncmpcpp)
             sudo make install
             ;;
         dragon) sudo make PREFIX="/usr/local" install ;;
@@ -152,7 +158,7 @@ cleanup() {
     log2 "cleanup()"
 
     case "$target" in
-        st|dmenu|dwm|dwmbar|dragon|xmouseless|htop-vim|xwallpaper) make clean ;;
+        st|dmenu|dwm|dwmbar|dragon|xmouseless|htop-vim|xwallpaper|ncmpcpp) make clean ;;
         libxft-bgra)
             rm -f "1.patch" ./**/*.rej ./**/*.orig
             git checkout .
@@ -165,7 +171,7 @@ cleanup() {
 # ===================================== #
 
 progs=(st dmenu dwm dwmbar dotfiles df dragon xmouseless term-theme brillo
-       htop-vim sshrc fzf ctags zsh-as zsh-fsh xwallpaper acpilight libxft-bgra)
+       htop-vim sshrc fzf ctags zsh-as zsh-fsh xwallpaper acpilight libxft-bgra ncmpcpp)
 env_dir="$HOME/prog/env"
 
 git_name="NickoEgor"

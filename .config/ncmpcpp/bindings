@@ -1,5 +1,5 @@
 # vim: ft=conf
-# default bindings: /usr/share/doc/ncmpcpp/bindings
+# default bindings: /usr/local/share/doc/ncmpcpp/bindings
 
 def_key "j"
     scroll_down
@@ -7,10 +7,10 @@ def_key "j"
 def_key "k"
     scroll_up
 
-def_key "J"
+def_key "ctrl-d"
     page_down
 
-def_key "K"
+def_key "ctrl-u"
     page_up
 
 def_key "l"
@@ -48,3 +48,21 @@ def_key "v"
 
 def_key "V"
     select_range
+
+def_key "n"
+  next_found_item
+
+def_key "N"
+  previous_found_item
+
+def_key "K"
+  move_sort_order_up
+
+def_key "K"
+  move_selected_items_up
+
+def_key "J"
+  move_sort_order_down
+
+def_key "J"
+  move_selected_items_down

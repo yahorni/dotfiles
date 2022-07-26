@@ -38,6 +38,7 @@ map s $$SHELL
 map DD delete
 map P paste
 map <esc> clear
+map <enter> open
 # disable default mappings
 map w
 map c

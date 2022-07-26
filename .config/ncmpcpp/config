@@ -1,5 +1,5 @@
 # vim: ft=conf
-# default config: /usr/share/doc/ncmpcpp/config
+# default config: /usr/local/share/doc/ncmpcpp/config
 
 ncmpcpp_directory = ~/.local/share/ncmpcpp
 lyrics_directory = ~/.local/share/ncmpcpp/lyrics
@@ -16,7 +16,7 @@ visualizer_fps = 30
 visualizer_look = ●▮
 
 # azlyrics, genius, musixmatch, sing365, metrolyrics, justsomelyrics, jahlyrics, plyrics, tekstowo, zeneszoveg, internet
-lyrics_fetchers = musixmatch, azlyrics, sing365, metrolyrics, internet
+lyrics_fetchers = musixmatch, genius, sing365, metrolyrics, internet
 follow_now_playing_lyrics = yes
 allow_for_physical_item_deletion = yes
 

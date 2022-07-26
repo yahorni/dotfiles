@@ -1,8 +1,7 @@
 #!/bin/bash
 
 categories="Downloads\nFilms\nMusic\nSerials\nBooks\nCustom..."
-
-folder=""
+folder=
 
 case $(echo -e $categories | dmenu -i -p "Option:") in
     Films)      folder="$(xdg-user-dir VIDEOS)" ;;
