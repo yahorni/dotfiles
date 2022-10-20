@@ -3,6 +3,17 @@ USER=$(shell whoami)
 IDE_DIR:=$(CURDIR)/${IDE_DIR}
 BACKUP_DIR=$(HOME)/backup
 
+IDE_DIR:=${IDE_DIR}
+ifeq ($(IDE_DIR), )
+	IDE_DIR:=.ide
+endif
+IDE_DIR_PATH:=$(CURDIR)/$(IDE_DIR)
+
+EDITOR:=${EDITOR}
+ifeq ($(EDITOR), )
+	EDITOR:=vim
+endif
+
 # targets with args
 # ifneq (,$(filter $(firstword $(MAKECMDGOALS)),<target1> <target2>...))
 #   RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
@@ -11,7 +22,7 @@ BACKUP_DIR=$(HOME)/backup
 
 ### INTERNAL ###
 .PHONY: help edit todo vim root noroot backup notes
-.DEFAULT_GOAL := help
+default: help
 
 help:
 	@LC_ALL=C $(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null |\

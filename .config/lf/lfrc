@@ -39,6 +39,7 @@ map DD delete
 map P paste
 map <esc> clear
 map <enter> open
+map <delete> delete
 # disable default mappings
 map w
 map c

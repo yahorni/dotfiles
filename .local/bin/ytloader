@@ -28,17 +28,19 @@ print_help() {
     echo "    -u - add uploader at the title"
     echo "    -p - for playlists: first video to download from"
     echo "    -c - path to cookies file"
+    echo "    -S - do not check for SSL certificates"
 }
 
 declare -a other_args
 
-while getopts "f:d:p:c:suh" opt; do
+while getopts "f:d:p:c:suSh" opt; do
     case $opt in
         f) format=$OPTARG ;;
         d) subdir=$OPTARG ;;
         p) other_args+=("--playlist-start" "$OPTARG") ;;
         s) other_args+=("--all-subs") ;;
         c) other_args+=("--cookies" "$OPTARG") ;;
+        S) other_args+=("--no-check-certificates") ;;
         u) filename='%(uploader)s - %(title)s.%(ext)s' ;;
         h) print_help ; exit 0 ;;
         *) notify-send "$msg_invalid_flag" && exit 1 ;;

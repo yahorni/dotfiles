@@ -9,6 +9,7 @@ fi
 case "$url" in
     *youtube\.com/watch*|*youtube\.com/playlist*|*youtu\.be*|\
     *youtube\.com%2Fwatch*|*youtube\.com%2Fplaylist*|\
+    *vm\.tiktok\.com*|*tiktok\.com/*video*|\
     *\.mkv|*\.webm|*\.mp4|*\.3gp|*\.avi)
         notify-send "Opening in MPV" "$url"
         ERROR=$( (yt-dlp -F "$url" 3>&2 2>&1 1>&3) 2>/dev/null)

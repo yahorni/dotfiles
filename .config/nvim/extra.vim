@@ -40,6 +40,22 @@ if IsProject()
   endif
 endif
 
+" {{{ debug
+Plug 'puremourning/vimspector'
+let g:vimspector_install_gadgets = ['debugpy'] ", 'vscode-cpptools', 'CodeLLDB' ]
+
+nn <localleader>b <Plug>VimspectorToggleBreakpoint
+nn <localleader>B <Plug>VimspectorBreakpoints
+nn <localleader>c <Plug>VimspectorContinue
+nn <localleader>S <Plug>VimspectorStop
+nn <localleader>j <Plug>VimspectorStepInto
+nn <localleader>o <Plug>VimspectorStepOver
+nn <localleader>k <Plug>VimspectorStepOut
+nn <localleader>L :call vimspector#Launch()<CR>
+nn <localleader>r :call vimspector#Restart()<CR>
+nn <localleader>R :call vimspector#Reset()<CR>
+" }}}
+
 " indentation
 Plug 'Yggdroot/indentLine' " can break conceallevel
 if !has('nvim')

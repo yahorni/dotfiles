@@ -61,11 +61,13 @@ super + a ; {o,a,f,e,c,b}
 
 # notes
 super + shift + a
-    $TERMINAL -e bash -c "source /usr/share/nvm/init-nvm.sh ; joplin"
+    $TERMINAL -e joplin
 
 # bluetooth
-super + {_, shift +} s
+super + s; {e,d}
     sudo -A systemctl {start,stop} bluetooth
+super + s; {a,k}
+    {_,pkill} blueman-applet
 
 # program run
 super + d

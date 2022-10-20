@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # keyboard
-setxkbmap -layout us,ru
 # 1. numpad:microsoft           enable microsoft numpad
 # 2. grp:caps_toggle            switch language on caps
 # 3. grp_led:caps               toggle light on capslock
@@ -9,7 +8,9 @@ setxkbmap -layout us,ru
 # 5. lv3:ralt_switch            enable 3rd keyboard level with Right_Alt
 # 6. misc:typo                  additional typo symbols
 # 7. keypad:pointerkeys         toggle numpad mouse control: Alt+Shift+NumLock
-setxkbmap -option numpad:microsoft,grp:caps_toggle,grp_led:caps,terminate:ctrl_alt_bksp,lv3:ralt_switch,misc:typo,keypad:pointerkeys
+setxkbmap \
+    -layout us,ru \
+    -option numpad:microsoft,grp:caps_toggle,grp_led:caps,terminate:ctrl_alt_bksp,lv3:ralt_switch,misc:typo,keypad:pointerkeys
 
 # xresources
 [ -f "$XDG_CONFIG_HOME/xresources" ] && xrdb -merge "$XDG_CONFIG_HOME/xresources" & xrdbpid=$!

@@ -1,12 +1,12 @@
 #!/bin/bash
 
-categories="Downloads\nFilms\nMusic\nSerials\nBooks\nCustom..."
+categories="Downloads\nFilms\nMusic\nSeries\nBooks\nCustom..."
 folder=
 
 case $(echo -e $categories | dmenu -i -p "Option:") in
     Films)      folder="$(xdg-user-dir VIDEOS)" ;;
     Music)      folder="$(xdg-user-dir MUSIC)" ;;
-    Serials)    folder="$(xdg-user-dir SERIALS)" ;;
+    Series)     folder="$(xdg-user-dir SERIES)" ;;
     Books)      folder="$(xdg-user-dir BOOKS)" ;;
     Downloads)  folder="$(xdg-user-dir DOWNLOAD)" ;;
     Custom*)    folder="$HOME/$(dmenu -p "Enter path in '$HOME':" <&-)" ;;

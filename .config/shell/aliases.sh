@@ -75,7 +75,7 @@ alias \
     vx='${EDITOR} ~/.xinitrc' \
     vh='${EDITOR} ${HISTFILE}' \
     vg='${EDITOR} .gitignore' \
-    vt='${EDITOR} TODO.md' \
+    vt='${EDITOR} $(xdg-user-dir DOCUMENTS)/TODO.md' \
     vw='${EDITOR} ~/prog/env/dwm/config.h' \
     v_='${EDITOR} $_'
 
@@ -91,7 +91,7 @@ alias \
     cdd='cd "$(xdg-user-dir DOWNLOAD)"' \
     cdm='cd "$(xdg-user-dir MUSIC)"' \
     cdp='cd "$(xdg-user-dir PICTURES)"' \
-    cdS='cd "$(xdg-user-dir SERIALS)"' \
+    cdS='cd "$(xdg-user-dir SERIES)"' \
     cdv='cd "$(xdg-user-dir VIDEOS)"'
 alias \
     cdP='cd /mnt/phone' \

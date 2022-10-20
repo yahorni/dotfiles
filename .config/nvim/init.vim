@@ -18,7 +18,7 @@ endfunction
 " {{{ PLUGINS
 call plug#begin()
 
-" treeview
+" {{{ treeview
 if has('nvim')
   Plug 'antoinemadec/FixCursorHold.nvim'
 endif
@@ -26,7 +26,7 @@ Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-hijack.vim'
 nn <silent> <C-n> :Fern . -reveal=%<CR>
 nn <silent> <leader>n :Fern %:p:h -reveal=%<CR>
-nn <silent> <leader>T :Fern . -reveal=% -drawer -toggle<CR>
+nn <silent> <leader>N :Fern . -reveal=% -drawer -toggle<CR>
 let g:fern#default_hidden = 1
 let g:fern#disable_default_mappings = 1
 let g:fern#disable_viewer_hide_cursor = 1
@@ -51,6 +51,7 @@ augroup FernGroup
   autocmd!
   autocmd FileType fern call FernInit()
 augroup END
+" }}}
 
 " comments
 Plug 'tpope/vim-commentary'
@@ -74,7 +75,7 @@ let g:lightline = {
   \  'inactive': {'left': [['relativepath', 'modified']]}
   \}
 
-" snippets
+" {{{ snippets
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'honza/vim-snippets'
@@ -85,8 +86,9 @@ smap <C-k> <Plug>(neosnippet_expand_or_jump)
 xm <C-k> <Plug>(neosnippet_expand_target)
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
   \  '\<Plug>(neosnippet_expand_or_jump)' : '\<TAB>'
+" }}}
 
-" linting
+" {{{ linting
 Plug 'w0rp/ale'
 " NOTE: do not use 'clangd' linter as it's too heavy
 let g:ale_linters = {
@@ -143,6 +145,7 @@ nm <localleader>] <Plug>(ale_next)
 nm <localleader>[ <Plug>(ale_previous)
 nm <localleader>} <Plug>(ale_next_error)
 nm <localleader>{ <Plug>(ale_previous_error)
+" }}}
 
 " go
 Plug 'fatih/vim-go'
@@ -191,6 +194,7 @@ Plug 'plasticboy/vim-markdown'
 
 " aligning text
 " NOTE: http://vimcasts.org/episodes/aligning-text-with-tabular-vim/
+" NOTE: align by '=': Tabularize /=
 Plug 'godlygeek/tabular'
 
 " highlight colors
@@ -295,7 +299,7 @@ set cinoptions=N-s,g0
 " enable <> pair
 set matchpairs+=<:>
 " do not save quickfix to session file
-set sessionoptions-=blank
+set sessionoptions-=blank,folds
 " ignore local .vimrc
 set noexrc
 " shorten vim messages
@@ -340,10 +344,6 @@ nn zq ZQ
 " buffer close
 nn <silent> <C-q> :close<CR>
 
-" newline without insert mode
-nn <localleader>o o<ESC>
-nn <localleader>O O<ESC>
-
 " }}}
 
 " {{{ CURSOR
@@ -382,7 +382,15 @@ nn gr :call ToggleResizeSplitMode()<CR>
 
 " {{{ GREP
 if executable('rg')
-  set grepprg=rg-vim.sh
+  function! ResetGrep()
+    if exists("g:grepignore")
+      exe "set grepprg=rg-vim.sh\\ -d\\ ".join(g:grepignore, ',')
+    else
+      set grepprg=rg-vim.sh
+    endif
+  endfunction
+
+  call ResetGrep()
 
   function! RG(pattern, where, type)
     let l:escapedpattern = escape(a:pattern, '%\""')
@@ -517,6 +525,7 @@ au VimLeave *.tex !texclear %:p:h
 
 " autoremove trailing whitespaces
 nn <silent> <leader>w :%s/\s\+$//e <bar> nohl<CR>
+vn <silent> <leader>w y:'<,'>s/\s\+$//e <bar> nohl<CR>
 
 " update ctags manually
 nn <silent> <leader>t :!updtags.sh $IDE_DIR/tags .<CR>

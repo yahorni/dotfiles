@@ -19,5 +19,11 @@
     "vscode-neovim.neovimExecutablePaths.linux": "/usr/bin/nvim",
     "files.trimFinalNewlines": true,
     "editor.renderFinalNewline": false,
-    "debug.onTaskErrors": "showErrors"
+    "debug.onTaskErrors": "showErrors",
+    "files.watcherExclude": {
+        "**/.git/*/**": true,
+        "**/build/*/**": true,
+        "**/node_modules/*/**": true,
+        "**/venv/*/**": true
+    }
 }
