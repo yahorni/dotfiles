@@ -30,8 +30,8 @@ mountusb() {
     case "$partitiontype" in
         "vfat") sudo -A mount -t vfat "$chosen" "$mp" -o rw,umask=0000;;
         *) sudo -A mount "$chosen" "$mp"; user="$(whoami)"; ug="$(groups | awk '{print $1}')"; sudo -A chown "$user":"$ug" "$mp";;
-    esac
-    notify-send "💻 USB mounting" "$chosen mounted to $mp."
+    esac && notify-send "💻 USB mounting" "$chosen mounted to $mp." ||
+            notify-send "💻 Drive failed to mount." "Probably a permissions issue or drive is already mounted."
 }
 
 mountandroid() {
@@ -49,10 +49,10 @@ mountandroid() {
         fi
 
         if [ "$attempt" -eq "$attempts" ]; then
-            notify-send "Can't mount device to $mp" && exit 1
+            notify-send "🤖 Android failed mounting to $mp" "Probably a permissions issue or phone is already mounted" && exit 1
         else
             notify-send \
-                "Error while mounting android to $mp" \
+                "🤖 Android failed mounting to $mp" \
                 "Attempt $attempt: retry after $delay seconds"
             sleep ${delay}s
         fi

@@ -1,11 +1,15 @@
 #!/bin/bash
 
 # nvidia card hacks
-nvidia_lock="$XDG_DATA_HOME/nvidia_lock"
-if [ -f "$nvidia_lock" ]; then
-    echo "NVIDIA lock detected"
+if lsmod | grep "nvidia" ; then
     xrandr --setprovideroutputsource modesetting NVIDIA-0
     xrandr --auto
+fi
+
+# second monitor detection
+if xrandr | grep "HDMI1 connected" ; then
+    xrandr --output HDMI1 --primary \
+           --output eDP1  --right-of HDMI1
 fi
 
 # wallpaper
@@ -31,7 +35,4 @@ greenclip daemon &
 pgrep -x suspender || suspender &
 pgrep transmission-da || transmission-daemon &
 nm-applet &
-
-redshift &
-# blueman-applet &
-# safeeyes &
+redshift -l "53.893009:27.567444" &

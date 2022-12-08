@@ -1,39 +1,41 @@
+# vim: ft=xf86conf
+
 Section "Device"
-	Identifier	"IntelGPU"
-	Driver		"intel"
-	Option		"TearFree" "true"
-	Option		"Monitor-HDMI2" "HDMI2"
-	Option		"Monitor-DP2" "DP2"
-	BusID		"PCI:0:2:0"
+    Identifier    "IntelGPU"
+    Driver        "intel"
+    Option        "TearFree"
+    Option        "Monitor-HDMI2" "HDMI2"
+    Option        "Monitor-DP2" "DP2"
+    BusID         "PCI:0:2:0"
 EndSection
 
 Section "Monitor"
-	Identifier	"HDMI2"
-	Option		"DPMS" "true"
+    Identifier    "HDMI2"
+    Option        "DPMS"
 EndSection
 
 Section "Monitor"
-	Identifier	"DP2"
-	Option		"RightOf" "HDMI2"
-	Option		"Rotate" "left"
-	Option		"Position" "1920 -410"
-	Option		"PreferredMode" "1920x1200"
-	Option		"DPMS" "true"
+    Identifier    "DP2"
+    Option        "RightOf" "HDMI2"
+    Option        "Rotate" "left"
+    Option        "Position" "1920 -410"
+    Option        "PreferredMode" "1920x1200"
+    Option        "DPMS"
 EndSection
 
 Section "Screen"
-	Identifier	"Screen0"
-	Device		"IntelGPU"
-	Monitor		"HDMI2"
-	DefaultDepth	24
-	SubSection "Display"
-		Virtual 3120 1920
-		Modes "1920x1200" "1920x1080"
-	EndSubSection
+    Identifier    "Screen0"
+    Device        "IntelGPU"
+    Monitor       "HDMI2"
+    DefaultDepth  24
+    SubSection "Display"
+        Virtual 3120 1920
+        Modes "1920x1200" "1920x1080"
+    EndSubSection
 EndSection
 
 Section "ServerLayout"
-	Identifier	"ServerLayout0"
-	Screen		"Screen0"
-	Option		"OffTime" "5"
+    Identifier    "ServerLayout0"
+    Screen        "Screen0"
+    Option        "OffTime" "5"
 EndSection

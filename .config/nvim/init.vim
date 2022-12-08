@@ -129,6 +129,7 @@ let g:ale_cpp_cc_options = '-std=c++17 -Wall -Wextra -pedantic'
 " python
 let g:ale_python_flake8_options = '--max-line-length=120'
 let g:ale_python_autopep8_options = '--max-line-length=120'
+let g:ale_python_isort_options = '--line-length=120'
 " cmake
 let g:ale_cmake_cmake_lint_executable = 'cmake-lint'
 let g:ale_cmake_cmake_lint_options = '--line-width=120'
@@ -172,6 +173,7 @@ au FileType c,cpp nn <silent> <leader>o :FSHere<CR>
 Plug 'Rigellute/shades-of-purple.vim'
 Plug 'liuchengxu/space-vim-dark'
 Plug 'NLKNguyen/papercolor-theme'
+Plug 'EdenEast/nightfox.nvim'
 
 " git
 Plug 'airblade/vim-gitgutter'
@@ -220,7 +222,15 @@ filetype plugin indent on
 " colo shades_of_purple
 " let g:lightline = { 'colorscheme': 'shades_of_purple' }
 " ---
-colo space-vim-dark
+" colo space-vim-dark
+" ---
+colo nightfox
+" colo dayfox
+" colo dawnfox
+" colo duskfox
+" colo nordfox
+" colo terafox
+" colo carbonfox
 " ---
 " set t_Co=256
 " set background=dark
@@ -425,6 +435,7 @@ if executable('rg')
   nn <leader>gg :RGFixed<space>
   vn <leader>gg y:RGFixed <C-r>+<CR>
   nn <leader>g/ :RGFixed<space><C-r>0<CR>
+  nn <leader>gs viwy:RGFixed <C-r>+<CR>
 
   command! -nargs=1 RGPattern call RG(<f-args>, 'all', 'pattern')
   nn <localleader>gg :RGPattern<space>
@@ -484,6 +495,7 @@ nn <silent> <leader>r :!rm $IDE_DIR/session.vim<CR><CR>:echo 'Session removed'<C
 " tab style (2 spaces)
 au FileType vim,cmake,javascript,typescript,yaml,proto
   \  setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal softtabstop=2
+au FileType markdown set textwidth=0
 " }}}
 
 " {{{ FORMATTERS
@@ -523,9 +535,12 @@ let g:tex_flavor = 'latex' " set filetype for tex
 au FileType tex nn <leader>c :!texclear %:p:h<CR><CR>
 au VimLeave *.tex !texclear %:p:h
 
-" autoremove trailing whitespaces
+" remove trailing whitespaces
 nn <silent> <leader>w :%s/\s\+$//e <bar> nohl<CR>
 vn <silent> <leader>w y:'<,'>s/\s\+$//e <bar> nohl<CR>
+
+" remove empty lines
+nn <silent> <leader>W :g/^$/d<CR>
 
 " update ctags manually
 nn <silent> <leader>t :!updtags.sh $IDE_DIR/tags .<CR>

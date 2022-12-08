@@ -1,9 +1,9 @@
 # NOTE: keys below reserved
-# q/Q - kill window/wm
-# shift+r - to update wm
-# f - fullscreen
-# h/j/k/l, comma, period, slash — for wm manipulation
-# TODO: movefloat/resizefloat
+# 1. q/shift+q - kill window/wm
+# 2. shift+r - to update wm
+# 3. f - fullscreen
+# 4. shift+[h/j/k/l] - wm windows manipulations
+# 5. shift+[comma/period/slash] — other wm manipulations
 
 # system/audio controls
 super + {_,shift +}grave
@@ -12,10 +12,6 @@ super + {_,shift +}grave
 # music player
 super + w
     $TERMINAL -e ncmpcpp
-
-# bar
-super + shift + w
-    xmouseless &>/dev/null
 
 # terminal
 super + {_,shift +} e
@@ -56,8 +52,8 @@ super + {_, shift +} p
     powermanager {suspend,_}
 
 # bookmarks
-super + a ; {o,a,f,e,c,b}
-    bookmarks.sh {open,addmark,addfolder,editmark,copy,_}
+super + a ; {o,a,f,e,c,d,b}
+    bookmarks.sh {open,addmark,addfolder,editmark,copy,delmark,_}
 
 # notes
 super + shift + a
@@ -85,7 +81,7 @@ super + {_, shift +} g
 super + Return
     $TERMINAL
 super + shift + Return
-    samedir
+    sd
 
 # resize floating window with ratio
 super + {_, shift +} z
@@ -95,9 +91,9 @@ super + {_, shift +} z
 super + x
     telegram-desktop
 
-# mail
+# mouse
 super + shift + x
-    $TERMINAL -e neomutt
+    xmouseless &>/dev/null
 
 # file managers
 super + {_, shift +} v

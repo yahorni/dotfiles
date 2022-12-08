@@ -13,6 +13,7 @@ application/x-extension-shtml=linkhandler.desktop
 application/x-extension-xht=linkhandler.desktop
 application/x-extension-xhtml=linkhandler.desktop
 application/x-sc=scim.desktop
+application/x-subrip=editor.desktop
 application/xhtml+xml=linkhandler.desktop
 audio/flac=audio.desktop
 audio/mpeg=audio.desktop
@@ -49,5 +50,8 @@ x-scheme-handler/http=linkhandler.desktop
 x-scheme-handler/https=linkhandler.desktop
 x-scheme-handler/magnet=torrent.desktop
 x-scheme-handler/mailto=mail.desktop
-x-scheme-handler/tg=userapp-Telegram Desktop-EO4BW0.desktop
+x-scheme-handler/tg=userapp-Telegram Desktop-M1OQW1.desktop
 x-scheme-handler/viber=viber.desktop
+
+[Added Associations]
+x-scheme-handler/tg=userapp-Telegram Desktop-M1OQW1.desktop;

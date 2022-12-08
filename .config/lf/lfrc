@@ -1,20 +1,24 @@
 # vim:ft=vim:ts=4:sw=4:sts=4:fdm=marker:fdl=0:cms=#\ %s
 
 # options
+set autoquit on
+set drawbox
 set icons
+set ifs "\n"
+set incsearch
+set mouse
+set period 1
 set scrolloff 5
 set shellopts '-eu'
 set tabstop 4
-set period 1
-set incsearch
-set drawbox
-set mouse
 
 # file previews
 set previewer '~/.local/bin/fm/fmpreview.sh'
 set cleaner   '~/.local/bin/fm/fmclear.sh'
 
 # commands
+cmd mkdir $mkdir -p "$(echo $* | tr ' ' '\ ')"
+
 cmd paste &{{
     set -- $(cat ~/.local/share/lf/files)
     mode="$1"
@@ -37,6 +41,7 @@ cmd paste &{{
 map s $$SHELL
 map DD delete
 map P paste
+map Q quit
 map <esc> clear
 map <enter> open
 map <delete> delete
@@ -57,15 +62,15 @@ map a push A<a-b>           # after extension
 
 # --- external mappings ---
 # edit file
-map xf $$EDITOR $f
+map xf $$EDITOR "$f"
 # open with openwith
-map xo $setsid openwith $f &
+map xo $setsid openwith "$f" &
 # show pictures
 map xp $sxiv -t .
 # use file for drag'n'drop
-map xg $setsid dragon $f &
+map xg $setsid dragon "$f" &
 # extract files
-map xe $extract $f
+map xe $extract "$f"
 # add executable rights
 map xa $chmod +x "$f"
 map xr $chmod -x "$f"

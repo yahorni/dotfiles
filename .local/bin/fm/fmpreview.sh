@@ -39,7 +39,7 @@ is_ueberzug_running() {
 
 is_drawable_preview() {
     case "$mime_type" in
-        video/*|image/*|*/pdf|*/djvu|*.djvu) return 0 ;;
+        video/*|image/*|*/pdf|*djvu|*/epub+zip|*/mobi*) return 0 ;;
         *) return 1 ;;
     esac
 }
@@ -53,11 +53,11 @@ print_preview() {
         text/html)                        lynx -width="$x_pos" -display_charset=utf-8 -dump "$filename" ;;
         text/troff)                       man ./"$filename" | col -b ;;
         text/*|*/xml|application/json)    $highlight_cmd "$filename" ;;
-        application/zip)                  $zip_cmd "$filename" ;;
         audio/*|application/octet-stream) mediainfo "$filename" ;;
-        application/x-rar)                unrar v "$filename" ;;
-        application/x-tar)                tar -tf "$filename" ;;
+        application/zip)                  $zip_cmd "$filename" ;;
         application/gzip)                 tar -tzf "$filename" ;;
+        application/x-tar)                tar -tf "$filename" ;;
+        application/x-rar)                unrar v "$filename" ;;
         *opendocument*)                   odt2txt "$filename" ;;
         application/pgp-encrypted)        gpg -d -- "$filename" ;;
         application/pdf)                  pdftotext -nopgbrk "$filename" - ;;
@@ -65,8 +65,8 @@ print_preview() {
     esac
 }
 
-prepare_preview() {
-    if [[ "$mime_type" = "image/"* ]]; then
+prepare_preview_image() {
+    if [[ ( "$mime_type" = "image/"* ) && ( "$mime_type" != *"djvu" ) ]]; then
         preview_path="$filename"
         return
     fi
@@ -79,7 +79,8 @@ prepare_preview() {
         */pdf)   [ ! -f "$preview_path" ] && pdftoppm -f 1 -l 1 -scale-to-x 800 -scale-to-y -1 -singlefile \
                                                 -jpeg -tiffcompression jpeg -- "$filename" "$preview_path" \
                                           && mv "$preview_path".* "$preview_path" ;;
-        */djvu|*.djvu)  [ ! -f "$preview_path" ] && ddjvu "$filename" -page=1 -format=ppm | convert - "$preview_path" ;;
+        *djvu)   [ ! -f "$preview_path" ] && ddjvu "$filename" -page=1 -format=ppm -size=800x600 "$preview_path" ;;
+        */epub+zip|*/mobi*) [ ! -f "$preview_path" ] && gnome-epub-thumbnailer "$filename" "$preview_path" ;;
     esac
 }
 
@@ -120,7 +121,7 @@ commands_type="json" # bash/json
 set_highlight_command
 set_zip_command
 if [ -n "$DISPLAY" ] && [ -z "$WAYLAND_DISPLAY" ] && is_ueberzug_running && is_drawable_preview; then
-    prepare_preview
+    prepare_preview_image
     draw_preview
 else
     print_preview
