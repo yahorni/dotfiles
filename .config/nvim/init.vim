@@ -1,245 +1,33 @@
 " vim: fdm=marker fdl=0
 set nocompatible
 
+" {{{ SCRIPTS MANAGEMENT
+func! TryReadScriptFile(filename) abort
+  let l:callstack = expand("<stack>")
+  let l:list = split(l:callstack, '\.\.')
+  let l:script_name = matchstr(l:list[-2], '^\(script \)\=\zs.\+\ze\[\d\+\]$')
+  let l:script_path = fnamemodify(l:script_name, ":p:h").'/'.a:filename
+  if filereadable(l:script_path)
+    exec 'source '.l:script_path
+    return 1
+  else
+    return 0
+  endif
+endfunc
+
+" set project directory
+let g:has_project_config = TryReadScriptFile('project.vim')
+if g:has_project_config
+  call project#ensureDirSet()
+endif
+" }}}
+
+call TryReadScriptFile('plugins.vim')
+
+" {{{ OPTIONS
 " set leader key
 let mapleader=' '
 let maplocalleader=','
-
-" ensure IDE directory is set
-if empty($IDE_DIR)
-  let $IDE_DIR='.ide'
-endif
-
-" check whether first buffer in project directory
-function! IsProject() abort
-  return isdirectory($IDE_DIR) && (empty(expand('%')) || stridx(expand('%:p'), getcwd()) != -1)
-endfunction
-
-" {{{ PLUGINS
-call plug#begin()
-
-" {{{ treeview
-if has('nvim')
-  Plug 'antoinemadec/FixCursorHold.nvim'
-endif
-Plug 'lambdalisue/fern.vim'
-Plug 'lambdalisue/fern-hijack.vim'
-nn <silent> <C-n> :Fern . -reveal=%<CR>
-nn <silent> <leader>n :Fern %:p:h -reveal=%<CR>
-nn <silent> <leader>N :Fern . -reveal=% -drawer -toggle<CR>
-let g:fern#default_hidden = 1
-let g:fern#disable_default_mappings = 1
-let g:fern#disable_viewer_hide_cursor = 1
-
-function! FernInit() abort
-  nm <buffer><nowait> <CR> <Plug>(fern-action-open-or-expand)
-  nm <buffer><nowait> l <Plug>(fern-action-open-or-expand)
-  nm <buffer><nowait> h <Plug>(fern-action-collapse)
-  nm <buffer><nowait> s <Plug>(fern-action-open:split)
-  nm <buffer><nowait> v <Plug>(fern-action-open:vsplit)
-  nm <buffer><nowait> r <Plug>(fern-action-reload:cursor)
-  nm <buffer><nowait> R <Plug>(fern-action-reload:all)
-  nm <buffer><nowait> u <Plug>(fern-action-leave)
-  nm <buffer><nowait> d <Plug>(fern-action-enter)
-  nm <buffer><nowait> c <Plug>(fern-action-cancel)
-  nm <buffer> za <Plug>(fern-action-hidden:toggle)
-  nm <buffer> yy <Plug>(fern-action-yank:label)
-  nm <buffer> yb <Plug>(fern-action-yank)
-endfunction
-
-augroup FernGroup
-  autocmd!
-  autocmd FileType fern call FernInit()
-augroup END
-" }}}
-
-" comments
-Plug 'tpope/vim-commentary'
-nm <C-_> <plug>CommentaryLine<ESC>j
-vm <C-_> <plug>Commentary<ESC>
-
-" improved quoting/parenthesizing
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-repeat' " dot command for vim-surround
-
-" highlight for substituion
-Plug 'markonm/traces.vim'
-
-" rename file
-Plug 'vim-scripts/Rename2'
-
-" status line
-Plug 'itchyny/lightline.vim'
-let g:lightline = {
-  \  'active': {'left': [['mode', 'paste'], ['readonly', 'relativepath', 'modified']]},
-  \  'inactive': {'left': [['relativepath', 'modified']]}
-  \}
-
-" {{{ snippets
-Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/neosnippet-snippets'
-Plug 'honza/vim-snippets'
-let g:neosnippet#enable_snipmate_compatibility = 1
-let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets,~/.vim/snippets'
-im <C-k> <Plug>(neosnippet_expand_or_jump)
-smap <C-k> <Plug>(neosnippet_expand_or_jump)
-xm <C-k> <Plug>(neosnippet_expand_target)
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-  \  '\<Plug>(neosnippet_expand_or_jump)' : '\<TAB>'
-" }}}
-
-" {{{ linting
-Plug 'w0rp/ale'
-" NOTE: do not use 'clangd' linter as it's too heavy
-let g:ale_linters = {
-  \  'cpp': ['cpplint', 'cc', 'clangtidy'],
-  \  'c': ['cpplint', 'cc', 'clangtidy'],
-  \  'cmake': ['cmake_lint'],
-  \  'sh': ['shellcheck'],
-  \  'python': ['flake8', 'pylint'],
-  \  'tex': ['chktex'],
-  \}
-let g:ale_fixers = {
-  \  '*': ['remove_trailing_lines', 'trim_whitespace'],
-  \  'cpp': ['clangtidy', 'clang-format'],
-  \  'c': ['clangtidy', 'clang-format'],
-  \  'cmake': ['cmakeformat'],
-  \  'sh': ['shfmt'],
-  \  'python': ['autoimport', 'isort', 'autoflake', 'autopep8']
-  \}
-let g:ale_set_highlights = 1
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_enter = 0
-let b:ale_list_window_size = 5
-let g:ale_completion_enabled = 1
-" tex options
-" 13 - intersentence spacing
-" 26 - spaces before punctuation
-" 44 - hline in tables
-let g:ale_tex_chktex_options = '-n13 -n26 -n44'
-" c/c++ options
-" NOTE: cpp headers issue
-let g:ale_c_parse_compile_commands = 1
-let g:ale_c_cpplint_options =
-  \'--linelength=120 --filter=-legal/copyright,-legal/license,
-  \-whitespace/todo,-readability/todo,-runtime/references,
-  \-build/include_order,-build/include'
-let g:ale_cpp_cpplint_options = g:ale_c_cpplint_options
-let g:ale_cpp_cc_options = '-std=c++17 -Wall -Wextra -pedantic'
-" python
-let g:ale_python_flake8_options = '--max-line-length=120'
-let g:ale_python_autopep8_options = '--max-line-length=120'
-let g:ale_python_isort_options = '--line-length=120'
-" cmake
-let g:ale_cmake_cmake_lint_executable = 'cmake-lint'
-let g:ale_cmake_cmake_lint_options = '--line-width=120'
-let g:ale_cmake_cmakeformat_executable = 'cmake-format'
-let g:ale_cmake_cmakeformat_options = '--line-width=120'
-" completion
-set omnifunc=ale#completion#OmniFunc
-nm <localleader>l <Plug>(ale_lint)
-nm <localleader>e <Plug>(ale_enable)
-nm <localleader>d <Plug>(ale_disable)
-nm <localleader>f <Plug>(ale_fix)
-nm <localleader>i <Plug>(ale_detail)
-nm <localleader>] <Plug>(ale_next)
-nm <localleader>[ <Plug>(ale_previous)
-nm <localleader>} <Plug>(ale_next_error)
-nm <localleader>{ <Plug>(ale_previous_error)
-" }}}
-
-" go
-Plug 'fatih/vim-go'
-au FileType go let g:go_fmt_fail_silently = 1
-au FileType go let g:go_fmt_autosave = 0
-
-" fzf
-if filereadable('/usr/bin/fzf')
-  Plug '/usr/bin/fzf'
-else
-  Plug 'junegunn/fzf'
-endif
-Plug 'junegunn/fzf.vim'
-nn <silent> <C-b> :Buffers<CR>
-nn <silent> <leader>b :FZF<CR>
-
-" c++
-Plug 'octol/vim-cpp-enhanced-highlight'
-Plug 'rhysd/vim-clang-format'
-Plug 'derekwyatt/vim-fswitch'
-au FileType c,cpp nn <silent> <leader>o :FSHere<CR>
-
-" theme
-Plug 'Rigellute/shades-of-purple.vim'
-Plug 'liuchengxu/space-vim-dark'
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'EdenEast/nightfox.nvim'
-
-" git
-Plug 'airblade/vim-gitgutter'
-Plug 'rhysd/conflict-marker.vim'
-
-" auto tag management
-Plug 'ludovicchabant/vim-gutentags'
-if IsProject()
-  let g:gutentags_ctags_executable = 'guten.sh'
-  let g:gutentags_ctags_tagfile = $IDE_DIR . '/tags'
-  nn <localleader>t :GutentagsUpdate!<CR>
-  " NOTE: to debug gutentags uncomment line below
-  " let g:gutentags_trace = 1
-else
-  let g:gutentags_dont_load = 1
-endif
-
-" markdown
-Plug 'plasticboy/vim-markdown'
-
-" aligning text
-" NOTE: http://vimcasts.org/episodes/aligning-text-with-tabular-vim/
-" NOTE: align by '=': Tabularize /=
-Plug 'godlygeek/tabular'
-
-" highlight colors
-Plug 'ap/vim-css-color'
-
-" python
-Plug 'vim-scripts/indentpython.vim'
-
-" additional plugins
-if filereadable(expand('<sfile>:p:h') . '/extra.vim')
-  exec 'source ' . expand('<sfile>:p:h') . '/extra.vim'
-endif
-
-call plug#end()
-
-filetype plugin indent on
-" }}}
-
-" {{{ COLORTHEME
-" if has('nvim')
-"   set termguicolors
-" endif
-" colo shades_of_purple
-" let g:lightline = { 'colorscheme': 'shades_of_purple' }
-" ---
-" colo space-vim-dark
-" ---
-colo nightfox
-" colo dayfox
-" colo dawnfox
-" colo duskfox
-" colo nordfox
-" colo terafox
-" colo carbonfox
-" ---
-" set t_Co=256
-" set background=dark
-" colo PaperColor
-" ---
-hi Comment cterm=italic
-" }}}
-
-" {{{ OPTIONS
 " status line
 set laststatus=2
 " encoding/fileformat
@@ -289,7 +77,7 @@ set splitright
 set conceallevel=0
 set concealcursor=nvic
 " tags
-set tags=./tags,tags,$IDE_DIR/tags,~/.local/share/tags
+set tags=./tags,tags,~/.local/share/tags
 set notagrelative     " disable directory prefix for tag file
 " spell
 set spell spelllang=
@@ -390,76 +178,6 @@ nn <silent> <expr> <C-l> !exists('b:SplitResize') ? '<C-w><C-l>' : ':vert res +1
 nn gr :call ToggleResizeSplitMode()<CR>
 " }}}
 
-" {{{ GREP
-if executable('rg')
-  function! ResetGrep()
-    if exists("g:grepignore")
-      exe "set grepprg=rg-vim.sh\\ -d\\ ".join(g:grepignore, ',')
-    else
-      set grepprg=rg-vim.sh
-    endif
-  endfunction
-
-  call ResetGrep()
-
-  function! RG(pattern, where, type)
-    let l:escapedpattern = escape(a:pattern, '%\""')
-
-    if a:type == 'fixed'
-      let l:commandprefix = 'silent grep! -F -e "'
-    elseif a:type == 'pattern'
-      let l:commandprefix = 'silent grep! -e "'
-    endif
-
-    if a:where == 'all'
-      let l:commandsuffix = '"'
-    elseif a:where == 'file'
-      let l:commandsuffix = '" ' . expand('%')
-    elseif a:where == 'dir'
-      let l:commandsuffix = '" ' . expand('%:p:h')
-    endif
-
-    exe l:commandprefix . l:escapedpattern . l:commandsuffix
-
-    copen
-    if line('$') == 1 && getline(1) == ''
-      echo 'No search results'
-      cclose
-    else
-      let l:nr=winnr()
-      exe l:nr . 'wincmd J'
-    endif
-  endfunction
-
-  command! -nargs=1 RGFixed call RG(<f-args>, 'all', 'fixed')
-  nn <leader>gg :RGFixed<space>
-  vn <leader>gg y:RGFixed <C-r>+<CR>
-  nn <leader>g/ :RGFixed<space><C-r>0<CR>
-  nn <leader>gs viwy:RGFixed <C-r>+<CR>
-
-  command! -nargs=1 RGPattern call RG(<f-args>, 'all', 'pattern')
-  nn <localleader>gg :RGPattern<space>
-  vn <localleader>gg y:RGPattern <C-r>+<CR>
-  nn <localleader>g/ :RGPattern<space><C-r>0<CR>
-
-  command! -nargs=1 RGFixedFile call RG(<f-args>, 'file', 'fixed')
-  nn <leader>gf :RGFixedFile<space>
-  vn <leader>gf y:RGFixedFile <C-r>+<CR>
-
-  command! -nargs=1 RGPatternFile call RG(<f-args>, 'file', 'pattern')
-  nn <localleader>gf :RGPatternFile<space>
-  vn <localleader>gf y:RGPatternFile <C-r>+<CR>
-
-  command! -nargs=1 RGFixedDir call RG(<f-args>, 'dir', 'fixed')
-  nn <leader>gd :RGFixedDir<space>
-  vn <leader>gd y:RGFixedDir <C-r>+<CR>
-
-  command! -nargs=1 RGPatternDir call RG(<f-args>, 'dir', 'pattern')
-  nn <localleader>gd :RGPatternDir<space>
-  vn <localleader>gd y:RGPatternDir <C-r>+<CR>
-endif
-" }}}
-
 " {{{ FILETREE
 let g:netrw_banner = 0
 let g:netrw_list_hide = '^\./'
@@ -483,12 +201,6 @@ nn <silent> tL :tabmove +1<CR>
 nn <silent> <leader>Se :setlocal spell spelllang+=en<CR>
 nn <silent> <leader>Sr :setlocal spell spelllang+=ru<CR>
 nn <silent> <leader>Sd :setlocal nospell spelllang=<CR>
-" }}}
-
-" {{{ SESSIONS
-nn <silent> <leader>s :mksession! $IDE_DIR/session.vim <bar> echo 'Session saved'<CR>
-nn <silent> <leader>l :source $IDE_DIR/session.vim<CR>
-nn <silent> <leader>r :!rm $IDE_DIR/session.vim<CR><CR>:echo 'Session removed'<CR>
 " }}}
 
 " {{{ STYLES
@@ -542,9 +254,6 @@ vn <silent> <leader>w y:'<,'>s/\s\+$//e <bar> nohl<CR>
 " remove empty lines
 nn <silent> <leader>W :g/^$/d<CR>
 
-" update ctags manually
-nn <silent> <leader>t :!updtags.sh $IDE_DIR/tags .<CR>
-
 " search visually selected text with '//'
 vn // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
@@ -567,62 +276,9 @@ autocmd FileChangedShell * :
 command! BufOnly silent! execute '%bd|e#|bd#'
 " }}}
 
-" {{{ LOCAL VIMRC
-" NOTE: should be in the end to override previous options
-if filereadable($IDE_DIR . '/init.vim')
-  exec 'source '. $IDE_DIR . '/init.vim'
-endif
-" }}}
+call TryReadScriptFile('ripgrep.vim')
 
-" {{{ NOTES
-" # reformat file for linux/utf-8
-" set fileformat=unix fileencoding=utf-8
-" set ff=unix fenc=utf-8
-"
-" # set tab width to other value (for example: 2)
-" set ts=2 | set sw=2 | set sts=2
-" au FileType sh setl ts=2 | setl sw=2 | setl sts=2
-" # disable expanding tabs to spaces
-" set noet
-"
-" # modeline example
-" # vim:ft=vim:ts=4:sw=4:sts=4:fdm=marker:fdl=0:cms=#\ %s
-"
-" # filename searching with spaces (32 is space symbol)
-" set isfname=@,48-57,/,.,-,_,+,,,#,$,%,~,=,32
-"
-" # open nvim without config
-" $ nvim --clean                      # since v8
-" $ nvim -u DEFAULTS -U NONE -i NONE  # before v8
-"
-" # vim-plug installation
-" 1. vim
-" $ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-"       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-" 2. neovim
-" $ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-"       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-" 3. after updating plugins in neovim - create link for vim
-" $ ln -s ~/.local/share/nvim/plugged ~/.vim/plugged
-" 4. [optional] link vim setup for root
-" $ sudo mkdir -pv "/root/.local/share/nvim/{plugged,autoload}" "/root/.vim/"
-" $ sudo ln -s ~/.local/share/nvim/site/autoload /root/.local/share/nvim/site/autoload
-" $ sudo ln -s ~/.local/share/nvim/site/autoload /root/.vim/autoload
-" $ sudo ln -s ~/.local/share/nvim/plugged /root/.local/share/nvim/plugged
-" $ sudo ln -s ~/.local/share/nvim/plugged /root/.vim/plugged
-"
-" # YCM installation
-" > don't forget to use corresponding gcc version
-" $ cd .vim/plugged/YouCompleteMe/
-" $ python3 install.py --clang-completer
-" > or this (in case previous option doesn't work)
-" $ python3 install.py --clangd-completer
-"
-" # coc.nvim compilation
-" $ cd ~/.local/share/nvim/plugged/coc.nvim/
-" $ yarn install
-" $ yarn build
-"
-" # pycscope installation (locally)
-" $ pip install git+https://github.com/portante/pycscope
-" }}}
+if g:has_project_config
+  call project#setupAdditionalFeatures()
+  call project#tryReadLocalVimFile()
+endif

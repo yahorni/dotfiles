@@ -10,12 +10,6 @@ export READER='zathura'
 export OPENER='xdg-open'
 export PAGER='less'
 
-# gui
-export USE_XSESSION='false'
-export WM='dwm'
-export WM_ARGS=
-export WM_BAR='dwmbar'
-
 # XDG directories
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -59,7 +53,13 @@ export PATH="$PATH:$(find ~/.local/bin -type d -printf %p:):$GOPATH/bin"
 # hidden directory for project files
 export IDE_DIR='.ide'
 
-# login
+# GUI
+export USE_XSESSION='false'
+export WM='dwm'
+export WM_ARGS=
+export WM_BAR='dwmbar'
+
+# machine-specific script
 [ -f "$XDG_CONFIG_HOME/shell/on_login.sh" ] && source "$XDG_CONFIG_HOME/shell/on_login.sh"
 
 # x11 start

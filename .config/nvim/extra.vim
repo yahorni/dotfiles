@@ -1,6 +1,6 @@
 " vim: fdm=marker fdl=0
 
-if IsProject()
+if project#isDirSet()
   " autocomplete
   let completeplug='coc' " coc/ycm/etc...
   if (completeplug=='coc')
