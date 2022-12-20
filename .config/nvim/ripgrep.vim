@@ -1,7 +1,7 @@
 " ripgrep.vim
 
 if executable('rg')
-  function! SetGrepToRG()
+  function! ResetRG()
     if exists("g:grepignore")
       exe "set grepprg=rg-vim.sh\\ -d\\ ".join(g:grepignore, ',')
     else
@@ -9,7 +9,7 @@ if executable('rg')
     endif
   endfunction
 
-  call SetGrepToRG()
+  call ResetRG()
 
   function! RipGrep(pattern, where, type)
     let l:escapedpattern = escape(a:pattern, '%\""')

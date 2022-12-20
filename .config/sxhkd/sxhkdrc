@@ -52,8 +52,8 @@ super + {_, shift +} p
     powermanager {suspend,_}
 
 # bookmarks
-super + a ; {o,a,f,e,c,d,b}
-    bookmarks.sh {open,addmark,addfolder,editmark,copy,delmark,_}
+super + a ; {o,O,a,f,e,c,d,b}
+    bookmarks.sh {open,open -o chromium,addmark,addfolder,editmark,copy,delmark,_}
 
 # notes
 super + shift + a
@@ -125,11 +125,11 @@ super + shift + {minus,equal}
 
 # music (audio buttons)
 XF86Audio{Play,Pause,Stop}
-    mpc {toggle,toggle,stop}
+    playerctl {play-pause,play-pause,stop}
 XF86Audio{Next,Prev}
-    mpc {next,prev}
+    playerctl {next,previous}
 shift + XF86Audio{Next,Prev}
-    mpc seek {+,-}10
+    playerctl position 10{+,-}
 
 # screenshots
 Print

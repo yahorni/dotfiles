@@ -14,7 +14,7 @@ alias \
 # system progs
 alias \
     v='${EDITOR}' \
-    sv='sudo ${EDITOR}' \
+    sv='sudoedit' \
     sc='systemctl' \
     scu='systemctl --user' \
     ssc='sudo systemctl' \

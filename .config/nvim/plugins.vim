@@ -155,12 +155,6 @@ Plug 'rhysd/vim-clang-format'
 Plug 'derekwyatt/vim-fswitch'
 au FileType c,cpp nn <silent> <leader>o :FSHere<CR>
 
-" theme
-Plug 'Rigellute/shades-of-purple.vim'
-Plug 'liuchengxu/space-vim-dark'
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'EdenEast/nightfox.nvim'
-
 " git
 Plug 'airblade/vim-gitgutter'
 Plug 'rhysd/conflict-marker.vim'
@@ -191,6 +185,11 @@ Plug 'ap/vim-css-color'
 " python
 Plug 'vim-scripts/indentpython.vim'
 
+" theme
+Plug 'liuchengxu/space-vim-dark'
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'EdenEast/nightfox.nvim'
+
 " additional plugins
 call TryReadScriptFile('extra.vim')
 
@@ -200,13 +199,11 @@ filetype plugin indent on
 " }}}
 
 " {{{ COLORTHEME
-" if has('nvim')
-"   set termguicolors
-" endif
-" colo shades_of_purple
-" let g:lightline = { 'colorscheme': 'shades_of_purple' }
-" ---
 " colo space-vim-dark
+" ---
+" set t_Co=256
+" set background=dark
+" colo PaperColor
 " ---
 " colo nightfox
 " colo dayfox
@@ -216,10 +213,5 @@ colo duskfox
 " colo terafox
 " colo carbonfox
 " ---
-" set t_Co=256
-" set background=dark
-" colo PaperColor
-" ---
 hi Comment cterm=italic
 " }}}
-

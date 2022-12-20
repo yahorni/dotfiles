@@ -1,12 +1,14 @@
 " vim: fdm=marker fdl=0
 set nocompatible
 
+" set leader key
+let mapleader=' '
+let maplocalleader=','
+
 " {{{ SCRIPTS MANAGEMENT
+let s:scripts_path = expand('<sfile>:p:h')
 func! TryReadScriptFile(filename) abort
-  let l:callstack = expand("<stack>")
-  let l:list = split(l:callstack, '\.\.')
-  let l:script_name = matchstr(l:list[-2], '^\(script \)\=\zs.\+\ze\[\d\+\]$')
-  let l:script_path = fnamemodify(l:script_name, ":p:h").'/'.a:filename
+  let l:script_path = s:scripts_path.'/'.a:filename
   if filereadable(l:script_path)
     exec 'source '.l:script_path
     return 1
@@ -25,9 +27,6 @@ endif
 call TryReadScriptFile('plugins.vim')
 
 " {{{ OPTIONS
-" set leader key
-let mapleader=' '
-let maplocalleader=','
 " status line
 set laststatus=2
 " encoding/fileformat

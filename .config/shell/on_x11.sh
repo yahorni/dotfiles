@@ -8,8 +8,7 @@ fi
 
 # second monitor detection
 if xrandr | grep "HDMI1 connected" ; then
-    xrandr --output HDMI1 --primary \
-           --output eDP1  --right-of HDMI1
+    xrandr --output HDMI1 --auto --primary --output eDP1  --right-of HDMI1
 fi
 
 # wallpaper

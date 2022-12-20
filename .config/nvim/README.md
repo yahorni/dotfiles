@@ -1,5 +1,12 @@
 # Vim notes
 
+## troubleshoot
++ After setting leader/localleader all mappings for them got removed
+```vim
+let mapleader=' '
+let maplocalleader=','
+```
+
 ## reformat file for linux/utf-8
 ```vim
 set fileformat=unix fileencoding=utf-8
