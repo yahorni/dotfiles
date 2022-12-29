@@ -163,7 +163,7 @@ Plug 'rhysd/conflict-marker.vim'
 Plug 'ludovicchabant/vim-gutentags'
 if g:has_project_config
   let g:gutentags_ctags_executable = 'guten.sh'
-  let g:gutentags_ctags_tagfile = $IDE_DIR . '/tags'
+  let g:gutentags_ctags_tagfile = $IDE_DIR.'/tags'
   nn <localleader>t :GutentagsUpdate!<CR>
   " NOTE: to debug gutentags uncomment line below
   " let g:gutentags_trace = 1
@@ -192,6 +192,10 @@ Plug 'EdenEast/nightfox.nvim'
 
 " additional plugins
 call TryReadScriptFile('extra.vim')
+
+if g:has_project_config
+  call project#tryReadLocalVimFile('plugins.vim')
+endif
 
 call plug#end()
 

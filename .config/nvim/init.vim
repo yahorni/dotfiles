@@ -279,5 +279,5 @@ call TryReadScriptFile('ripgrep.vim')
 
 if g:has_project_config
   call project#setupAdditionalFeatures()
-  call project#tryReadLocalVimFile()
+  call project#tryReadLocalVimFile('options.vim')
 endif

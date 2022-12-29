@@ -21,9 +21,9 @@ function! project#setupAdditionalFeatures() abort
   nn <silent> <leader>r :!rm $IDE_DIR/session.vim<CR><CR>:echo 'Session removed'<CR>
 endfunction
 
-function! project#tryReadLocalVimFile() abort
+function! project#tryReadLocalVimFile(filename) abort
   " NOTE: should be in the end to override previous options
-  if filereadable($IDE_DIR . '/init.vim')
-    exec 'source '. $IDE_DIR . '/init.vim'
+  if filereadable($IDE_DIR.'/'.a:filename)
+    exec 'source '.$IDE_DIR.'/'.a:filename
   endif
 endfunction

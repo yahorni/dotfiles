@@ -5,7 +5,8 @@ IDE_DIR="${IDE_DIR:-.ide}"
 mkdir -pv "$IDE_DIR"
 
 echo '# TODO' > "$IDE_DIR/TODO.md"
-echo '" local vim setup' > "$IDE_DIR/init.vim"
+echo '" vim plugins for project' > "$IDE_DIR/plugins.vim"
+echo '" vim options for project' > "$IDE_DIR/options.vim"
 
 default_files="$HOME/.config/ide"
 [ ! -d "$default_files" ] && echo "default files not found" && exit
