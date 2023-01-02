@@ -12,7 +12,7 @@ if executable('rg')
   call ResetRG()
 
   function! RipGrep(pattern, where, type)
-    let l:escapedpattern = escape(a:pattern, '%\""')
+    let l:escapedpattern = escape(a:pattern, '%\""#')
 
     if a:type == 'fixed'
       let l:commandprefix = 'silent grep! -F -e "'
@@ -44,7 +44,7 @@ if executable('rg')
   nn <leader>gg :RGFixed<space>
   vn <leader>gg y:RGFixed <C-r>+<CR>
   nn <leader>g/ :RGFixed<space><C-r>0<CR>
-  nn <leader>gs viwy:RGFixed <C-r>+<CR>
+  nn <leader>gw viwy:RGFixed <C-r>+<CR>
 
   command! -nargs=1 RGPattern call RipGrep(<f-args>, 'all', 'pattern')
   nn <localleader>gg :RGPattern<space>

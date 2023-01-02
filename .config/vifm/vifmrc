@@ -90,8 +90,9 @@ nnoremap A cw
 " --- EXTERNAL MAPPINGS ---
 " edit file
 nnoremap xf :!$EDITOR %f<cr>
-" open with xdg-open/openwith
+" open with xdg-open in separate process
 nnoremap L  :!setsid xdg-open %f &<cr>
+" open with openwith in separate process
 nnoremap xo :!setsid openwith %f %i & disown<cr>
 " show pictures
 nnoremap xp :!sxiv -t %d &<cr>

@@ -50,22 +50,25 @@ def_key "V"
     select_range
 
 def_key "n"
-  next_found_item
+    next_found_item
 
 def_key "N"
-  previous_found_item
+    previous_found_item
 
 def_key "K"
-  move_sort_order_up
+    move_sort_order_up
 
 def_key "K"
-  move_selected_items_up
+    move_selected_items_up
 
 def_key "J"
-  move_sort_order_down
+    move_sort_order_down
 
 def_key "J"
-  move_selected_items_down
+    move_selected_items_down
 
 def_key "m"
     dummy
+
+def_key "="
+    set_volume

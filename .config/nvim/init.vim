@@ -1,4 +1,5 @@
-" vim: fdm=marker fdl=0
+" init.vim
+
 set nocompatible
 
 " set leader key
@@ -22,6 +23,17 @@ let g:has_project_config = TryReadScriptFile('project.vim')
 if g:has_project_config
   call project#ensureDirSet()
 endif
+" }}}
+
+" {{{ FILETREE
+let g:netrw_banner = 0
+let g:netrw_list_hide = '^\./'
+let g:netrw_liststyle = 3
+let g:netrw_dirhistmax = 0
+nn <silent> <C-n> :Explore<CR>
+nn <silent> <leader>n :Explore %:p:h<CR>
+nn <silent> <leader>N :Lexplore<CR>
+au FileType netrw nn <silent><buffer> r <Plug>NetrwRefresh
 " }}}
 
 call TryReadScriptFile('plugins.vim')
@@ -145,7 +157,7 @@ nn <silent> <C-q> :close<CR>
 
 " {{{ CURSOR
 " NOTE: different cursors per mode
-if (&term!='linux')
+if (&term!='linux' && has('nvim'))
   if exists('$TMUX')
     let &t_SI = '\ePtmux;\e\e[6 q\e\\'
     let &t_SR = '\ePtmux;\e\e[4 q\e\\'
@@ -177,16 +189,6 @@ nn <silent> <expr> <C-l> !exists('b:SplitResize') ? '<C-w><C-l>' : ':vert res +1
 nn gr :call ToggleResizeSplitMode()<CR>
 " }}}
 
-" {{{ FILETREE
-let g:netrw_banner = 0
-let g:netrw_list_hide = '^\./'
-let g:netrw_liststyle = 3
-let g:netrw_dirhistmax = 0
-nn <silent> <localleader>N :Explore<CR>
-nn <silent> <localleader>n :Lexplore<CR>
-nn <silent> <localleader>_ <Plug>NetrwRefresh
-" }}}
-
 " {{{ TABS
 nn <silent> th :tabprev<CR>
 nn <silent> tl :tabnext<CR>
@@ -194,6 +196,12 @@ nn <silent> tn :tabnew %<CR>
 nn <silent> tc :tabclose<CR>
 nn <silent> tH :tabmove -1<CR>
 nn <silent> tL :tabmove +1<CR>
+" }}}
+
+" {{{ SESSION
+nn <silent> <leader>s :mksession! session.vim <bar> echo 'Session saved'<CR>
+nn <silent> <leader>l :source session.vim<CR>
+nn <silent> <leader>r :!rm session.vim<CR><CR>:echo 'Session removed'<CR>
 " }}}
 
 " {{{ SPELL
@@ -206,24 +214,36 @@ nn <silent> <leader>Sd :setlocal nospell spelllang=<CR>
 " tab style (2 spaces)
 au FileType vim,cmake,javascript,typescript,yaml,proto
   \  setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal softtabstop=2
-au FileType markdown set textwidth=0
+au FileType markdown setlocal textwidth=0
+au FileType vim setlocal fdm=marker fdl=0
 " }}}
 
 " {{{ FORMATTERS
-" c/c++
-au FileType c,cpp,javascript,typescript,proto nn <buffer> <C-f> :ClangFormat<CR>
-au FileType c,cpp,javascript,typescript,proto vn <buffer> <C-f> :ClangFormat<CR>
-" shell
-au FileType sh nn <buffer> <C-f> :%!shfmt<CR>
-au FileType sh vn <buffer> <C-f> :%!shfmt<CR>
-" json
-au FileType json nn <buffer> <C-f> :%!jq<CR>
-au FileType json vn <buffer> <C-f> :%!jq<CR>
-" yaml,html,css
-au FileType yaml,html,css nn <buffer> <C-f> :!prettier --write %<CR>
-" xml
-au FileType xml nn <buffer> <C-f> :%! xmllint --format --recover - 2>/dev/null<CR>
-au FileType xml vn <buffer> <C-f> :! xmllint --format --recover - 2>/dev/null<CR>
+nn <C-f> :echo "No specific formatter set"<CR>gg=G
+" clang-format | c/c++, js/ts, proto
+if executable('clang-format')
+  au FileType c,cpp,javascript,typescript,proto nn <buffer> <C-f> :!clang-format -i %<CR><CR>:e<CR>
+  au FileType c,cpp,javascript,typescript,proto vn <buffer> <C-f> :%!clang-format --assume-filename=%<CR>
+endif
+" shfmt | shell
+if executable('shfmt')
+  au FileType sh nn <buffer> <C-f> :%!shfmt<CR>
+  au FileType sh vn <buffer> <C-f> :%!shfmt<CR>
+endif
+" jq | json
+if executable('jq')
+  au FileType json nn <buffer> <C-f> :%!jq<CR>
+  au FileType json vn <buffer> <C-f> :%!jq<CR>
+endif
+" prettier | yaml, html, css
+if executable('prettier')
+  au FileType yaml,html,css nn <buffer> <C-f> :!prettier --write %<CR>
+endif
+" xmllint | xml
+if executable('xmllint')
+  au FileType xml nn <buffer> <C-f> :%! xmllint --format --recover - 2>/dev/null<CR>
+  au FileType xml vn <buffer> <C-f> :! xmllint --format --recover - 2>/dev/null<CR>
+endif
 " }}}
 
 " {{{ MISC
@@ -233,7 +253,7 @@ nn <leader>E :w <bar> :!compiler % 2<CR>
 nn <leader>x :!chmod +x %<CR>
 nn <leader>X :!chmod -x %<CR>
 
-" commentstring's
+" commentstrings
 au FileType xdefaults setlocal commentstring=!\ %s
 au FileType desktop,sxhkdrc,bib setlocal commentstring=#\ %s
 au FileType c,cpp setlocal commentstring=//\ %s
@@ -273,9 +293,17 @@ autocmd FileChangedShell * :
 
 " close all buffers except opened one
 command! BufOnly silent! execute '%bd|e#|bd#'
+
+" search for exact word
+nn <silent> <leader>/ /\<\><Left><Left>
+
+" update ctags manually
+nn <silent> <leader>t :!updtags.sh tags .<CR>
 " }}}
 
 call TryReadScriptFile('ripgrep.vim')
+
+call TryReadScriptFile('extra_options.vim')
 
 if g:has_project_config
   call project#setupAdditionalFeatures()

@@ -1,8 +1,8 @@
-" vim: fdm=marker fdl=0
+" extra_plugins.vim
 
 if project#isDirSet()
   " autocomplete
-  let completeplug='coc' " coc/ycm/etc...
+  let completeplug='no' " coc/ycm/etc...
   if (completeplug=='ycm')
     " {{{ ycm
     Plug 'ycm-core/YouCompleteMe'
@@ -42,22 +42,43 @@ endif
 
 " {{{ DEBUG
 Plug 'puremourning/vimspector'
-let g:vimspector_install_gadgets = ['debugpy'] ", 'vscode-cpptools', 'CodeLLDB' ]
+let g:vimspector_install_gadgets = ['debugpy', 'vscode-cpptools']
 
+nn <leader>d :call vimspector#Launch()<CR>
+nn <leader>q :call vimspector#Reset()<CR>
+nn <localleader>r :call vimspector#Restart()<CR>
 nn <localleader>b <Plug>VimspectorToggleBreakpoint
 nn <localleader>B <Plug>VimspectorBreakpoints
-nn <localleader>c <Plug>VimspectorContinue
-nn <localleader>S <Plug>VimspectorStop
-nn <localleader>j <Plug>VimspectorStepInto
-nn <localleader>o <Plug>VimspectorStepOver
-nn <localleader>k <Plug>VimspectorStepOut
-nn <localleader>L :call vimspector#Launch()<CR>
-nn <localleader>r :call vimspector#Restart()<CR>
-nn <localleader>R :call vimspector#Reset()<CR>
+nn <localleader>s <Plug>VimspectorStop
+nn <localleader>l <Plug>VimspectorStepInto
+nn <localleader>h <Plug>VimspectorStepOut
+nn <localleader>j <Plug>VimspectorStepOver
+nn <localleader>k <Plug>VimspectorContinue
 " }}}
+
+" {{{ SNIPPETS
+Plug 'Shougo/neosnippet.vim'
+Plug 'Shougo/neosnippet-snippets'
+Plug 'honza/vim-snippets'
+let g:neosnippet#enable_snipmate_compatibility = 1
+let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets,~/.vim/snippets'
+im <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+xm <C-k> <Plug>(neosnippet_expand_target)
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+  \  '\<Plug>(neosnippet_expand_or_jump)' : '\<TAB>'
+" }}}
+
+" tree-sitter syntax highlight
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+" targets/objects manipulations
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'wellle/targets.vim'
 
 " indentation
 Plug 'Yggdroot/indentLine' " can break conceallevel
+let g:indentLine_faster = 1
 if !has('nvim')
   let g:indentLine_char = '|'
 endif
@@ -68,10 +89,6 @@ au FileType tex,markdown,json let g:indentLine_enabled = 0
 Plug 'lyokha/vim-xkbswitch'
 let g:XkbSwitchEnabled = 1
 let g:XkbSwitchLib = '/usr/lib/libxkbswitch.so'
-
-" syntax files
-Plug 'baskerville/vim-sxhkdrc'      " sxhkd
-Plug 'tomlion/vim-solidity'         " solidity
 
 " {{{ TEMP (Ctrl not working)
 nn <silent> <expr> <A-h> !exists('b:SplitResize') ? '<C-w><C-h>' : ':vert res -1<CR>'

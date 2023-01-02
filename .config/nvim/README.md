@@ -1,4 +1,4 @@
-# Vim notes
+# Vim/Neovim notes
 
 ## troubleshoot
 + After setting leader/localleader all mappings for them got removed

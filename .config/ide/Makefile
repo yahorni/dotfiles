@@ -21,7 +21,7 @@ endif
 # endif
 
 ### INTERNAL ###
-.PHONY: help edit todo vim root noroot backup notes
+.PHONY: help edit todo vim plug debug root noroot backup notes
 default: help
 
 help:
@@ -36,7 +36,17 @@ todo:
 	@$(EDITOR) $(IDE_DIR)/TODO.md
 
 vim:
-	@$(EDITOR) $(IDE_DIR)/init.vim
+	@$(EDITOR) $(IDE_DIR)/options.vim
+
+plug:
+	@$(EDITOR) $(IDE_DIR)/plugins.vim
+
+debug:
+	@if [ -f "$(IDE_DIR)/.vimspector.json" ]; then\
+		$(EDITOR) $(IDE_DIR)/.vimspector.json ;\
+	else\
+		echo "FAIL: No debug configuration" ;\
+	fi
 
 root:
 	@if [[ $${EUID} -ne 0 ]]; then\
@@ -51,9 +61,9 @@ noroot:
 	fi
 
 backup:
-	zip -r backup.zip $(IDE_DIR)/{Makefile,init.vim,TODO.md,*.sh}
+	zip -r backup.zip $(IDE_DIR)/{Makefile,TODO.md,*.vim,*.sh}
 	mkdir -p $(BACKUP_DIR)
-	cp $(IDE_DIR)/{Makefile,init.vim,TODO.md,*.sh} backup.zip $(BACKUP_DIR)
+	cp $(IDE_DIR)/{Makefile,TODO.md,*.vim,*.sh} backup.zip $(BACKUP_DIR)
 	rm backup.zip
 
 notes:

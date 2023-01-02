@@ -63,10 +63,12 @@ map a push A<a-b>           # after extension
 # --- external mappings ---
 # edit file
 map xf $$EDITOR "$f"
-# open with openwith
-map xo $setsid openwith "$f" &
+# open with xdg-open in separate process
+map L  $xdg-open "$f" &
+# open with openwith in separate process
+map xo $openwith "$f" &
 # show pictures
-map xp $sxiv -t .
+map xp $sxiv -t . &
 # use file for drag'n'drop
 map xg $setsid dragon "$f" &
 # extract files
