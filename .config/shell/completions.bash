@@ -27,7 +27,7 @@ __git_complete gcp _git_cherry_pick
 __git_complete gsb _git_submodule
 
 # bare repo alias
-__git_complete dg git
+__git_complete dg __git_main
 
 # pacman
 if command -v pacman 1>/dev/null ; then

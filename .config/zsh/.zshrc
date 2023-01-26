@@ -59,6 +59,7 @@ source /usr/share/git/completion/git-completion.bash 2>/dev/null
 bindkey '^[[Z' reverse-menu-complete    # shift-tab
 bindkey '^?' backward-delete-char       # vi mode backspace fix
 bindkey -M vicmd '^[[P' vi-delete-char  # vi mode delete fix
+bindkey -s '^o' '^ulfcd\r'
 
 bindkey -M vicmd '^K' history-beginning-search-backward # backward search in vi command mode
 bindkey -M viins '^K' history-beginning-search-backward # backward search in vi insert mode
@@ -109,7 +110,6 @@ syntax_highlight_sh="$XDG_DATA_HOME/zsh/fsh/fast-syntax-highlighting.plugin.zsh"
 
 # aliases
 [ -f "$XDG_CONFIG_HOME/shell/aliases.sh" ] && source "$XDG_CONFIG_HOME/shell/aliases.sh"
-bindkey -s '^o' '^ulfcd\r'
 # completions
 [ -f "$XDG_CONFIG_HOME/shell/completions.zsh" ] && source "$XDG_CONFIG_HOME/shell/completions.zsh"
 # extra settings (for temporary purposes)

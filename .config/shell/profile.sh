@@ -30,7 +30,7 @@ export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export GOPATH="$HOME/prog/go"
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc-2.0"
 export INPUTRC="$XDG_CONFIG_HOME/shell/inputrc"
-export LESS='-RFMx4'
+export LESS='-RMx4'
 export LESSHISTFILE='-'
 export MANPATH="$MANPATH:$XDG_DATA_HOME/man:$XDG_CACHE_HOME/cppman/cppreference.com"
 export MERGETOOL='nvim -d'
@@ -53,18 +53,22 @@ export PATH="$PATH:$(find ~/.local/bin -type d -printf %p:):$GOPATH/bin"
 # hidden directory for project files
 export IDE_DIR='.ide'
 
-# GUI
-export USE_XSESSION='false'
-export WM='dwm'
-export WM_ARGS=
-export WM_BAR='dwmbar'
-
 # machine-specific script
 [ -f "$XDG_CONFIG_HOME/shell/on_login.sh" ] && source "$XDG_CONFIG_HOME/shell/on_login.sh"
 
-# x11 start
-if [ "$USE_XSESSION" = 'false' ] && [ "$(tty)" = '/dev/tty1' ] && [ -n "$WM" ]; then
-    pgrep -x "$WM" || exec startx \
-        1>"$XDG_CACHE_HOME/Xorg.1.log" \
-        2>"$XDG_CACHE_HOME/Xorg.2.log"
+# ssh/tmux login
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ] || [ -n "$TMUX" ]; then
+    source "$HOME/.bashrc"
+fi
+
+# X11 GUI
+if [ -f "$XDG_CONFIG_HOME/shell/xprofile.sh" ]; then
+    # profiles stored in $XDG_CONFIG_HOME/shell/xprofiles
+    source "$XDG_CONFIG_HOME/shell/xprofile.sh"
+
+    if [ "$USE_XSESSION" = 'false' ] && [ "$(tty)" = '/dev/tty1' ] && [ -n "$WM" ]; then
+        pgrep -x "$WM" || exec startx \
+            1>"$XDG_CACHE_HOME/Xorg.1.log" \
+            2>"$XDG_CACHE_HOME/Xorg.2.log"
+    fi
 fi

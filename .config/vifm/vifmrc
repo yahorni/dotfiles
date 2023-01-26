@@ -1,4 +1,4 @@
-" vim: filetype=vim
+" vim: ft=vim
 
 " --- OPTIONS ---
 
@@ -86,6 +86,8 @@ nnoremap q ZZ
 nnoremap I cw<c-a>
 nnoremap cc cw<c-u>
 nnoremap A cw
+" deleting
+nnoremap <delete> :delete<cr>
 
 " --- EXTERNAL MAPPINGS ---
 " edit file

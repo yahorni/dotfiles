@@ -138,3 +138,6 @@ alt + Print
     makescreen window
 @shift + Print
     makescreen part
+
+super + alt + space
+    onboard

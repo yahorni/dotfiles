@@ -8,7 +8,7 @@ let maplocalleader=','
 
 " {{{ SCRIPTS MANAGEMENT
 let s:scripts_path = expand('<sfile>:p:h')
-func! TryReadScriptFile(filename) abort
+function! TryReadScriptFile(filename) abort
   let l:script_path = s:scripts_path.'/'.a:filename
   if filereadable(l:script_path)
     exec 'source '.l:script_path
@@ -16,7 +16,7 @@ func! TryReadScriptFile(filename) abort
   else
     return 0
   endif
-endfunc
+endfunction
 
 " set project directory
 let g:has_project_config = TryReadScriptFile('project.vim')
@@ -37,6 +37,7 @@ au FileType netrw nn <silent><buffer> r <Plug>NetrwRefresh
 " }}}
 
 call TryReadScriptFile('plugins.vim')
+call TryReadScriptFile('colorscheme.vim')
 
 " {{{ OPTIONS
 " status line
@@ -196,12 +197,18 @@ nn <silent> tn :tabnew %<CR>
 nn <silent> tc :tabclose<CR>
 nn <silent> tH :tabmove -1<CR>
 nn <silent> tL :tabmove +1<CR>
+
+if has('nvim')
+  nn <silent> <S-Tab> :tabprev<CR>
+  nn <silent> <Tab> :tabnext<CR>
+endif
 " }}}
 
 " {{{ SESSION
-nn <silent> <leader>s :mksession! session.vim <bar> echo 'Session saved'<CR>
-nn <silent> <leader>l :source session.vim<CR>
-nn <silent> <leader>r :!rm session.vim<CR><CR>:echo 'Session removed'<CR>
+let g:session_file = 'session.vim'
+nn <silent> <leader>s :execute 'mksession! '.g:session_file <bar> echo 'Session saved to '.g:session_file<CR>
+nn <silent> <leader>l :execute 'source '.g:session_file<CR>
+nn <silent> <leader>r :execute '!rm '.g:session_file<CR><CR>:echo 'Session removed'<CR>
 " }}}
 
 " {{{ SPELL
@@ -219,7 +226,7 @@ au FileType vim setlocal fdm=marker fdl=0
 " }}}
 
 " {{{ FORMATTERS
-nn <C-f> :echo "No specific formatter set"<CR>gg=G
+nn <C-f> :echo 'No specific formatter set'<CR>gg=G
 " clang-format | c/c++, js/ts, proto
 if executable('clang-format')
   au FileType c,cpp,javascript,typescript,proto nn <buffer> <C-f> :!clang-format -i %<CR><CR>:e<CR>
@@ -283,10 +290,10 @@ vn <leader>s y:%s/<C-R>+//g<Left><Left>
 au FileType c,cpp setlocal keywordprg=cppman
 
 " git blame
-nn gb :execute '! git blame -L ' . max([eval(line('.')-5), 1]) . ',+10 %'<CR>
+nn gb :execute '!git blame -L ' . max([eval(line('.')-5), 1]) . ',+10 %'<CR>
 
 " remove swaps
-nn <leader>D :!rm ~/.local/share/nvim/swap/*<CR>
+nn <leader>R :!rm -f ~/.local/share/nvim/swap/*<CR>
 
 " prevent 'file changed' warnings
 autocmd FileChangedShell * :
@@ -307,5 +314,5 @@ call TryReadScriptFile('extra_options.vim')
 
 if g:has_project_config
   call project#setupAdditionalFeatures()
-  call project#tryReadLocalVimFile('options.vim')
+  call project#tryReadProjectVimFile('options.vim')
 endif

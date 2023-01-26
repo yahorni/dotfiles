@@ -52,7 +52,7 @@ print_preview() {
     case "$mime_type" in
         text/html)                        lynx -width="$x_pos" -display_charset=utf-8 -dump "$filename" ;;
         text/troff)                       man ./"$filename" | col -b ;;
-        text/*|*/xml|application/json)    $highlight_cmd "$filename" ;;
+        text/*|*/xml|application/json)    $highlight_cmd "$filename" || cat "$filename" ;;
         audio/*|application/octet-stream) mediainfo "$filename" ;;
         application/zip)                  $zip_cmd "$filename" ;;
         application/gzip)                 tar -tzf "$filename" ;;

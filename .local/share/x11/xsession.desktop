@@ -1,3 +1,4 @@
 [Desktop Entry]
 Name=Xsession
 Exec=/etc/X11/xinit/Xsession
+# Exec=/etc/X11/Xsession

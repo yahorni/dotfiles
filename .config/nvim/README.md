@@ -68,10 +68,12 @@ sudo ln -s ~/.local/share/nvim/plugged /root/.vim/plugged
 ## YCM installation
 ```bash
 # don't forget to use corresponding gcc version
-cd .vim/plugged/YouCompleteMe/
+cd ~/.local/share/nvim/plugged/YouCompleteMe/
+
+# libclang completions
 python3 install.py --clang-completer
 
-# or this (in case previous option doesn't work)
+# clangd LSP
 python3 install.py --clangd-completer
 ```
 
@@ -99,4 +101,9 @@ echo expand('<sfile>:p')
 echo resolve(expand('<sfile>'))
 " 4. script directory
 echo expand('<sfile>:p:h')
+```
+
+## tree-sitter installation
+```bash
+cargo install tree-sitter-cli
 ```

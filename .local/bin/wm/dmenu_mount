@@ -21,9 +21,16 @@ getmount() {
 }
 
 mountusb() {
+    set -x
     chosen="$(echo "$usbdrives" | dmenu -i -p "Mount which drive?" | awk '{print $1}')"
     [ "$chosen" = "" ] && exit 1
-    sudo -A mount "$chosen" 2>/dev/null && notify-send "💻 USB mounting" "$chosen mounted." && exit 0
+
+    # I guess it's for fstab
+    if sudo -A mount "$chosen" 2>/dev/null ; then
+        notify-send "💻 USB mounting" "$chosen mounted."
+        exit 0
+    fi
+
     alreadymounted=$(lsblk -nrpo "name,type,mountpoint" | awk '$3!~/\/boot|\/home$|SWAP/&&length($3)>1{printf "-not ( -path *%s -prune ) ",$3}')
     getmount /mnt -maxdepth 1 -type d "$alreadymounted"
     partitiontype="$(lsblk -no "fstype" "$chosen")"
@@ -32,6 +39,7 @@ mountusb() {
         *) sudo -A mount "$chosen" "$mp"; user="$(whoami)"; ug="$(groups | awk '{print $1}')"; sudo -A chown "$user":"$ug" "$mp";;
     esac && notify-send "💻 USB mounting" "$chosen mounted to $mp." ||
             notify-send "💻 Drive failed to mount." "Probably a permissions issue or drive is already mounted."
+    set +x
 }
 
 mountandroid() {

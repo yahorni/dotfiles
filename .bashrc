@@ -38,16 +38,19 @@ shopt -s autocd
 shopt -s cdspell
 shopt -s checkwinsize
 shopt -s direxpand
+
+# bindings
 bind TAB:menu-complete
 bind 'set show-all-if-ambiguous on'
 bind -m vi-command 'Control-l: clear-screen'
 bind -m vi-insert 'Control-l: clear-screen'
+bind 'Control-o: "lfcd\n"'
 
 # aliases
 [ -f "$XDG_CONFIG_HOME/shell/aliases.sh" ] && source "$XDG_CONFIG_HOME/shell/aliases.sh"
 # completions
 [ -f "$XDG_CONFIG_HOME/shell/completions.bash" ] && source "$XDG_CONFIG_HOME/shell/completions.bash"
 # extra settings (for temporary purposes)
-[ -f "$XDG_CONFIG_HOME/shell/extra.sh" ] && source "$XDG_CONFIG_HOME/shell/extra.sh"
+[ -f "$XDG_CONFIG_HOME/shell/on_bashrc.sh" ] && source "$XDG_CONFIG_HOME/shell/on_bashrc.sh"
 # fzf
 [ -f "$XDG_CONFIG_HOME/fzf/fzf.bash" ] && source "$XDG_CONFIG_HOME/fzf/fzf.bash"

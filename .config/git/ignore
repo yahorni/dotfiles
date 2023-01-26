@@ -1,5 +1,10 @@
+## development
 .clangd
 .cache
 .nvim
 .ide
 .vimspector.json
+
+## specific files
+.config/shell/on_bashrc.sh
+.config/shell/xprofile.sh

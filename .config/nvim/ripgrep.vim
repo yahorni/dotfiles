@@ -2,7 +2,8 @@
 
 if executable('rg')
   function! ResetRG()
-    if exists("g:grepignore")
+    if exists('g:grepignore')
+      " need to use double quotes here
       exe "set grepprg=rg-vim.sh\\ -d\\ ".join(g:grepignore, ',')
     else
       set grepprg=rg-vim.sh

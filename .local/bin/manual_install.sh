@@ -7,8 +7,13 @@ set -e
 # 2. ripgrep
 # 3. bat
 # --- dependencies ---
-# X11 apps: yum - libXft-devel libXtst-devel gtk3-devel
-# brillo: go-md2man
+#   yum:    libXft-devel libXtst-devel gtk3-devel
+#   apt:    libxinerama-dev libx11-xcb-dev libxcb-res0-dev                 (dwm)
+#           libcairo2-dev libxcb-image0-dev libxcb-utils-dev libjpeg-dev   (xwallpaper)
+#           libtool-bin    (neovim)
+#           xutils-dev     (libxft-bgra)
+#           livevent-dev   (tmux)
+#   pacman: go-md2man   (brillo)
 
 log2() {
     echo "==> $1" 1>&2
@@ -39,6 +44,10 @@ set_program_params() {
         libxft-bgra)repo="https://gitlab.freedesktop.org/xorg/lib/libxft.git" ;;
         brillo)     repo="https://gitlab.com/cameronnemo/brillo.git" ;;
         ncmpcpp)    repo="https://github.com/ncmpcpp/ncmpcpp" ;;
+        neovim)     repo="https://github.com/neovim/neovim" ;;
+        lf)         repo="https://github.com/gokcehan/lf" ;;
+        xurls)      repo="https://github.com/mvdan/xurls" ;;
+        tmux)       repo="https://github.com/tmux/tmux" ;;
         *)          repo="https://github.com/NickoEgor/$target.git" ;;
     esac
 
@@ -47,6 +56,9 @@ set_program_params() {
         st)         branch="patched-config" ;;
         dwm)        branch="config-bar" ;;
         xmouseless) branch="patched" ;;
+        libxft-bgra)branch="tags/libXft-2.3.4" ;;
+        neovim)     branch="release-0.8" ;;
+        tmux)       branch="tags/3.3" ;;
         *)          branch="master" ;;
     esac
 }
@@ -81,20 +93,23 @@ clone_repo() {
     if [ -d "$target" ]; then
         cd "$target" || { log2 "fail: cd $target" ; exit 1 ;}
         log2 "skip clone_repo()"
-        git pull
         return
     fi
 
     git clone "$repo" "$target"
     cd "$target" || exit 1
+}
 
-    git pull
+pull_updates() {
+    log2 "pull_updates()"
+
+    git pull || :
     git submodule update --init --recursive
-
-    git checkout "$branch"
 }
 
 setup_repo() {
+    git checkout "$branch"
+
     if [[ "$repo" == *"NickoEgor"* ]]; then
         log2 "setup_repo()"
 
@@ -112,7 +127,7 @@ build() {
 
     case "$target" in
         st|dmenu|dwm|dwmbar|dragon|xmouseless|brillo) make ;;
-        htop-vim|ctags|xwallpaper) ./autogen.sh && ./configure && make ;;
+        htop-vim|ctags|xwallpaper|tmux) ./autogen.sh && ./configure && make ;;
         libxft-bgra)
             curl -O "https://gitlab.freedesktop.org/xorg/lib/libxft/-/merge_requests/1.patch"
             patch -p1 < "1.patch"
@@ -124,6 +139,7 @@ build() {
             BOOST_ROOT=/usr ./configure --enable-visualizer --enable-static-boost
             make -j"$(nproc)"
             ;;
+        neovim) make CMAKE_BUILD_TYPE=RelWithDebInfo ;;
         *) log2 "skip build()" ;;
     esac
 }
@@ -132,10 +148,11 @@ install() {
     log2 "install()"
 
     case "$target" in
-        st|dmenu|dwm|dwmbar|xmouseless|htop-vim|sshrc|ctags|xwallpaper|acpilight|brillo|ncmpcpp)
+        st|dmenu|dwm|dwmbar|xmouseless|htop-vim|sshrc|ctags|xwallpaper|acpilight|brillo|ncmpcpp|neovim|tmux)
             sudo make install
             ;;
         dragon) sudo make PREFIX="/usr/local" install ;;
+        libxft-bgra) sudo make PREFIX="/usr" install ;;
         fzf) ./install --xdg --key-bindings --no-update-rc --completion ;;
         zsh-as)
             local zsh_data_dir="${XDG_DATA_HOME:-$HOME/.local/share}/zsh"
@@ -147,9 +164,11 @@ install() {
             mkdir -p "$zsh_data_dir"
             ln -s "$PWD" "$zsh_data_dir/fsh"
             ;;
-        libxft-bgra)
-            make DESTDIR="${PWD}/build" install
+        lf)
+            # for go version >= 1.17
+            env CGO_ENABLED=0 go install -ldflags="-s -w" github.com/gokcehan/lf@latest
             ;;
+        xurls) go install mvdan.cc/xurls/v2/cmd/xurls@latest ;;
         *) log2 "skip install()" ;;
     esac
 }
@@ -158,7 +177,7 @@ cleanup() {
     log2 "cleanup()"
 
     case "$target" in
-        st|dmenu|dwm|dwmbar|dragon|xmouseless|htop-vim|xwallpaper|ncmpcpp) make clean ;;
+        st|dmenu|dwm|dwmbar|dragon|xmouseless|htop-vim|xwallpaper|ncmpcpp|neovim) make clean ;;
         libxft-bgra)
             rm -f "1.patch" ./**/*.rej ./**/*.orig
             git checkout .
@@ -170,8 +189,8 @@ cleanup() {
 
 # ===================================== #
 
-progs=(st dmenu dwm dwmbar dotfiles df dragon xmouseless term-theme brillo
-       htop-vim sshrc fzf ctags zsh-as zsh-fsh xwallpaper acpilight libxft-bgra ncmpcpp)
+progs=(st dmenu dwm dwmbar dotfiles df dragon xmouseless term-theme brillo htop-vim sshrc
+       fzf ctags zsh-as zsh-fsh xwallpaper acpilight libxft-bgra ncmpcpp neovim lf xurls tmux)
 env_dir="$HOME/prog/env"
 
 git_name="NickoEgor"

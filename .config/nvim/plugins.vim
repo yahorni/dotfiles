@@ -1,7 +1,6 @@
 " plugins.vim
 " contains plugins and colortheme setting
 
-" {{{ PLUGINS
 call plug#begin()
 
 if has('nvim')
@@ -107,6 +106,7 @@ if has('nvim')
 
 " {{{ git
   Plug 'rhysd/conflict-marker.vim'
+  " ]x and [x to jump; ct/co/cb - take theirs/ours/both changes
   Plug 'airblade/vim-gitgutter'
   nn <leader>gt :GitGutterToggle<CR>
   nn <leader>p <Plug>(GitGutterPreviewHunk)
@@ -183,6 +183,7 @@ Plug 'mtdl9/vim-log-highlighting'
 " theme
 Plug 'liuchengxu/space-vim-dark'
 Plug 'NLKNguyen/papercolor-theme'
+Plug 'savq/melange'
 Plug 'EdenEast/nightfox.nvim'
 
 " extra plugins
@@ -190,32 +191,9 @@ call TryReadScriptFile('extra_plugins.vim')
 
 " project-specific plugins
 if g:has_project_config
-  call project#tryReadLocalVimFile('plugins.vim')
+  call project#tryReadProjectVimFile('plugins.vim')
 endif
 
 call plug#end()
 
 filetype plugin indent on
-" }}}
-
-" {{{ COLORTHEME
-if has('nvim')
-  set termguicolors
-endif
-" ---
-" colo space-vim-dark
-" ---
-" set t_Co=256
-" set background=dark
-" colo PaperColor
-" ---
-" colo nightfox
-" colo dayfox
-" colo dawnfox
-colo duskfox
-" colo nordfox
-" colo terafox
-" colo carbonfox
-" ---
-hi Comment cterm=italic
-" }}}

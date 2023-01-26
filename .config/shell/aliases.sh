@@ -69,8 +69,8 @@ alias \
     vl='${EDITOR} ${XDG_CONFIG_HOME}/lf/lfrc' \
     vz='${EDITOR} ${XDG_CONFIG_HOME}/zsh/.zshrc' \
     vq='${EDITOR} ${XDG_CONFIG_HOME}/qutebrowser/config.py' \
-    vp='${EDITOR} ${XDG_CONFIG_HOME}/shell/profile' \
-    ve='${EDITOR} ${XDG_CONFIG_HOME}/shell/extra.sh' \
+    vp='${EDITOR} ${XDG_CONFIG_HOME}/shell/profile.sh' \
+    vo='${EDITOR} ${XDG_CONFIG_HOME}/shell/on_bashrc.sh' \
     vr='${EDITOR} ${XDG_CONFIG_HOME}/xresources' \
     vb='${EDITOR} ~/.bashrc' \
     vx='${EDITOR} ~/.xinitrc' \
@@ -107,8 +107,8 @@ alias \
 
 # utils
 cdj() {
-  cd "$HOME/prog" || return 1
-  [ -n "$1" ] && cd "$1" || return 1
+    cd "$HOME/prog" || return 1
+    [ -n "$1" ] && cd "$1" || return 1
 }
 
 scr() {
