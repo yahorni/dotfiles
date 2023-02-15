@@ -110,9 +110,9 @@ syntax_highlight_sh="$XDG_DATA_HOME/zsh/fsh/fast-syntax-highlighting.plugin.zsh"
 
 # aliases
 [ -f "$XDG_CONFIG_HOME/shell/aliases.sh" ] && source "$XDG_CONFIG_HOME/shell/aliases.sh"
+# extra settings (for temporary purposes)
+[ -f "$XDG_CONFIG_HOME/shell/on_shell.sh" ] && source "$XDG_CONFIG_HOME/shell/on_shell.sh"
 # completions
 [ -f "$XDG_CONFIG_HOME/shell/completions.zsh" ] && source "$XDG_CONFIG_HOME/shell/completions.zsh"
-# extra settings (for temporary purposes)
-[ -f "$XDG_CONFIG_HOME/shell/extra.sh" ] && source "$XDG_CONFIG_HOME/shell/extra.sh"
 # fzf
 [ -f "$XDG_CONFIG_HOME/fzf/fzf.zsh" ] && source "$XDG_CONFIG_HOME/fzf/fzf.zsh"
