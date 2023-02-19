@@ -23,7 +23,7 @@ export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
 export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 
 # settings
-export LESS='-RFMx4'
+export LESS='-RMx4'
 export LESSHISTFILE='-'
 export SYSTEMD_PAGER='less'
 
@@ -57,6 +57,8 @@ shopt -s autocd
 shopt -s cdspell
 shopt -s checkwinsize
 shopt -s direxpand
+
+# bindings
 bind TAB:menu-complete
 bind 'set show-all-if-ambiguous on'
 bind -m vi-command 'Control-l: clear-screen'
@@ -130,6 +132,22 @@ alias \
     .2='cd ../..' \
     .3='cd ../../..' \
 
+# utils
+cdj() {
+    cd "$HOME/prog" || return 1
+    [ -n "$1" ] && cd "$1" || return 1
+}
+
+scr() {
+    bindir="$HOME/.local/bin"
+    file="$(cd "$bindir" || return 1 ; find . -type f | fzf)"
+    [ -n "$file" ] && $EDITOR "$bindir/$file"
+}
+
+snc() {
+    watch -d grep -e Dirty: -e Writeback: /proc/meminfo
+}
+
 # completions for aliases
 test -f /usr/share/bash-completion/bash_completion && \
     source /usr/share/bash-completion/bash_completion
@@ -157,3 +175,10 @@ if [ -f '/usr/share/bash-completion/completions' ]; then
     __git_complete gcp _git_cherry_pick
     __git_complete gsb _git_submodule
 fi
+
+# cdj
+_cdj() { COMPREPLY=($(cd "$HOME/prog" || return 1 ; compgen -d "$2")) ; }
+complete -F _cdj cdj
+
+# extra settings (for temporary purposes)
+[ -f "$HOME/on_shell.sh" ] && source "$HOME/on_shell.sh"

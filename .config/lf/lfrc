@@ -65,8 +65,6 @@ map a push A<a-b>           # after extension
 map xf $$EDITOR "$f"
 # open with xdg-open in separate process
 map L  $xdg-open "$f" &
-# open with openwith in separate process
-map xo $openwith "$f" &
 # show pictures
 map xp $sxiv -t . &
 # use file for drag'n'drop

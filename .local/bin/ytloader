@@ -41,7 +41,7 @@ while getopts "f:d:p:c:suSh" opt; do
         s) other_args+=("--all-subs") ;;
         c) other_args+=("--cookies" "$OPTARG") ;;
         S) other_args+=("--no-check-certificates") ;;
-        u) filename='%(uploader)s - %(title)s.%(ext)s' ;;
+        u) filename='%(uploader)s - %(title).70s.%(ext)s' ;;
         h) print_help ; exit 0 ;;
         *) notify-send "$msg_invalid_flag" && exit 1 ;;
     esac

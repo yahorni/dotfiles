@@ -6,25 +6,50 @@ set -e
 # 1. clipboard (greenclip/xclip/xsel)
 # 2. ripgrep
 # 3. bat
+# 4. cmake
 # --- dependencies ---
 #   yum:    libXft-devel libXtst-devel gtk3-devel
-#   apt:    libxinerama-dev libx11-xcb-dev libxcb-res0-dev                 (dwm)
-#           libcairo2-dev libxcb-image0-dev libxcb-utils-dev libjpeg-dev   (xwallpaper)
-#           libtool-bin    (neovim)
-#           xutils-dev     (libxft-bgra)
-#           livevent-dev   (tmux)
-#   pacman: go-md2man   (brillo)
+#   apt:    libxinerama-dev libx11-xcb-dev libxcb-res0-dev                  (dwm)
+#           libcairo2-dev libxcb-image0-dev libxcb-utils-dev libjpeg-dev    (xwallpaper)
+#           libtool-bin pkg-config cmake                                    (neovim)
+#           xutils-dev      (libxft-bgra)
+#           livevent-dev    (tmux)
+#           libxtst-dev     (xmouseless)
+#   pacman: go-md2man       (brillo)
 
 log2() {
     echo "==> $1" 1>&2
 }
 
+cd_or_exit() {
+    cd "$1" || { log2 "fail: cd $1" ; exit 1 ;}
+}
+
 check_args() {
+    [ "$#" -lt 1 ] && log2 "fail: target is needed" && exit 1
+
+    if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
+        echo "usage: $(basename $0) [-h] [-c|--no-cleanup] <target>"
+        echo "supported programs:"
+        echo "${progs[@]}" "${non_git_progs[@]}" | fmt | column -t
+        exit
+    fi
+
+    if [ "$1" == "-c" ] || [ "$1" == "--no-cleanup" ]; then
+        no_cleanup=1
+        shift
+    fi
+
     target="$1"
 
-    [ "$#" -lt 1 ] && log2 "fail: target is needed" && exit 1
     # shellcheck disable=SC2076
-    [[ ! " ${progs[*]} " =~ " $target " ]] && log2 "fail: program is not supported" && exit 1
+    if [[ " ${progs[*]} " =~ " $target " ]]; then
+        is_git_needed=1
+    elif [[ " ${non_git_progs[*]} " =~ " $target " ]]; then
+        is_git_needed=0
+    else
+        log2 "fail: program is not supported" && exit 1
+    fi
 
     return 0
 }
@@ -84,20 +109,26 @@ set_upstream() {
     git remote add upstream "$upstream"
 }
 
+prepare_env_dir() {
+    [ ! -d "$env_dir" ] && mkdir -p "$env_dir"
+    cd_or_exit "$env_dir"
+
+    if [ -d "$target" ]; then
+        cd_or_exit "$target"
+        return 1
+    fi
+}
+
 clone_repo() {
     log2 "clone_repo()"
 
-    [ ! -d "$env_dir" ] && mkdir -p "$env_dir"
-    cd "$env_dir" || { log2 "fail: cd $env_dir" ; exit 1 ;}
-
-    if [ -d "$target" ]; then
-        cd "$target" || { log2 "fail: cd $target" ; exit 1 ;}
+    if ! prepare_env_dir ; then
         log2 "skip clone_repo()"
         return
     fi
 
     git clone "$repo" "$target"
-    cd "$target" || exit 1
+    cd_or_exit "$target"
 }
 
 pull_updates() {
@@ -122,6 +153,28 @@ setup_repo() {
     fi
 }
 
+prepare_build_dir() {
+    log2 "prepare_build_dir()"
+
+    if ! prepare_env_dir ; then
+        log2 "skip prepare_build_dir()"
+        return
+    fi
+
+    mkdir -pv "$target"
+    cd_or_exit "$target"
+
+    case "$target" in
+        python3.8)
+            curl -O https://www.python.org/ftp/python/3.8.12/Python-3.8.12.tgz
+            tar xvf Python-3.8.12.tgz
+            ;;
+        python3.8-pip)
+            curl -O https://bootstrap.pypa.io/get-pip.py
+            ;;
+    esac
+}
+
 build() {
     log2 "build()"
 
@@ -140,6 +193,11 @@ build() {
             make -j"$(nproc)"
             ;;
         neovim) make CMAKE_BUILD_TYPE=RelWithDebInfo ;;
+        python3.8)
+            cd_or_exit "Python-3.8.12"
+            ./configure --enable-optimizations --enable-shared
+            make -j$(NPROC)
+            ;;
         *) log2 "skip build()" ;;
     esac
 }
@@ -169,6 +227,12 @@ install() {
             env CGO_ENABLED=0 go install -ldflags="-s -w" github.com/gokcehan/lf@latest
             ;;
         xurls) go install mvdan.cc/xurls/v2/cmd/xurls@latest ;;
+        python3.8)
+            # altinstall - installs to /usr/local
+            sudo make altinstall
+            sudo ln -s /usr/local/bin/python3.8 /usr/local/bin/python3
+            ;;
+        python3.8-pip) sudo python3.8 ./get-pip.py ;;
         *) log2 "skip install()" ;;
     esac
 }
@@ -177,11 +241,16 @@ cleanup() {
     log2 "cleanup()"
 
     case "$target" in
-        st|dmenu|dwm|dwmbar|dragon|xmouseless|htop-vim|xwallpaper|ncmpcpp|neovim) make clean ;;
+        st|dmenu|dwm|dwmbar|dragon|xmouseless|htop-vim|xwallpaper|ncmpcpp|neovim)
+            make clean
+            ;;
         libxft-bgra)
             rm -f "1.patch" ./**/*.rej ./**/*.orig
             git checkout .
             make clean
+            ;;
+        python3.8)
+            sudo make clean
             ;;
         *) log2 "skip cleanup()" ;;
     esac
@@ -189,12 +258,18 @@ cleanup() {
 
 # ===================================== #
 
-progs=(st dmenu dwm dwmbar dotfiles df dragon xmouseless term-theme brillo htop-vim sshrc
-       fzf ctags zsh-as zsh-fsh xwallpaper acpilight libxft-bgra ncmpcpp neovim lf xurls tmux)
+progs=(st dmenu dwm dwmbar dotfiles df dragon
+       xmouseless term-theme brillo htop-vim sshrc
+       fzf ctags zsh-as zsh-fsh xwallpaper acpilight
+       libxft-bgra ncmpcpp neovim lf xurls tmux)
+non_git_progs=(python3.8 python3.8-pip)
 env_dir="$HOME/prog/env"
 
 git_name="NickoEgor"
 git_email="egor1998nick@gmail.com"
+
+no_cleanup=0
+is_git_needed=
 
 target=
 repo=
@@ -203,9 +278,15 @@ branch=
 # ===================================== #
 
 check_args "$@"
-set_program_params
-clone_repo
-setup_repo
+
+if [ is_git_needed == 1 ]; then
+    set_program_params
+    clone_repo
+    setup_repo
+else
+    prepare_build_dir
+fi
+
 build
 install
-cleanup
+[ $no_cleanup == 0 ] && cleanup

@@ -44,22 +44,6 @@ if project#isDirSet()
   endif
 endif
 
-" {{{ DEBUG
-Plug 'puremourning/vimspector'
-let g:vimspector_install_gadgets = ['debugpy', 'vscode-cpptools']
-
-nn <leader>d :call vimspector#Launch()<CR>
-nn <leader>q :call vimspector#Reset()<CR>
-nn <localleader>r :call vimspector#Restart()<CR>
-nn <localleader>b <Plug>VimspectorToggleBreakpoint
-nn <localleader>B <Plug>VimspectorBreakpoints
-nn <localleader>s <Plug>VimspectorStop
-nn <localleader>l <Plug>VimspectorStepInto
-nn <localleader>h <Plug>VimspectorStepOut
-nn <localleader>j <Plug>VimspectorStepOver
-nn <localleader>k <Plug>VimspectorContinue
-" }}}
-
 " tree-sitter syntax highlight
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
@@ -75,19 +59,6 @@ nnoremap <leader>ff <cmd>Telescope find_files<CR>
 nnoremap <leader>fg <cmd>Telescope live_grep<CR>
 nnoremap <leader>fb <cmd>Telescope buffers<CR>
 nnoremap <leader>fh <cmd>Telescope help_tags<CR>
-
-" {{{ SNIPPETS
-Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/neosnippet-snippets'
-Plug 'honza/vim-snippets'
-let g:neosnippet#enable_snipmate_compatibility = 1
-let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets,~/.vim/snippets'
-im <C-k> <Plug>(neosnippet_expand_or_jump)
-smap <C-k> <Plug>(neosnippet_expand_or_jump)
-xm <C-k> <Plug>(neosnippet_expand_target)
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-  \  '\<Plug>(neosnippet_expand_or_jump)' : '\<TAB>'
-" }}}
 
 " indentation
 Plug 'Yggdroot/indentLine' " can break conceallevel

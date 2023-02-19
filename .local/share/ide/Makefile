@@ -67,7 +67,10 @@ backup:
 	rm backup.zip
 
 notes:
-	# empty
+	# to print some notes for project
+
+update:
+	# to update some ide files for project
 
 ################
 

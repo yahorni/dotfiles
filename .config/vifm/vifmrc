@@ -26,7 +26,7 @@ set statusline="  Hint: %z%= %A %10u:%-7g %15s %20d  "
 set slowfs=curlftpfs " Don't do too many requests to slow file systems. Check !has('win')
 set previewoptions+=graphicsdelay:0 " Fasten image previews
 
-colorscheme Gruvbox
+colorscheme Default
 
 " --- MARKS ---
 
@@ -94,8 +94,6 @@ nnoremap <delete> :delete<cr>
 nnoremap xf :!$EDITOR %f<cr>
 " open with xdg-open in separate process
 nnoremap L  :!setsid xdg-open %f &<cr>
-" open with openwith in separate process
-nnoremap xo :!setsid openwith %f %i & disown<cr>
 " show pictures
 nnoremap xp :!sxiv -t %d &<cr>
 " use file for drag'n'drop

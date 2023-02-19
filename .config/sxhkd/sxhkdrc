@@ -29,12 +29,8 @@ super + t
 super + shift + t
     $TERMINAL -e tremc
 
-super + {_,shift +} y
-    dmenu_emoji {_,type}
-
-# search web
-super + {_,shift +} u
-    searchweb {query,url}
+super + u
+    dmenu_emojis.sh
 
 # reload bar
 super + shift + i
@@ -79,9 +75,9 @@ super + {_, shift +} g
 
 # terminal
 super + Return
-    $TERMINAL
-super + shift + Return
     sd
+super + shift + Return
+    $TERMINAL
 
 # resize floating window with ratio
 super + {_, shift +} z

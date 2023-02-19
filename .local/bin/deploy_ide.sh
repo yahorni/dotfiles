@@ -13,3 +13,6 @@ echo '" vim options for project' > "$IDE_DIR/options.vim"
 
 [ -f "$IDE_CONFIGS_DIR/Makefile" ] && cp "$IDE_CONFIGS_DIR/Makefile" "$IDE_DIR"
 [ -f "$IDE_CONFIGS_DIR/ycm.py" ] && cp "$IDE_CONFIGS_DIR/ycm.py" "$IDE_DIR"
+
+echo '{}' > "$IDE_DIR/.vimspector.json"
+ln -s "$IDE_DIR/.vimspector.json" .

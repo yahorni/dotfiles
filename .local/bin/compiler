@@ -38,7 +38,7 @@ if [ -z "$mode" ] || [ "$mode" = "-" ]; then
         *\.cpp|*\.hpp)      run_c_cpp_build cpp ;;
         *\.py)              python3 "$file" ;;
         *\.tex)             get_root ; pdflatex -draftmode "$file" ; bibtex "$base" ; pdflatex "$file" ; pdflatex "$file" ;;
-        *\.md)              pandoc "$file" --pdf-engine=xelatex -o "$base".pdf ;;
+        *\.md)              pandoc "$file" --pdf-engine=pdfroff -o "$base".pdf ;;
         *\.go)              go run "$file" ;;
         *\.html)            $BROWSER "$file" ;;
         *[Xx]resources)     xrdb -merge "$file" ;;
