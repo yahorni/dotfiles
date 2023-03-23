@@ -1,12 +1,16 @@
 #!/bin/bash
 
+mode=
+if [ "$#" -gt 1 ]; then
+    mode="$1"
+    shift
+fi
+
 file=$(readlink -f "$1")
 dir=$(dirname "$file")
 base="${file%.*}"
 
 cd "$dir" || exit
-
-mode="$2"
 
 get_root() {
     grep -q '% !TeX root = ' "$file" || return
@@ -23,7 +27,7 @@ run_c_cpp_build() {
     local c_libs=(-lpthread -lncurses -lX11)
 
     if [ -f "CMakeLists.txt" ]; then
-        cmake -S . -B build && cmake --build build -- -j3
+        cmake -S . -B build && cmake --build build -- -j$(($(nproc) - 1))
     elif [ "$1" = "c" ]; then
         gcc "${gcc_options[@]}" -o "$base" "$file" "${c_libs[@]}"
     elif [ "$1" = "cpp" ]; then
@@ -31,28 +35,37 @@ run_c_cpp_build() {
     fi
 }
 
-if [ -z "$mode" ] || [ "$mode" = "-" ]; then
+if [ -z "$mode" ]; then
     case "$file" in
         *config\.h)         sudo make install clean ;;
         *\.c|*\.h)          run_c_cpp_build c ;;
         *\.cpp|*\.hpp)      run_c_cpp_build cpp ;;
         *\.py)              python3 "$file" ;;
         *\.tex)             get_root ; pdflatex -draftmode "$file" ; bibtex "$base" ; pdflatex "$file" ; pdflatex "$file" ;;
-        *\.md)              pandoc "$file" --pdf-engine=pdfroff -o "$base".pdf ;;
-        *\.go)              go run "$file" ;;
+        *\.md)              lowdown --parse-no-intraemph "$file" -Tms | groff -mpdfmark -ms -kept -T pdf > "$base.pdf" ;;
+        *\.go)              go build . ;;
         *\.html)            $BROWSER "$file" ;;
         *[Xx]resources)     xrdb -merge "$file" ;;
-        *\.r)               Rscript "$file" ;;
         *CMakeLists\.txt)   cd ./build && cmake .. && make ;;
         *\.js)              node "$file" ;;
         *)                  sed 1q "$file" | grep "^#!/" | sed "s/^#!//" | xargs -r -I % "$file" ;;
     esac
-else
+elif [ "$mode" == "run" ]; then
     case "$file" in
-        *\.md)              pandoc "$file" -t beamer --pdf-engine=xelatex -o "$base".pdf ;;
+        *\.tex|*\.md)       xdg-open "$base.pdf" ;;
+        *\.go)              go run "$file" ;;
+        *)                  ./"$base" ;;
+    esac
+elif [ "$mode" == "other" ]; then
+    case "$file" in
         *\.tex)             get_root ; xelatex "$file" ;;
-        *\.go)              go build . ;;
-        *)                  "$base" ;;
+        *\.md)              pandoc "$file" -t beamer --pdf-engine=xelatex -o "$base.pdf" ;;
+        *[Xx]resources)     xrdb -remove ;;
+        *)                  echo "Not found" ;;
+    esac
+elif [ "$mode" == "old" ]; then
+    case "$file" in
+        *\.md)              pandoc "$file" --pdf-engine=pdfroff -o "$base.pdf" ;;
+        *)                  echo "Not found" ;;
     esac
 fi
-

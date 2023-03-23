@@ -2,6 +2,8 @@ map j scroll down
 map k scroll up
 map J scroll half-down
 map K scroll half-up
+map za toggle_statusbar
+map g goto top
 
 set selection-clipboard clipboard
 
@@ -16,6 +18,3 @@ map [fullscreen] f toggle_fullscreen
 
 map u follow
 map [fullscreen] u follow
-
-map za toggle_statusbar
-map [fullscreen] za toggle_statusbar

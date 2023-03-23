@@ -10,6 +10,9 @@ if project#isDirSet()
     let g:ycm_global_ycm_extra_conf = getcwd().'/'.$IDE_DIR.'/ycm.py'
     let g:ycm_confirm_extra_conf = 0
     nn <silent> <leader>k :YcmCompleter GetDoc<CR>
+    nn <silent> <leader>] :YcmCompleter GoToDefinition<CR>
+    nn <silent> <leader>[ :YcmCompleter GoToReferences<CR>
+    nn <silent> <leader>O :YcmCompleter GoToAlternateFile<CR>
     " }}}
   elseif (g:complete_plugin=='coc')
     " {{{ coc.nvim

@@ -35,3 +35,4 @@ pgrep -x suspender || suspender &
 pgrep transmission-da || transmission-daemon &
 nm-applet &
 redshift -l "53.893009:27.567444" &
+remapd &

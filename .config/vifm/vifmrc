@@ -99,9 +99,9 @@ nnoremap xp :!sxiv -t %d &<cr>
 " use file for drag'n'drop
 nnoremap xg :!dragon %f &<cr>
 vnoremap xg :!dragon %f &<cr>
-" extract files
-nnoremap xe :!extract %f<cr>
-vnoremap xe :!extract %f<cr>
+" extract files (with atool)
+nnoremap xe :!aunpack %f<cr>
+vnoremap xe :!aunpack %f<cr>
 " make zip archive of current directory
 nnoremap xz :!zip -r %f.zip %f &<cr>
 nnoremap xd :!zip -r %d.zip %f &<cr>

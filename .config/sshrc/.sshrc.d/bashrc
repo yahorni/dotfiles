@@ -181,4 +181,4 @@ _cdj() { COMPREPLY=($(cd "$HOME/prog" || return 1 ; compgen -d "$2")) ; }
 complete -F _cdj cdj
 
 # extra settings (for temporary purposes)
-[ -f "$HOME/on_shell.sh" ] && source "$HOME/on_shell.sh"
+[ -f "$HOME/.config/on_shell.sh" ] && source "$HOME/.config/on_shell.sh"

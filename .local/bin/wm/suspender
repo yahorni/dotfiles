@@ -4,8 +4,8 @@ low_message="Low battery"
 critical_message="Critical battery"
 remain_time=15
 check_period=45
-low_level=10
-critical_level=6
+low_level=15
+critical_level=7
 
 send_notification() {
     if [ -n "$DISPLAY" ]; then

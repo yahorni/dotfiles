@@ -7,6 +7,7 @@ export SUDO_ASKPASS="$HOME/.local/bin/wm/dmenu_pass"
 export SXHKD_SHELL='/bin/bash'
 export TS_SLOTS=3
 export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
+export SQLITE_HISTORY="$XDG_DATA_HOME/sqlite.hist"
 
 { pgrep -x acpi_volume.sh || acpi_volume.sh & } >/dev/null 2>&1
 

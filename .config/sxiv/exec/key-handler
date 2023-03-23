@@ -1,21 +1,22 @@
 #!/bin/sh
 
-read file
-
-case "$1" in
-    "w") setwall "$file" & ;;
-    "l") setwall "$file" lock & ;;
-    "p") wal -ni "$file" & ;;
-    "c") copyimage "$file" & ;;
-    "n") newname=$(echo "$file" | dmenu -p "Enter new file name") && mv "$file" "$newname" && notify-send "Moved '$file' to '$newname'" ;;
-    "r") convert -rotate 90 "$file" "$file" ;;
-    "R") convert -rotate -90 "$file" "$file" ;;
-    "f") convert -flop "$file" "$file" ;;
-    "i") convert -channel RGB -negate "$file" "$file" ;;
-    "y") echo -n "$file" | xclip -selection clipboard && notify-send "Copied to clipboard" "$file" & ;;
-    "Y") echo -n "$(readlink -f "$file")" | xclip -selection clipboard && notify-send "Copied to clipboard" "$(readlink -f "$file")" & ;;
-    "d") ([ "$(printf "No\\nYes" | dmenu -i -p "Really delete $file?")" = "Yes" ] && rm "$file" && notify-send "$file deleted.") & ;;
-    "g") dragon "$file" & ;;
-    "t") FILE="$file" ${TERMINAL:-st} & ;;
-    "e") gimp "$file" & ;;
-esac
+while read -r file; do
+    case "$1" in
+        "w") setwall "$file" & ;;
+        "l") setwall "$file" lock & ;;
+        "p") wal -ni "$file" & ;;
+        "c") copyimage "$file" & ;;
+        "m") newname=$(echo "$file" | dmenu -p "Enter new file name") && mv "$file" "$newname" && notify-send "Moved '$file' to '$newname'" ;;
+        "r") convert -rotate 90 "$file" "$file" ;;
+        "R") convert -rotate -90 "$file" "$file" ;;
+        "f") convert -flop "$file" "$file" ;;
+        "n") convert -channel RGB -negate "$file" "$file" ;;
+        "y") printf "%s" "$file" | tr -d '\n' | xclip -selection clipboard && notify-send "Copied to clipboard" "$file" & ;;
+        "Y") readlink -f "$file" | tr -d '\n' | xclip -selection clipboard && notify-send "Copied to clipboard" "$(readlink -f "$file")" & ;;
+        "d") ([ "$(printf "No\\nYes" | dmenu -i -p "Really delete $file?")" = "Yes" ] && rm "$file" && notify-send "$file deleted.") & ;;
+        "g") dragon "$file" & ;;
+        "t") FILE="$file" ${TERMINAL:-st} & ;;
+        "e") gimp "$file" & ;;
+        "i") notify-send "File information" "$(mediainfo "$file" | sed "s/[ ]\+:/:/g;s/: /: <b>/;s/$/<\/b>/" | grep "<b>")" ;;
+    esac
+done

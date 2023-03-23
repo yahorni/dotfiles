@@ -47,12 +47,14 @@ if has('nvim')
   Plug 'w0rp/ale'
   " NOTE: do not use 'clangd' linter as it's too heavy
   let g:ale_linters = {
-    \  'cpp': ['cpplint', 'cc', 'clangtidy'],
-    \  'c': ['cpplint', 'cc', 'clangtidy'],
+    \  'cpp': ['cpplint', 'cc', 'clangtidy', 'cppcheck', 'flawfinder'],
+    \  'c': ['cpplint', 'cc', 'clangtidy', 'cppcheck', 'flawfinder'],
     \  'cmake': ['cmake_lint'],
     \  'sh': ['shellcheck'],
     \  'python': ['flake8', 'pylint'],
     \  'tex': ['chktex'],
+    \  'json': ['jq'],
+    \  'xml': ['xmllint'],
     \}
   let g:ale_fixers = {
     \  '*': ['remove_trailing_lines', 'trim_whitespace'],
@@ -60,13 +62,18 @@ if has('nvim')
     \  'c': ['clangtidy', 'clang-format'],
     \  'cmake': ['cmakeformat'],
     \  'sh': ['shfmt'],
-    \  'python': ['autoimport', 'isort', 'autoflake', 'autopep8']
+    \  'python': ['autoimport', 'isort', 'autoflake', 'autopep8'],
+    \  'json': ['jq', 'prettier', 'clang-format'],
+    \  'xml': ['xmllint'],
     \}
+  let g:ale_linters_explicit = 1
   let g:ale_set_highlights = 1
   let g:ale_lint_on_text_changed = 'never'
   let g:ale_lint_on_enter = 0
   let b:ale_list_window_size = 5
-  let g:ale_completion_enabled = 1
+  if has('nvim')
+    let g:ale_use_neovim_diagnostics_api = 1
+  endif
   " tex options
   " 13 - intersentence spacing
   " 26 - spaces before punctuation
@@ -87,8 +94,13 @@ if has('nvim')
   let g:ale_cmake_cmake_lint_options = '--line-width=120'
   let g:ale_cmake_cmakeformat_executable = 'cmake-format'
   let g:ale_cmake_cmakeformat_options = '--line-width=120'
-  " completion
-  set omnifunc=ale#completion#OmniFunc
+  " shell
+  let g:ale_sh_shfmt_options = '-i 4'
+  " completion (disabling to not interfere with YCM)
+  let g:ale_disable_lsp = 1
+  " let g:ale_completion_enabled = 1
+  " set omnifunc=ale#completion#OmniFunc
+  " hotkeys
   nm <localleader>a <Plug>(ale_lint)
   nm <localleader>e <Plug>(ale_enable)
   nm <localleader>d <Plug>(ale_disable)
@@ -98,6 +110,8 @@ if has('nvim')
   nm <localleader>[ <Plug>(ale_previous)
   nm <localleader>} <Plug>(ale_next_error)
   nm <localleader>{ <Plug>(ale_previous_error)
+  nm <silent> <localleader>I :ALEInfo<CR>
+  nm <silent> <localleader>p :ALEPopulateLocList<CR>
 " }}}
 
 " {{{ vim-go
@@ -132,7 +146,7 @@ nn <localleader>s <Plug>VimspectorStop
 nn <localleader>l <Plug>VimspectorStepInto
 nn <localleader>h <Plug>VimspectorStepOut
 nn <localleader>j <Plug>VimspectorStepOver
-nn <localleader>k <Plug>VimspectorContinue
+nn <localleader>c <Plug>VimspectorContinue
 " }}}
 endif
 

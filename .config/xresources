@@ -1,15 +1,19 @@
 ! vim:ft=xdefaults
 
 Xcursor.size:   9
-xterm*faceName: monospace:pixelsize=18:antialias=true:autohint=true
 dmenu.selbackground: #004466
-Sxiv.background: #000000
 st.alpha:       0.85
+st.font:        monospace:pixelsize=14:antialias=true:autohint=true
+xterm*faceName: monospace:pixelsize=14:antialias=true:autohint=true
 
 ! Gruvbox
-! hard contrast: st.background: #1d2021
-! med. contrast: st.background: #282828
-! soft contrast: st.background: #32302f
+! hard contrast: background: #1d2021
+! med. contrast: background: #282828
+! soft contrast: background: #32302f
+xterm*background: #282828
+xterm*foreground: #ebdbb2
+Sxiv.background: #282828
+Sxiv.foreground: #ebdbb2
 st.background:  #282828
 st.foreground:  #ebdbb2
 ! Black + DarkGrey

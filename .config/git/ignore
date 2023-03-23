@@ -6,5 +6,5 @@
 .vimspector.json
 
 ## specific files
-.config/shell/on_bashrc.sh
+.config/shell/on_shell.sh
 .config/shell/xprofile.sh

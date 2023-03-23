@@ -70,7 +70,7 @@ alias \
     vz='${EDITOR} ${XDG_CONFIG_HOME}/zsh/.zshrc' \
     vq='${EDITOR} ${XDG_CONFIG_HOME}/qutebrowser/config.py' \
     vp='${EDITOR} ${XDG_CONFIG_HOME}/shell/profile.sh' \
-    vo='${EDITOR} ${XDG_CONFIG_HOME}/shell/on_bashrc.sh' \
+    vo='${EDITOR} ${XDG_CONFIG_HOME}/shell/on_shell.sh' \
     vr='${EDITOR} ${XDG_CONFIG_HOME}/xresources' \
     vb='${EDITOR} ~/.bashrc' \
     vx='${EDITOR} ~/.xinitrc' \

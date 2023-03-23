@@ -1,23 +1,23 @@
 # vim: ft=gitconfig
 [core]
-    excludesfile = ~/.config/git/ignore
+	excludesfile = ~/.config/git/ignore
 [pull]
-    ff = only
+	ff = only
 [init]
-    defaultBranch = master
+	defaultBranch = master
 [push]
-    default = current
+	default = current
 [http]
-    sslVerify = false
+	sslVerify = false
 [color]
-    diff = auto
-    status = auto
-    branch = auto
-    interactive = auto
-    ui = true
-    pager = true
+	diff = auto
+	status = auto
+	branch = auto
+	interactive = auto
+	ui = true
+	pager = true
 [credential]
-    helper = cache --timeout=3600
+	helper = cache --timeout=3600
 
 # To manage bare repo:
 # git config status.showUntrackedFiles no

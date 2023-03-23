@@ -1,17 +1,21 @@
 SHELL=/bin/bash
 USER=$(shell whoami)
-IDE_DIR:=$(CURDIR)/${IDE_DIR}
-BACKUP_DIR=$(HOME)/backup
+ARCH=$(shell uname -m)
 
 IDE_DIR:=${IDE_DIR}
 ifeq ($(IDE_DIR), )
-	IDE_DIR:=.ide
+	IDE_DIR=.ide
 endif
-IDE_DIR_PATH:=$(CURDIR)/$(IDE_DIR)
+IDE_DIR_PATH=$(CURDIR)/$(IDE_DIR)
+IDE_MAKE=make -f $(IDE_DIR)/Makefile
 
 EDITOR:=${EDITOR}
 ifeq ($(EDITOR), )
-	EDITOR:=vim
+	ifneq (,$(shell command -v nvim))
+		EDITOR:=nvim
+	else ifneq (,$(shell command -v vim))
+		EDITOR:=vim
+	endif
 endif
 
 # targets with args
@@ -19,6 +23,15 @@ endif
 #   RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
 #   $(eval $(RUN_ARGS):;@:)
 # endif
+
+# backup setup
+BACKUP_DIR=$(HOME)/dox/uebernotes
+IDE_FILES=$(IDE_DIR)/{Makefile,TODO.md,options.vim,plugins.vim,.vimspector.json}
+
+# git state
+GIT_COMMIT_LONG=$(shell git rev-parse HEAD)
+GIT_COMMIT_SHORT=$(shell git rev-parse --short HEAD)
+GIT_BRANCH=$(shell git rev-parse --abbrev-ref HEAD)
 
 ### INTERNAL ###
 .PHONY: help edit todo vim plug debug root noroot backup notes
@@ -61,9 +74,9 @@ noroot:
 	fi
 
 backup:
-	zip -r backup.zip $(IDE_DIR)/{Makefile,TODO.md,*.vim,*.sh}
+	zip -r backup.zip $(IDE_FILES)
 	mkdir -p $(BACKUP_DIR)
-	cp $(IDE_DIR)/{Makefile,TODO.md,*.vim,*.sh} backup.zip $(BACKUP_DIR)
+	cp $(IDE_FILES) backup.zip $(BACKUP_DIR)
 	rm backup.zip
 
 notes:

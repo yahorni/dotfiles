@@ -19,7 +19,7 @@ set cleaner   '~/.local/bin/fm/fmclear.sh'
 # commands
 cmd mkdir $mkdir -p "$(echo $* | tr ' ' '\ ')"
 
-cmd paste &{{
+cmd rsync &{{
     set -- $(cat ~/.local/share/lf/files)
     mode="$1"
     shift
@@ -40,7 +40,9 @@ cmd paste &{{
 # --- mappings ---
 map s $$SHELL
 map DD delete
-map P paste
+map d cut
+map p paste
+map P rsync
 map Q quit
 map <esc> clear
 map <enter> open
@@ -59,6 +61,9 @@ map A rename                # at the very end
 map I push A<c-a>           # at the very beginning
 map i push A<a-b><a-b><a-f> # before extension
 map a push A<a-b>           # after extension
+# files
+map za set hidden!
+map zi set info size:time
 
 # --- external mappings ---
 # edit file
@@ -69,10 +74,10 @@ map L  $xdg-open "$f" &
 map xp $sxiv -t . &
 # use file for drag'n'drop
 map xg $setsid dragon "$f" &
-# extract files
-map xe $extract "$f"
+# extract files (with atool)
+map xe $aunpack "$f"
 # add executable rights
 map xa $chmod +x "$f"
 map xr $chmod -x "$f"
 # bulkrename
-map cw $vidir
+map cw $vidir $fs

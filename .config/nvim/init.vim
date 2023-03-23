@@ -235,8 +235,8 @@ if executable('clang-format')
 endif
 " shfmt | shell
 if executable('shfmt')
-  au FileType sh nn <buffer> <C-f> :%!shfmt<CR>
-  au FileType sh vn <buffer> <C-f> :%!shfmt<CR>
+  au FileType sh nn <buffer> <C-f> :%!shfmt -i 4<CR>
+  au FileType sh vn <buffer> <C-f> :%!shfmt -i 4<CR>
 endif
 " jq | json
 if executable('jq')
@@ -256,8 +256,9 @@ endif
 
 " {{{ MISC
 " file executing
-nn <leader>e :w <bar> :!compiler %<CR>
-nn <leader>E :w <bar> :!compiler % 2<CR>
+nn <leader>e :w <bar> :!compiler "%"<CR>
+nn <leader>E :w <bar> :!compiler run "%"<CR>
+nn <localleader>E :w <bar> :!compiler other "%"<CR>
 nn <leader>x :!chmod +x %<CR>
 nn <leader>X :!chmod -x %<CR>
 
@@ -270,7 +271,6 @@ au FileType c,cpp setlocal commentstring=//\ %s
 let g:tex_flavor = 'latex' " set filetype for tex
 au FileType tex nn <leader>c :!texclear %:p:h<CR><CR>
 au VimLeave *.tex !texclear %:p:h
-au FileType tex,markdown nn <leader>o :!xdg-open %:p:r.pdf<CR><CR>
 
 " remove trailing whitespaces
 nn <silent> <leader>w :%s/\s\+$//e <bar> nohl<CR>
