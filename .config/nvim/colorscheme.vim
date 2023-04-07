@@ -14,11 +14,14 @@ endif
 " colo dayfox
 " colo dawnfox
 " colo duskfox
-colo nordfox
+" colo nordfox
 " colo terafox
 " colo carbonfox
 " ---
 " colo melange
+" ---
+set background=dark
+colo gruvbox
 
 
 " comments

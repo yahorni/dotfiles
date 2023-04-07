@@ -215,8 +215,9 @@ Plug 'mtdl9/vim-log-highlighting'
 " theme
 Plug 'liuchengxu/space-vim-dark'
 Plug 'NLKNguyen/papercolor-theme'
-Plug 'savq/melange'
+Plug 'savq/melange-nvim'
 Plug 'EdenEast/nightfox.nvim'
+Plug 'ellisonleao/gruvbox.nvim'
 
 " extra plugins
 call TryReadScriptFile('extra_plugins.vim')

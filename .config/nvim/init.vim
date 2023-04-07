@@ -154,6 +154,9 @@ nn zq ZQ
 " buffer close
 nn <silent> <C-q> :close<CR>
 
+" update file and search
+nn <silent> <A-n> :e<CR>n
+nn <silent> <A-N> :e<CR>N
 " }}}
 
 " {{{ CURSOR
