@@ -54,7 +54,7 @@ elif [ "$mode" == "run" ]; then
     case "$file" in
         *\.tex|*\.md)       xdg-open "$base.pdf" ;;
         *\.go)              go run "$file" ;;
-        *)                  ./"$base" ;;
+        *)                  "$base" ;;
     esac
 elif [ "$mode" == "other" ]; then
     case "$file" in

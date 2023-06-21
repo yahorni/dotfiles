@@ -50,8 +50,8 @@ x-scheme-handler/http=linkhandler.desktop
 x-scheme-handler/https=linkhandler.desktop
 x-scheme-handler/magnet=torrent.desktop
 x-scheme-handler/mailto=mail.desktop
-x-scheme-handler/tg=userapp-Telegram Desktop-M1OQW1.desktop
+x-scheme-handler/tg=org.telegram.desktop.desktop
 x-scheme-handler/viber=viber.desktop
 
 [Added Associations]
-x-scheme-handler/tg=userapp-Telegram Desktop-M1OQW1.desktop;
+x-scheme-handler/tg=userapp-Telegram Desktop-M1OQW1.desktop;org.telegram.desktop.desktop;

@@ -1,7 +1,7 @@
 # vim:ft=bash:ts=4:sw=4:sts=4:fdm=marker:fdl=0:cms=#\ %s
 
 # options
-set autoquit on
+set autoquit true
 set drawbox
 set icons
 set ifs "\n"

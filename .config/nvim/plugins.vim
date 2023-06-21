@@ -64,6 +64,7 @@ if has('nvim')
     \  'sh': ['shfmt'],
     \  'python': ['autoimport', 'isort', 'autoflake', 'autopep8'],
     \  'json': ['jq', 'prettier', 'clang-format'],
+    \  'html': ['prettier'],
     \  'xml': ['xmllint'],
     \}
   let g:ale_linters_explicit = 1

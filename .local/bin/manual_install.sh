@@ -13,7 +13,7 @@ set -e
 #           libcairo2-dev libxcb-image0-dev libxcb-utils-dev libjpeg-dev    (xwallpaper)
 #           libtool-bin pkg-config cmake                                    (neovim)
 #           xutils-dev      (libxft-bgra)
-#           livevent-dev    (tmux)
+#           libevent-dev    (tmux)
 #           libxtst-dev     (xmouseless)
 #   pacman: go-md2man       (brillo)
 
@@ -279,7 +279,7 @@ branch=
 
 check_args "$@"
 
-if [ is_git_needed == 1 ]; then
+if [ "$is_git_needed" -eq 1 ]; then
     set_program_params
     clone_repo
     setup_repo
