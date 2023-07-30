@@ -13,7 +13,7 @@ if executable('rg')
   call ResetRG()
 
   function! RipGrep(pattern, where, type)
-    let l:escapedpattern = escape(a:pattern, '%\""#')
+    let l:escapedpattern = escape(a:pattern, '%\""#|')
 
     if a:type == 'fixed'
       let l:commandprefix = 'silent grep! -F -e "'

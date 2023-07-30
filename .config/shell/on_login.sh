@@ -15,3 +15,4 @@ export SQLITE_HISTORY="$XDG_DATA_HOME/sqlite.hist"
 
 { pgrep -x mpd-mpris || mpd-mpris & } >/dev/null 2>&1
 { pgrep -x playerctld || playerctld daemon & } >/dev/null 2>&1
+{ pgrep -xf "python.*player-manager.py" || player-manager.py & } >/dev/null 2>&1

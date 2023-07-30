@@ -26,6 +26,7 @@ if has('nvim')
     nm <buffer><nowait> u <Plug>(fern-action-leave)
     nm <buffer><nowait> d <Plug>(fern-action-enter)
     nm <buffer><nowait> c <Plug>(fern-action-cancel)
+    nm <buffer><nowait> D <Plug>(fern-action-remove)
     nm <buffer> za <Plug>(fern-action-hidden:toggle)
     nm <buffer> yy <Plug>(fern-action-yank:label)
     nm <buffer> yb <Plug>(fern-action-yank)
@@ -156,6 +157,10 @@ Plug 'tpope/vim-commentary'
 nm <C-_> <plug>CommentaryLine<ESC>j
 vm <C-_> <plug>Commentary<ESC>
 
+" tagbar
+Plug 'preservim/tagbar'
+nn <silent> <leader>T :TagbarToggle<CR>
+
 " improved quoting/parenthesizing
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat' " dot command for vim-surround
@@ -168,9 +173,18 @@ Plug 'vim-scripts/Rename2'
 
 " status line
 Plug 'itchyny/lightline.vim'
+Plug 'itchyny/vim-gitbranch'
 let g:lightline = {
-  \  'active': {'left': [['mode', 'paste'], ['readonly', 'relativepath', 'modified']]},
-  \  'inactive': {'left': [['relativepath', 'modified']]}
+  \  'active': {
+  \    'left': [['mode', 'paste'], ['readonly', 'relativepath', 'modified'], ['gitbranch']],
+  \    'right': [['lineinfo'], ['percent'], ['fileformat', 'fileencoding', 'filetype', 'charvaluehex']]
+  \  },
+  \  'inactive': {
+  \    'left': [['relativepath', 'modified']],
+  \    'right': [['lineinfo'], ['percent'], ['filetype']]
+  \  },
+  \  'component': {'charvaluehex': '0x%B'},
+  \  'component_function': {'gitbranch': 'gitbranch#name'}
   \}
 
 " fzf
@@ -216,9 +230,10 @@ Plug 'mtdl9/vim-log-highlighting'
 " theme
 Plug 'liuchengxu/space-vim-dark'
 Plug 'NLKNguyen/papercolor-theme'
-Plug 'savq/melange-nvim'
-Plug 'EdenEast/nightfox.nvim'
-Plug 'ellisonleao/gruvbox.nvim'
+if has('nvim')
+  Plug 'savq/melange-nvim'
+  Plug 'EdenEast/nightfox.nvim'
+endif
 
 " extra plugins
 call TryReadScriptFile('extra_plugins.vim')

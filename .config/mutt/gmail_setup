@@ -1,9 +1,9 @@
 # vim: ft=muttrc
 
 ### IMAP ###
-set imap_user = "egor1998nick@gmail.com"
+set imap_user = "$my_gmail_login@gmail.com"
 # where all mail stored
-set folder = "imaps://egor1998nick@imap.gmail.com:993"
+set folder = "imaps://$my_gmail_login@imap.gmail.com:993"
 # imap password
 set imap_pass=$my_gmail_password
 # where unsorted mail stored

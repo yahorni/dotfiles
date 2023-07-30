@@ -72,14 +72,15 @@ macro index,pager \cb "<pipe-message> urlscan<Enter>" "call urlscan to extract U
 macro attach,compose \cb "<pipe-entry> urlscan<Enter>" "call urlscan to extract URLs out of a message"
 
 ### LOAD PASSWORDS ###
-source "gpg -d ~/.config/mutt/passwords.gpg |"
+source "gpg -d ~/.config/mutt/creds.gpg |"
 
 ### MULTIIPLE ACCOUNTS ###
 folder-hook $folder 'source ~/.config/mutt/yandex_setup'
 folder-hook $folder 'source ~/.config/mutt/gmail_setup'
 
 ### DEFAULT ACCOUNT ###
-source "~/.config/mutt/gmail_setup"
+# source "~/.config/mutt/gmail_setup"
+source "~/.config/mutt/yandex_setup"
 
 ### SHORTCUTS ###
 macro index,pager <f2> '<sync-mailbox><enter-command>source ~/.config/mutt/gmail_setup<enter><change-folder>!<enter>'

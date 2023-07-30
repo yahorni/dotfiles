@@ -23,14 +23,21 @@ get_root() {
 }
 
 run_c_cpp_build() {
-    local gcc_options=(-g -O0 -Wall -Wextra -pedantic)
-    local c_libs=(-lpthread -lncurses -lX11)
+    local lang="$1"
+    shift
 
-    if [ -f "CMakeLists.txt" ]; then
-        cmake -S . -B build && cmake --build build -- -j$(($(nproc) - 1))
-    elif [ "$1" = "c" ]; then
+    local gcc_options=(-g -O0 "$@")
+    local c_libs=()
+    if [ "$#" -eq 0 ]; then
+        gcc_options+=(-Wall)
+        gcc_options+=(-Wextra)
+        gcc_options+=(-pedantic)
+        c_libs=(-lpthread -lncurses -lX11)
+    fi
+
+    if [ "$lang" = "c" ]; then
         gcc "${gcc_options[@]}" -o "$base" "$file" "${c_libs[@]}"
-    elif [ "$1" = "cpp" ]; then
+    elif [ "$lang" = "cpp" ]; then
         g++ "${gcc_options[@]}" --std=c++17 -o "$base" "$file" "${c_libs[@]}"
     fi
 }
@@ -52,12 +59,14 @@ if [ -z "$mode" ]; then
     esac
 elif [ "$mode" == "run" ]; then
     case "$file" in
-        *\.tex|*\.md)       xdg-open "$base.pdf" ;;
+        *\.tex|*\.md)       setsid xdg-open "$base.pdf" & disown ;;
         *\.go)              go run "$file" ;;
         *)                  "$base" ;;
     esac
 elif [ "$mode" == "other" ]; then
     case "$file" in
+        *\.c|*\.h)          run_c_cpp_build c -m32 ;;
+        *\.cpp|*\.hpp)      run_c_cpp_build cpp -m32 ;;
         *\.tex)             get_root ; xelatex "$file" ;;
         *\.md)              pandoc "$file" -t beamer --pdf-engine=xelatex -o "$base.pdf" ;;
         *[Xx]resources)     xrdb -remove ;;

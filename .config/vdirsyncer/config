@@ -1,0 +1,22 @@
+# https://vdirsyncer.pimutils.org/en/stable/
+
+[general]
+status_path = "~/.config/vdirsyncer/status/"
+
+[storage yandex_remote]
+type = "caldav"
+url = "https://caldav.yandex.ru"
+
+## gpg -c --cipher-algo AES256 ./creds
+username.fetch = ["shell", "gpg -d ~/.config/vdirsyncer/creds.gpg | head -n1"]
+password.fetch = ["shell", "gpg -d ~/.config/vdirsyncer/creds.gpg | tail -n1"]
+
+[storage calendars_local]
+type = "filesystem"
+path = "~/.local/share/calendars"
+fileext = ".ics"
+
+[pair calendars_yandex]
+a = "calendars_local"
+b = "yandex_remote"
+collections = ["from a", "from b"]

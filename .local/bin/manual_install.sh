@@ -9,6 +9,7 @@ set -e
 # 4. cmake
 # --- dependencies ---
 #   yum:    libXft-devel libXtst-devel gtk3-devel
+#           automake ncurses-devel bison libevent-devel  (tmux)
 #   apt:    libxinerama-dev libx11-xcb-dev libxcb-res0-dev                  (dwm)
 #           libcairo2-dev libxcb-image0-dev libxcb-utils-dev libjpeg-dev    (xwallpaper)
 #           libtool-bin pkg-config cmake                                    (neovim)
@@ -82,7 +83,7 @@ set_program_params() {
         dwm)        branch="config-bar" ;;
         xmouseless) branch="patched" ;;
         libxft-bgra)branch="tags/libXft-2.3.4" ;;
-        neovim)     branch="release-0.8" ;;
+        neovim)     branch="release-0.9" ;;
         tmux)       branch="tags/3.3" ;;
         *)          branch="master" ;;
     esac
@@ -279,9 +280,10 @@ branch=
 
 check_args "$@"
 
-if [ "$is_git_needed" -eq 1 ]; then
+if [ $is_git_needed -eq 1 ]; then
     set_program_params
     clone_repo
+    pull_updates
     setup_repo
 else
     prepare_build_dir

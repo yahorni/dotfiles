@@ -31,6 +31,8 @@ super + shift + t
 
 super + u
     dmenu_emojis.sh
+super + shift + u
+    $TERMINAL -e neomutt
 
 # reload bar
 super + shift + i
@@ -112,20 +114,30 @@ super + {_, shift +} m
     dmenu_{_,un}mount
 
 # music (keyboard)
-super + {_,shift +} n
+super + {_,shift +} + KP_Enter
     mpc {toggle,stop}
-super + {minus,equal}
+super + KP_{Subtract,Add}
     mpc {prev,next}
-super + shift + {minus,equal}
+super + shift + KP_{Subtract,Add}
     mpc seek {-,+}5
+# ---
+super + {_,shift +} n
+    playerctl {play-pause,stop}
+super + {minus,equal}
+    playerctl {previous,next}
+super + shift + {minus,equal}
+    playerctl position 5{-,+}
+# ---
+super + alt + {_,shift +} n
+    playerctl pause ; playerctld {_,un}shift
 
 # music (audio buttons)
 XF86Audio{Play,Pause,Stop}
     playerctl {play-pause,play-pause,stop}
-XF86Audio{Next,Prev}
-    playerctl {next,previous}
-shift + XF86Audio{Next,Prev}
-    playerctl position 10{+,-}
+XF86Audio{Prev,Next}
+    playerctl {previous,next}
+shift + XF86Audio{Prev,Next}
+    playerctl position 5{-,+}
 
 # screenshots
 Print
@@ -135,5 +147,6 @@ alt + Print
 @shift + Print
     makescreen part
 
+# screen keyboard
 super + alt + space
     onboard

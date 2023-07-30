@@ -1,0 +1,25 @@
+# vim:ft=systemd
+
+# Reverse tunnel service
+# place it and enable on a destination machine
+# replace:
+# 1. <TUNNEL_KEY>
+# 2. <TUNNEL_PORT>
+# 3. <TUNNEL_LOGIN>
+# 4. <TUNNEL_IP>
+
+[Unit]
+Description = Reverse SSH tunnel
+After = network-online.target
+
+[Service]
+User = root
+Environment = AUTOSSH_GATETIME=0
+ExecStart=/usr/bin/autossh -M 0 -N -o "ServerAliveInterval=30" -o "ServerAliveCountMax=3" -o "PubKeyAuthentication=yes" -o "PasswordAuthentication=no" -o "ExitOnForwardFailure=yes" -o "StrictHostKeyChecking=no" -i <TUNNEL_KEY> -R <TUNNEL_PORT>:localhost:22 -l <TUNNEL_LOGIN> <TUNNEL_IP>
+ExecStop=/usr/bin/killall autossh
+
+RestartSec=5
+Restart=always
+
+[Install]
+WantedBy = multi-user.target

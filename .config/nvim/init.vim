@@ -197,6 +197,7 @@ nn gr :call ToggleResizeSplitMode()<CR>
 nn <silent> th :tabprev<CR>
 nn <silent> tl :tabnext<CR>
 nn <silent> tn :tabnew %<CR>
+nn <silent> tN :tabnew<CR>
 nn <silent> tc :tabclose<CR>
 nn <silent> tH :tabmove -1<CR>
 nn <silent> tL :tabmove +1<CR>
@@ -243,8 +244,8 @@ if executable('shfmt')
 endif
 " jq | json
 if executable('jq')
-  au FileType json nn <buffer> <C-f> :%!jq<CR>
-  au FileType json vn <buffer> <C-f> :%!jq<CR>
+  au FileType json nn <buffer> <C-f> :%!jq .<CR>
+  au FileType json vn <buffer> <C-f> :%!jq .<CR>
 endif
 " prettier | yaml, html, css
 if executable('prettier')
@@ -294,7 +295,7 @@ if executable('cppman')
 endif
 
 " git blame
-nn gb :execute '!git blame -L ' . max([eval(line('.')-5), 1]) . ',+10 %'<CR>
+nn gb :execute '!git blame -L '.max([eval(line('.')), 1]).',+'.min([eval(line('$')-line('.')+1),10]).' %'<CR>
 
 " remove swaps
 nn <leader>R :!rm -f ~/.local/share/nvim/swap/*<CR>

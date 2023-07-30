@@ -1,9 +1,9 @@
 # vim: ft=muttrc
 
 ### IMAP ###
-set imap_user = "maxcoper@yandex.com"
+set imap_user = "$my_yandex_login@yandex.com"
 # where all mail stored
-set folder = "imaps://maxcoper@imap.yandex.com:993"
+set folder = "imaps://$my_yandex_login@imap.yandex.com:993"
 # imap password
 set imap_pass=$my_yandex_password
 # where unsorted mail stored
