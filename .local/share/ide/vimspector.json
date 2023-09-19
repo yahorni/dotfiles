@@ -1,0 +1,45 @@
+{
+    "configurations": {
+        "default": {
+            "breakpoints": {
+                "exception": {
+                    "_options": ["all", "raised", "uncaught", "userUnhandled"],
+                    "raised": "N",
+                    "uncaught": "Y",
+                    "userUnhandled": "Y"
+                }
+            }
+        },
+        "run-python": {
+            "adapter": "debugpy",
+            "filetypes": ["python"],
+            "configuration": {
+                "name": "launch",
+                "type": "python",
+                "request": "launch",
+                "cwd": "${workspaceRoot}",
+                "python": "${workspaceRoot}/venv/bin/python3",
+                "stopOnEntry": false,
+                "console": "integratedTerminal",
+                "args": ["start"],
+                "module": "product.main",
+                "justMyCode": false,
+                "sudo": true,
+                "env": {
+                    "LOG_LEVEL": "DEBUG"
+                }
+            }
+        },
+        "run-cpp": {
+            "adapter": "vscode-cpptools",
+            "filetypes": ["cpp", "c", "make"],
+            "configuration": {
+                "request": "launch",
+                "program": "${workspaceRoot}/a.out",
+                "args": ["--help"],
+                "cwd": "${workspaceRoot}",
+                "console": "integratedTerminal"
+            }
+        }
+    }
+}

@@ -20,12 +20,14 @@ alias \
     ssc='sudo systemctl' \
     p3='python3' \
     cp='cp -ri' \
-    mim='file --mime-type'
+    mim='file --mime-type' \
+    tmux='tmux -2'
 
 # other progs
 alias \
     dg='/usr/bin/git --git-dir="${HOME}/prog/df" --work-tree="${HOME}"' \
     sp='sudo pacman' \
+    yay='yay --sudoloop' \
     fm='FM=vifm fmrun.sh' \
     ff='ffplay -autoexit -nodisp' \
     rst='reset && source ~/.bashrc && stty sane && tput cvvis' \

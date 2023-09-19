@@ -151,6 +151,8 @@ nn <silent> <leader>h :noh<Enter>
 nn Y y$
 nn zq ZQ
 
+" open next buffer
+nn <silent> gB :bNext<CR>
 " buffer close
 nn <silent> <C-q> :close<CR>
 
@@ -202,10 +204,22 @@ nn <silent> tc :tabclose<CR>
 nn <silent> tH :tabmove -1<CR>
 nn <silent> tL :tabmove +1<CR>
 
-if has('nvim')
-  nn <silent> <S-Tab> :tabprev<CR>
-  nn <silent> <Tab> :tabnext<CR>
-endif
+" switch to tab by number
+nn <leader>1 1gt
+nn <leader>2 2gt
+nn <leader>3 3gt
+nn <leader>4 4gt
+nn <leader>5 5gt
+nn <leader>6 6gt
+nn <leader>7 7gt
+nn <leader>8 8gt
+nn <leader>9 9gt
+nn <silent> <leader>0 :tablast<CR>
+
+" switch to last tab
+au TabLeave * let g:lasttab = tabpagenr()
+nn <silent> <leader>` : exe "tabn ".g:lasttab<CR>
+vn <silent> <leader>` : exe "tabn ".g:lasttab<CR>
 " }}}
 
 " {{{ SESSION
@@ -282,6 +296,9 @@ vn <silent> <leader>w y:'<,'>s/\s\+$//e <bar> nohl<CR>
 
 " remove empty lines
 nn <silent> <leader>W :g/^$/d<CR>
+
+" squish consecutive duplicates
+nn <silent> <leader>D :%s;\v^(.*)(\n\1)+$;\1;<CR>
 
 " search visually selected text with '//'
 vn // y/\V<C-R>=escape(@",'/\')<CR><CR>

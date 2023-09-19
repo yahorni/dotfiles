@@ -107,3 +107,7 @@ echo expand('<sfile>:p:h')
 ```bash
 cargo install tree-sitter-cli
 ```
+
+## Ctrl+i doesn't work
+Solution: do not remap <Tab>, it's equal to <C-i>
+> https://stackoverflow.com/questions/18175647/jump-with-ctrl-i-doesnt-work-in-my-macvim-but-ctrl-o-works

@@ -13,7 +13,7 @@ def print_event(player_name, status):
     print(f"{player_name.lower()}: {status.lower()}")
     try:
         with open("/tmp/dwmbar.fifo", "a") as f:
-            f.write("player\n")
+            f.write("player 0\n")
     except BrokenPipeError as ex:
         print("caught BrokenPipeError", file=sys.stderr)
 

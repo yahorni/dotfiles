@@ -129,7 +129,7 @@ super + shift + {minus,equal}
     playerctl position 5{-,+}
 # ---
 super + alt + {_,shift +} n
-    playerctl pause ; playerctld {_,un}shift
+    playerctl pause ; playerctld {_,un}shift ; echo "player 0" > /tmp/dwmbar.fifo
 
 # music (audio buttons)
 XF86Audio{Play,Pause,Stop}

@@ -32,7 +32,11 @@ run_c_cpp_build() {
         gcc_options+=(-Wall)
         gcc_options+=(-Wextra)
         gcc_options+=(-pedantic)
-        c_libs=(-lpthread -lncurses -lX11)
+
+        c_libs+=(-lpthread)
+        c_libs+=(-lncurses)
+        c_libs+=(-lX11)
+        c_libs+=(-lexplain)
     fi
 
     if [ "$lang" = "c" ]; then

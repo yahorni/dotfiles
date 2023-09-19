@@ -23,9 +23,10 @@ export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
 export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 
 # settings
-export LESS='-RMx4'
-export LESSHISTFILE='-'
-export SYSTEMD_PAGER='less'
+export LESS="-RMx4"
+export LESSHISTFILE="-"
+export SYSTEMD_PAGER="less"
+export HISTCONTROL="ignoredups"
 
 # path
 export PATH="$PATH:$HOME/.local/bin"
@@ -44,7 +45,7 @@ set_prompt() {
     # shellcheck disable=SC2155
     local symbol=$([ "$EUID" -eq 0 ] && printf '#' || printf '$')
 
-    PS1="\[$bold$magenta\][\u@\h \[$blue\]\W\[$magenta\]]\[$default\]$symbol "
+    PS1="${bold}${magenta}[\u@\h ${blue}\W${magenta}]${default}${symbol} "
 }
 set_prompt
 
@@ -84,7 +85,8 @@ alias \
     ssc='sudo systemctl' \
     p3='python3' \
     cp='cp -ri' \
-    mim='file --mime-type'
+    mim='file --mime-type' \
+    tmux='tmux -2'
 
 # git
 alias \
@@ -121,9 +123,9 @@ alias \
     v_='${EDITOR} $_'
 # shellcheck disable=SC2139
 if [ "${EDITOR}" = 'nvim' ]; then
-    alias vv="${EDITOR} .config/nvim/init.vim"
+    alias vv="${EDITOR} ${HOME}/.config/nvim/init.vim"
 elif [ "${EDITOR}" = 'vim' ] || [ "${EDITOR}" = 'vi' ]; then
-    alias vv="${EDITOR} .vimrc"
+    alias vv="${EDITOR} ${HOME}/.vimrc"
 fi
 
 # directories
