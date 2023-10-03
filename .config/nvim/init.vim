@@ -198,8 +198,7 @@ nn gr :call ToggleResizeSplitMode()<CR>
 " {{{ TABS
 nn <silent> th :tabprev<CR>
 nn <silent> tl :tabnext<CR>
-nn <silent> tn :tabnew %<CR>
-nn <silent> tN :tabnew<CR>
+nn <silent> tn :exe "tabnew".(len(@%)>0?" %":"")<CR>
 nn <silent> tc :tabclose<CR>
 nn <silent> tH :tabmove -1<CR>
 nn <silent> tL :tabmove +1<CR>
@@ -218,8 +217,8 @@ nn <silent> <leader>0 :tablast<CR>
 
 " switch to last tab
 au TabLeave * let g:lasttab = tabpagenr()
-nn <silent> <leader>` : exe "tabn ".g:lasttab<CR>
-vn <silent> <leader>` : exe "tabn ".g:lasttab<CR>
+nn <silent> <leader>` :exe "tabn ".g:lasttab<CR>
+vn <silent> <leader>` :exe "tabn ".g:lasttab<CR>
 " }}}
 
 " {{{ SESSION

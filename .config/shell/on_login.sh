@@ -9,10 +9,10 @@ export TS_SLOTS=3
 export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
 export SQLITE_HISTORY="$XDG_DATA_HOME/sqlite.hist"
 
-{ pgrep -x acpi_volume.sh || acpi_volume.sh & } >/dev/null 2>&1
+# Services enabled with systemd
+# 1. mpd
+# 2. mpd-mpris
+# 3. acpi_volume
 
-{ pgrep -x mpd || mpd & } >/dev/null 2>&1
-
-{ pgrep -x mpd-mpris || mpd-mpris & } >/dev/null 2>&1
 { pgrep -x playerctld || playerctld daemon & } >/dev/null 2>&1
 { pgrep -xf "python.*player-manager.py" || player-manager.py & } >/dev/null 2>&1

@@ -123,9 +123,9 @@ alias \
     v_='${EDITOR} $_'
 # shellcheck disable=SC2139
 if [ "${EDITOR}" = 'nvim' ]; then
-    alias vv="${EDITOR} ${HOME}/.config/nvim/init.vim"
+    alias vv='${EDITOR} ${HOME}/.config/nvim/init.vim'
 elif [ "${EDITOR}" = 'vim' ] || [ "${EDITOR}" = 'vi' ]; then
-    alias vv="${EDITOR} ${HOME}/.vimrc"
+    alias vv='${EDITOR} ${HOME}/.vimrc'
 fi
 
 # directories

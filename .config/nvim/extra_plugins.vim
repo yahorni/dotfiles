@@ -2,7 +2,9 @@
 
 if project#isDirSet()
   " autocomplete
-  let g:complete_plugin = 'ycm'  " coc/ycm/lsp
+  let g:complete_plugin = 'non'  " coc/ycm/lsp
+  " ycm - causes eternal hangs
+  " lsp/coc - needs to be configured to work
   if (g:complete_plugin=='ycm')
     " {{{ ycm
     Plug 'ycm-core/YouCompleteMe'

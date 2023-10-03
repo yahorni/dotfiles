@@ -31,12 +31,14 @@ run_c_cpp_build() {
     if [ "$#" -eq 0 ]; then
         gcc_options+=(-Wall)
         gcc_options+=(-Wextra)
-        gcc_options+=(-pedantic)
+        # disable by default
+        # gcc_options+=(-pedantic)
 
         c_libs+=(-lpthread)
         c_libs+=(-lncurses)
         c_libs+=(-lX11)
-        c_libs+=(-lexplain)
+        # disable by default
+        # c_libs+=(-lexplain)
     fi
 
     if [ "$lang" = "c" ]; then
