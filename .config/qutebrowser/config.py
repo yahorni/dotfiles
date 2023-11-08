@@ -1,6 +1,8 @@
 import os
 from os import path
 
+# :config-write-py --defaults --force config.def.py
+
 config.load_autoconfig(False)
 
 # SETTINGS
@@ -11,6 +13,7 @@ c.colors.webpage.darkmode.algorithm = 'lightness-cielab'
 c.colors.webpage.darkmode.enabled = True
 c.colors.webpage.darkmode.policy.page = 'always'
 c.colors.webpage.darkmode.policy.images = 'smart'
+c.colors.webpage.darkmode.increase_text_contrast = True
 c.colors.webpage.preferred_color_scheme = 'dark'
 c.completion.cmd_history_max_items = 0
 c.completion.height = '30%'
@@ -21,6 +24,8 @@ c.confirm_quit = ['downloads']
 c.content.autoplay = False
 c.content.cookies.store = False
 c.content.pdfjs = True
+c.content.prefers_reduced_motion = True
+c.content.private_browsing = True
 c.messages.timeout = 1500
 c.scrolling.bar = 'when-searching'
 c.statusbar.show = 'in-mode'
@@ -66,6 +71,7 @@ c.content.blocking.enabled = True
 c.content.blocking.adblock.lists = ['https://easylist.to/easylist/easylist.txt', 'https://easylist.to/easylist/easyprivacy.txt']
 c.content.blocking.hosts.lists = ['https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts']
 c.content.blocking.method = 'both'
+c.content.blocking.hosts.block_subdomains = True
 
 # THEME
 theme_path = path.expandvars("$XDG_DATA_HOME/qutebrowser/styles/global-dark.css")
@@ -118,7 +124,7 @@ config.bind('О', 'tab-next')                # J
 config.bind('Л', 'tab-prev')                # K
 config.bind('Д', 'forward')                 # L
 config.bind('Т', 'search-prev')             # N
-config.bind('Щ', 'set-cmd-text -s :open -t')# O
+config.bind('Щ', 'cmd-set-text -s :open -t')# O
 config.bind('ЗЗ', 'open -t -- {primary}')   # PP
 config.bind('Зз', 'open -t -- {clipboard}') # Pp
 config.bind('К', 'reload -f')               # R
@@ -133,7 +139,7 @@ config.bind('о', 'scroll down')             # j
 config.bind('л', 'scroll up')               # k
 config.bind('д', 'scroll right')            # l
 config.bind('т', 'search-next')             # n
-config.bind('щ', 'set-cmd-text -s :open')   # o
+config.bind('щ', 'cmd-set-text -s :open')   # o
 config.bind('зЗ', 'open -- {primary}')      # pP
 config.bind('зз', 'open -- {clipboard}')    # pp
 config.bind('к', 'reload')                  # r

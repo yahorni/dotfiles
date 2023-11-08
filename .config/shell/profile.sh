@@ -28,6 +28,7 @@ export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 # settings
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export GOPATH="$HOME/prog/go"
+export GOMODCACHE="$XDG_CACHE_HOME/go/mod"
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc-2.0"
 export INPUTRC="$XDG_CONFIG_HOME/shell/inputrc"
 export LESS='-RMx4'

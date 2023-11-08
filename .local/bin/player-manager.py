@@ -1,6 +1,7 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 
 import sys
+import signal
 
 from gi.repository import GLib
 import gi
@@ -70,6 +71,14 @@ for name in manager.props.player_names:
     init_player(name, manager)
 
 
-main = GLib.MainLoop()
-main._quit_by_sigint = True
-main.run()
+loop = GLib.MainLoop()
+
+def sigint_handler(sig, frame):
+    if sig == signal.SIGINT:
+        loop.quit()
+    else:
+        raise ValueError("Undefined handler for '{}'".format(sig))
+
+if __name__ == '__main__':
+    signal.signal(signal.SIGINT, sigint_handler)
+    loop.run()

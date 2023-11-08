@@ -1,0 +1,1 @@
+ACTION=="change", SUBSYSTEM=="drm", ENV{HOTPLUG}=="1", ENV{DISPLAY}=":0", ENV{XAUTHORITY}="/home/gin/.Xauthority", RUN+="/home/gin/.local/bin/xdisplay.sh", RUN+="/home/gin/.local/bin/xboard.sh"

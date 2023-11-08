@@ -31,14 +31,15 @@ run_c_cpp_build() {
     if [ "$#" -eq 0 ]; then
         gcc_options+=(-Wall)
         gcc_options+=(-Wextra)
-        # disable by default
+        # disabled by default
         # gcc_options+=(-pedantic)
 
         c_libs+=(-lpthread)
         c_libs+=(-lncurses)
         c_libs+=(-lX11)
-        # disable by default
+        # disabled by default
         # c_libs+=(-lexplain)
+        # c_libs+=($(pkg-config --cflags --libs cairomm-1.0))
     fi
 
     if [ "$lang" = "c" ]; then

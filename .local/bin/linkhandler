@@ -14,7 +14,7 @@ case "$url" in
         [[ "$?" -ne "0" ]] && notify-send "Youtube-dl error" "$ERROR" && exit 1
         exec mpv --ytdl-format="bestvideo[height<=1080]+bestaudio/best[height<=1080]"\
             --really-quiet --osc "$url" & ;;
-    *\.png|*\.jpg|*\.jpeg|*\.gif)
+    *\.png|*\.jpg|*\.jpeg|*\.gif|*\.webp)
         name="$(echo "$url" | sed "s/.*\///")"
         curl -sL "$url" > "/tmp/$name" && exec sxiv -a "/tmp/$name" & ;;
     *\.pdf)

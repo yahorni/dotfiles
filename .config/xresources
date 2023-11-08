@@ -12,8 +12,8 @@ xterm*faceName: monospace:pixelsize=14:antialias=true:autohint=true
 ! soft contrast: background: #32302f
 xterm*background: #282828
 xterm*foreground: #ebdbb2
-Sxiv.background: #282828
-Sxiv.foreground: #ebdbb2
+Nsxiv.window.background: #282828
+Nsxiv.window.foreground: #ebdbb2
 st.background:  #282828
 st.foreground:  #ebdbb2
 ! Black + DarkGrey

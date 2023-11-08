@@ -6,10 +6,11 @@ if lsmod | grep "nvidia" ; then
     xrandr --auto
 fi
 
-# second monitor detection
-if xrandr | grep "HDMI1 connected" ; then
-    xrandr --output HDMI1 --auto --primary --output eDP1  --right-of HDMI1
-fi
+# configure monitors
+xdisplay.sh
+
+# configure dpi
+xrandr --dpi 96
 
 # wallpaper
 xwallpaper --stretch "$XDG_DATA_HOME/wallpaper"
@@ -26,13 +27,19 @@ fi
 # xss-lock -- physlock -ms &
 
 # autostart
-dunst &
-picom &
-sxhkd &
-unclutter &
-greenclip daemon &
-pgrep -x suspender || suspender &
-pgrep transmission-da || transmission-daemon &
-nm-applet &
-redshift -l "53.893009:27.567444" &
-remapd &
+autostart=(
+    "dunst"
+    "picom"
+    "sxhkd"
+    "unclutter"
+    "greenclip daemon"
+    "suspender"
+    "transmission-daemon"
+    "nm-applet"
+    "redshift -l 53.893009:27.567444"
+    "remapd"
+)
+
+for program in "${autostart[@]}"; do
+    pidof -sx "$(echo "$program" | cut -d' ' -f1)" || $program &
+done >/dev/null 2>&1

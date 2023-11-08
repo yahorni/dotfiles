@@ -95,7 +95,7 @@ nnoremap xf :!$EDITOR %f<cr>
 " open with xdg-open in separate process
 nnoremap L  :!setsid xdg-open %f &<cr>
 " show pictures
-nnoremap xp :!sxiv -t %d &<cr>
+nnoremap xp :!nsxiv -t %d &<cr>
 " use file for drag'n'drop
 nnoremap xg :!dragon %f &<cr>
 vnoremap xg :!dragon %f &<cr>

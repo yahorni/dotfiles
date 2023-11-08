@@ -47,6 +47,7 @@ map Q quit
 map <esc> clear
 map <enter> open
 map <delete> delete
+map r reload
 # disable default mappings
 map w
 map c
@@ -57,10 +58,10 @@ map <m-1> open
 map <m-2> updir
 # rename
 map C push A<c-u>           # new rename
-map A rename                # at the very end
-map I push A<c-a>           # at the very beginning
-map i push A<a-b><a-b><a-f> # before extension
-map a push A<a-b>           # after extension
+map A :rename; cmd-end      # at the very end
+map I :rename; cmd-home     # at the very beginning
+map i :rename               # before extension
+map a :rename; cmd-right    # after extension
 # files
 map za set hidden!
 map zi set info size:time
@@ -71,9 +72,11 @@ map xf $$EDITOR "$f"
 # open with xdg-open in separate process
 map L  $xdg-open "$f" &
 # show pictures
-map xp $sxiv -t . &
+map xp $nsxiv -t . &
 # use file for drag'n'drop
 map xg $setsid dragon "$f" &
+# make zip archive
+map xz $zip -r "$f.zip" "$f"
 # extract files (with atool)
 map xe $aunpack "$f"
 # add executable rights

@@ -11,11 +11,16 @@ IDE_DIR_PATH=$(CURDIR)/$(IDE_DIR)
 IDE_MAKE=make -f $(IDE_DIR)/Makefile
 
 EDITOR:=${EDITOR}
-ifeq ($(EDITOR), )
+ifeq ($(EDITOR),)
 	ifneq (,$(shell command -v nvim))
 		EDITOR:=nvim
+		CLEAN_EDITOR:=nvim --clean
 	else ifneq (,$(shell command -v vim))
 		EDITOR:=vim
+		CLEAN_EDITOR:=vim --clean
+	else ifneq (,$(shell command -v vi))
+		EDITOR:=vi
+		CLEAN_EDITOR:=nano
 	endif
 endif
 
@@ -26,7 +31,8 @@ endif
 # endif
 
 # backup setup
-BACKUP_DIR=$(HOME)/dox/uebernotes
+# NOTE: replace with your destination
+BACKUP_DIR=$(CURDIR)/backup
 IDE_FILES=$(IDE_DIR)/{Makefile,TODO.md,options.vim,plugins.vim,.vimspector.json}
 
 # git state
@@ -56,8 +62,8 @@ plug:
 	@$(EDITOR) $(IDE_DIR)/plugins.vim
 
 debug:
-	@if [ -f "$(IDE_DIR)/.vimspector.json" ]; then\
-		$(EDITOR) $(IDE_DIR)/.vimspector.json ;\
+	if [ -f "$(IDE_DIR)/.vimspector.json" ]; then\
+		$(EDITOR) "$(IDE_DIR)/.vimspector.json" ;\
 	else\
 		echo "FAIL: No debug configuration" ;\
 	fi

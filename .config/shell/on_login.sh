@@ -7,12 +7,12 @@ export SUDO_ASKPASS="$HOME/.local/bin/wm/dmenu_pass"
 export SXHKD_SHELL='/bin/bash'
 export TS_SLOTS=3
 export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
-export SQLITE_HISTORY="$XDG_DATA_HOME/sqlite.hist"
+export SQLITE_HISTORY="$XDG_DATA_HOME/sqlite_history"
 
 # Services enabled with systemd
 # 1. mpd
 # 2. mpd-mpris
 # 3. acpi_volume
 
-{ pgrep -x playerctld || playerctld daemon & } >/dev/null 2>&1
-{ pgrep -xf "python.*player-manager.py" || player-manager.py & } >/dev/null 2>&1
+{ pidof -sx playerctld || playerctld daemon & } >/dev/null 2>&1
+{ pidof -sx player-manager.py || player-manager.py & } >/dev/null 2>&1

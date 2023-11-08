@@ -16,17 +16,17 @@
     { "keys": ["r"], "type": "prompt", "command": "ren $n \"\"", "cursorPosition": -2 },
     { "keys": ["R"], "type": "prompt", "command": "ren $b \"\"", "cursorPosition": -2 },
 
-    { "keys": [" "], "command": "todo toggle $n" },
-    { "keys": ["tc"], "command": "todo clear $n" },
-
     { "keys": ["tt"], "type": "function", "command": "toggle_console" },
     { "keys": ["tm"], "type": "function", "command": "toggle_metadata" },
 
     { "keys": ["/"], "type": "prompt", "command": "search \"\"", "cursorPosition": -2 },
 
     { "keys": ["mn", "a"], "type": "prompt", "command": "mknote \"\"", "cursorPosition": -2 },
+    { "keys": ["mb", "b"], "type": "prompt", "command": "mkbook \"\"", "cursorPosition": -2 },
+
     { "keys": ["mt"], "type": "prompt", "command": "mktodo \"\"", "cursorPosition": -2 },
-    { "keys": ["mb"], "type": "prompt", "command": "mkbook \"\"", "cursorPosition": -2 },
+    { "keys": [" "], "command": "todo toggle $n" },
+    { "keys": ["tc"], "command": "todo clear $n" },
 
     { "keys": ["yn"], "type": "prompt", "command": "cp $n \"\"", "cursorPosition": -2 },
     { "keys": ["dn"], "type": "prompt", "command": "mv $n \"\"", "cursorPosition": -2 },

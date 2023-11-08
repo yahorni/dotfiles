@@ -47,10 +47,7 @@ x_percent="${x_perc:-default_x}"
 y_percent="${y_perc:-default_y}"
 
 pid=$(xdotool getwindowfocus)
-# name="$(xdotool getwindowname "$pid")"
-
-geometry=($(xrandr -q | grep "$monitor" | \
-    sed -n 's/.* \([0-9]\+\)x\([0-9]\+\)+\([0-9]\+\)+\([0-9]\+\) .*/\1 \2 \3 \4/p'))
+geometry=($(xdotool getdisplaygeometry))
 
 new_width=$((geometry[0] * x_percent / 100))
 new_height=$((geometry[1] * y_percent / 100))

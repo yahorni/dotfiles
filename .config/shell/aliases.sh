@@ -60,7 +60,8 @@ alias \
     gff='git log --full-history --' \
     gff1='git log --full-history -1 --' \
     gcl='git clean -dfx' \
-    grp='git remote prune'
+    grp='git remote prune' \
+    ghash='git log -n 1 --pretty=format:"%H"'
 
 # files
 alias \
@@ -72,8 +73,9 @@ alias \
     vz='${EDITOR} ${XDG_CONFIG_HOME}/zsh/.zshrc' \
     vq='${EDITOR} ${XDG_CONFIG_HOME}/qutebrowser/config.py' \
     vp='${EDITOR} ${XDG_CONFIG_HOME}/shell/profile.sh' \
-    vo='${EDITOR} ${XDG_CONFIG_HOME}/shell/on_shell.sh' \
-    vn='${EDITOR} ${XDG_CONFIG_HOME}/shell/on_login.sh' \
+    vos='${EDITOR} ${XDG_CONFIG_HOME}/shell/on_shell.sh' \
+    vol='${EDITOR} ${XDG_CONFIG_HOME}/shell/on_login.sh' \
+    vox='${EDITOR} ${XDG_CONFIG_HOME}/shell/on_x11.sh' \
     vr='${EDITOR} ${XDG_CONFIG_HOME}/xresources' \
     vb='${EDITOR} ~/.bashrc' \
     vx='${EDITOR} ~/.xinitrc' \
@@ -84,11 +86,6 @@ alias \
     v_='${EDITOR} $_'
 
 # directories
-alias \
-    cdb='cd ~/.local/bin' \
-    cds='cd ${XDG_DATA_HOME}' \
-    cdc='cd ${XDG_CONFIG_HOME}' \
-    cd_='cd $_'
 alias \
     cdB='cd "$(xdg-user-dir BOOKS)"' \
     cdx='cd "$(xdg-user-dir DOCUMENTS)"' \
@@ -104,16 +101,24 @@ alias \
     cd3='cd /mnt/usb3' \
     cdo='cd /mnt/other'
 alias \
+    .1='cd ..' \
     .2='cd ../..' \
     .3='cd ../../..' \
     .4='cd ../../../..'
 
-# utils
-cdj() {
-    cd "$HOME/prog" || return 1
-    [ -n "$1" ] && cd "$1" || return 1
+cd_subdir() {
+    cd "$1" || return 1
+    [ -n "$2" ] && cd "$2" || return 1
 }
 
+alias \
+    cdc='cd_subdir ${XDG_CONFIG_HOME}' \
+    cds='cd_subdir ${XDG_DATA_HOME}' \
+    cdb='cd_subdir ~/.local/bin' \
+    cdj='cd_subdir ~/prog' \
+    cd_='cd $_'
+
+# utils
 scr() {
     bindir="$HOME/.local/bin"
     file="$(cd "$bindir" || return 1 ; find . -type f | fzf)"
