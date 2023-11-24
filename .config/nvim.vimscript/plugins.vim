@@ -5,7 +5,7 @@ call plug#begin()
 
 if has('nvim')
 " {{{ fern treeview
-  Plug 'antoinemadec/FixCursorHold.nvim'
+  " Plug 'antoinemadec/FixCursorHold.nvim'
   Plug 'lambdalisue/fern.vim'
   Plug 'lambdalisue/fern-hijack.vim'
   nn <silent> <C-n> :Fern . -reveal=%<CR>
@@ -198,8 +198,9 @@ nn <silent> <C-b> :Buffers<CR>
 nn <silent> <leader>b :FZF<CR>
 
 " c++
-Plug 'derekwyatt/vim-fswitch'
-au FileType c,cpp nn <silent> <leader>o :FSHere<CR>
+Plug 'nvim-lua/plenary.nvim' " required dependency
+Plug 'jakemason/ouroboros'
+au FileType c,cpp nn <silent> <leader>o :Ouroboros<CR>
 
 " auto tag management
 Plug 'ludovicchabant/vim-gutentags'

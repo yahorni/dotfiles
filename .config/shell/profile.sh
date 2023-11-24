@@ -43,7 +43,7 @@ export SSHHOME="$XDG_CONFIG_HOME/sshrc"
 export SYSTEMD_PAGER='less'
 export TERMINFO="$XDG_DATA_HOME/terminfo"
 export TERMINFO_DIRS="$XDG_DATA_HOME/terminfo:/usr/share/terminfo"
-export VIMINIT="source $XDG_CONFIG_HOME/nvim/init.vim"
+export VIMINIT="source $XDG_CONFIG_HOME/nvim/init.*"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export _JAVA_AWT_WM_NONREPARENTING=1    # fix java apps in wm
 

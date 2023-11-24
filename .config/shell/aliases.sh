@@ -66,7 +66,7 @@ alias \
 # files
 alias \
     va='${EDITOR} ${XDG_CONFIG_HOME}/shell/aliases.sh' \
-    vv='${EDITOR} ${XDG_CONFIG_HOME}/nvim/init.vim' \
+    vv='${EDITOR} ${XDG_CONFIG_HOME}/nvim/init.*' \
     vs='${EDITOR} ${XDG_CONFIG_HOME}/sxhkd/sxhkdrc' \
     vf='${EDITOR} ${XDG_CONFIG_HOME}/vifm/vifmrc' \
     vl='${EDITOR} ${XDG_CONFIG_HOME}/lf/lfrc' \
