@@ -134,16 +134,16 @@ set completeopt-=preview
 
 " {{{ MAPPINGS
 
-" change <paste> command behaviour
-xn p "_dp
-xn P "_dP
-
 " disable Ex mode
 nn Q <nop>
 
 " disable space action
 nn <Space> <nop>
 vn <Space> <nop>
+
+" change <paste> command behaviour
+xn p "_dp
+xn P "_dP
 
 " annoying keys
 com! W :w
@@ -224,11 +224,6 @@ nn <leader>7 7gt
 nn <leader>8 8gt
 nn <leader>9 9gt
 nn <silent> <leader>0 :tablast<CR>
-
-" switch to last tab
-au TabLeave * let g:lasttab = tabpagenr()
-nn <silent> <leader>` :exe "tabn ".g:lasttab<CR>
-vn <silent> <leader>` :exe "tabn ".g:lasttab<CR>
 " }}}
 
 " {{{ SESSION
@@ -291,7 +286,7 @@ nn <leader>X :!chmod -x %<CR>
 
 " commentstrings
 au FileType xdefaults setlocal commentstring=!\ %s
-au FileType desktop,sxhkdrc,bib setlocal commentstring=#\ %s
+au FileType desktop,sxhkdrc setlocal commentstring=#\ %s
 au FileType c,cpp setlocal commentstring=//\ %s
 
 " tex
