@@ -4,13 +4,13 @@
 if lsmod | grep "nvidia" ; then
     xrandr --setprovideroutputsource modesetting NVIDIA-0
     xrandr --auto
+
+    # configure dpi
+    xrandr --dpi 96
 fi
 
 # configure monitors
 xdisplay.sh
-
-# configure dpi
-xrandr --dpi 96
 
 # wallpaper
 xwallpaper --stretch "$XDG_DATA_HOME/wallpaper"

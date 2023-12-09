@@ -122,14 +122,14 @@ super + shift + KP_{Subtract,Add}
     mpc seek {-,+}5
 # ---
 super + {_,shift +} n
-    playerctl {play-pause,stop}
+    playerctl {play-pause,stop} ; echo "player 0" > /tmp/dwmbar.fifo
 super + {minus,equal}
-    playerctl {previous,next}
+    playerctl {previous,next} ; echo "player 0" > /tmp/dwmbar.fifo
 super + shift + {minus,equal}
-    playerctl position 5{-,+}
+    playerctl position 5{-,+} ; echo "player 0" > /tmp/dwmbar.fifo
 # ---
 super + alt + {_,shift +} n
-    playerctl pause ; playerctld {_,un}shift ; echo "player 0" > /tmp/dwmbar.fifo
+    playerctl -a pause ; echo "player 0" > /tmp/dwmbar.fifo
 super + alt + {minus,equal}
     mpc seek {-,+}5
 

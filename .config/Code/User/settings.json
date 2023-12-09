@@ -7,10 +7,6 @@
     },
     "window.zoomLevel": 0,
     "explorer.confirmDelete": false,
-    "files.associations": {
-      "*.rmd": "markdown"
-    },
-    "workbench.colorTheme": "Default Dark+",
     "workbench.iconTheme": "vscode-icons",
     "workbench.startupEditor": "newUntitledFile",
     "vsicons.dontShowNewVersionMessage": true,
@@ -18,7 +14,7 @@
     "files.insertFinalNewline": true,
     "vscode-neovim.neovimExecutablePaths.linux": "/usr/bin/nvim",
     "files.trimFinalNewlines": true,
-    "editor.renderFinalNewline": false,
+    "editor.renderFinalNewline": "off",
     "debug.onTaskErrors": "showErrors",
     "files.watcherExclude": {
         "**/.git/*/**": true,

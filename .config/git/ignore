@@ -1,9 +1,10 @@
 ## development
-.clangd
 .cache
-.nvim
+.clangd
 .ide
+.nvim.lua
 .vimspector.json
+.rgignore
 
 ## specific files
 .config/shell/on_shell.sh

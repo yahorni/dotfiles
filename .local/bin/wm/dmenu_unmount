@@ -7,13 +7,22 @@ unmountusb() {
     [ -z "$drives" ] && exit
     chosen=$(echo "$drives" | dmenu -i -p "Unmount which drive?" | awk '{print $1}')
     [ -z "$chosen" ] && exit
-    sudo -A umount "$chosen" && notify-send "💻 USB unmounting" "$chosen unmounted."
+    if sudo -A umount "$chosen" ; then
+        notify-send "💻 USB unmounting" "$chosen unmounted"
+    else
+        notify-send "💻 USB unmounting" "Failed to unmount $chosen"
+    fi
+
 }
 
 unmountandroid() { \
     chosen=$(awk '/simple-mtpfs/ {print $2}' /etc/mtab | dmenu -i -p "Unmount which device?")
     [ -z "$chosen" ] && exit
-    sudo -A umount -l "$chosen" && notify-send "🤖 Android unmounting" "$chosen unmounted."
+    if sudo -A umount -l "$chosen" ; then
+        notify-send "🤖 Android unmounting" "$chosen unmounted"
+    else
+        notify-send "🤖 Android unmounting" "Failed to unmount $chosen"
+    fi
 }
 
 asktype() { \

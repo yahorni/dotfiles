@@ -27,29 +27,33 @@ export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 
 # settings
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
-export GOPATH="$HOME/prog/go"
-export GOMODCACHE="$XDG_CACHE_HOME/go/mod"
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc-2.0"
 export INPUTRC="$XDG_CONFIG_HOME/shell/inputrc"
 export LESS='-RMx4'
 export LESSHISTFILE='-'
 export MANPATH="$MANPATH:$XDG_DATA_HOME/man:$XDG_CACHE_HOME/cppman/cppreference.com"
 export MERGETOOL='nvim -d'
-export PYLINTHOME="$XDG_CACHE_HOME/pylint"
-export PYLINTRC="$XDG_CONFIG_HOME/pylintrc"
 export RANDFILE="$XDG_CACHE_HOME/rnd"
 export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgreprc"
 export SSHHOME="$XDG_CONFIG_HOME/sshrc"
 export SYSTEMD_PAGER='less'
 export TERMINFO="$XDG_DATA_HOME/terminfo"
 export TERMINFO_DIRS="$XDG_DATA_HOME/terminfo:/usr/share/terminfo"
-export VIMINIT="source $XDG_CONFIG_HOME/nvim/init.*"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export _JAVA_AWT_WM_NONREPARENTING=1    # fix java apps in wm
+## go
+export GOPATH="$HOME/prog/go"
+export GOMODCACHE="$XDG_CACHE_HOME/go/mod"
+## python
+export PYLINTHOME="$XDG_CACHE_HOME/pylint"
+export PYLINTRC="$XDG_CONFIG_HOME/pylintrc"
+## javascript
+export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
+export NODE_REPL_HISTORY="$XDG_DATA_HOME/node_repl_history"
 
 # path
 # shellcheck disable=SC2155
-export PATH="$PATH:$(find ~/.local/bin -type d -printf %p:):$GOPATH/bin"
+export PATH="$PATH:$(find ~/.local/bin -type d -printf %p:):$GOPATH/bin:$XDG_DATA_HOME/npm/bin"
 
 # hidden directory for project files
 export IDE_DIR='.ide'

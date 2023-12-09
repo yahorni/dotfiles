@@ -1,6 +1,7 @@
 # vim: ft=cfg
 [Default Applications]
 application/epub+zip=reader.desktop
+application/javascript=editor.desktop
 application/json=editor.desktop
 application/octet-stream=audio.desktop
 application/oxps=reader.desktop

@@ -41,7 +41,7 @@ GIT_COMMIT_SHORT=$(shell git rev-parse --short HEAD)
 GIT_BRANCH=$(shell git rev-parse --abbrev-ref HEAD)
 
 ### INTERNAL ###
-.PHONY: help edit todo vim plug debug root noroot backup notes
+.PHONY: help edit todo vim debug root noroot backup notes
 default: edit
 
 help:
@@ -56,10 +56,7 @@ todo:
 	@$(EDITOR) $(IDE_DIR)/TODO.md
 
 vim:
-	@$(EDITOR) $(IDE_DIR)/options.vim
-
-plug:
-	@$(EDITOR) $(IDE_DIR)/plugins.vim
+	@$(EDITOR) $(IDE_DIR)/.nvim.lua
 
 debug:
 	if [ -f "$(IDE_DIR)/.vimspector.json" ]; then\

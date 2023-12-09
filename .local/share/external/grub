@@ -1,0 +1,9 @@
+# GRUB boot loader configuration (partially)
+# here only params I've changed
+
+GRUB_TIMEOUT=0
+GRUB_CMDLINE_LINUX_DEFAULT="quiet loglevel=3 usbcore.autosuspend=-1 resume=UUID=<uuid> resume_offset=<offset>"
+# quiet loglevel=3 - controls dmesg logs in console
+# usbcore.autosuspend - disables annoying autosuspend for USB devices (mouse/keyboard)
+# resume=... resume_offset=... - wake from hibernation using swap, need to have "resume"
+#                                hook in /etc/mkinitcpio.conf "HOOKS" section

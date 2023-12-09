@@ -16,7 +16,7 @@ case "$url" in
             --really-quiet --osc "$url" & ;;
     *\.png|*\.jpg|*\.jpeg|*\.gif|*\.webp)
         name="$(echo "$url" | sed "s/.*\///")"
-        curl -sL "$url" > "/tmp/$name" && exec sxiv -a "/tmp/$name" & ;;
+        curl -sL "$url" > "/tmp/$name" && exec nsxiv -a "/tmp/$name" & ;;
     *\.pdf)
         name="$(echo "$url" | sed "s/.*\///")"
         curl -sL "$url" > "/tmp/$name" && exec zathura "/tmp/$name" & ;;

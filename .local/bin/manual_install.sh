@@ -30,7 +30,7 @@ check_args() {
     [ "$#" -lt 1 ] && log2 "fail: target is needed" && exit 1
 
     if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
-        echo "usage: $(basename $0) [-h] [-c|--no-cleanup] <target>"
+        echo "usage: $(basename "$0") [-h] [-c|--no-cleanup] <target>"
         echo "supported programs:"
         echo "${progs[@]}" "${non_git_progs[@]}" | fmt | column -t
         exit
@@ -197,7 +197,7 @@ build() {
         python3.8)
             cd_or_exit "Python-3.8.12"
             ./configure --enable-optimizations --enable-shared
-            make -j$(NPROC)
+            make -j"$(nproc)"
             ;;
         *) log2 "skip build()" ;;
     esac
