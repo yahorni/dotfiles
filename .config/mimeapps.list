@@ -14,6 +14,7 @@ application/x-extension-shtml=linkhandler.desktop
 application/x-extension-xht=linkhandler.desktop
 application/x-extension-xhtml=linkhandler.desktop
 application/x-sc=scim.desktop
+application/x-setupscript=editor.desktop
 application/x-subrip=editor.desktop
 application/xhtml+xml=linkhandler.desktop
 audio/flac=audio.desktop

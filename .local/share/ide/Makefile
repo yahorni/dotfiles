@@ -33,7 +33,7 @@ endif
 # backup setup
 # NOTE: replace with your destination
 BACKUP_DIR=$(CURDIR)/backup
-IDE_FILES=$(IDE_DIR)/{Makefile,TODO.md,options.vim,plugins.vim,.vimspector.json}
+IDE_FILES=$(IDE_DIR)/{Makefile,TODO.md,.nvim.lua,.vimspector.json}
 
 # git state
 GIT_COMMIT_LONG=$(shell git rev-parse HEAD)

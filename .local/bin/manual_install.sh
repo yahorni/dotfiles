@@ -7,16 +7,21 @@ set -e
 # 2. ripgrep
 # 3. bat
 # 4. cmake
+#
 # --- dependencies ---
-#   yum:    libXft-devel libXtst-devel gtk3-devel
-#           automake ncurses-devel bison libevent-devel  (tmux)
-#   apt:    libxinerama-dev libx11-xcb-dev libxcb-res0-dev                  (dwm)
-#           libcairo2-dev libxcb-image0-dev libxcb-utils-dev libjpeg-dev    (xwallpaper)
-#           libtool-bin pkg-config cmake                                    (neovim)
-#           xutils-dev      (libxft-bgra)
-#           libevent-dev    (tmux)
-#           libxtst-dev     (xmouseless)
-#   pacman: go-md2man       (brillo)
+#  pkg mgr | target      | deps
+#  ---     | ---         | ---
+#   apt    | dwm         | libxinerama-dev libx11-xcb-dev libxcb-res0-dev
+#          | xwallpaper  | libcairo2-dev libxcb-image0-dev libxcb-utils-dev libjpeg-dev
+#          | neovim      | libtool-bin pkg-config cmake
+#          | libxft-bgra | xutils-dev
+#          | tmux        | libevent-dev
+#          | xmouseless  | libxtst-dev
+#   yum    | dwm         | libXft-devel libXtst-devel gtk3-devel
+#          | tmux        | automake ncurses-devel libevent-devel bison
+#          | neovim      | cmake3
+#   zypper | tmux        | automake ncurses-devel libevent-devel bison
+#   pacman | brillo      | go-md2man
 
 log2() {
     echo "==> $1" 1>&2
@@ -32,22 +37,22 @@ check_args() {
     if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
         echo "usage: $(basename "$0") [-h] [-c|--no-cleanup] <target>"
         echo "supported programs:"
-        echo "${progs[@]}" "${non_git_progs[@]}" | fmt | column -t
+        echo "${PROGS_LIST[@]}" "${NON_GIT_PROGS_LIST[@]}" | fmt | column -t
         exit
     fi
 
     if [ "$1" == "-c" ] || [ "$1" == "--no-cleanup" ]; then
-        no_cleanup=1
+        g_no_cleanup=1
         shift
     fi
 
-    target="$1"
+    g_target="$1"
 
     # shellcheck disable=SC2076
-    if [[ " ${progs[*]} " =~ " $target " ]]; then
-        is_git_needed=1
-    elif [[ " ${non_git_progs[*]} " =~ " $target " ]]; then
-        is_git_needed=0
+    if [[ " ${PROGS_LIST[*]} " =~ " $g_target " ]]; then
+        g_is_git_needed=1
+    elif [[ " ${NON_GIT_PROGS_LIST[*]} " =~ " $g_target " ]]; then
+        g_is_git_needed=0
     else
         log2 "fail: program is not supported" && exit 1
     fi
@@ -55,37 +60,41 @@ check_args() {
     return 0
 }
 
-set_program_params() {
-    log2 "set_program_params()"
+set_prog_repo() {
+    log2 "set_prog_repo()"
 
     # set repo
-    case "$target" in
-        htop-vim)   repo="https://github.com/KoffeinFlummi/htop-vim.git" ;;
-        fzf)        repo="https://github.com/junegunn/fzf.git" ;;
-        ctags)      repo="https://github.com/universal-ctags/ctags.git" ;;
-        zsh-as)     repo="https://github.com/zsh-users/zsh-autosuggestions.git" ;;
-        zsh-fsh)    repo="https://github.com/zdharma-continuum/fast-syntax-highlighting" ;;
-        xwallpaper) repo="https://github.com/stoeckmann/xwallpaper.git" ;;
-        acpilight)  repo="https://gitlab.com/wavexx/acpilight.git" ;;
-        libxft-bgra)repo="https://gitlab.freedesktop.org/xorg/lib/libxft.git" ;;
-        brillo)     repo="https://gitlab.com/cameronnemo/brillo.git" ;;
-        ncmpcpp)    repo="https://github.com/ncmpcpp/ncmpcpp" ;;
-        neovim)     repo="https://github.com/neovim/neovim" ;;
-        lf)         repo="https://github.com/gokcehan/lf" ;;
-        xurls)      repo="https://github.com/mvdan/xurls" ;;
-        tmux)       repo="https://github.com/tmux/tmux" ;;
-        *)          repo="https://github.com/NickoEgor/$target.git" ;;
+    case "$g_target" in
+        htop-vim)   g_repo="https://github.com/KoffeinFlummi/htop-vim.git" ;;
+        fzf)        g_repo="https://github.com/junegunn/fzf.git" ;;
+        ctags)      g_repo="https://github.com/universal-ctags/ctags.git" ;;
+        zsh-as)     g_repo="https://github.com/zsh-users/zsh-autosuggestions.git" ;;
+        zsh-fsh)    g_repo="https://github.com/zdharma-continuum/fast-syntax-highlighting" ;;
+        xwallpaper) g_repo="https://github.com/stoeckmann/xwallpaper.git" ;;
+        acpilight)  g_repo="https://gitlab.com/wavexx/acpilight.git" ;;
+        libxft-bgra)g_repo="https://gitlab.freedesktop.org/xorg/lib/libxft.git" ;;
+        brillo)     g_repo="https://gitlab.com/cameronnemo/brillo.git" ;;
+        ncmpcpp)    g_repo="https://github.com/ncmpcpp/ncmpcpp" ;;
+        neovim)     g_repo="https://github.com/neovim/neovim" ;;
+        lf)         g_repo="https://github.com/gokcehan/lf" ;;
+        xurls)      g_repo="https://github.com/mvdan/xurls" ;;
+        tmux)       g_repo="https://github.com/tmux/tmux" ;;
+        *)          g_repo="https://github.com/NickoEgor/$g_target.git" ;;
     esac
+}
+
+set_prog_branch() {
+    log2 "set_prog_branch()"
 
     # set branch
-    case "$target" in
-        st)         branch="patched-config" ;;
-        dwm)        branch="config-bar" ;;
-        xmouseless) branch="patched" ;;
-        libxft-bgra)branch="tags/libXft-2.3.4" ;;
-        neovim)     branch="release-0.9" ;;
-        tmux)       branch="tags/3.3" ;;
-        *)          branch="master" ;;
+    case "$g_target" in
+        st)         g_branch="patched-config" ;;
+        dwm)        g_branch="config-bar" ;;
+        xmouseless) g_branch="patched" ;;
+        libxft-bgra)g_branch="libXft-2.3.4" ;;      # tag
+        neovim)     g_branch="release-0.9" ;;
+        tmux)       g_branch="3.3" ;;               # tag
+        *)          g_branch="master" ;;
     esac
 }
 
@@ -97,7 +106,7 @@ set_upstream() {
         return 0
     fi
 
-    case "$target" in
+    case "$g_target" in
         st)         upstream="https://git.suckless.org/st" ;;
         dmenu)      upstream="https://git.suckless.org/dmenu" ;;
         dwm)        upstream="https://git.suckless.org/dwm" ;;
@@ -111,11 +120,11 @@ set_upstream() {
 }
 
 prepare_env_dir() {
-    [ ! -d "$env_dir" ] && mkdir -p "$env_dir"
-    cd_or_exit "$env_dir"
+    [ ! -d "$ENV_DIR" ] && mkdir -p "$ENV_DIR"
+    cd_or_exit "$ENV_DIR"
 
-    if [ -d "$target" ]; then
-        cd_or_exit "$target"
+    if [ -d "$g_target" ]; then
+        cd_or_exit "$g_target"
         return 1
     fi
 }
@@ -128,8 +137,8 @@ clone_repo() {
         return
     fi
 
-    git clone "$repo" "$target"
-    cd_or_exit "$target"
+    git clone --depth=1 --branch="$g_branch" "$g_repo" "$g_target"
+    cd_or_exit "$g_target"
 }
 
 pull_updates() {
@@ -140,15 +149,15 @@ pull_updates() {
 }
 
 setup_repo() {
-    git checkout "$branch"
+    # git checkout "$g_branch"
 
-    if [[ "$repo" == *"NickoEgor"* ]]; then
+    if [[ "$g_repo" == *"NickoEgor"* ]]; then
         log2 "setup_repo()"
 
-        git remote set-url origin "git@github.com:NickoEgor/$target.git"
+        git remote set-url origin "git@github.com:NickoEgor/$g_target.git"
 
-        git config user.name "$git_name"
-        git config user.email "$git_email"
+        git config user.name "$GIT_NAME"
+        git config user.email "$GIT_EMAIL"
 
         set_upstream
     fi
@@ -162,10 +171,10 @@ prepare_build_dir() {
         return
     fi
 
-    mkdir -pv "$target"
-    cd_or_exit "$target"
+    mkdir -pv "$g_target"
+    cd_or_exit "$g_target"
 
-    case "$target" in
+    case "$g_target" in
         python3.8)
             curl -O https://www.python.org/ftp/python/3.8.12/Python-3.8.12.tgz
             tar xvf Python-3.8.12.tgz
@@ -179,7 +188,7 @@ prepare_build_dir() {
 build() {
     log2 "build()"
 
-    case "$target" in
+    case "$g_target" in
         st|dmenu|dwm|dwmbar|dragon|xmouseless|brillo) make ;;
         htop-vim|ctags|xwallpaper|tmux) ./autogen.sh && ./configure && make ;;
         libxft-bgra)
@@ -193,7 +202,7 @@ build() {
             BOOST_ROOT=/usr ./configure --enable-visualizer --enable-static-boost
             make -j"$(nproc)"
             ;;
-        neovim) make CMAKE_BUILD_TYPE=RelWithDebInfo ;;
+        neovim) make CMAKE_BUILD_TYPE=Release ;;
         python3.8)
             cd_or_exit "Python-3.8.12"
             ./configure --enable-optimizations --enable-shared
@@ -206,7 +215,7 @@ build() {
 install() {
     log2 "install()"
 
-    case "$target" in
+    case "$g_target" in
         st|dmenu|dwm|dwmbar|xmouseless|htop-vim|sshrc|ctags|xwallpaper|acpilight|brillo|ncmpcpp|neovim|tmux)
             sudo make install
             ;;
@@ -241,7 +250,7 @@ install() {
 cleanup() {
     log2 "cleanup()"
 
-    case "$target" in
+    case "$g_target" in
         st|dmenu|dwm|dwmbar|dragon|xmouseless|htop-vim|xwallpaper|ncmpcpp|neovim)
             make clean
             ;;
@@ -259,29 +268,32 @@ cleanup() {
 
 # ===================================== #
 
-progs=(st dmenu dwm dwmbar dotfiles df dragon
+PROGS_LIST=(st dmenu dwm dwmbar dotfiles df dragon
        xmouseless term-theme brillo htop-vim sshrc
        fzf ctags zsh-as zsh-fsh xwallpaper acpilight
        libxft-bgra ncmpcpp neovim lf xurls tmux)
-non_git_progs=(python3.8 python3.8-pip)
-env_dir="$HOME/prog/env"
+NON_GIT_PROGS_LIST=(python3.8 python3.8-pip)
+ENV_DIR="$HOME/prog/env"
 
-git_name="NickoEgor"
-git_email="egor1998nick@gmail.com"
+GIT_NAME="NickoEgor"
+GIT_EMAIL="egor1998nick@gmail.com"
 
-no_cleanup=0
-is_git_needed=
+# ===================================== #
 
-target=
-repo=
-branch=
+g_no_cleanup=0
+g_is_git_needed=
+
+g_target=
+g_repo=
+g_branch=
 
 # ===================================== #
 
 check_args "$@"
 
-if [ $is_git_needed -eq 1 ]; then
-    set_program_params
+if [ $g_is_git_needed -eq 1 ]; then
+    set_prog_repo
+    set_prog_branch
     clone_repo
     pull_updates
     setup_repo
@@ -291,4 +303,4 @@ fi
 
 build
 install
-[ $no_cleanup == 0 ] && cleanup
+[ $g_no_cleanup == 0 ] && cleanup

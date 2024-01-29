@@ -29,8 +29,15 @@ super + t
 super + shift + t
     $TERMINAL -e tremc
 
+# displays
+super {_,shift +} y
+    xdisplay.sh {_,same}
+
+# emojis
 super + u
     dmenu_emojis.sh
+
+# mail
 super + shift + u
     $TERMINAL -e neomutt
 
@@ -93,19 +100,19 @@ super + x
 super + shift + x
     xmouseless &>/dev/null
 
-# file managers
-super + {_, shift +} v
-    {_,FM=vifm} $TERMINAL -e fmrun.sh
-
 # clipboard
 super + c
     showselections
 super + shift + c
     showcliphistory
 
+# file managers
+super + {_, shift +} v
+    {_,FM=vifm} $TERMINAL -e fmrun.sh
+
 # browser
 super + b
-    pgrep -fi $BROWSER || $BROWSER
+    pgrep -fi $BROWSER || cpulimit -i -l 350 $BROWSER
 super + shift + b
     $BROWSER
 

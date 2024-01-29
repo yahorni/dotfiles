@@ -5,6 +5,8 @@ dmenu.selbackground: #004466
 st.alpha:       0.85
 st.font:        monospace:pixelsize=14:antialias=true:autohint=true
 xterm*faceName: monospace:pixelsize=14:antialias=true:autohint=true
+XTerm.vt100.translations: #override \n\
+    Ctrl Shift <Key>H: set-altscreen(toggle)
 
 ! Gruvbox
 ! hard contrast: background: #1d2021
