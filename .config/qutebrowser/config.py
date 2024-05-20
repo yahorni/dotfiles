@@ -13,7 +13,6 @@ c.colors.webpage.darkmode.algorithm = 'lightness-cielab'
 c.colors.webpage.darkmode.enabled = True
 c.colors.webpage.darkmode.policy.page = 'always'
 c.colors.webpage.darkmode.policy.images = 'smart'
-c.colors.webpage.darkmode.increase_text_contrast = True
 c.colors.webpage.preferred_color_scheme = 'dark'
 c.completion.cmd_history_max_items = 0
 c.completion.height = '30%'

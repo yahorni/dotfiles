@@ -48,10 +48,13 @@ mountandroid() {
     attempts=5
     delay=7
     for attempt in $(seq "$attempts"); do
-        simple-mtpfs -o allow_other -o auto_unmount --device "$chosen" "$mp" || \
-            sudo -A simple-mtpfs -o allow_other -o auto_unmount --device "$chosen" "$mp"
+        sudo -A simple-mtpfs -o allow_other -o auto_unmount --device "$chosen" "$mp"
+        local return_code="$?"
 
-        if [ "$?" -eq 0 ]; then
+        if [ "$return_code" -eq 1 ]; then
+            notify-send "🤖 Android Mounting" "Canceled mounting"
+            break
+        elif [ "$return_code" -eq 0 ]; then
             notify-send "🤖 Android Mounting" "Android device mounted to $mp."
             break
         fi

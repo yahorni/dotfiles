@@ -30,8 +30,8 @@ super + shift + t
     $TERMINAL -e tremc
 
 # displays
-super {_,shift +} y
-    xdisplay.sh {_,same}
+super {_,shift +,alt +} y
+    xdisplay.sh {_,same,hdmi}
 
 # emojis
 super + u
@@ -115,6 +115,8 @@ super + b
     pgrep -fi $BROWSER || cpulimit -i -l 350 $BROWSER
 super + shift + b
     $BROWSER
+super + alt + b
+    chromium --force-device-scale-factor=1.2
 
 # mounting
 super + {_, shift +} m

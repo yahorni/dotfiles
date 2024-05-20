@@ -1,12 +1,5 @@
 #!/bin/zsh
 
-# history
-export HISTFILE="$XDG_CACHE_HOME/zsh_history"
-export HISTIGNORE=' *'
-export HISTSIZE=1000000
-export HISTFILESIZE=$HISTSIZE
-export SAVEHIST=$HISTSIZE
-
 # prompt
 autoload -U colors && colors
 PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
@@ -73,27 +66,22 @@ bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
 
 # cursor
-function _set_cursor() {
-    if [ -z $TMUX ]; then
-      echo -ne $1
-    else
-      echo -ne "\ePtmux;\e\e$1\e\\"
-    fi
-}
-function _set_block_cursor() { _set_cursor '\e[2 q' }
-function _set_beam_cursor() { _set_cursor '\e[6 q' }
+function _set_block_cursor() { echo -ne '\e[2 q' }
+function _set_beam_cursor() { echo -ne '\e[6 q' }
 function zle-keymap-select {
-    if [[ ${KEYMAP} == vicmd ]] || [[ $1 = 'block' ]]; then
+    if [[ ${KEYMAP} == vicmd ]] ||
+       [[ $1 = 'block' ]]; then
         _set_block_cursor
-    # elif [[ ${KEYMAP} == main ]] || [[ ${KEYMAP} == viins ]] ||
-       # [[ ${KEYMAP} = '' ]] || [[ $1 = 'beam' ]]; then
-    else
+    elif [[ ${KEYMAP} == main ]] ||
+         [[ ${KEYMAP} == viins ]] ||
+         [[ ${KEYMAP} = '' ]] ||
+         [[ $1 = 'beam' ]]; then
         _set_beam_cursor
   fi
 }
 zle -N zle-keymap-select
 # ensure beam cursor when starting new terminal
-precmd_functions+=(_set_beam_cursor) #
+precmd_functions+=(_set_beam_cursor)
 # ensure insert mode and beam cursor when exiting vim
 zle-line-init() { zle -K viins; _set_beam_cursor }
 

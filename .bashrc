@@ -2,13 +2,6 @@
 
 [[ $- == *i* ]] || return
 
-# history
-export HISTFILE="$XDG_CACHE_HOME/bash_history"
-export HISTIGNORE=' *'
-export HISTFILESIZE=
-export HISTSIZE=
-export HISTCONTROL="ignoredups"
-
 # disable Ctrl-R freeze
 stty -ixon
 

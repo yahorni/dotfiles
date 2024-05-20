@@ -50,6 +50,14 @@ export PYLINTRC="$XDG_CONFIG_HOME/pylintrc"
 ## javascript
 export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
 export NODE_REPL_HISTORY="$XDG_DATA_HOME/node_repl_history"
+# shell history
+export HISTFILE="$XDG_CACHE_HOME/shell_history"
+export HISTIGNORE=' *'
+export HISTSIZE=1000000
+export HISTFILESIZE=$HISTSIZE
+export HISTCONTROL="ignoredups"
+export SAVEHIST=$HISTSIZE
+export HISTORY_IGNORE="(ls|pwd|exit|cd)"
 
 # path
 # shellcheck disable=SC2155

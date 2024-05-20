@@ -10,7 +10,7 @@ def save(prev_h_len, history_file):
 
 
 def main():
-    hist_file = os.path.expandvars("$XDG_DATA_HOME/python.hist")
+    hist_file = os.path.expandvars("$XDG_CACHE_HOME/python_history")
     hist_len = 0
 
     try:

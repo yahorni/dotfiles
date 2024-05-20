@@ -149,11 +149,15 @@ pull_updates() {
 }
 
 setup_repo() {
-    # git checkout "$g_branch"
+    log2 "setup_repo()"
+
+    local branch
+    branch="$(git rev-parse --abbrev-ref HEAD)"
+    if [ "$g_branch" != "$branch" ]; then
+        git checkout "$g_branch"
+    fi
 
     if [[ "$g_repo" == *"NickoEgor"* ]]; then
-        log2 "setup_repo()"
-
         git remote set-url origin "git@github.com:NickoEgor/$g_target.git"
 
         git config user.name "$GIT_NAME"
@@ -192,12 +196,14 @@ build() {
         st|dmenu|dwm|dwmbar|dragon|xmouseless|brillo) make ;;
         htop-vim|ctags|xwallpaper|tmux) ./autogen.sh && ./configure && make ;;
         libxft-bgra)
-            curl -O "https://gitlab.freedesktop.org/xorg/lib/libxft/-/merge_requests/1.patch"
-            patch -p1 < "1.patch"
+            curl "https://gitlab.freedesktop.org/xorg/lib/libxft/-/merge_requests/1.patch" \
+                | patch -p1 -N || true
             ./autogen.sh --prefix="/usr/local" --sysconfdir="/etc" --disable-static
             make
             ;;
         ncmpcpp)
+            curl "https://gitlab.archlinux.org/archlinux/packaging/packages/ncmpcpp/-/raw/a39bfdeeefc31d6b35fc73f522e53ca74c2fd722/taglib-2.patch" \
+                | patch -p1 -N || true
             ./autogen.sh
             BOOST_ROOT=/usr ./configure --enable-visualizer --enable-static-boost
             make -j"$(nproc)"
