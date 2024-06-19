@@ -87,31 +87,25 @@ alias \
     v_='${EDITOR} $_'
 
 # directories
-alias \
-    cdB='cd "$(xdg-user-dir BOOKS)"' \
-    cdx='cd "$(xdg-user-dir DOCUMENTS)"' \
-    cdd='cd "$(xdg-user-dir DOWNLOAD)"' \
-    cdm='cd "$(xdg-user-dir MUSIC)"' \
-    cdp='cd "$(xdg-user-dir PICTURES)"' \
-    cdS='cd "$(xdg-user-dir SERIES)"' \
-    cdv='cd "$(xdg-user-dir VIDEOS)"'
-alias \
-    cdP='cd /mnt/phone' \
-    cd1='cd /mnt/usb1' \
-    cd2='cd /mnt/usb2' \
-    cd3='cd /mnt/usb3' \
-    cdo='cd /mnt/other'
-alias \
-    .1='cd ..' \
-    .2='cd ../..' \
-    .3='cd ../../..' \
-    .4='cd ../../../..'
 
 cd_subdir() {
     cd "$1" || return 1
     [ -n "$2" ] && cd "$2" || return 1
 }
 
+## xdg dirs
+alias \
+    cdB='cd_subdir "$(xdg-user-dir BOOKS)"' \
+    cdx='cd_subdir "$(xdg-user-dir DOCUMENTS)"' \
+    cdd='cd_subdir "$(xdg-user-dir DOWNLOAD)"' \
+    cdm='cd_subdir "$(xdg-user-dir MUSIC)"' \
+    cdp='cd_subdir "$(xdg-user-dir PICTURES)"' \
+    cdv='cd_subdir "$(xdg-user-dir VIDEOS)"' \
+    cdF='cd_subdir "$(xdg-user-dir VIDEOS)/films"' \
+    cdS='cd_subdir "$(xdg-user-dir VIDEOS)/series"' \
+    cdV='cd_subdir "$(xdg-user-dir VIDEOS)/downloads"'
+
+## important dirs
 alias \
     cdc='cd_subdir ${XDG_CONFIG_HOME}' \
     cds='cd_subdir ${XDG_DATA_HOME}' \
@@ -119,7 +113,22 @@ alias \
     cdj='cd_subdir ~/prog' \
     cd_='cd $_'
 
+## mounts
+alias \
+    cdP='cd /mnt/phone' \
+    cd1='cd /mnt/usb1' \
+    cd2='cd /mnt/usb2' \
+    cd3='cd /mnt/usb3' \
+    cdo='cd /mnt/other'
+
 # utils
+
+alias \
+    .1='cd ..' \
+    .2='cd ../..' \
+    .3='cd ../../..' \
+    .4='cd ../../../..'
+
 scr() {
     bindir="$HOME/.local/bin"
     file="$(cd "$bindir" || return 1 ; find . -type f | fzf)"

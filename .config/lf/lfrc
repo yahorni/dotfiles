@@ -17,7 +17,8 @@ set previewer '~/.local/bin/fm/fmpreview.sh'
 set cleaner   '~/.local/bin/fm/fmclear.sh'
 
 # commands
-cmd mkdir $mkdir -p "$(echo $* | tr ' ' '\ ')"
+cmd touch %touch $1 && lf -remote "send $id load" && lf -remote "send $id select $1"
+cmd mkdir $mkdir -p "$(echo $* | tr ' ' '\ ')" && lf -remote "send $id load"
 
 cmd rsync &{{
     set -- $(cat ~/.local/share/lf/files)
@@ -39,7 +40,7 @@ cmd rsync &{{
 
 # --- mappings ---
 map s $$SHELL
-map DD delete
+map D delete
 map d cut
 map p paste
 map P rsync
@@ -68,7 +69,11 @@ map zi set info size:time
 
 # --- external mappings ---
 # edit file
-map xf $$EDITOR "$f"
+map e $$EDITOR "$f"
+# new file
+map cf push :touch<space>
+# new directory
+map cd push :mkdir<space>
 # open with xdg-open in separate process
 map L  $xdg-open "$f" &
 # show pictures
@@ -84,3 +89,5 @@ map xa $chmod +x "$f"
 map xr $chmod -x "$f"
 # bulkrename
 map cw $vidir $fs
+# set wallpaper
+map xw $setwall "$f"

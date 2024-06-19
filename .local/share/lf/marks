@@ -5,7 +5,9 @@
 B:~/books
 M:/mnt
 P:/mnt/phone
-S:~/series
+F:~/vids/films
+S:~/vids/series
+V:~/vids/downloads
 b:~/.local/bin
 c:~/.config
 d:~/Downloads

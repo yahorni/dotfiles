@@ -61,8 +61,12 @@ super + a ; {o,O,a,f,e,c,d,b}
     bookmarks.sh {open,open -o chromium,addmark,addfolder,editmark,copy,delmark,_}
 
 # notes
-super + shift + a
+super + shift + a ; {a,q,n,d,t,y,s,o}
+    obs.sh {_,quick,new,today,tomorrow,yesterday,search,open}
+super + alt + a
     $TERMINAL -e joplin
+super + alt + o
+    obsidian
 
 # bluetooth
 super + s; {e,d}
@@ -76,7 +80,7 @@ super + d
 
 # program kill
 super + shift + d
-    fastkill
+    dmenu_kill.sh
 
 # attach floating window
 super + {_, shift +} g
@@ -157,6 +161,8 @@ alt + Print
     makescreen window
 @shift + Print
     makescreen part
+super + Print
+    tess.sh
 
 # screen keyboard
 super + alt + space

@@ -34,6 +34,7 @@ image/vnd.djvu=reader.desktop
 image/webp=nsxiv.desktop
 image/x-ms-bmp=nsxiv.desktop
 inode/directory=fm.desktop
+inode/x-empty=editor.desktop
 text/htm=linkhandler.desktop
 text/html=linkhandler.desktop
 text/plain=editor.desktop

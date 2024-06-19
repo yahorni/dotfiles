@@ -1,29 +1,22 @@
 #!/bin/bash
 
-options="vk
-chromium
+options="chromium
 telegram-deskto
 blueman-applet
-slack
 steam
 viber
-Discord
-spotifyd
-jupyter-noteboo
-safeeyes
 firefox
 qutebrowser
 transmission-da
 qbittorrent
 greenclip
 nm-applet
-picom
-xcompmgr"
+picom"
 
 is_first=1
 items=""
 for item in $(echo -e "$options"); do
-    pgrep -x "$item" >/dev/null && \
+    pgrep -fi "$item" >/dev/null && \
         if [ $is_first -eq 0 ]; then
             items="$items\n$item"
         else
@@ -35,6 +28,6 @@ done
 item=$(echo -e "$items" | dmenu -i -p "Which one to kill?")
 [[ "$?" -eq "1" ]] && exit 1
 [[ -z $item ]] && exit 1
-pkill --signal 9 "$item"
+pkill -fi --signal 9 "$item"
 [[ "$?" -eq "0" ]] && notify-send "$item terminated" && exit 0
 notify-send "Error while terminating $item" && exit 1
