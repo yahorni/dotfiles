@@ -2,7 +2,7 @@
 
 set -e
 
-file_manager="${FM:-lfdir}" # lf/vifm
+file_manager="${FM:-lfdir.sh}" # lf/vifm
 commands_type="json"        # bash/json
 
 cleanup() {
@@ -12,7 +12,7 @@ cleanup() {
 
 if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
     "$file_manager" "$@"
-elif ! command -v ueberzug &>/dev/null ; then
+elif ! command -v ueberzug >/dev/null 2>/dev/null ; then
     "$file_manager" "$@"
 else
     export FIFO_UEBERZUG="/tmp/fm-ueberzug-$$"

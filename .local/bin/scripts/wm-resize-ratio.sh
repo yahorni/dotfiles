@@ -7,13 +7,8 @@ percent=${2:-5}
 
 pid=$(xdotool getwindowfocus)
 
-increase() {
-    echo $(($1 * (100 + percent) / 100))
-}
-
-decrease() {
-    echo $(($1 * (100 - percent) / 100))
-}
+increase() { echo $(($1 * (100 + percent) / 100)); }
+decrease() { echo $(($1 * (100 - percent) / 100)); }
 
 eval "$(xdotool getwindowgeometry --shell "$pid")"
 
@@ -38,8 +33,8 @@ elif [ "$side" = "-" ]; then
 fi
 
 eval "$(xwininfo -id "$(xdotool getactivewindow)" |
-       sed -n -e "s/^ \+Absolute upper-left X: \+\([0-9]\+\).*/pos_x=\1/p" \
-              -e "s/^ \+Absolute upper-left Y: \+\([0-9]\+\).*/pos_y=\1/p" )"
+    sed -n -e "s/^ \+Absolute upper-left X: \+\([0-9]\+\).*/pos_x=\1/p" \
+        -e "s/^ \+Absolute upper-left Y: \+\([0-9]\+\).*/pos_y=\1/p")"
 
 if [ "$side" = "+" ]; then
     pos_x="$((pos_x - diff_width))"
@@ -49,4 +44,4 @@ elif [ "$side" = "-" ]; then
     pos_y="$((pos_y + diff_height))"
 fi
 
-xdotool windowsize "$pid" "$new_width" "$new_height" windowmove "$pid" $pos_x $pos_y
+xdotool windowsize "$pid" "$new_width" "$new_height" windowmove "$pid" "$pos_x" "$pos_y"

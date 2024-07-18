@@ -13,8 +13,8 @@ set shellopts '-eu'
 set tabstop 4
 
 # file previews
-set previewer '~/.local/bin/fm/fmpreview.sh'
-set cleaner   '~/.local/bin/fm/fmclear.sh'
+set previewer 'fm-preview.sh'
+set cleaner   'fm-clear.sh'
 
 # commands
 cmd touch %touch $1 && lf -remote "send $id load" && lf -remote "send $id select $1"
@@ -90,4 +90,4 @@ map xr $chmod -x "$f"
 # bulkrename
 map cw $vidir $fs
 # set wallpaper
-map xw $setwall "$f"
+map xw $set-wallpaper.sh "$f"

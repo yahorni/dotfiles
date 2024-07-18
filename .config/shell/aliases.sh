@@ -14,6 +14,7 @@ alias \
 # system progs
 alias \
     v='${EDITOR}' \
+    vc='${EDITOR} --clean' \
     sv='sudoedit' \
     sc='systemctl' \
     scu='systemctl --user' \
@@ -84,6 +85,7 @@ alias \
     vg='${EDITOR} .gitignore' \
     vt='${EDITOR} $(xdg-user-dir DOCUMENTS)/TODO.md' \
     vw='${EDITOR} ~/prog/env/dwm/config.h' \
+    vm='${EDITOR} ${XDG_CONFIG_HOME}/mimeapps.list' \
     v_='${EDITOR} $_'
 
 # directories
@@ -130,7 +132,7 @@ alias \
     .4='cd ../../../..'
 
 scr() {
-    bindir="$HOME/.local/bin"
+    bindir="$HOME/.local/bin/scripts/"
     file="$(cd "$bindir" || return 1 ; find . -type f | fzf)"
     [ -n "$file" ] && $EDITOR "$bindir/$file"
 }

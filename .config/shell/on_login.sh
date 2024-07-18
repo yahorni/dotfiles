@@ -8,6 +8,7 @@ export SXHKD_SHELL='/bin/bash'
 export TS_SLOTS=3
 export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
 export SQLITE_HISTORY="$XDG_DATA_HOME/sqlite_history"
+export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
 
 # Services enabled with systemd
 # 1. mpd

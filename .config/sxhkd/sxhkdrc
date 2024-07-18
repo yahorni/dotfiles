@@ -33,14 +33,6 @@ super + shift + t
 super {_,shift +,alt +} y
     xdisplay.sh {_,same,hdmi}
 
-# emojis
-super + u
-    dmenu_emojis.sh
-
-# mail
-super + shift + u
-    $TERMINAL -e neomutt
-
 # reload bar
 super + shift + i
     case "$WMBAR" in \
@@ -54,18 +46,12 @@ super + {_,shift +} o
 
 # power management
 super + {_, shift +} p
-    powermanager {suspend,_}
-
-# bookmarks
-super + a ; {o,O,a,f,e,c,d,b}
-    bookmarks.sh {open,open -o chromium,addmark,addfolder,editmark,copy,delmark,_}
+    power-manager.sh {suspend,_}
 
 # notes
-super + shift + a ; {a,q,n,d,t,y,s,o}
-    obs.sh {_,quick,new,today,tomorrow,yesterday,search,open}
-super + alt + a
-    $TERMINAL -e joplin
-super + alt + o
+super + a ; {a,q,n,d,t,y,s,o,l}
+    obs.sh {_,quick,new,today,tomorrow,yesterday,search,open,ledger}
+super + shift + a
     obsidian
 
 # bluetooth
@@ -80,21 +66,21 @@ super + d
 
 # program kill
 super + shift + d
-    dmenu_kill.sh
+    dmenu-kill.sh
 
 # attach floating window
 super + {_, shift +} g
-    cornerwindow {_,-H left}
+    wm-corner-window.sh {_,-H left}
 
 # terminal
 super + Return
-    sd
+    same-dir.sh
 super + shift + Return
     $TERMINAL
 
 # resize floating window with ratio
 super + {_, shift +} z
-    resizeratio {-,+} 5
+    wm-resize-ratio.sh {-,+} 5
 
 # messengers
 super + x
@@ -106,25 +92,25 @@ super + shift + x
 
 # clipboard
 super + c
-    showselections
+    show-selections.sh
 super + shift + c
-    showcliphistory
+    clipboard-history.sh
 
 # file managers
 super + {_, shift +} v
-    {_,FM=vifm} $TERMINAL -e fmrun.sh
+    {_,FM=vifm} $TERMINAL -e fm-run.sh
 
 # browser
 super + b
     pgrep -fi $BROWSER || cpulimit -i -l 350 $BROWSER
 super + shift + b
-    $BROWSER
+    cpulimit -i -l 350 $BROWSER
 super + alt + b
     chromium --force-device-scale-factor=1.2
 
 # mounting
 super + {_, shift +} m
-    dmenu_{_,un}mount
+    dmenu-{_,un}mount.sh
 
 # music (keyboard)
 super + {_,shift +} + KP_Enter
@@ -156,13 +142,11 @@ shift + XF86Audio{Prev,Next}
 
 # screenshots
 Print
-    makescreen
+    make-screen.sh
 alt + Print
-    makescreen window
+    make-screen.sh window
 @shift + Print
-    makescreen part
-super + Print
-    tess.sh
+    make-screen.sh part
 
 # screen keyboard
 super + alt + space

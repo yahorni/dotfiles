@@ -33,11 +33,10 @@ autostart=(
     "sxhkd"
     "unclutter"
     "greenclip daemon"
-    "suspender"
+    "power-monitor.sh"
     "transmission-daemon"
     "nm-applet"
     "redshift -l 53.893009:27.567444"
-    "remapd"  # xboard.sh doesn't work rn
 )
 
 for program in "${autostart[@]}"; do

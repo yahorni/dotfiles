@@ -24,30 +24,37 @@ get_root() {
 
 run_c_cpp_build() {
     local lang="$1"
-    shift
 
-    local gcc_options=(-g -O0 "$@")
+    local cc=gcc
+    # local cc=clang
+    local cpp=g++
+    # local cpp=clang++
+
+    local cc_options=()
+    cc_options+=(-g -O0)
+    # cc_options+=(-m32)
+    cc_options+=(-Wall)
+    cc_options+=(-Wextra)
+    # cc_options+=(-pedantic)
+
+    local cpp_options=()
+    cpp_options+=(--std=c++20)
+    # cpp_options+=(--std=c++17)
+    cpp_options+=(-fsanitize=undefined)
+    cpp_options+=(-fsanitize=address)
+    cpp_options+=(-fsanitize=signed-integer-overflow)
+
     local c_libs=()
-    if [ "$#" -eq 0 ]; then
-        gcc_options+=(-Wall)
-        gcc_options+=(-Wextra)
-        # disabled by default
-        # gcc_options+=(-pedantic)
-        # gpp_options+=(--std=c++17)
-        gpp_options+=(--std=c++20)
-
-        c_libs+=(-lpthread)
-        c_libs+=(-lncurses)
-        c_libs+=(-lX11)
-        # disabled by default
-        # c_libs+=(-lexplain)
-        # c_libs+=($(pkg-config --cflags --libs cairomm-1.0))
-    fi
+    # c_libs+=(-lpthread)
+    # c_libs+=(-lncurses)
+    # c_libs+=(-lX11)
+    # c_libs+=(-lexplain)
+    # c_libs+=($(pkg-config --cflags --libs cairomm-1.0))
 
     if [ "$lang" = "c" ]; then
-        gcc "${gcc_options[@]}" -o "$base" "$file" "${c_libs[@]}"
+        "${cc}" "${cc_options[@]}" -o "$base" "$file" "${c_libs[@]}"
     elif [ "$lang" = "cpp" ]; then
-        g++ "${gcc_options[@]}" "${gpp_options[@]}" -o "$base" "$file" "${c_libs[@]}"
+        "${cpp}" "${cc_options[@]}" "${cpp_options[@]}" -o "$base" "$file" "${c_libs[@]}"
     fi
 }
 
@@ -74,16 +81,15 @@ elif [ "$mode" == "run" ]; then
     esac
 elif [ "$mode" == "other" ]; then
     case "$file" in
-        *\.c|*\.h)          run_c_cpp_build c -m32 ;;
-        *\.cpp|*\.hpp)      run_c_cpp_build cpp -m32 ;;
+        *\.c|*\.h|*\.[ch]pp|*\.s)   test -f "$base" && objdump -Cd "$base" > "$base.s" ;;
         *\.tex)             get_root ; xelatex "$file" ;;
         *\.md)              pandoc "$file" -t beamer --pdf-engine=xelatex -o "$base.pdf" ;;
         *[Xx]resources)     xrdb -remove ;;
-        *)                  echo "Not found" ;;
+        *)                  echo "Not found: $file" ;;
     esac
 elif [ "$mode" == "old" ]; then
     case "$file" in
         *\.md)              pandoc "$file" --pdf-engine=pdfroff -o "$base.pdf" ;;
-        *)                  echo "Not found" ;;
+        *)                  echo "Not found: $file" ;;
     esac
 fi

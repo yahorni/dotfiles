@@ -1,4 +1,0 @@
-#!/bin/bash
-
-cd "$1" || exit
-rm ./*.aux ./*.log ./*.out ./*.bbl ./*.blg ./*.toc ./*.dvi 2>/dev/null

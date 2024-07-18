@@ -52,7 +52,7 @@ print_preview() {
     case "$mime_type" in
         text/html)                        lynx -width="$x_pos" -display_charset=utf-8 -dump "$filename" ;;
         text/troff)                       man ./"$filename" | col -b ;;
-        text/*|*/xml|application/json|application/javascript)
+        text/*|*/xml|application/json|application/javascript|application/pgp-encrypted)
                                           $highlight_cmd "$filename" || cat "$filename" ;;
         audio/*|application/octet-stream) mediainfo "$filename" ;;
         application/zip)                  $zip_cmd "$filename" ;;
@@ -60,7 +60,6 @@ print_preview() {
         application/x-tar)                tar -tf "$filename" ;;
         application/x-rar)                unrar v "$filename" ;;
         *opendocument*)                   odt2txt "$filename" ;;
-        application/pgp-encrypted)        gpg -d -- "$filename" ;;
         application/pdf)                  pdftotext -nopgbrk "$filename" - ;;
         *)                                file --dereference -- "$(basename "$filename")" ;;
     esac

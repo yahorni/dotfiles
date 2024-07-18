@@ -9,5 +9,6 @@ case "$1" in
     "yesterday") cmd=':ObsidianYesterday' ;;
     "search") cmd=':ObsidianSearch' ;;
     "open") cmd=':ObsidianOpen' ;;
+    "ledger") cmd=":e $(find ledger/ -maxdepth 1 -name '*.ledger' | tail -n1)" ;;
 esac
 exec "$TERMINAL" -e "$EDITOR" -c "$cmd"

@@ -1,4 +1,4 @@
 [Desktop Entry]
 Type=Application
 Name=Gif Viewer
-Exec=nsxiv -a %F
+Exec=/usr/bin/nsxiv -a %F

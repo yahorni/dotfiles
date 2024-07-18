@@ -6,6 +6,7 @@ application/json=editor.desktop
 application/octet-stream=audio.desktop
 application/oxps=reader.desktop
 application/pdf=reader.desktop
+application/pgp-encrypted=editor.desktop
 application/postscript=reader.desktop
 application/x-bittorrent=torrent.desktop
 application/x-extension-htm=linkhandler.desktop

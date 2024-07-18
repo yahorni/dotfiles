@@ -14,4 +14,4 @@ else
     maim -B -u "$filename"
 fi
 
-copyimage "$filename"
+copy-image.sh "$filename"
