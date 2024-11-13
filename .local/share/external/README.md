@@ -8,7 +8,6 @@
 | logind.conf        | /etc/systemd/logind.conf                               |
 | modprobe.d/*       | /etc/modprobe.d/*                                      |
 | pacman.conf        | /etc/pacman.conf                                       |
-| rtunnel.service    | /etc/systemd/system/rtunnel.service                    |
 | services/*         | /etc/systemd/system/*                                  |
 | vconsole.conf      | /etc/vconsole.conf                                     |
 | xorg.conf.d/*      | /etc/X11/xorg.conf.d/*                                 |

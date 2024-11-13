@@ -43,15 +43,17 @@ mark x ~/dox
 mark d ~/Downloads
 mark m ~/music
 mark p ~/pix
-mark S ~/series
 mark v ~/vids
+mark S ~/vids/series
+mark f ~/vids/films
+mark y ~/vids/downloads
+mark o ~/dox/obsidian
 
 mark M /mnt
 mark P /mnt/phone
 mark 1 /mnt/usb1
 mark 2 /mnt/usb2
 mark 3 /mnt/usb3
-mark o /mnt/other
 
 " --- PREVIEW ---
 fileviewer *[^/] fmpreview.sh %d/%c %pw %ph %px %py %pc fmclear.sh

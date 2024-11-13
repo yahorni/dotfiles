@@ -68,7 +68,7 @@ alias \
 # files
 alias \
     va='${EDITOR} ${XDG_CONFIG_HOME}/shell/aliases.sh' \
-    vv='${EDITOR} ${XDG_CONFIG_HOME}/nvim/init.*' \
+    vv='cd ${XDG_CONFIG_HOME}/nvim && ${EDITOR} init.*' \
     vs='${EDITOR} ${XDG_CONFIG_HOME}/sxhkd/sxhkdrc' \
     vf='${EDITOR} ${XDG_CONFIG_HOME}/vifm/vifmrc' \
     vl='${EDITOR} ${XDG_CONFIG_HOME}/lf/lfrc' \
@@ -83,7 +83,6 @@ alias \
     vx='${EDITOR} ~/.xinitrc' \
     vh='${EDITOR} ${HISTFILE}' \
     vg='${EDITOR} .gitignore' \
-    vt='${EDITOR} $(xdg-user-dir DOCUMENTS)/TODO.md' \
     vw='${EDITOR} ~/prog/env/dwm/config.h' \
     vm='${EDITOR} ${XDG_CONFIG_HOME}/mimeapps.list' \
     v_='${EDITOR} $_'
@@ -113,6 +112,7 @@ alias \
     cds='cd_subdir ${XDG_DATA_HOME}' \
     cdb='cd_subdir ~/.local/bin' \
     cdj='cd_subdir ~/prog' \
+    cdo='cd "$(xdg-user-dir DOCUMENTS)"/obsidian/' \
     cd_='cd $_'
 
 ## mounts
@@ -120,8 +120,7 @@ alias \
     cdP='cd /mnt/phone' \
     cd1='cd /mnt/usb1' \
     cd2='cd /mnt/usb2' \
-    cd3='cd /mnt/usb3' \
-    cdo='cd /mnt/other'
+    cd3='cd /mnt/usb3'
 
 # utils
 

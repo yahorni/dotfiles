@@ -1,6 +1,7 @@
 #!/bin/bash
 
 options="chromium
+brave
 telegram-deskto
 blueman-applet
 steam
@@ -11,6 +12,7 @@ transmission-da
 qbittorrent
 greenclip
 nm-applet
+mpv
 picom"
 
 is_first=1

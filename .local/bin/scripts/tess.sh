@@ -1,4 +1,5 @@
-#!/bin/dash
+#!/bin/bash
+set -eo pipefail
 # $1 = eng/rus/<empty>
 maim -s -u |\
     tesseract -l "${1:-eng}" - - |\

@@ -8,7 +8,8 @@ fi
 
 case "$url" in
     *youtube\.com/watch*|*youtu\.be*|*youtube\.com/shorts*|*youtube\.com/live*|\
-    *\.mkv|*\.webm|*\.mp4|*\.3gp|*\.avi)
+    *\.mkv|*\.webm|*\.mp4|*\.3gp|*\.avi|\
+    *vk.com/video-*)
         notify-send "Opening in MPV" "$url"
         ERROR=$( (yt-dlp -F "$url" 3>&2 2>&1 1>&3) 2>/dev/null)
         [[ "$?" -ne "0" ]] && notify-send "Youtube-dl error" "$ERROR" && exit 1

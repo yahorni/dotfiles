@@ -1,4 +1,3 @@
-# vim: ft=cfg
 [Default Applications]
 application/epub+zip=reader.desktop
 application/javascript=editor.desktop
@@ -12,8 +11,8 @@ application/x-bittorrent=torrent.desktop
 application/x-extension-htm=linkhandler.desktop
 application/x-extension-html=linkhandler.desktop
 application/x-extension-shtml=linkhandler.desktop
-application/x-extension-xht=linkhandler.desktop
 application/x-extension-xhtml=linkhandler.desktop
+application/x-extension-xht=linkhandler.desktop
 application/x-sc=scim.desktop
 application/x-setupscript=editor.desktop
 application/x-subrip=editor.desktop
@@ -27,6 +26,7 @@ audio/x-m4a=audio.desktop
 audio/x-wav=audio.desktop
 image/bmp=nsxiv.desktop
 image/gif=gif.desktop
+image/heic=nsxiv.desktop
 image/jpeg=nsxiv.desktop
 image/png=nsxiv.desktop
 image/tiff=nsxiv.desktop
@@ -48,6 +48,7 @@ text/x-script.python=editor.desktop
 text/x-shellscript=editor.desktop
 text/x-tex=editor.desktop
 text/xml=editor.desktop
+video/webm=mpv.desktop
 x-scheme-handler/chrome=linkhandler.desktop
 x-scheme-handler/ftp=linkhandler.desktop
 x-scheme-handler/http=linkhandler.desktop
@@ -56,6 +57,8 @@ x-scheme-handler/magnet=torrent.desktop
 x-scheme-handler/mailto=mail.desktop
 x-scheme-handler/tg=org.telegram.desktop.desktop
 x-scheme-handler/viber=viber.desktop
+x-scheme-handler/tonsite=org.telegram.desktop.desktop
 
 [Added Associations]
 x-scheme-handler/tg=userapp-Telegram Desktop-M1OQW1.desktop;org.telegram.desktop.desktop;
+x-scheme-handler/tonsite=org.telegram.desktop.desktop;

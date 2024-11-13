@@ -5,7 +5,7 @@ Wants=acpid.service
 
 [Service]
 Type=simple
-ExecStart=/home/gin/.local/bin/acpi-volume.sh
+ExecStart=/home/gin/.local/bin/scripts/acpi-volume.sh
 ExecStop=/usr/bin/pkill -x acpi-volume.sh
 
 [Install]

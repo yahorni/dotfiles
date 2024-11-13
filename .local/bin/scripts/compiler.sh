@@ -32,6 +32,7 @@ run_c_cpp_build() {
 
     local cc_options=()
     cc_options+=(-g -O0)
+    # cc_options+=(-O3)
     # cc_options+=(-m32)
     cc_options+=(-Wall)
     cc_options+=(-Wextra)
@@ -39,6 +40,7 @@ run_c_cpp_build() {
 
     local cpp_options=()
     cpp_options+=(--std=c++20)
+    # cpp_options+=(-static)
     # cpp_options+=(--std=c++17)
     cpp_options+=(-fsanitize=undefined)
     cpp_options+=(-fsanitize=address)

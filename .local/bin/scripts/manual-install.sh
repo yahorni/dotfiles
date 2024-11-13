@@ -79,7 +79,7 @@ set_prog_repo() {
         lf)         g_repo="https://github.com/gokcehan/lf" ;;
         xurls)      g_repo="https://github.com/mvdan/xurls" ;;
         tmux)       g_repo="https://github.com/tmux/tmux" ;;
-        *)          g_repo="https://github.com/NickoEgor/$g_target.git" ;;
+        *)          g_repo="https://github.com/$GIT_NAME/$g_target.git" ;;
     esac
 }
 
@@ -157,8 +157,8 @@ setup_repo() {
         git checkout "$g_branch"
     fi
 
-    if [[ "$g_repo" == *"NickoEgor"* ]]; then
-        git remote set-url origin "git@github.com:NickoEgor/$g_target.git"
+    if [[ "$g_repo" == *"$GIT_NAME"* ]]; then
+        git remote set-url origin "git@github.com:$GIT_NAME/$g_target.git"
 
         git config user.name "$GIT_NAME"
         git config user.email "$GIT_EMAIL"
@@ -281,8 +281,8 @@ PROGS_LIST=(st dmenu dwm dwmbar dotfiles df dragon
 NON_GIT_PROGS_LIST=(python3.8 python3.8-pip)
 ENV_DIR="$HOME/prog/env"
 
-GIT_NAME="NickoEgor"
-GIT_EMAIL="egor1998nick@gmail.com"
+GIT_NAME="yahorni"
+GIT_EMAIL="neuralorge@gmail.com"
 
 # ===================================== #
 

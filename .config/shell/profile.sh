@@ -42,6 +42,7 @@ export TERMINFO="$XDG_DATA_HOME/terminfo"
 export TERMINFO_DIRS="$XDG_DATA_HOME/terminfo:/usr/share/terminfo"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export _JAVA_AWT_WM_NONREPARENTING=1    # fix java apps in wm
+export QT_SCREEN_SCALE_FACTORS=1.3      # increase UI scale for QT apps
 ## go
 export GOPATH="$HOME/prog/go"
 export GOMODCACHE="$XDG_CACHE_HOME/go/mod"

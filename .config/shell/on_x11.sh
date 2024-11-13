@@ -23,8 +23,31 @@ elif [ "$WM_BAR" = "polybar" ]; then
     sleep 10 && exec polybar -r notebar &
 fi
 
-# screenlock
-# xss-lock -- physlock -ms &
+# Some services
+# /usr/lib/systemd/user/
+#
+# 1. transmission
+#    https://wiki.archlinux.org/title/Transmission#Choosing_a_user
+#    systemctl enable transmission.service
+# 2. powertop
+#    https://wiki.archlinux.org/title/Powertop#Apply_settings
+#    systemctl enable powertop.service
+# 3. syncthing
+#    systemctl --user enable syncthing.service
+# 4. greenclip
+#    if fails use: systemctl --user reset-failed greenclip
+#    comment "After=display-manager.service" (same for redshift)
+#    add "RestartSec=5s" to service to not die too quickly
+#    create ~/.config/systemd/user/greenclip.service.d/display.conf and put lines below there:
+#        [Service]
+#        Environment=DISPLAY=:0
+#    systemctl --user enable greenclip.service
+# 5. redshift
+#    same fix as for redshift
+#    https://wiki.archlinux.org/title/Redshift#Specify_location_manually
+#    https://wiki.archlinux.org/title/Redshift#Redshift_works_fine_when_invoked_as_a_command_but_fails_when_run_as_a_systemd_service
+#    https://bbs.archlinux.org/viewtopic.php?id=177473
+#    systemctl --user enable redshift.service
 
 # autostart
 autostart=(
@@ -32,11 +55,10 @@ autostart=(
     "picom"
     "sxhkd"
     "unclutter"
-    "greenclip daemon"
     "power-monitor.sh"
-    "transmission-daemon"
     "nm-applet"
-    "redshift -l 53.893009:27.567444"
+    "remapd.sh"
+    "aw-qt"
 )
 
 for program in "${autostart[@]}"; do

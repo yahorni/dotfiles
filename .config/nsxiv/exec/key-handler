@@ -4,7 +4,6 @@ while read -r file; do
     case "$1" in
         "w") set-wallpaper.sh "$file" & ;;
         "l") set-wallpaper.sh "$file" lock & ;;
-        # "p") wal -ni "$file" & ;;
         "c") copy-image.sh "$file" & ;;
         "m") newname=$(echo "$file" | dmenu -p "Enter new file name") && mv "$file" "$newname" && notify-send "Moved '$file' to '$newname'" ;;
         "r") convert -rotate 90 "$file" "$file" ;;
@@ -15,7 +14,6 @@ while read -r file; do
         "Y") readlink -f "$file" | tr -d '\n' | xclip -selection clipboard && notify-send "Copied to clipboard" "$(readlink -f "$file")" & ;;
         "d") ([ "$(printf "No\\nYes" | dmenu -i -p "Really delete $file?")" = "Yes" ] && rm "$file" && notify-send "$file deleted.") & ;;
         "g") dragon "$file" & ;;
-        "t") FILE="$file" ${TERMINAL:-st} & ;;
         "e") gimp "$file" & ;;
         "i") notify-send "File information" "$(mediainfo "$file" | sed "s/[ ]\+:/:/g;s/: /: <b>/;s/$/<\/b>/" | grep "<b>")" ;;
     esac

@@ -17,7 +17,7 @@ set previewer 'fm-preview.sh'
 set cleaner   'fm-clear.sh'
 
 # commands
-cmd touch %touch $1 && lf -remote "send $id load" && lf -remote "send $id select $1"
+cmd touch %touch "$(echo $* | tr ' ' '\ ')" && lf -remote "send $id load" # && lf -remote "send $id select $1"
 cmd mkdir $mkdir -p "$(echo $* | tr ' ' '\ ')" && lf -remote "send $id load"
 
 cmd rsync &{{
@@ -76,6 +76,8 @@ map cf push :touch<space>
 map cd push :mkdir<space>
 # open with xdg-open in separate process
 map L  $xdg-open "$f" &
+# open with zathura in separate process
+map Z  $zathura "$f" &
 # show pictures
 map xp $nsxiv -t . &
 # use file for drag'n'drop
@@ -85,8 +87,8 @@ map xz $zip -r "$f.zip" "$f"
 # extract files (with atool)
 map xe $aunpack "$f"
 # add executable rights
-map xa $chmod +x "$f"
-map xr $chmod -x "$f"
+map xa $chmod +x $fx
+map xr $chmod -x $fx
 # bulkrename
 map cw $vidir $fs
 # set wallpaper

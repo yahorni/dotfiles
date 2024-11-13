@@ -33,6 +33,10 @@ super + shift + t
 super {_,shift +,alt +} y
     xdisplay.sh {_,same,hdmi}
 
+# copy text from screenshot
+super {_,shift +,alt +} u
+    tess.sh {eng,rus,eng+rus}
+
 # reload bar
 super + shift + i
     case "$WMBAR" in \
@@ -40,7 +44,7 @@ super + shift + i
         "polybar")  pkill polybar ; setsid polybar -r notebar & ;; \
     esac
 
-# english translator
+# translator
 super + {_,shift +} o
     translate.py -{s,d}n
 
@@ -59,6 +63,11 @@ super + s; {e,d}
     sudo -A systemctl {start,stop} bluetooth
 super + s; {a,k}
     {_,pkill} blueman-applet
+
+super + shift + s
+    translate-en-fr.sh
+super + alt + s
+    translate-en-fr.sh -v
 
 # program run
 super + d
@@ -106,7 +115,8 @@ super + b
 super + shift + b
     cpulimit -i -l 350 $BROWSER
 super + alt + b
-    chromium --force-device-scale-factor=1.2
+    brave --force-device-scale-factor=1.2
+    # chromium --force-device-scale-factor=1.2
 
 # mounting
 super + {_, shift +} m

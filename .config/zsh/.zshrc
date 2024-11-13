@@ -1,8 +1,10 @@
 #!/bin/zsh
 
 # prompt
-autoload -U colors && colors
-PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
+# autoload -U colors && colors
+# PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
+cyan=$'\e[36m'
+PS1="%B%{$cyan%}%~%b "
 
 # vi escape key delay
 export KEYTIMEOUT=1

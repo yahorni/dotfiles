@@ -5,19 +5,20 @@
 B:~/books
 M:/mnt
 P:/mnt/phone
-F:~/vids/films
 S:~/vids/series
-V:~/vids/downloads
 b:~/.local/bin
 c:~/.config
 d:~/Downloads
 e:/etc
+f:~/vids/films
 h:~/
 j:~/prog
+k:/home/gin/dox/johnny/30 health
 m:~/music
-o:/mnt/other
+o:~/dox/obsidian
 p:~/pix
 s:~/.local/share
 t:/tmp
 v:~/vids
 x:~/dox
+y:~/vids/downloads

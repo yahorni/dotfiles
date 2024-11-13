@@ -3,7 +3,7 @@
 # other settings
 export ELINKS_CONFDIR="$XDG_CONFIG_HOME/elinks"
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/pythonrc.py"
-export SUDO_ASKPASS="$HOME/.local/bin/wm/dmenu_pass"
+export SUDO_ASKPASS="$HOME/.local/bin/scripts/dmenu-pass.sh"
 export SXHKD_SHELL='/bin/bash'
 export TS_SLOTS=3
 export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
