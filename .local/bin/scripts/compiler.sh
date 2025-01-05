@@ -39,9 +39,10 @@ run_c_cpp_build() {
     # cc_options+=(-pedantic)
 
     local cpp_options=()
-    cpp_options+=(--std=c++20)
     # cpp_options+=(-static)
     # cpp_options+=(--std=c++17)
+    # cpp_options+=(--std=c++20)
+    cpp_options+=(--std=c++23)
     cpp_options+=(-fsanitize=undefined)
     cpp_options+=(-fsanitize=address)
     cpp_options+=(-fsanitize=signed-integer-overflow)

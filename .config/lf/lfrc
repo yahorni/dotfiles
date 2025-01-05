@@ -93,3 +93,5 @@ map xr $chmod -x $fx
 map cw $vidir $fs
 # set wallpaper
 map xw $set-wallpaper.sh "$f"
+# open with ...
+map o $$(dmenu_path | dmenu "$@") "$f"

@@ -59,6 +59,8 @@ print_preview() {
         application/gzip)                 tar -tzf "$filename" ;;
         application/x-tar)                tar -tf "$filename" ;;
         application/x-rar)                unrar v "$filename" ;;
+        # TODO: unrar first image from archive for preview
+        application/vnd.rar)              unrar v "$filename" ;;
         *opendocument*)                   odt2txt "$filename" ;;
         application/pdf)                  pdftotext -nopgbrk "$filename" - ;;
         *)                                file --dereference -- "$(basename "$filename")" ;;

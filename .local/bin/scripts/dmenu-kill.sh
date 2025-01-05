@@ -10,6 +10,7 @@ firefox
 qutebrowser
 transmission-da
 qbittorrent
+obsidian
 greenclip
 nm-applet
 mpv

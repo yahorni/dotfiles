@@ -20,6 +20,8 @@ au FileType netrw nn <silent><buffer> r <Plug>NetrwRefresh
 " }}}
 
 " {{{ OPTIONS
+" colortheme
+set background=dark
 " status line
 set laststatus=2
 " encoding/fileformat
@@ -45,7 +47,7 @@ set autoindent
 set breakindent
 " nonprintable characters
 set list
-set listchars=tab:>\ ,trail:·,nbsp:␣
+set listchars=eol:↲,tab:>\ ,trail:·,nbsp:␣,extends:>,precedes:<
 " line numbers
 set number
 set relativenumber    " can cause slowdown
@@ -78,8 +80,7 @@ set concealcursor=nvic
 set tags=./tags,tags,~/.local/share/tags
 set notagrelative     " disable directory prefix for tag file
 " spell
-set spell
-set spelllang=
+set nospell
 " file search
 set path+=**
 set wildignore+=*/build/*,*/.git/*,*/node_modules/*
@@ -114,13 +115,13 @@ set completeopt-=preview
 
 " {{{ MAPPINGS
 
-" disable Ex mode
-nn Q <nop>
-nn <C-f> <nop>
-
 " disable space action
 nn <Space> <nop>
 vn <Space> <nop>
+
+" disable Ex mode
+nn Q <nop>
+nn <C-f> <nop>
 
 " annoying keys
 com! W :w
@@ -136,17 +137,25 @@ com! -bang Qa :qa<bang>
 com! QA :qa
 com! -bang QA :qa<bang>
 
+com! Vs :vs
+com! VS :vs
+com! Sp :sp
+com! SP :sp
+
+" change <paste> command behaviour
+xn p _dp
+xn P _dP
 " normal mode bindings
 nn <silent> <leader>H :noh<CR>
 nn Y y$
 nn zq ZQ
-" open next buffer
-nn <silent> gB :bNext<CR>
 " buffer close
 nn <silent> <C-q> :close<CR>
 " update file and search
 nn <silent> <A-n> :e<CR>n
 nn <silent> <A-N> :e<CR>N
+" open next buffer
+nn <silent> gB :bNext<CR>
 " }}}
 
 " {{{ CURSOR
@@ -214,12 +223,11 @@ nn <silent> <leader>R :execute '!rm '.g:session_file<CR><CR>:echo 'Session remov
 
 " {{{ STYLES
 " tab style (2 spaces)
-au FileType c,cpp,javascript,yaml,vim,cmake
+au FileType c,cpp,lua,javascript,yaml,vim,cmake,markdown,text
   \ setlocal tabstop=2 |
   \ setlocal shiftwidth=2 |
   \ setlocal softtabstop=2
-au FileType gitconfig,make setlocal noexpandtab
-au FileType markdown,text setlocal textwidth=0
+au FileType gitconfig,make,just setlocal noexpandtab
 " }}}
 
 " {{{ FORMATTERS
@@ -251,7 +259,7 @@ endif
 " }}}
 
 " {{{ MISC
-" file executing
+" file permissions
 nn <leader>x :!chmod +x %<CR>
 nn <leader>X :!chmod -x %<CR>
 
@@ -270,9 +278,6 @@ nn <silent> <leader>E :g/^$/d<CR>
 
 " squish consecutive duplicates lines
 nn <silent> <leader>dl :%s;\v^(.*)(\n\1)+$;\1;<CR>
-
-" remove swaps
-nn <leader>dw :!rm -f ~/.local/state/nvim/swap/*<CR>
 
 " search for exact word
 nn <silent> <leader>/ /\<\><Left><Left>

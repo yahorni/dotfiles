@@ -6,9 +6,9 @@
     follow = keyboard
 
     width = 300
-    height = 500
+    height = (0, 500)
     origin = top-right
-    offset = 20x35
+    offset = (20, 35)
 
     notification_limit = 10
     progress_bar = false

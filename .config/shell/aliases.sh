@@ -21,7 +21,7 @@ alias \
     ssc='sudo systemctl' \
     p3='python3' \
     cp='cp -ri' \
-    mim='file --mime-type' \
+    mime='file --mime-type' \
     tmux='tmux -2'
 
 # other progs
@@ -68,7 +68,7 @@ alias \
 # files
 alias \
     va='${EDITOR} ${XDG_CONFIG_HOME}/shell/aliases.sh' \
-    vv='cd ${XDG_CONFIG_HOME}/nvim && ${EDITOR} init.*' \
+    vv='pushd ${XDG_CONFIG_HOME}/nvim && { ${EDITOR} init.* ; popd }' \
     vs='${EDITOR} ${XDG_CONFIG_HOME}/sxhkd/sxhkdrc' \
     vf='${EDITOR} ${XDG_CONFIG_HOME}/vifm/vifmrc' \
     vl='${EDITOR} ${XDG_CONFIG_HOME}/lf/lfrc' \

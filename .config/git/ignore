@@ -5,6 +5,7 @@
 .nvim.lua
 .vimspector.json
 .rgignore
+.session.vim
 
 ## specific files
 .config/shell/on_shell.sh

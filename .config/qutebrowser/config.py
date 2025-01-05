@@ -5,6 +5,12 @@ from os import path
 
 config.load_autoconfig(False)
 
+# cyrillic layout workaround
+config.unbind('.')
+en_keys = "qwertyuiop[]asdfghjkl;'zxcvbnm,./"+'QWERTYUIOP{}ASDFGHJKL:"ZXCVBNM<>?'
+ru_keys = 'йцукенгшщзхъфывапролджэячсмитьбю.'+'ЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ,'
+c.bindings.key_mappings.update(dict(zip(ru_keys, en_keys)))
+
 # SETTINGS
 c.changelog_after_upgrade = 'never'
 c.colors.tabs.bar.bg = '#333333'
@@ -22,16 +28,20 @@ c.completion.web_history.max_items = 0
 c.confirm_quit = ['downloads']
 c.content.autoplay = False
 c.content.cookies.store = False
+c.content.javascript.clipboard = 'ask'
+c.content.notifications.enabled = False
 c.content.pdfjs = True
 c.content.prefers_reduced_motion = True
 c.content.private_browsing = True
 c.messages.timeout = 1500
+c.qt.workarounds.disable_hangouts_extension = True
 c.scrolling.bar = 'when-searching'
-c.statusbar.show = 'in-mode'
+c.scrolling.smooth = True
+c.statusbar.show = 'always'
 c.url.default_page = 'about:blank'
 c.url.start_pages = ['about:blank']
 c.window.transparent = True
-c.zoom.default = '150%'
+c.zoom.default = '110%'
 
 # TABS
 c.tabs.background = True
@@ -42,9 +52,10 @@ c.tabs.last_close = 'close'
 c.tabs.show = 'never'
 c.tabs.background = True
 config.bind('B', 'config-cycle tabs.show always never')
-config.bind('И', 'config-cycle tabs.show always never') # rus
 config.bind('<Ctrl-Tab>', 'tab-next')
-config.bind('<Alt-Tab>', 'tab-prev')
+config.bind('<Ctrl-Shift-Tab>', 'tab-prev')
+config.bind('<Ctrl-H>', 'tab-move -')
+config.bind('<Ctrl-L>', 'tab-move +')
 
 # SEARCH ENGINES
 c.url.searchengines = {
@@ -59,6 +70,10 @@ c.url.searchengines = {
     'gh': 'https://github.com/{}',
     'er': 'https://translate.google.com/#en/ru/{}',
     're': 'https://translate.google.com/#ru/en/{}',
+    'ef': 'https://translate.google.com/#en/fr/{}',
+    'fe': 'https://translate.google.com/#fr/en/{}',
+    'rf': 'https://translate.google.com/#fr/ru/{}',
+    'fr': 'https://translate.google.com/#ru/fr/{}',
 }
 
 # FONT
@@ -75,22 +90,19 @@ c.content.blocking.hosts.block_subdomains = True
 # THEME
 theme_path = path.expandvars("$XDG_DATA_HOME/qutebrowser/styles/global-dark.css")
 config.bind('cs', f'config-cycle content.user_stylesheets [{theme_path}] [] ;; reload')
-config.bind('сы', f'config-cycle content.user_stylesheets [{theme_path}] [] ;; reload')
 
 # BINDS
-config.bind('xa', 'spawn setsid tsp ytloader -f a {url}')
-config.bind('чф', 'spawn setsid tsp ytloader -f a {url}') # rus
-config.bind('xv', 'spawn setsid tsp ytloader -u -d downloads {url}')
-config.bind('чм', 'spawn setsid tsp ytloader -u -d downloads {url}') # rus
+config.bind('xa', 'spawn setsid tsp ytloader.sh -f a {url}') # eng
+config.bind('xv', 'spawn setsid tsp ytloader.sh -u -d downloads {url}') # eng
 config.bind('xo', 'spawn linkhandler {url}')
-config.bind('чщ', 'spawn linkhandler {url}') # rus
 config.bind('xe', 'edit-url')
 config.bind('zq', 'quit')
-config.bind('яй', 'quit') # rus
-config.bind('A', 'config-cycle statusbar.show always in-mode')
-config.bind('Ф', 'config-cycle statusbar.show always in-mode') # rus
-config.bind('<Ctrl-H>', 'tab-move -')
-config.bind('<Ctrl-L>', 'tab-move +')
+config.bind('a', 'config-cycle statusbar.show always in-mode')
+config.bind('A', 'config-cycle scrolling.bar when-searching overlay')
+config.bind('xd', 'config-cycle colors.webpage.darkmode.enabled')
+config.bind('ys', 'yank selection')
+config.bind('cD', 'download-cancel')
+config.unbind('ad')
 
 # EDITOR
 term = os.getenv('TERMINAL', 'st')
@@ -115,41 +127,3 @@ c.aliases = {
     'tor': 'set content.proxy socks://localhost:9050/',
     'sys': 'set content.proxy system',
 }
-
-# RUSSIAN LAYOUT BINDS
-config.bind('П', 'scroll-to-perc')          # G
-config.bind('Р', 'back')                    # H
-config.bind('О', 'tab-next')                # J
-config.bind('Л', 'tab-prev')                # K
-config.bind('Д', 'forward')                 # L
-config.bind('Т', 'search-prev')             # N
-config.bind('Щ', 'cmd-set-text -s :open -t')# O
-config.bind('ЗЗ', 'open -t -- {primary}')   # PP
-config.bind('Зз', 'open -t -- {clipboard}') # Pp
-config.bind('К', 'reload -f')               # R
-config.bind('ЯЙ', 'quit')                   # ZQ
-config.bind('фв', 'download-cancel')        # ad
-config.bind('св', 'download-clear')         # cd
-config.bind('в', 'tab-close')               # d
-config.bind('пп', 'scroll-to-perc 0')       # gg
-config.bind('ш', 'mode-enter insert')       # i
-config.bind('р', 'scroll left')             # h
-config.bind('о', 'scroll down')             # j
-config.bind('л', 'scroll up')               # k
-config.bind('д', 'scroll right')            # l
-config.bind('т', 'search-next')             # n
-config.bind('щ', 'cmd-set-text -s :open')   # o
-config.bind('зЗ', 'open -- {primary}')      # pP
-config.bind('зз', 'open -- {clipboard}')    # pp
-config.bind('к', 'reload')                  # r
-config.bind('г', 'undo')                    # u
-config.bind('м', 'mode-enter caret')        # v
-config.bind('нв', 'yank domain')            # yd
-config.bind('нз', 'yank pretty-url')        # yp
-config.bind('не', 'yank title')             # yt
-config.bind('нн', 'yank')                   # yy
-config.bind('Т', 'prompt-accept --save no', mode='yesno') # N
-config.bind('Н', 'prompt-accept --save yes', mode='yesno')# Y
-config.bind('т', 'prompt-accept no', mode='yesno')        # n
-config.bind('н', 'prompt-accept yes', mode='yesno')       # y
-config.bind('н', 'yank selection', mode='caret') # y

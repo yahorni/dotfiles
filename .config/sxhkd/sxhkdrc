@@ -39,10 +39,7 @@ super {_,shift +,alt +} u
 
 # reload bar
 super + shift + i
-    case "$WMBAR" in \
-        "dwmbar")   pkill -USR1 dwmbar ;; \
-        "polybar")  pkill polybar ; setsid polybar -r notebar & ;; \
-    esac
+    pkill -USR1 dwmbar
 
 # translator
 super + {_,shift +} o
@@ -64,6 +61,11 @@ super + s; {e,d}
 super + s; {a,k}
     {_,pkill} blueman-applet
 
+# vpn
+super + s; {t,T}
+    sudo -A tailscale {up,down} ; echo "vpn 0" >> /tmp/dwmbar.fifo
+
+# french translator
 super + shift + s
     translate-en-fr.sh
 super + alt + s
@@ -113,10 +115,9 @@ super + {_, shift +} v
 super + b
     pgrep -fi $BROWSER || cpulimit -i -l 350 $BROWSER
 super + shift + b
-    cpulimit -i -l 350 $BROWSER
-super + alt + b
     brave --force-device-scale-factor=1.2
-    # chromium --force-device-scale-factor=1.2
+super + alt + b
+    qutebrowser
 
 # mounting
 super + {_, shift +} m
@@ -151,7 +152,7 @@ shift + XF86Audio{Prev,Next}
     playerctl position 5{-,+}
 
 # screenshots
-Print
+Print ; Print
     make-screen.sh
 alt + Print
     make-screen.sh window
