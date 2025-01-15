@@ -34,6 +34,12 @@ unsetopt nomatch
 autoload -Uz compinit && compinit
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
+## dirty hack to disable annoying completion from /etc/hosts:
+## https://superuser.com/questions/1098829/stop-zsh-incorporating-etc-hosts-in-autocomplete
+zstyle -e ':completion:*:hosts' hosts 'reply=(
+  ${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) 2>/dev/null)"}%%[#| ]*}//,/ }
+  ${=${${${${(@M)${(f)"$(cat ~/.ssh/config 2>/dev/null)"}:#Host *}#Host }:#*\**}:#*\?*}}
+)'
 zmodload zsh/complist
 compinit
 

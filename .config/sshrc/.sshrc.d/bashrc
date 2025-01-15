@@ -1,16 +1,29 @@
 #!/bin/bash
 
-# editor
-setup_editor() {
-    local editors=(nvim vim vi nano)
-    for editor in "${editors[@]}"; do
-        if command -v "$editor" 1>/dev/null; then
-            export EDITOR="$editor"
-            break
-        fi
-    done
-}
-setup_editor
+[[ $- == *i* ]] || return
+
+# history
+shopt -s histappend
+HISTCONTROL=ignoreboth
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# settings
+set -o vi
+stty -ixon  # disable Ctrl-R freeze
+shopt -s autocd
+shopt -s cdspell
+shopt -s checkwinsize
+shopt -s direxpand
+
+# defaults
+export EDITOR=vim
+export PATH="$PATH:$HOME/.local/bin"
+
+# less
+export LESS="-RMx4"
+export LESSHISTFILE="-"
+export SYSTEMD_PAGER="less"
 
 # colors
 export GREP_COLORS='mt=1;31'
@@ -21,18 +34,15 @@ export LESS_TERMCAP_so=$'\E[01;44;33m' # begin reverse video
 export LESS_TERMCAP_se=$'\E[0m'        # reset reverse video
 export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
 export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
+# colored GCC warnings and errors
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-# settings
-export LESS="-RMx4"
-export LESSHISTFILE="-"
-export SYSTEMD_PAGER="less"
-export HISTCONTROL="ignoredups"
-
-# path
-export PATH="$PATH:$HOME/.local/bin"
-
-# disable Ctrl-R freeze
-stty -ixon
+# bindings
+bind TAB:menu-complete
+bind 'set show-all-if-ambiguous on'
+bind -m vi-command 'Control-l: clear-screen'
+bind -m vi-insert 'Control-l: clear-screen'
+bind 'Control-o: "lf\n"'
 
 # prompt
 set_prompt() {
@@ -52,43 +62,34 @@ set_prompt
 # disable prompt command
 unset PROMPT_COMMAND 2>/dev/null
 
-# options
-set -o vi
-shopt -s autocd
-shopt -s cdspell
-shopt -s checkwinsize
-shopt -s direxpand
-
-# bindings
-bind TAB:menu-complete
-bind 'set show-all-if-ambiguous on'
-bind -m vi-command 'Control-l: clear-screen'
-bind -m vi-insert 'Control-l: clear-screen'
-
-# colors
+# aliases
 alias \
     ls='ls --color=auto --group-directories-first' \
     grep='grep --color=auto'
-
-# fast ls
 alias \
     la='ls -A' \
     ll='ls -lsh' \
     l='ls -lAsh'
-
-# progs
 alias \
     v='${EDITOR}' \
     sv='sudo ${EDITOR}' \
+    vv='${EDITOR} ${HOME}/.vimrc' \
+    vh='${EDITOR} ${HISTFILE:-$HOME/.bash_history}' \
+    vb='${EDITOR} ${HOME}/.bashrc' \
+    vg='${EDITOR} .gitignore' \
+    v_='${EDITOR} $_'
+alias \
     sc='systemctl' \
     scu='systemctl --user' \
     ssc='sudo systemctl' \
     p3='python3' \
     cp='cp -ri' \
-    mim='file --mime-type' \
+    mime='file --mime-type' \
     tmux='tmux -2'
-
-# git
+alias \
+    sp='sudo pacman' \
+    sa='sudo apt-get' \
+    sy='sudo yum'
 alias \
     gst='git status' \
     gd='git diff' \
@@ -112,45 +113,11 @@ alias \
     gff='git log --full-history --' \
     gff1='git log --full-history -1 --' \
     gcl='git clean -dfx' \
-    grp='git remote prune'
+    grp='git remote prune' \
+    ghash='git log -n 1 --pretty=format:"%H"' \
+    gsw='git show'
 
-# files
-alias \
-    vh='${EDITOR} ${HISTFILE:-$HOME/.bash_history}' \
-    vb='${EDITOR} ${HOME}/.bashrc' \
-    vg='${EDITOR} .gitignore' \
-    vt='${EDITOR} TODO.md' \
-    v_='${EDITOR} $_'
-# shellcheck disable=SC2139
-if [ "${EDITOR}" = 'nvim' ]; then
-    alias vv='${EDITOR} ${HOME}/.config/nvim/init.vim'
-elif [ "${EDITOR}" = 'vim' ] || [ "${EDITOR}" = 'vi' ]; then
-    alias vv='${EDITOR} ${HOME}/.vimrc'
-fi
-
-# directories
-alias \
-    .1='cd ..' \
-    .2='cd ../..' \
-    .3='cd ../../..' \
-
-# utils
-cdj() {
-    cd "$HOME/prog" || return 1
-    [ -n "$1" ] && cd "$1" || return 1
-}
-
-scr() {
-    bindir="$HOME/.local/bin"
-    file="$(cd "$bindir" || return 1 ; find . -type f | fzf)"
-    [ -n "$file" ] && $EDITOR "$bindir/$file"
-}
-
-snc() {
-    watch -d grep -e Dirty: -e Writeback: /proc/meminfo
-}
-
-# completions for aliases
+# completions
 test -f /usr/share/bash-completion/bash_completion && \
     source /usr/share/bash-completion/bash_completion
 
@@ -179,8 +146,5 @@ if [ -f '/usr/share/bash-completion/completions' ]; then
 fi
 
 # cdj
-_cdj() { COMPREPLY=($(cd "$HOME/prog" || return 1 ; compgen -d "$2")) ; }
+_cdj() { COMPREPLY=($(cd "$HOME/prj" || return 1 ; compgen -d "$2")) ; }
 complete -F _cdj cdj
-
-# extra settings (for temporary purposes)
-[ -f "$HOME/.config/on_shell.sh" ] && source "$HOME/.config/on_shell.sh"

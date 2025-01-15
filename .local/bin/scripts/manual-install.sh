@@ -9,19 +9,20 @@ set -e
 # 4. cmake
 #
 # --- dependencies ---
-#  pkg mgr | target      | deps
-#  ---     | ---         | ---
-#   apt    | dwm         | libxinerama-dev libx11-xcb-dev libxcb-res0-dev
-#          | xwallpaper  | libcairo2-dev libxcb-image0-dev libxcb-utils-dev libjpeg-dev
-#          | neovim      | libtool-bin pkg-config cmake
-#          | libxft-bgra | xutils-dev
-#          | tmux        | libevent-dev
-#          | xmouseless  | libxtst-dev
-#   yum    | dwm         | libXft-devel libXtst-devel gtk3-devel
-#          | tmux        | automake ncurses-devel libevent-devel bison
-#          | neovim      | cmake3
-#   zypper | tmux        | automake ncurses-devel libevent-devel bison
-#   pacman | brillo      | go-md2man
+# pkg mgr | target      | deps
+# ---     | ---         | ---
+# apt     | htop-vim    | build-essential automake libncursesw5-dev
+#         | dwm         | libxinerama-dev libx11-xcb-dev libxcb-res0-dev
+#         | xwallpaper  | libcairo2-dev libxcb-image0-dev libxcb-utils-dev libjpeg-dev
+#         | neovim      | libtool-bin pkg-config cmake
+#         | libxft-bgra | xutils-dev
+#         | tmux        | libevent-dev
+#         | xmouseless  | libxtst-dev
+# yum     | dwm         | libXft-devel libXtst-devel gtk3-devel
+#         | tmux        | automake ncurses-devel libevent-devel bison
+#         | neovim      | cmake3
+# zypper  | tmux        | automake ncurses-devel libevent-devel bison
+# pacman  | brillo      | go-md2man
 
 log2() {
     echo "==> $1" 1>&2
@@ -279,7 +280,7 @@ PROGS_LIST=(st dmenu dwm dwmbar dotfiles df dragon
        fzf ctags zsh-as zsh-fsh xwallpaper acpilight
        libxft-bgra ncmpcpp neovim lf xurls tmux)
 NON_GIT_PROGS_LIST=(python3.8 python3.8-pip)
-ENV_DIR="$HOME/prog/env"
+ENV_DIR="$HOME/prj/env"
 
 GIT_NAME="yahorni"
 GIT_EMAIL="neuralorge@gmail.com"

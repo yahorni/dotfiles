@@ -131,7 +131,7 @@ alias \
     .4='cd ../../../..'
 
 scr() {
-    bindir="$HOME/.local/bin/scripts/"
+    bindir="$HOME/.local/bin/scripts"
     file="$(cd "$bindir" || return 1 ; find . -type f | fzf)"
     [ -n "$file" ] && $EDITOR "$bindir/$file"
 }

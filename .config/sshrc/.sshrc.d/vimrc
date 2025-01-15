@@ -118,9 +118,12 @@ set completeopt-=preview
 " disable space action
 nn <Space> <nop>
 vn <Space> <nop>
-
+" disable F1 help
+nn <F1> <nop>
+in <F1> <nop>
 " disable Ex mode
 nn Q <nop>
+" disable <C-f> action
 nn <C-f> <nop>
 
 " annoying keys

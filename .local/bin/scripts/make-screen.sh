@@ -2,7 +2,7 @@
 
 filedate="$(date +%Y-%m-%d_%H-%M-%S-%N).png"
 pix=$(xdg-user-dir PICTURES)
-screendir="$pix/screens"
+screendir="$pix/screens/$(date +%Y)"
 [ ! -d "$screendir" ] && mkdir -p "$screendir"
 filename="$screendir/$filedate"
 

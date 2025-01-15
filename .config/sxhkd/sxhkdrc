@@ -63,7 +63,7 @@ super + s; {a,k}
 
 # vpn
 super + s; {t,T}
-    sudo -A tailscale {up,down} ; echo "vpn 0" >> /tmp/dwmbar.fifo
+    sudo -A systemctl start tailscaled && sudo -A tailscale {up,down} ; echo "vpn 0" >> /tmp/dwmbar.fifo
 
 # french translator
 super + shift + s

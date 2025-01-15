@@ -72,7 +72,7 @@ check_error() {
 downloader="yt-dlp" # youtube-dl
 
 case $format in
-    'a') "$downloader" --add-metadata -icxf "bestaudio/best" --audio-format mp3 -o "$outaudio/$filename" "$link" ;;
+    'a') "$downloader" --add-metadata --embed-thumbnail -icxf "bestaudio" --audio-format mp3 --audio-quality 320k -o "$outaudio/$filename" "$link" ;;
     'd') "$downloader" --add-metadata "${other_args[@]}" -ic -o "$outvideo/$filename" "$link" ;;
     'l') "$downloader" --add-metadata "${other_args[@]}" -icf "best[height<=360]" -o "$outvideo/$filename" "$link" ;;
     'm') "$downloader" --add-metadata "${other_args[@]}" -icf "bestvideo[height<=1080]+bestaudio/best" -o "$outvideo/$filename" "$link" ;;
