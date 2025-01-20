@@ -1,11 +1,14 @@
 # https://khal.readthedocs.io/en/latest/index.html
+# vim: ft=dosini
+
+[default]
+highlight_event_days = true
 
 [calendars]
 
 [[calendars]]
 path = ~/.local/share/calendars/*
 type = discover
-color = dark green
 
 [locale]
 timeformat = %H:%M
