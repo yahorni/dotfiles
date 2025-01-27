@@ -2,12 +2,16 @@
 # vim: ft=dosini
 
 # commands:
-# vdirsyncer discover
-# vdirsyncer sync
-# vdirsyncer metasync
+# - vdirsyncer discover
+# - vdirsyncer sync
+#   - vdirsyncer sync calendars
+#   - vdirsyncer sync contacts
+# - vdirsyncer metasync
 
 [general]
 status_path = "~/.config/vdirsyncer/status/"
+
+## CalDAV
 
 [storage yandex]
 type = "caldav"
@@ -16,20 +20,42 @@ url = "https://caldav.yandex.ru"
 username.fetch = ["shell", "gpg -d ~/.config/vdirsyncer/creds.gpg | head -n1"]
 password.fetch = ["shell", "gpg -d ~/.config/vdirsyncer/creds.gpg | tail -n1"]
 
-[storage radicale]
+[storage radicale_cal]
 type = "caldav"
 url.fetch      = ["shell", "cut -d',' -f1 ~/.config/vdirsyncer/creds.csv"]
 username.fetch = ["shell", "cut -d',' -f2 ~/.config/vdirsyncer/creds.csv"]
 password.fetch = ["shell", "cut -d',' -f3 ~/.config/vdirsyncer/creds.csv"]
 
-[storage local]
+[storage local_cal]
 type = "filesystem"
 path = "~/.local/share/calendars"
 fileext = ".ics"
 
 [pair calendars]
-a = "local"
-b = "radicale"
+a = "local_cal"
+b = "radicale_cal"
 # b = "yandex"
 collections = ["from a", "from b"]
 metadata = ["color", "displayname", "description"]
+
+## CardDAV
+
+[storage radicale_card]
+type = "carddav"
+url.fetch      = ["shell", "cut -d',' -f1 ~/.config/vdirsyncer/creds.csv"]
+username.fetch = ["shell", "cut -d',' -f2 ~/.config/vdirsyncer/creds.csv"]
+password.fetch = ["shell", "cut -d',' -f3 ~/.config/vdirsyncer/creds.csv"]
+
+[storage local_card]
+type = "filesystem"
+path = "~/.local/share/contacts"
+fileext = ".vcf"
+
+[pair contacts]
+a = "local_card"
+b = "radicale_card"
+collections = ["from a", "from b"]
+# "color" seems unsupported
+metadata = ["displayname", "description"]
+# files should be equal after merging
+conflict_resolution = ["command", "nvim", "-d"]

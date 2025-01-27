@@ -40,6 +40,7 @@ text/htm=linkhandler.desktop
 text/html=linkhandler.desktop
 text/plain=editor.desktop
 text/troff=man.desktop
+text/vcard=editor.desktop
 text/x-c++=editor.desktop
 text/x-c=editor.desktop
 text/x-diff=editor.desktop
