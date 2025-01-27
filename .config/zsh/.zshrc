@@ -1,10 +1,8 @@
 #!/bin/zsh
 
 # prompt
-# autoload -U colors && colors
-# PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
 cyan=$'\e[36m'
-PS1="%B%{$cyan%}%~%b "
+PS1="%B%{$cyan%}%~$%b "
 
 # vi escape key delay
 export KEYTIMEOUT=1
@@ -31,7 +29,7 @@ setopt hist_ignore_space
 unsetopt nomatch
 
 # completions
-autoload -Uz compinit && compinit
+autoload -Uz compinit
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 ## dirty hack to disable annoying completion from /etc/hosts:
@@ -41,12 +39,13 @@ zstyle -e ':completion:*:hosts' hosts 'reply=(
   ${=${${${${(@M)${(f)"$(cat ~/.ssh/config 2>/dev/null)"}:#Host *}#Host }:#*\**}:#*\?*}}
 )'
 zmodload zsh/complist
-compinit
-
-# use bash git completions instead of zsh
-compdef -d git
-autoload bashcompinit && bashcompinit
-source /usr/share/git/completion/git-completion.bash 2>/dev/null
+# check cache once a day
+# https://gist.github.com/ctechols/ca1035271ad134841284
+if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
+    compinit;
+else
+    compinit -C;
+fi;
 
 # key bindings
 [ -f "$HOME/.config/zsh/$TERM.tmp" ] && source "$HOME/.config/zsh/$TERM.tmp"

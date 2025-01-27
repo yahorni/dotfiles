@@ -1,18 +1,8 @@
 #!/bin/bash
 
-OPTIND=1
+set -e
 
-outvideo="$(xdg-user-dir VIDEOS)"
-outaudio="$(xdg-user-dir MUSIC)"
-filename='%(title)s.%(ext)s'
-format="m"
-
-msg_download="YTLoader: Downloading"
-msg_no_url="YTLoader: No URL given"
-msg_fail="YTLoader: Download failed"
-msg_invalid_format="YTLoader: Invalid format"
-msg_loaded="YTLoader: Loaded"
-msg_invalid_flag="YTLoader: Invalid option"
+### functions
 
 print_help() {
     echo "Usage: ytloader [options] link"
@@ -31,53 +21,91 @@ print_help() {
     echo "    -S - do not check for SSL certificates"
 }
 
-declare -a other_args
+parse_args() {
+    OPTIND=1
+    while getopts "f:d:p:c:suSh" opt; do
+        case $opt in
+            f) format=$OPTARG ;;
+            d) subdir=$OPTARG ;;
+            p) other_args+=("--playlist-start" "$OPTARG") ;;
+            s) other_args+=("--all-subs") ;;
+            c) other_args+=("--cookies" "$OPTARG") ;;
+            S) other_args+=("--no-check-certificates") ;;
+            u) filename='%(uploader)s - %(title).80s.%(ext)s' ;;
+            h) print_help ; exit 0 ;;
+            *) notify-send "$msg_invalid_flag" && exit 1 ;;
+        esac
+    done
 
-while getopts "f:d:p:c:suSh" opt; do
-    case $opt in
-        f) format=$OPTARG ;;
-        d) subdir=$OPTARG ;;
-        p) other_args+=("--playlist-start" "$OPTARG") ;;
-        s) other_args+=("--all-subs") ;;
-        c) other_args+=("--cookies" "$OPTARG") ;;
-        S) other_args+=("--no-check-certificates") ;;
-        u) filename='%(uploader)s - %(title).80s.%(ext)s' ;;
-        h) print_help ; exit 0 ;;
-        *) notify-send "$msg_invalid_flag" && exit 1 ;;
-    esac
-done
+    shift $((OPTIND-1))
+    link=$1
 
-shift $((OPTIND-1))
-link=$1
+    if [ -z "$link" ]; then
+        echo "$msg_no_url"
+        notify-send "$msg_no_url"
+        print_help
+        exit 1
+    elif [[ "$link" == *"playlist?list"* ]]; then
+        filename="%(playlist_index)s. $filename"
+    fi
+}
 
-[ -z "$link" ] && echo "$msg_no_url" && notify-send "$msg_no_url" && print_help && exit
+check_download_dir() {
+    video_dir="${video_dir}/${subdir}"
+    audio_dir="${audio_dir}/${subdir}"
 
-if [ -z "$subdir" ]; then
-    outaudio="${outaudio}/downloads"
-else
-    outvideo="${outvideo}/${subdir}"
-    outaudio="${outaudio}/${subdir}"
-fi
-
-[ ! -d "$outaudio" ] && mkdir -p "$outaudio"
-[ ! -d "$outvideo" ] && mkdir -p "$outvideo"
-
-notify-send "$msg_download" "$link"
+    if [ "$format" == 'a' ]; then
+        mkdir -p "$audio_dir"
+    else
+        mkdir -p "$video_dir"
+    fi
+}
 
 check_error() {
     error_code="$?"
     [ $error_code -ne 0 ] && notify-send "$msg_fail" "Error code ($error_code)\n$link" && exit $error_code
 }
 
+download() {
+    notify-send "$msg_download" "$link"
+
+    case $format in
+        'a') "$downloader" --add-metadata "${thumb_args[@]}" -icxf "bestaudio" --audio-format mp3 --audio-quality 320k -o "$audio_dir/$filename" "$link" ;;
+        'd') "$downloader" --add-metadata "${other_args[@]}" -ic -o "$video_dir/$filename" "$link" ;;
+        'l') "$downloader" --add-metadata "${other_args[@]}" -icf "best[height<=360]" -o "$video_dir/$filename" "$link" ;;
+        'm') "$downloader" --add-metadata "${other_args[@]}" -icf "bestvideo[height<=1080]+bestaudio/best" -o "$video_dir/$filename" "$link" ;;
+        'h') "$downloader" --add-metadata "${other_args[@]}" -icf "bestvideo+bestaudio/best" -o "$video_dir/$filename" "$link" ;;
+        *) notify-send "$msg_invalid_format" "Format ($format)\n$link" ; exit 1 ;;
+    esac ; check_error
+
+    notify-send "$msg_loaded" "$link"
+}
+
+### constants
+
+msg_download="YTLoader: Downloading"
+msg_no_url="YTLoader: No URL given"
+msg_fail="YTLoader: Download failed"
+msg_invalid_format="YTLoader: Invalid format"
+msg_loaded="YTLoader: Loaded"
+msg_invalid_flag="YTLoader: Invalid option"
+
+video_dir="$(xdg-user-dir VIDEOS)"
+audio_dir="$(xdg-user-dir MUSIC)"
+subdir="downloads"
+
 downloader="yt-dlp" # youtube-dl
+thumb_args=(--embed-thumbnail --ppa "EmbedThumbnail+ffmpeg_o:-c:v mjpeg -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\"")
 
-case $format in
-    'a') "$downloader" --add-metadata --embed-thumbnail -icxf "bestaudio" --audio-format mp3 --audio-quality 320k -o "$outaudio/$filename" "$link" ;;
-    'd') "$downloader" --add-metadata "${other_args[@]}" -ic -o "$outvideo/$filename" "$link" ;;
-    'l') "$downloader" --add-metadata "${other_args[@]}" -icf "best[height<=360]" -o "$outvideo/$filename" "$link" ;;
-    'm') "$downloader" --add-metadata "${other_args[@]}" -icf "bestvideo[height<=1080]+bestaudio/best" -o "$outvideo/$filename" "$link" ;;
-    'h') "$downloader" --add-metadata "${other_args[@]}" -icf "bestvideo+bestaudio/best" -o "$outvideo/$filename" "$link" ;;
-    *) notify-send "$msg_invalid_format" "Format ($format)\n$link" ; exit 1 ;;
-esac ; check_error
+### variables
 
-notify-send "$msg_loaded" "$link"
+declare -a other_args
+filename='%(title)s.%(ext)s'
+format="m"
+link=""
+
+### main
+
+parse_args "$@"
+check_download_dir
+download
