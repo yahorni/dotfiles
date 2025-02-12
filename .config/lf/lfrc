@@ -1,4 +1,5 @@
 # vim:ft=bash:ts=4:sw=4:sts=4:fdm=marker:fdl=0:cms=#\ %s
+# marks: ~/.local/share/lf/marks
 
 # options
 set autoquit true
@@ -83,7 +84,9 @@ map xp $nsxiv -t . &
 # use file for drag'n'drop
 map xg $setsid dragon "$f" &
 # make zip archive
-map xz $zip -r "$f.zip" "$f"
+map xz $zip -r "$f.zip" "$(realpath -s --relative-to=. $f)"
+# make tar.gz archive
+map xt $tar -czvf "$f.tar.gz" "$(realpath -s --relative-to=. $f)"
 # extract files (with atool)
 map xe $aunpack "$f"
 # add executable rights

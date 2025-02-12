@@ -12,6 +12,8 @@ super + {_,shift +}grave
 # music player
 super + w
     $TERMINAL -e ncmpcpp
+super + shift + w
+    supersonic-desktop
 
 # terminal
 super + {_,shift +} e
@@ -31,7 +33,7 @@ super + shift + t
 
 # displays
 super {_,shift +,alt +} y
-    xdisplay.sh {_,same,hdmi}
+    xdisplay.sh {2nd,same,left}
 
 # copy text from screenshot
 super {_,shift +,alt +} u

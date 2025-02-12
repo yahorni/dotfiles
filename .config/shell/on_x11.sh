@@ -16,15 +16,14 @@ xdisplay.sh
 xwallpaper --stretch "$XDG_DATA_HOME/wallpaper"
 
 # WM bar
-if [ "$WM_BAR" = "dwmbar" ]; then
-    dwmbar &
-    dwmlistener.sh &
-elif [ "$WM_BAR" = "polybar" ]; then
-    sleep 10 && exec polybar -r notebar &
-fi
+dwmbar &
+dwmlistener.sh &
 
-# Some services
-# /usr/lib/systemd/user/
+# systemd services
+#
+# systemctl --user enable mpd
+# systemctl --user enable mpd-mpris
+# systemctl --user enable acpi-volume
 #
 # 1. transmission
 #    https://wiki.archlinux.org/title/Transmission#Choosing_a_user
@@ -43,11 +42,17 @@ fi
 #        Environment=DISPLAY=:0
 #    systemctl --user enable greenclip.service
 # 5. redshift
-#    same fix as for redshift
+#    same `display.conf` fix as for greenclip
 #    https://wiki.archlinux.org/title/Redshift#Specify_location_manually
 #    https://wiki.archlinux.org/title/Redshift#Redshift_works_fine_when_invoked_as_a_command_but_fails_when_run_as_a_systemd_service
 #    https://bbs.archlinux.org/viewtopic.php?id=177473
 #    systemctl --user enable redshift.service
+# 6. playerctl
+#    service file taken from: https://wiki.archlinux.org/title/MPRIS#Playerctl
+#    ~/.config/systemd/user/playerctld.service
+#    added: ExecStop=/usr/bin/pkill -f playerctld
+#    same `display.conf` fix as for greenclip
+#    systemctl --user enable playerctld.service
 
 # autostart
 autostart=(
@@ -55,10 +60,12 @@ autostart=(
     "picom"
     "sxhkd"
     "unclutter"
-    "power-monitor.sh"
     "nm-applet"
-    "remapd.sh"
     "aw-qt"
+
+    "remapd.sh"
+    "power-monitor.sh"
+    "player-manager.py"
 )
 
 for program in "${autostart[@]}"; do

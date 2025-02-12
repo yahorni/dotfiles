@@ -110,4 +110,5 @@ syntax_highlight_sh="$XDG_DATA_HOME/zsh/fsh/fast-syntax-highlighting.plugin.zsh"
 # completions
 [ -f "$XDG_CONFIG_HOME/shell/completions.zsh" ] && source "$XDG_CONFIG_HOME/shell/completions.zsh"
 # fzf
-[ -f "$XDG_CONFIG_HOME/fzf/fzf.zsh" ] && source "$XDG_CONFIG_HOME/fzf/fzf.zsh"
+[ -f "/usr/share/fzf/completion.zsh"   ] && source "/usr/share/fzf/completion.zsh"
+[ -f "/usr/share/fzf/key-bindings.zsh" ] && source "/usr/share/fzf/key-bindings.zsh"

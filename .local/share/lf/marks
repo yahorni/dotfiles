@@ -2,8 +2,6 @@
 1:/mnt/usb1
 2:/mnt/usb2
 3:/mnt/usb3
-B:~/books
-M:/mnt
 P:/mnt/phone
 S:~/vids/series
 b:~/.local/bin
@@ -12,8 +10,7 @@ d:~/Downloads
 e:/etc
 f:~/vids/films
 h:~/
-j:~/prog
-k:/home/gin/dox/johnny/30 health
+j:~/prj
 m:~/music
 o:~/dox/obsidian
 p:~/pix

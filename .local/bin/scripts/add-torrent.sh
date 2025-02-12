@@ -1,18 +1,19 @@
 #!/bin/bash
 
-categories="Downloads\nFilms\nMusic\nSeries\nBooks\nMusic (subdir.)\nCustom..."
+categories="Films\nMusic\nSeries\nDocuments\nDownloads\nMusic (subdir.)\nCustom..."
 directory=
 music_directory="$(xdg-user-dir MUSIC)"
+docs_directory="$(xdg-user-dir DOCUMENTS)"
 
 notify() { notify-send "🔽 Add torrent" "$1" ;}
 
 case $(echo -e "$categories" | dmenu -i -p "Option:") in
-    Books)      directory="$(xdg-user-dir BOOKS)" ;;
     Films)      directory="$(xdg-user-dir VIDEOS)/films" ;;
-    Series)     directory="$(xdg-user-dir VIDEOS)/series" ;;
-    Downloads)  directory="$(xdg-user-dir DOWNLOAD)" ;;
     Music)      directory="$music_directory" ;;
-    M*subdir*)  directory="$music_directory"/"$(ls "$music_directory" | dmenu -l 20 -p "Choose subdir in '$music_directory':")" ;;
+    Series)     directory="$(xdg-user-dir VIDEOS)/series" ;;
+    Documents)  directory="$docs_directory" ;;
+    Downloads)  directory="$(xdg-user-dir DOWNLOAD)" ;;
+    M*subdir*)  directory="$(find "$music_directory" -maxdepth 1 | dmenu -l 20 -p "Choose subdir in '$music_directory':")" ;;
     Custom*)    directory="$HOME/$(dmenu -p "Enter path in '$HOME':" <&-)" ;;
     "")         notify "Canceled torrent" && exit ;;
     *)          notify "Invalid directory" && exit ;;

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-emojis_path="${XDG_DATA_HOME:-$HOME/.local/share}/emojis"
-chosen=$(cut -d ';' -f1 "$emojis_path" | dmenu -i -l 15 | sed "s/ .*//")
+emojis_path="${XDG_DATA_HOME:-$HOME/.local/share}/emojis.txt"
+chosen=$(cut -d ';' -f1 "$emojis_path" | rofi -dmenu -i -l 15 | sed "s/ .*//")
 
 [ -z "$chosen" ] && exit 1
 

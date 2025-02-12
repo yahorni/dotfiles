@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # programs
-export SHELL='/bin/zsh'
+export SHELL='/usr/bin/zsh'
 export TERMINAL='st'
 export EDITOR='nvim'
 export VISUAL="$EDITOR"
@@ -26,32 +26,6 @@ export LESS_TERMCAP_se=$'\E[0m'        # reset reverse video
 export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
 export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 
-# settings
-export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
-export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc-2.0"
-export INPUTRC="$XDG_CONFIG_HOME/shell/inputrc"
-export LESS='-RMx4'
-export LESSHISTFILE='-'
-export MANPATH="$MANPATH:$XDG_DATA_HOME/man:$XDG_CACHE_HOME/cppman/cppreference.com"
-export MERGETOOL='nvim -d'
-export RANDFILE="$XDG_CACHE_HOME/rnd"
-export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgreprc"
-export SSHHOME="$XDG_CONFIG_HOME/sshrc"
-export SYSTEMD_PAGER='less'
-export TERMINFO="$XDG_DATA_HOME/terminfo"
-export TERMINFO_DIRS="$XDG_DATA_HOME/terminfo:/usr/share/terminfo"
-export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
-export _JAVA_AWT_WM_NONREPARENTING=1    # fix java apps in wm
-export QT_SCREEN_SCALE_FACTORS=1.3      # increase UI scale for QT apps
-## go
-export GOPATH="$HOME/prog/go"
-export GOMODCACHE="$XDG_CACHE_HOME/go/mod"
-## python
-export PYLINTHOME="$XDG_CACHE_HOME/pylint"
-export PYLINTRC="$XDG_CONFIG_HOME/pylintrc"
-## javascript
-export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
-export NODE_REPL_HISTORY="$XDG_DATA_HOME/node_repl_history"
 # shell history
 export HISTFILE="$XDG_CACHE_HOME/shell_history"
 export HISTIGNORE=' *'
@@ -61,19 +35,53 @@ export HISTCONTROL="ignoredups"
 export SAVEHIST=$HISTSIZE
 export HISTORY_IGNORE="(ls|pwd|exit|cd)"
 
+# basic settings
+export INPUTRC="$XDG_CONFIG_HOME/shell/inputrc"
+export LESS='-RMx4'
+export LESSHISTFILE='-'
+export RANDFILE="$XDG_CACHE_HOME/rnd"
+export SYSTEMD_PAGER='less'
+export TERMINFO="$XDG_DATA_HOME/terminfo"
+export TERMINFO_DIRS="$XDG_DATA_HOME/terminfo:/usr/share/terminfo"
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+export WGETRC="$XDG_CONFIG_HOME/wgetrc"
+
+# apps/dev
+export ELINKS_CONFDIR="$XDG_CONFIG_HOME/elinks"
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export LEDGER="$XDG_DATA_HOME/common.ledger"
+export MERGETOOL='nvim -d'
+export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgreprc"
+export SQLITE_HISTORY="$XDG_DATA_HOME/sqlite_history"
+export SUDO_ASKPASS="$HOME/.local/bin/scripts/dmenu-pass.sh"
+export SXHKD_SHELL='/bin/bash'
+export TS_SLOTS=3
+export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
+## go
+export GOPATH="$HOME/prj/go"
+export GOMODCACHE="$XDG_CACHE_HOME/go/mod"
+export PATH="$PATH:$GOPATH/bin"
+## python
+export PYLINTHOME="$XDG_CACHE_HOME/pylint"
+export PYLINTRC="$XDG_CONFIG_HOME/pylintrc"
+export PYTHONSTARTUP="$XDG_CONFIG_HOME/pythonrc.py"
+export MYPY_CACHE_DIR="$XDG_CACHE_HOME/mypy"
+## javascript
+export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
+export NODE_REPL_HISTORY="$XDG_DATA_HOME/node_repl_history"
+export PATH="$PATH:$XDG_DATA_HOME/npm/bin"
+## UI
+export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc-2.0"
+export _JAVA_AWT_WM_NONREPARENTING=1    # fix java apps in wm
+export QT_SCREEN_SCALE_FACTORS=1.3      # increase UI scale for QT apps
+
 # path
-# shellcheck disable=SC2155
-export PATH="$PATH:$(find ~/.local/bin -type d -printf %p:):$GOPATH/bin:$XDG_DATA_HOME/npm/bin"
-
-# hidden directory for project files
-export IDE_DIR='.ide'
-
-# machine-specific script
-[ -f "$XDG_CONFIG_HOME/shell/on_login.sh" ] && source "$XDG_CONFIG_HOME/shell/on_login.sh"
+PATH="$PATH:$(find ~/.local/bin -type d -printf %p:)"
+export PATH
 
 # ssh/tmux login
 if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ] || [ -n "$TMUX" ]; then
-    source "$HOME/.bashrc"
+    [ -f "$HOME/.bashrc" ] && source "$HOME/.bashrc"
 fi
 
 # X11 GUI

@@ -31,14 +31,13 @@ colorscheme Default
 " --- MARKS ---
 
 mark h ~/
-mark j ~/prog
+mark j ~/prj
 mark b ~/.local/bin
 mark s ~/.local/share
 mark c ~/.config
 mark t /tmp
 mark e /etc
 
-mark B ~/books
 mark x ~/dox
 mark d ~/Downloads
 mark m ~/music
@@ -49,7 +48,6 @@ mark f ~/vids/films
 mark y ~/vids/downloads
 mark o ~/dox/obsidian
 
-mark M /mnt
 mark P /mnt/phone
 mark 1 /mnt/usb1
 mark 2 /mnt/usb2

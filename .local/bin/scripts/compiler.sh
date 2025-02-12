@@ -1,25 +1,13 @@
 #!/bin/bash
 
-mode=
-if [ "$#" -gt 1 ]; then
-    mode="$1"
-    shift
-fi
-
-file=$(readlink -f "$1")
-dir=$(dirname "$file")
-base="${file%.*}"
-
-cd "$dir" || exit
-
-get_root() {
-    grep -q '% !TeX root = ' "$file" || return
-    root_file=$(sed -n 's/^% !TeX root = \(.\+\)$/\1/p' "$file")
-    file=$(readlink -f "$root_file")
-    dir=$(dirname "$file")
-    cd "$dir" || return
-    file=$(realpath --relative-to="$PWD" "$file")
-    base="${file%.*}"
+get_tex_root() {
+    grep -q '% !TeX root = ' "$file_name" || return
+    root_file=$(sed -n 's/^% !TeX root = \(.\+\)$/\1/p' "$file_name")
+    file_name=$(readlink -f "$root_file")
+    dir_name=$(dirname "$file_name")
+    cd "$dir_name" || return
+    file_name=$(realpath --relative-to="$PWD" "$file_name")
+    file_base="${file_name%.*}"
 }
 
 run_c_cpp_build() {
@@ -55,44 +43,86 @@ run_c_cpp_build() {
     # c_libs+=($(pkg-config --cflags --libs cairomm-1.0))
 
     if [ "$lang" = "c" ]; then
-        "${cc}" "${cc_options[@]}" -o "$base" "$file" "${c_libs[@]}"
+        "${cc}" "${cc_options[@]}" -o "$file_base" "$file_name" "${c_libs[@]}"
     elif [ "$lang" = "cpp" ]; then
-        "${cpp}" "${cc_options[@]}" "${cpp_options[@]}" -o "$base" "$file" "${c_libs[@]}"
+        "${cpp}" "${cc_options[@]}" "${cpp_options[@]}" -o "$file_base" "$file_name" "${c_libs[@]}"
     fi
 }
 
-if [ -z "$mode" ]; then
-    case "$file" in
-        *config\.h)         sudo make install clean ;;
-        *\.c|*\.h)          run_c_cpp_build c ;;
-        *\.cpp|*\.hpp)      run_c_cpp_build cpp ;;
-        *\.py)              python3 "$file" ;;
-        *\.tex)             get_root ; pdflatex -draftmode "$file" ; bibtex "$base" ; pdflatex "$file" ; pdflatex "$file" ;;
-        *\.md)              lowdown --parse-no-intraemph "$file" -Tms | groff -mpdfmark -ms -kept -T pdf > "$base.pdf" ;;
-        *\.go)              go build . ;;
-        *\.html)            $BROWSER "$file" ;;
-        *[Xx]resources)     xrdb -merge "$file" ;;
+build_action() {
+    case "$file_name" in
+        *config\.h)     sudo make install clean ;;
+        *\.c|*\.h)      run_c_cpp_build c ;;
+        *\.cpp|*\.hpp)  run_c_cpp_build cpp ;;
+        *\.tex)         get_tex_root ; pdflatex -draftmode "$file_name" ; bibtex "$file_base" ; pdflatex "$file_name" ; pdflatex "$file_name" ;;
+        *\.md)          lowdown --parse-no-intraemph "$file_name" -Tms | groff -mpdfmark -ms -kept -T pdf > "$file_base.pdf" ;;
+        *\.go)          go build . ;;
         *CMakeLists\.txt)   cd ./build && cmake .. && make ;;
-        *\.js)              node "$file" ;;
-        *)                  sed 1q "$file" | grep "^#!/" | sed "s/^#!//" | xargs -r -I % "$file" ;;
+        *)              sed 1q "$file_name" | grep "^#!/" | sed "s/^#!//" | xargs -r -I % "$file_name" ;;
     esac
-elif [ "$mode" == "run" ]; then
-    case "$file" in
-        *\.tex|*\.md)       setsid xdg-open "$base.pdf" & disown ;;
-        *\.go)              go run "$file" ;;
-        *)                  "$base" ;;
+}
+
+run_action() {
+    case "$file_name" in
+        *\.py)          python3 "$file_name" ;;
+        *\.tex|*\.md)   setsid xdg-open "$file_base.pdf" & disown ;;
+        *\.go)          go run "$file_name" ;;
+        *\.html)        $BROWSER "$file_name" ;;
+        *[Xx]resources) xrdb -merge "$file_name" ;;
+        *\.js)          node "$file_name" ;;
+        *\.ledger)      ledger -f "$LEDGER" --strict --real balance asset ;;
+        *)              "$file_base" ;;
     esac
-elif [ "$mode" == "other" ]; then
-    case "$file" in
-        *\.c|*\.h|*\.[ch]pp|*\.s)   test -f "$base" && objdump -Cd "$base" > "$base.s" ;;
-        *\.tex)             get_root ; xelatex "$file" ;;
-        *\.md)              pandoc "$file" -t beamer --pdf-engine=xelatex -o "$base.pdf" ;;
-        *[Xx]resources)     xrdb -remove ;;
-        *)                  echo "Not found: $file" ;;
+}
+
+other_action() {
+    case "$file_name" in
+        *\.c|*\.h|*\.[ch]pp|*\.s)   test -f "$file_base" && objdump -Cd "$file_base" > "$file_base.s" ;;
+        *\.tex)         get_tex_root ; xelatex "$file_name" ;;
+        *\.md)          pandoc "$file_name" -t beamer --pdf-engine=xelatex -o "$file_base.pdf" ;;
+        *[Xx]resources) xrdb -remove ;;
+        *)              echo "No action for '$file_name'" ;;
     esac
-elif [ "$mode" == "old" ]; then
-    case "$file" in
-        *\.md)              pandoc "$file" --pdf-engine=pdfroff -o "$base.pdf" ;;
-        *)                  echo "Not found: $file" ;;
+}
+
+deprecated_action() {
+    case "$file_name" in
+        *\.md)              pandoc "$file_name" --pdf-engine=pdfroff -o "$file_base.pdf" ;;
+        *)                  echo "No action for '$file_name'" ;;
     esac
-fi
+}
+
+mode=
+file_name=
+dir_name=
+file_base=
+
+main() {
+    if [ "$#" -lt 1 ]; then
+        echo "Not enough arguments"
+        exit 1
+    fi
+    mode="$1"
+    shift
+
+    file_name=$(readlink -f "$1")
+    dir_name=$(dirname "$file_name")
+    file_base="${file_name%.*}"
+
+    if ! cd "$dir_name" ; then
+        echo "Failed to cd to $dir_name"
+        exit 1
+    fi
+
+    if [ "$mode" = "build" ]; then
+        build_action
+    elif [ "$mode" == "run" ]; then
+        run_action
+    elif [ "$mode" == "other" ]; then
+        other_action
+    elif [ "$mode" == "deprecated" ]; then
+        deprecated_action
+    fi
+}
+
+main "$@"

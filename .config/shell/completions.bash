@@ -63,5 +63,5 @@ make_completion_wrapper _make _make_f make -f "${IDE_DIR}/Makefile"
 complete -F _make_f ide ides
 
 # cdj
-_cdj() { COMPREPLY=($(cd "$HOME/prog" || return 1 ; compgen -d "$2")) ; }
+_cdj() { COMPREPLY=($(cd "$HOME/prj" || return 1 ; compgen -d "$2")) ; }
 complete -F _cdj cdj

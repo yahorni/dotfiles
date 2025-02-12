@@ -26,7 +26,7 @@ alias \
 
 # other progs
 alias \
-    dg='/usr/bin/git --git-dir="${HOME}/prog/df" --work-tree="${HOME}"' \
+    dg='/usr/bin/git --git-dir="${HOME}/prj/df" --work-tree="${HOME}"' \
     sp='sudo pacman' \
     yay='yay --sudoloop' \
     fm='FM=vifm fmrun.sh' \
@@ -68,7 +68,7 @@ alias \
 # files
 alias \
     va='${EDITOR} ${XDG_CONFIG_HOME}/shell/aliases.sh' \
-    vv='pushd ${XDG_CONFIG_HOME}/nvim && { ${EDITOR} init.* ; popd }' \
+    vv='pushd ${XDG_CONFIG_HOME}/nvim ; ${EDITOR} init.* ; popd' \
     vs='${EDITOR} ${XDG_CONFIG_HOME}/sxhkd/sxhkdrc' \
     vf='${EDITOR} ${XDG_CONFIG_HOME}/vifm/vifmrc' \
     vl='${EDITOR} ${XDG_CONFIG_HOME}/lf/lfrc' \
@@ -76,14 +76,13 @@ alias \
     vq='${EDITOR} ${XDG_CONFIG_HOME}/qutebrowser/config.py' \
     vp='${EDITOR} ${XDG_CONFIG_HOME}/shell/profile.sh' \
     vos='${EDITOR} ${XDG_CONFIG_HOME}/shell/on_shell.sh' \
-    vol='${EDITOR} ${XDG_CONFIG_HOME}/shell/on_login.sh' \
     vox='${EDITOR} ${XDG_CONFIG_HOME}/shell/on_x11.sh' \
     vr='${EDITOR} ${XDG_CONFIG_HOME}/xresources' \
     vb='${EDITOR} ~/.bashrc' \
     vx='${EDITOR} ~/.xinitrc' \
     vh='${EDITOR} ${HISTFILE}' \
     vg='${EDITOR} .gitignore' \
-    vw='${EDITOR} ~/prog/env/dwm/config.h' \
+    vw='${EDITOR} ~/prj/env/dwm/config.h' \
     vm='${EDITOR} ${XDG_CONFIG_HOME}/mimeapps.list' \
     v_='${EDITOR} $_'
 
@@ -111,7 +110,7 @@ alias \
     cdc='cd_subdir ${XDG_CONFIG_HOME}' \
     cds='cd_subdir ${XDG_DATA_HOME}' \
     cdb='cd_subdir ~/.local/bin' \
-    cdj='cd_subdir ~/prog' \
+    cdj='cd_subdir ~/prj' \
     cdo='cd "$(xdg-user-dir DOCUMENTS)"/obsidian/' \
     cd_='cd $_'
 

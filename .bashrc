@@ -46,4 +46,5 @@ bind 'Control-o: "lfcd\n"'
 # completions
 [ -f "$XDG_CONFIG_HOME/shell/completions.bash" ] && source "$XDG_CONFIG_HOME/shell/completions.bash"
 # fzf
-[ -f "$XDG_CONFIG_HOME/fzf/fzf.bash" ] && source "$XDG_CONFIG_HOME/fzf/fzf.bash"
+[ -f "/usr/share/fzf/completion.bash"   ] && source "/usr/share/fzf/completion.bash"
+[ -f "/usr/share/fzf/key-bindings.bash" ] && source "/usr/share/fzf/key-bindings.bash"
