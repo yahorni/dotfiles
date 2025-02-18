@@ -21,6 +21,14 @@ print_help() {
     echo "    -S - do not check for SSL certificates"
 }
 
+notify() {
+    if [ -z "$DISPLAY" ] || command -v notify-send >/dev/null; then
+        echo "$@"
+    else
+        notify-send "$@"
+    fi
+}
+
 parse_args() {
     OPTIND=1
     while getopts "f:d:p:c:suSh" opt; do
@@ -33,7 +41,7 @@ parse_args() {
             S) other_args+=("--no-check-certificates") ;;
             u) filename='%(uploader)s - %(title).80s.%(ext)s' ;;
             h) print_help ; exit 0 ;;
-            *) notify-send "$msg_invalid_flag" && exit 1 ;;
+            *) notify "$msg_invalid_flag" && exit 1 ;;
         esac
     done
 
@@ -42,7 +50,7 @@ parse_args() {
 
     if [ -z "$link" ]; then
         echo "$msg_no_url"
-        notify-send "$msg_no_url"
+        notify "$msg_no_url"
         print_help
         exit 1
     elif [[ "$link" == *"playlist?list"* ]]; then
@@ -63,11 +71,11 @@ check_download_dir() {
 
 check_error() {
     error_code="$?"
-    [ $error_code -ne 0 ] && notify-send "$msg_fail" "Error code ($error_code)\n$link" && exit $error_code
+    [ $error_code -ne 0 ] && notify "$msg_fail" "Error code ($error_code)\n$link" && exit $error_code
 }
 
 download() {
-    notify-send "$msg_download" "$link"
+    notify "$msg_download" "$link"
 
     case $format in
         'a') "$downloader" --add-metadata "${thumb_args[@]}" -icxf "bestaudio" --audio-format mp3 --audio-quality 320k -o "$audio_dir/$filename" "$link" ;;
@@ -75,10 +83,10 @@ download() {
         'l') "$downloader" --add-metadata "${other_args[@]}" -icf "best[height<=360]" -o "$video_dir/$filename" "$link" ;;
         'm') "$downloader" --add-metadata "${other_args[@]}" -icf "bestvideo[height<=1080]+bestaudio/best" -o "$video_dir/$filename" "$link" ;;
         'h') "$downloader" --add-metadata "${other_args[@]}" -icf "bestvideo+bestaudio/best" -o "$video_dir/$filename" "$link" ;;
-        *) notify-send "$msg_invalid_format" "Format ($format)\n$link" ; exit 1 ;;
+        *) notify "$msg_invalid_format" "Format ($format)\n$link" ; exit 1 ;;
     esac ; check_error
 
-    notify-send "$msg_loaded" "$link"
+    notify "$msg_loaded" "$link"
 }
 
 ### constants

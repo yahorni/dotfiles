@@ -41,7 +41,7 @@ c.statusbar.show = 'always'
 c.url.default_page = 'about:blank'
 c.url.start_pages = ['about:blank']
 c.window.transparent = True
-c.zoom.default = '110%'
+c.zoom.default = '100%'
 
 # TABS
 c.tabs.background = True

@@ -39,12 +39,13 @@ bind -m vi-command 'Control-l: clear-screen'
 bind -m vi-insert 'Control-l: clear-screen'
 bind 'Control-o: "lfcd\n"'
 
-# aliases
-[ -f "$XDG_CONFIG_HOME/shell/aliases.sh" ] && source "$XDG_CONFIG_HOME/shell/aliases.sh"
-# extra settings (for temporary purposes)
-[ -f "$XDG_CONFIG_HOME/shell/on_shell.sh" ] && source "$XDG_CONFIG_HOME/shell/on_shell.sh"
-# completions
-[ -f "$XDG_CONFIG_HOME/shell/completions.bash" ] && source "$XDG_CONFIG_HOME/shell/completions.bash"
 # fzf
 [ -f "/usr/share/fzf/completion.bash"   ] && source "/usr/share/fzf/completion.bash"
 [ -f "/usr/share/fzf/key-bindings.bash" ] && source "/usr/share/fzf/key-bindings.bash"
+
+# aliases
+[ -f "$XDG_CONFIG_HOME/shell/aliases.sh" ] && source "$XDG_CONFIG_HOME/shell/aliases.sh"
+# completions
+[ -f "$XDG_CONFIG_HOME/shell/completions.bash" ] && source "$XDG_CONFIG_HOME/shell/completions.bash"
+# temporary settings
+[ -f "$XDG_CONFIG_HOME/shell/temp.sh" ] && source "$XDG_CONFIG_HOME/shell/temp.sh"

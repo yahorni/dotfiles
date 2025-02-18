@@ -2,7 +2,7 @@ AccessModifierOffset: -4
 ColumnLimit: 120
 IndentWidth: 4
 UseTab: Never
-PointerAlignment: Left
+PointerAlignment: Right
 AllowShortIfStatementsOnASingleLine: WithoutElse
 PackConstructorInitializers: Never
 SpacesBeforeTrailingComments: 2

@@ -1,4 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Sc-im
-Exec=/usr/local/bin/st -e /usr/bin/sc-im %u

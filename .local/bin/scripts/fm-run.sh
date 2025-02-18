@@ -2,8 +2,8 @@
 
 set -e
 
-file_manager="${FM:-lfdir.sh}" # lf/vifm
-commands_type="json"        # bash/json
+file_manager="${FM:-lfdir.sh}"  # lfdir.sh/lf/vifm
+commands_type="json"            # bash/json
 
 cleanup() {
     exec 3>&-

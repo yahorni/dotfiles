@@ -31,31 +31,30 @@ colorscheme Default
 " --- MARKS ---
 
 mark h ~/
-mark j ~/prj
+mark c ~/.config
 mark b ~/.local/bin
 mark s ~/.local/share
-mark c ~/.config
+mark j ~/prj
 mark t /tmp
 mark e /etc
 
+mark d ~/dl
 mark x ~/dox
-mark d ~/Downloads
-mark m ~/music
+mark o ~/dox/notes
+mark m ~/mus
 mark p ~/pix
-mark v ~/vids
-mark S ~/vids/series
-mark f ~/vids/films
-mark y ~/vids/downloads
-mark o ~/dox/obsidian
+mark v ~/vid
+mark y ~/vid/downloads
+mark f ~/vid/films
+mark S ~/vid/series
 
-mark P /mnt/phone
 mark 1 /mnt/usb1
 mark 2 /mnt/usb2
-mark 3 /mnt/usb3
+mark P /mnt/phone
 
 " --- PREVIEW ---
-fileviewer *[^/] fmpreview.sh %d/%c %pw %ph %px %py %pc fmclear.sh
-fileviewer .*[^/] fmpreview.sh %d/%c %pw %ph %px %py %pc fmclear.sh
+fileviewer *[^/] fm-preview.sh %d/%c %pw %ph %px %py %pc fm-clear.sh
+fileviewer .*[^/] fm-preview.sh %d/%c %pw %ph %px %py %pc fm-clear.sh
 
 " --- OPEN ---
 filextype *  xdg-open %f %i &

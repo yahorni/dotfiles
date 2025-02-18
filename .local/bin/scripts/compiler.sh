@@ -71,6 +71,7 @@ run_action() {
         *[Xx]resources) xrdb -merge "$file_name" ;;
         *\.js)          node "$file_name" ;;
         *\.ledger)      ledger -f "$LEDGER" --strict --real balance asset ;;
+        *\.1)           man -l "$file_name" ;;
         *)              "$file_base" ;;
     esac
 }

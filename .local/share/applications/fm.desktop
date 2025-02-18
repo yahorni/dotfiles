@@ -1,6 +1,4 @@
 [Desktop Entry]
 Type=Application
-# Name=Console file manager with Ueberzug support
-# Exec=/usr/local/bin/st -e /usr/bin/env fm-run.sh %u
 Name=GUI File manager
-Exec=/usr/bin/pcmanfm
+Exec=pcmanfm

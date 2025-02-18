@@ -1,9 +1,12 @@
-# NOTE: keys below reserved
-# 1. q/shift+q - kill window/wm
-# 2. shift+r - to update wm
-# 3. f - fullscreen
-# 4. shift+[h/j/k/l] - wm windows manipulations
-# 5. shift+[comma/period/slash] — other wm manipulations
+# Reserved keys
+# super + {_,shift +} q                    | kill window/wm
+# super + shift + r                        | to update wm
+# super + f                                | fullscreen
+# super + {_,shift +} {h,j,k,l}            | window navigation/manipulation
+# super + {_,shift +} {comma,period,slash} | other window manipulations
+# super + shift + Return                   | default terminal in WM
+
+# NOTE: do not map 'super + shift + w' because you definitely mistype to 'super + shift + q`
 
 # system/audio controls
 super + {_,shift +}grave
@@ -11,8 +14,6 @@ super + {_,shift +}grave
 
 # music player
 super + w
-    $TERMINAL -e ncmpcpp
-super + shift + w
     supersonic-desktop
 
 # terminal
@@ -27,9 +28,9 @@ super + r
 super + t
     $TERMINAL -e newsboat -q
 
-# torrent
+# tailscale
 super + shift + t
-    $TERMINAL -e tremc
+    sudo -A systemctl restart tailscaled && notify-send "Restarted tailscaled"
 
 # displays
 super {_,shift +,alt +} y
@@ -44,8 +45,12 @@ super + shift + i
     pkill -USR1 dwmbar
 
 # translator
-super + {_,shift +} o
-    translate.py -{s,d}n
+super + s ; {e,f}
+    translate.sh {'en:ru','fr:en'}
+super + s ; shift + {e,f}
+    translate.sh {'en:ru','fr:en'} -f
+super + shift + s ; {e,f}
+    translate.sh {'en:ru','fr:en'} -s
 
 # power management
 super + {_, shift +} p
@@ -65,13 +70,7 @@ super + s; {a,k}
 
 # vpn
 super + s; {t,T}
-    sudo -A systemctl start tailscaled && sudo -A tailscale {up,down} ; echo "vpn 0" >> /tmp/dwmbar.fifo
-
-# french translator
-super + shift + s
-    translate-en-fr.sh
-super + alt + s
-    translate-en-fr.sh -v
+    sudo -A systemctl start tailscaled && sudo -A tailscale {up,down} ; echo "vpn" >> /tmp/dwmbar.fifo
 
 # program run
 super + d
@@ -88,8 +87,6 @@ super + {_, shift +} g
 # terminal
 super + Return
     same-dir.sh
-super + shift + Return
-    $TERMINAL
 
 # resize floating window with ratio
 super + {_, shift +} z
@@ -126,26 +123,24 @@ super + {_, shift +} m
     dmenu-{_,un}mount.sh
 
 # music (keyboard)
-super + {_,shift +} + KP_Enter
-    mpc {toggle,stop}
-super + KP_{Subtract,Add}
-    mpc {prev,next}
-super + shift + KP_{Subtract,Add}
-    mpc seek {-,+}5
-# ---
-super + {_,shift +} n
-    playerctl {play-pause,stop} ; echo "player 0" > /tmp/dwmbar.fifo
-super + {minus,equal}
-    playerctl {previous,next} ; echo "player 0" > /tmp/dwmbar.fifo
-super + shift + {minus,equal}
-    playerctl position 5{-,+} ; echo "player 0" > /tmp/dwmbar.fifo
-# ---
-super + alt + {_,shift +} n
-    playerctl -a pause ; echo "player 0" > /tmp/dwmbar.fifo
-super + alt + {minus,equal}
-    mpc seek {-,+}5
 
-# music (audio buttons)
+## playerctl controls
+super + {_,shift +,alt +} n
+    playerctl {play-pause,stop,-a pause} ; echo "player" > /tmp/dwmbar.fifo
+super + {minus,equal}
+    playerctl {previous,next} ; echo "player" > /tmp/dwmbar.fifo
+super + shift + {minus,equal}
+    playerctl position 5{-,+} ; echo "player" > /tmp/dwmbar.fifo
+
+## mpc controls
+# super + {_,shift +} n
+#     mpc toggle ; echo "player" > /tmp/dwmbar.fifo
+# super + {minus,equal}
+#     mpc {prev,next} ; echo "player" > /tmp/dwmbar.fifo
+# super + shift + {minus,equal}
+#     mpc seek {-,+}5 ; echo "player" > /tmp/dwmbar.fifo
+
+## audio buttons
 XF86Audio{Play,Pause,Stop}
     playerctl {play-pause,play-pause,stop}
 XF86Audio{Prev,Next}

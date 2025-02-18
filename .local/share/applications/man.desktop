@@ -1,4 +1,4 @@
 [Desktop Entry]
 Type=Application
-Name=man
-Exec=/usr/local/bin/st -e /usr/bin/man %u
+Name=Man pages reader
+Exec=st -e man %u

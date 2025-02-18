@@ -1,0 +1,1 @@
+xprofiles/dwm.sh

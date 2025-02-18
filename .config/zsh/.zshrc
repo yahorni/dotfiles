@@ -1,8 +1,8 @@
-#!/bin/zsh
+#!/usr/bin/zsh
 
 # prompt
-cyan=$'\e[36m'
-PS1="%B%{$cyan%}%~$%b "
+color=$'\e[32m'
+PS1="%B%{$color%}%~$%b "
 
 # vi escape key delay
 export KEYTIMEOUT=1
@@ -42,10 +42,10 @@ zmodload zsh/complist
 # check cache once a day
 # https://gist.github.com/ctechols/ca1035271ad134841284
 if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
-    compinit;
+    compinit
 else
-    compinit -C;
-fi;
+    compinit -C
+fi
 
 # key bindings
 [ -f "$HOME/.config/zsh/$TERM.tmp" ] && source "$HOME/.config/zsh/$TERM.tmp"
@@ -65,6 +65,9 @@ bindkey -M vicmd '^K' history-beginning-search-backward # backward search in vi 
 bindkey -M viins '^K' history-beginning-search-backward # backward search in vi insert mode
 bindkey -M vicmd '^J' history-beginning-search-forward # forward search in vi command mode
 bindkey -M viins '^J' history-beginning-search-forward # forward search in vi insert mode
+
+# backward incremental search
+bindkey -M viins '^R' history-incremental-search-backward
 
 # use vim keys in tab complete menu
 bindkey -M menuselect 'h' vi-backward-char
@@ -95,20 +98,18 @@ zle-line-init() { zle -K viins; _set_beam_cursor }
 # autosuggestions
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 ZSH_AUTOSUGGEST_USE_ASYNC=1
-bindkey '^ ' autosuggest-accept
-autosuggest_sh="$XDG_DATA_HOME/zsh/zsh-autosuggestions.zsh"
-[ -f "$autosuggest_sh" ] && source "$autosuggest_sh"
+autosuggest="/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
+[ -f "$autosuggest" ] && source "$autosuggest"
 
 # syntax highlight
-syntax_highlight_sh="$XDG_DATA_HOME/zsh/fsh/fast-syntax-highlighting.plugin.zsh"
-[ -f "$syntax_highlight_sh" ] && source "$syntax_highlight_sh"
+syntax_highlight="/usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
+[ -f "$syntax_highlight" ] && source "$syntax_highlight"
 
-# aliases
-[ -f "$XDG_CONFIG_HOME/shell/aliases.sh" ] && source "$XDG_CONFIG_HOME/shell/aliases.sh"
-# extra settings (for temporary purposes)
-[ -f "$XDG_CONFIG_HOME/shell/on_shell.sh" ] && source "$XDG_CONFIG_HOME/shell/on_shell.sh"
-# completions
-[ -f "$XDG_CONFIG_HOME/shell/completions.zsh" ] && source "$XDG_CONFIG_HOME/shell/completions.zsh"
 # fzf
 [ -f "/usr/share/fzf/completion.zsh"   ] && source "/usr/share/fzf/completion.zsh"
 [ -f "/usr/share/fzf/key-bindings.zsh" ] && source "/usr/share/fzf/key-bindings.zsh"
+
+# aliases
+[ -f "$XDG_CONFIG_HOME/shell/aliases.sh" ] && source "$XDG_CONFIG_HOME/shell/aliases.sh"
+# temporary settings
+[ -f "$XDG_CONFIG_HOME/shell/temp.sh" ] && source "$XDG_CONFIG_HOME/shell/temp.sh"

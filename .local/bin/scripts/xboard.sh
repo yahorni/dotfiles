@@ -20,4 +20,4 @@ setxkbmap \
 xset r rate 200 35
 
 # xmodmap binds
-[ -f "$XDG_CONFIG_HOME/xmodmaprc" ] && xmodmap "$XDG_CONFIG_HOME/xmodmaprc"
+[ -f "$XDG_CONFIG_HOME/x11/xmodmaprc" ] && xmodmap "$XDG_CONFIG_HOME/x11/xmodmaprc"

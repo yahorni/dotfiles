@@ -1,13 +1,9 @@
 #!/bin/bash
 
-# for debugging:
-# exec >>/tmp/script.log 2>&1
-# set -xu
-
 declare -a modes=("1st" "2nd" "above" "below" "right" "left" "same")
 declare -A scrns conns
-scrns["1st"]="eDP1"
-conns["1st"]="eDP-1"
+scrns["1st"]="DP2"
+conns["1st"]="DP-2"
 scrns["2nd"]="HDMI1"
 conns["2nd"]="HDMI-A-1"
 

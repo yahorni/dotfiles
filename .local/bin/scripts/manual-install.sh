@@ -2,11 +2,7 @@
 
 set -e
 
-# --- todo ---
-# 1. clipboard (greenclip/xclip/xsel)
-# 2. ripgrep
-# 3. bat
-# 4. cmake
+# todo: cmake
 #
 # --- dependencies ---
 # pkg mgr | target      | deps
@@ -280,7 +276,7 @@ PROGS_LIST=(st dmenu dwm dwmbar dotfiles df dragon
        fzf ctags zsh-as zsh-fsh xwallpaper acpilight
        libxft-bgra ncmpcpp neovim lf xurls tmux)
 NON_GIT_PROGS_LIST=(python3.8 python3.8-pip)
-ENV_DIR="$HOME/prj/env"
+ENV_DIR="$HOME/prj/manual"
 
 GIT_NAME="yahorni"
 GIT_EMAIL="neuralorge@gmail.com"

@@ -1,5 +1,5 @@
 #!/bin/bash
-cd "$HOME/dox/obsidian" || exit 1
+cd "$HOME/dox/notes" || exit 1
 cmd=
 case "$1" in
     "quick") cmd=':ObsidianQuickSwitch' ;;

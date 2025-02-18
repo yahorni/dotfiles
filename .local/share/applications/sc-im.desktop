@@ -1,0 +1,4 @@
+[Desktop Entry]
+Type=Application
+Name=sc-im spreadsheet calculator
+Exec=st -e sc-im %u

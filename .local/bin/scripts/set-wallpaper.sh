@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 
+if ! command -v xwallpaper >/dev/null ; then
+    exit 1
+fi
+
 datapath="${XDG_DATA_HOME:-"$HOME/.local/share"}"
-wallpath="$datapath/wallpaper"
-lockpath="$datapath/lockimage"
+wallpath=$(ls "$datapath"/wallpaper.*)
+lockpath=$(ls "$datapath"/lockimage.*)
 dimensions="1920x1080"
 
 [ -z "$1" ] && xwallpaper --stretch "$wallpath" && exit

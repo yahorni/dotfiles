@@ -8,5 +8,4 @@
 .session.vim
 
 ## specific files
-.config/shell/on_shell.sh
-.config/shell/xprofile.sh
+.config/shell/temp.sh
