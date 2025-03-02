@@ -1,6 +1,14 @@
-# I use patched sc-im with support for config directory
 set autocalc
 set numeric
 set numeric_decimal=0
 set overlap
 set xlsx_readformulas
+
+set copy_to_clipboard_delimited_tab
+set copy_to_clipboard_wysiwyg=0
+
+nmap "yx" ":ccopy<cr>"
+nmap "px" ":cpaste<cr>"
+
+vmap "Yx" ":ccopy<cr>"
+vmap "Px" ":cpaste<cr>"

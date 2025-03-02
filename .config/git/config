@@ -1,4 +1,12 @@
 # vim: ft=gitconfig
+#
+# config uses tricks from:
+# https://blog.gitbutler.com/how-git-core-devs-configure-git/
+# https://www.youtube.com/watch?v=aolI_Rz0ZqY
+
+# to manage bare repo run:
+# git config status.showUntrackedFiles no
+
 [core]
 	excludesfile = ~/.config/git/ignore
 	pager = "diff-so-fancy | less --tabs=4 -RF"	# require diff-so-fancy
@@ -10,8 +18,8 @@
 	defaultBranch = master
 [push]
 	default = current
-[http]
-	sslVerify = false
+	autoSetupRemote = true
+	followTags = true
 [color]
 	diff = auto
 	status = auto
@@ -23,6 +31,30 @@
 	helper = cache --timeout=3600
 [user]
 	useConfigOnly = true
-
-# To manage bare repo:
-# git config status.showUntrackedFiles no
+[column]
+	ui = auto
+[branch]
+	sort = -committerdate
+[tag]
+	sort = version:refname
+[diff]
+	algorithm = histogram
+	colorMoved = plain
+	mnemonicPrefix = true
+	renames = true
+[help]
+	autocorrect = prompt
+[rerere]
+	enabled = true
+	autoupdate = true
+[rebase]
+	autoSquash = true
+	autoStash = true
+	updateRefs = true
+[merge]
+	conflictstyle = zdiff3
+[alias]
+	sha = stash --all
+	pf = push --force-with-lease
+# [http]
+# 	sslVerify = false

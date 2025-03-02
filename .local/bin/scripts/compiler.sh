@@ -58,6 +58,7 @@ build_action() {
         *\.md)          lowdown --parse-no-intraemph "$file_name" -Tms | groff -mpdfmark -ms -kept -T pdf > "$file_base.pdf" ;;
         *\.go)          go build . ;;
         *CMakeLists\.txt)   cd ./build && cmake .. && make ;;
+        *\.typ)         tinymist compile "$file_base.typ" ;;
         *)              sed 1q "$file_name" | grep "^#!/" | sed "s/^#!//" | xargs -r -I % "$file_name" ;;
     esac
 }

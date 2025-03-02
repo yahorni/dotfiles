@@ -43,6 +43,7 @@ alias \
     gst='git status' \
     gd='git diff' \
     gds='git diff --staged' \
+    gdw='git diff --word-diff' \
     ga='git add' \
     gc='git commit' \
     gps='git push' \
