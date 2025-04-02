@@ -1,4 +1,5 @@
 [Desktop Entry]
 Type=Application
 Name=Torrent
-Exec=add-torrent.sh %U
+# Exec=transmission-add.sh %U
+Exec=qbittorrent %U

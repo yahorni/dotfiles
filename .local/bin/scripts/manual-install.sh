@@ -219,10 +219,10 @@ install() {
     log2 "install()"
 
     case "$g_target" in
-        st|dmenu|dwm|dwmbar|xmouseless|htop-vim|sshrc|ctags|xwallpaper|acpilight|brillo|ncmpcpp|neovim|tmux)
+        htop-vim|sshrc|ctags|xwallpaper|acpilight|brillo|ncmpcpp|neovim|tmux)
             sudo make install
             ;;
-        dragon) sudo make PREFIX="/usr/local" install ;;
+        st|dmenu|dwm|dwmbar|dragon|xmouseless) make PREFIX="~/.local" install ;;
         libxft-bgra) sudo make PREFIX="/usr" install ;;
         fzf) ./install --xdg --key-bindings --no-update-rc --completion ;;
         zsh-as)

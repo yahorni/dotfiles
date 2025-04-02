@@ -44,6 +44,7 @@ text/vcard=editor.desktop
 text/x-c++=editor.desktop
 text/x-c=editor.desktop
 text/x-diff=editor.desktop
+text/x-objective-c=editor.desktop
 text/x-python=editor.desktop
 text/x-script.python=editor.desktop
 text/x-shellscript=editor.desktop

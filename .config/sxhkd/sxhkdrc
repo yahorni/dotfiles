@@ -36,21 +36,27 @@ super + shift + t
 super {_,shift +,alt +} y
     xdisplay.sh {2nd,same,left}
 
-# copy text from screenshot
-super {_,shift +,alt +} u
-    tess.sh {eng,rus,eng+rus}
+# recognize text from screenshot
+super + u ; {e,r,u}
+    img2txt.sh {eng,rus,eng+rus}
+
+# record and recognize speech
+super + shift + u
+    $TERMINAL -c dropdown -e speech2txt.sh
 
 # reload bar
 super + shift + i
     pkill -USR1 dwmbar
 
 # translator
-super + s ; {e,f}
-    translate.sh {'en:ru','fr:en'}
-super + s ; shift + {e,f}
-    translate.sh {'en:ru','fr:en'} -f
-super + shift + s ; {e,f}
-    translate.sh {'en:ru','fr:en'} -s
+super + s ; {e,f,r}
+    translate.sh {'en:ru','fr:en','ru:en'}
+# translator with voice
+super + s ; shift + {e,f,r}
+    translate.sh {'en:ru','fr:en','ru:en'} --speak
+# translator with full description
+super + shift + s ; {e,f,r}
+    translate.sh {'en:ru','fr:en','ru:en'} --extended
 
 # power management
 super + {_, shift +} p
@@ -111,12 +117,11 @@ super + {_, shift +} v
     {_,FM=vifm} $TERMINAL -e fm-run.sh
 
 # browser
+# to limit browser: cpulimit -i -l 350 $BROWSER
 super + b
-    pgrep -fi $BROWSER || cpulimit -i -l 350 $BROWSER
-super + shift + b
-    brave --force-device-scale-factor=1.2
-super + alt + b
-    qutebrowser
+    pgrep -fi $BROWSER || $BROWSER
+super + shift + b ; {b,q}
+    {brave,qutebrowser}
 
 # mounting
 super + {_, shift +} m
@@ -150,11 +155,11 @@ shift + XF86Audio{Prev,Next}
 
 # screenshots
 Print ; Print
-    make-screen.sh
+    screenshot.sh
 alt + Print
-    make-screen.sh window
+    screenshot.sh window
 @shift + Print
-    make-screen.sh part
+    screenshot.sh part
 
 # screen keyboard
 super + alt + space

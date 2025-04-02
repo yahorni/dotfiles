@@ -66,7 +66,7 @@ build_action() {
 run_action() {
     case "$file_name" in
         *\.py)          python3 "$file_name" ;;
-        *\.tex|*\.md)   setsid xdg-open "$file_base.pdf" & disown ;;
+        *\.tex|*\.md|*\.typ)    setsid xdg-open "$file_base.pdf" & ;;
         *\.go)          go run "$file_name" ;;
         *\.html)        $BROWSER "$file_name" ;;
         *[Xx]resources) xrdb -merge "$file_name" ;;

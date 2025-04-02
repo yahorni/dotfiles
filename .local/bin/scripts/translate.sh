@@ -2,17 +2,18 @@
 
 word="$(xclip -o -sel pri)"
 langs="$1"
-full=false
+extended=false
+
 declare -a args
-if [ "$2" = "-s" ]; then
+if [ "$2" = "-s" ] || [ "$2" = "--speak" ]; then
     args+=("-speak")
-elif [ "$2" = "-f" ]; then
-    full=true
+elif [ "$2" = "-e" ] || [ "$2" = "--extended" ]; then
+    extended=true
 fi
 
-if [ "$full" = "false" ]; then
+if [ "$extended" = "true" ]; then
+    $TERMINAL -c dropdown -e sh -c "trans '$langs' '$word' | less"
+else
     translation="$(trans "$langs" -brief "$word" "${args[@]}")"
     notify-send -t 8000 "$word" "$translation"
-else
-    $TERMINAL -c dropdown -e sh -c "trans '$langs' '$word' | less"
 fi
