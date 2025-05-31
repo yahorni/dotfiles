@@ -62,6 +62,7 @@ print_preview() {
         # TODO: unrar first image from archive for preview
         application/vnd.rar)              unrar v "$filename" ;;
         *opendocument*)                   odt2txt "$filename" ;;
+        application/vnd.openxmlformats*)  docx2txt "$filename" - ;;
         application/pdf)                  pdftotext -nopgbrk "$filename" - ;;
         *)                                file --dereference -- "$(basename "$filename")" ;;
     esac

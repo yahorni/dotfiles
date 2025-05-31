@@ -6,12 +6,12 @@
 # super + {_,shift +} {comma,period,slash} | other window manipulations
 # super + shift + Return                   | default terminal in WM
 
-# NOTE: do not map 'super + shift + w' because you definitely mistype to 'super + shift + q`
 
 # system/audio controls
 super + {_,shift +}grave
     $TERMINAL -e {htop,pulsemixer}
 
+# NOTE: do not map 'super + shift + w' because you definitely mistype to 'super + shift + q`
 # music player
 super + w
     supersonic-desktop
@@ -100,7 +100,7 @@ super + {_, shift +} z
 
 # messengers
 super + x
-    telegram-desktop
+    Telegram
 
 # mouse
 super + shift + x

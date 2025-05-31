@@ -78,7 +78,7 @@ c.url.searchengines = {
 
 # FONT
 c.fonts.default_family = ['monospace']
-c.fonts.default_size = '12pt'
+c.fonts.default_size = '10pt'
 
 # AD/HOST BLOCKS
 c.content.blocking.enabled = True

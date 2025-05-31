@@ -1,7 +1,7 @@
 #!/bin/bash
 
-default_x=35
-default_y=35
+default_x=20
+default_y=20
 usage="Usage: ${0##*/} [-h] [-H left/right] [-v top/bottom] [-x percents] [-y percents]
 
 -h — show help.

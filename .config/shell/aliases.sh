@@ -81,7 +81,7 @@ alias \
     vu='${EDITOR} ${XDG_CONFIG_HOME}/user-dirs.dirs' \
     vt='${EDITOR} ${XDG_CONFIG_HOME}/x11/autostart.sh' \
     vr='${EDITOR} ${XDG_CONFIG_HOME}/x11/xresources' \
-    vT='${EDITOR} ${XDG_CONFIG_HOME}/shell/temp.sh' \
+    vj='${EDITOR} ${XDG_CONFIG_HOME}/shell/temp.sh' \
     vh='${EDITOR} ${HISTFILE}' \
     vb='${EDITOR} ~/.bashrc' \
     vx='${EDITOR} ~/.xinitrc' \
@@ -111,10 +111,12 @@ alias \
 ## important dirs
 alias \
     cdc='cd_subdir ${XDG_CONFIG_HOME}' \
+    cdC='cd_subdir ${XDG_CACHE_HOME}' \
     cds='cd_subdir ${XDG_DATA_HOME}' \
     cdb='cd_subdir ~/.local/bin' \
     cdj='cd_subdir "$(xdg-user-dir PROJECTS)"' \
     cdo='cd "$(xdg-user-dir DOCUMENTS)"/notes/' \
+    cdn='cd ${XDG_CONFIG_HOME}/nvim' \
     cd_='cd $_'
 
 ## mounts

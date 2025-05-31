@@ -39,7 +39,7 @@ parse_args() {
             s) other_args+=("--all-subs") ;;
             c) other_args+=("--cookies" "$OPTARG") ;;
             S) other_args+=("--no-check-certificates") ;;
-            u) filename='%(uploader)s - %(title).80s.%(ext)s' ;;
+            u) filename="%(uploader)s - $filename" ;;
             h) print_help ; exit 0 ;;
             *) notify "$msg_invalid_flag" && exit 1 ;;
         esac
@@ -54,19 +54,18 @@ parse_args() {
         print_help
         exit 1
     elif [[ "$link" == *"playlist?list"* ]]; then
-        filename="%(playlist_index)s. $filename"
+        filename="%(playlist)s/%(playlist_index)s. $filename"
+        other_args+=('--parse-metadata' 'playlist_index:%(track_number)s')
     fi
 }
 
-check_download_dir() {
-    video_dir="${video_dir}/${subdir}"
-    audio_dir="${audio_dir}/${subdir}"
-
+set_download_dir() {
     if [ "$format" == 'a' ]; then
-        mkdir -p "$audio_dir"
+        download_dir="${audio_dir}/${subdir}"
     else
-        mkdir -p "$video_dir"
+        download_dir="${video_dir}/${subdir}"
     fi
+    mkdir -p "$download_dir"
 }
 
 check_error() {
@@ -77,12 +76,12 @@ check_error() {
 download() {
     notify "$msg_download" "$link"
 
+    download_cmd=(yt-dlp --add-metadata --ignore-errors --continue "${other_args[@]}" --output "$download_dir/$filename")
     case $format in
-        'a') "$downloader" --add-metadata "${thumb_args[@]}" -icxf "bestaudio" --audio-format mp3 --audio-quality 320k -o "$audio_dir/$filename" "$link" ;;
-        'd') "$downloader" --add-metadata "${other_args[@]}" -ic -o "$video_dir/$filename" "$link" ;;
-        'l') "$downloader" --add-metadata "${other_args[@]}" -icf "best[height<=360]" -o "$video_dir/$filename" "$link" ;;
-        'm') "$downloader" --add-metadata "${other_args[@]}" -icf "bestvideo[height<=1080]+bestaudio/best" -o "$video_dir/$filename" "$link" ;;
-        'h') "$downloader" --add-metadata "${other_args[@]}" -icf "bestvideo+bestaudio/best" -o "$video_dir/$filename" "$link" ;;
+        'a') "${download_cmd[@]}" --format "bestaudio" "${thumb_args[@]}" "${audio_args[@]}" "$link" ;;
+        'l') "${download_cmd[@]}" --format "best[height<=360]" "$link" ;;
+        'm') "${download_cmd[@]}" --format "bestvideo[height<=1080]+bestaudio/best" "$link" ;;
+        'h') "${download_cmd[@]}" "$link" ;;
         *) notify "$msg_invalid_format" "Format ($format)\n$link" ; exit 1 ;;
     esac ; check_error
 
@@ -102,18 +101,19 @@ video_dir="$(xdg-user-dir VIDEOS)"
 audio_dir="$(xdg-user-dir MUSIC)"
 subdir="downloads"
 
-downloader="yt-dlp" # youtube-dl
 thumb_args=(--embed-thumbnail --ppa "EmbedThumbnail+ffmpeg_o:-c:v mjpeg -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\"")
+audio_args=(-x --audio-format mp3 --audio-quality 320k)
 
 ### variables
 
 declare -a other_args
-filename='%(title)s.%(ext)s'
+filename='%(title).80s.%(ext)s'
 format="m"
 link=""
+download_dir=""
 
 ### main
 
 parse_args "$@"
-check_download_dir
+set_download_dir
 download
