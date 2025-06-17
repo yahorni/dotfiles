@@ -63,8 +63,8 @@ super + {_, shift +} p
     power-manager.sh {suspend,_}
 
 # notes
-super + a ; {a,q,n,d,t,y,s,o,l}
-    obs.sh {_,quick,new,today,tomorrow,yesterday,search,open,ledger}
+super + a ; {a,q,d,t,y,s,l}
+    obs.sh {_,quick,today,tomorrow,yesterday,search,ledger}
 super + shift + a
     obsidian
 

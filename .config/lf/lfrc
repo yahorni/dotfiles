@@ -98,3 +98,5 @@ map cw $vidir $fs
 map xw $set-wallpaper.sh "$f"
 # open with ...
 map o $$(dmenu_path | dmenu "$@") "$f"
+# gpg decrypt
+map xd $gpg --output "$(basename $f .gpg)" --decrypt "$f"
