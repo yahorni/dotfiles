@@ -87,8 +87,8 @@ map xg $setsid dragon "$f" &
 map xz $zip -r "$f.zip" "$(realpath -s --relative-to=. $f)"
 # make tar.gz archive
 map xt $tar -czvf "$f.tar.gz" "$(realpath -s --relative-to=. $f)"
-# extract files (with atool)
-map xe $aunpack "$f"
+# unpack archive (with atool)
+map xu $aunpack "$f"
 # add executable rights
 map xa $chmod +x $fx
 map xr $chmod -x $fx

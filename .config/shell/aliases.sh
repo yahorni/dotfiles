@@ -11,32 +11,30 @@ alias \
     ll='ls -lsh' \
     l='ls -lAsh'
 
-# system progs
+# utilities
 alias \
     v='${EDITOR}' \
-    vc='${EDITOR} --clean' \
+    V='${EDITOR} --clean' \
     sv='sudoedit' \
     sc='systemctl' \
     scu='systemctl --user' \
     ssc='sudo systemctl' \
+    sa='sudo apt-get' \
+    sy='sudo yum' \
+    sp='sudo pacman' \
     p3='python3' \
     cp='cp -ri' \
     mime='file --mime-type' \
     tmux='tmux -2' \
-    mk='DESTDIR= make PREFIX="~/.local"'
+    ff='ffplay -autoexit -nodisp' \
+    xo='xdg-open'
 
-# other progs
+# macros
 alias \
     dg='/usr/bin/git --git-dir="${HOME}/prj/df" --work-tree="${HOME}"' \
-    sp='sudo pacman' \
-    yay='yay --sudoloop' \
-    sa='sudo apt-get' \
-    ff='ffplay -autoexit -nodisp' \
     rst='reset && source ~/.bashrc && stty sane && tput cvvis' \
-    xo='xdg-open' \
-    shr='sshrc' \
-    ide='make -f ${IDE_DIR}/Makefile' \
-    ides='sudo make -f ${IDE_DIR}/Makefile'
+    mk='DESTDIR= make PREFIX="~/.local"' \
+    snc='watch -d grep -e Dirty: -e Writeback: /proc/meminfo'
 
 # git
 alias \
@@ -82,22 +80,22 @@ alias \
     vt='${EDITOR} ${XDG_CONFIG_HOME}/x11/autostart.sh' \
     vr='${EDITOR} ${XDG_CONFIG_HOME}/x11/xresources' \
     vj='${EDITOR} ${XDG_CONFIG_HOME}/shell/temp.sh' \
-    vh='${EDITOR} ${HISTFILE}' \
-    vb='${EDITOR} ~/.bashrc' \
-    vx='${EDITOR} ~/.xinitrc' \
-    vg='${EDITOR} .gitignore' \
-    vw='${EDITOR} ~/prj/dwm/config.h' \
+    vh='${EDITOR} ${HISTFILE:-$HOME/.bash_history}' \
+    vc='${EDITOR} ${HOME}/.ssh/config' \
+    vx='${EDITOR} ${HOME}/.xinitrc' \
+    vb='${EDITOR} ${HOME}/.bashrc' \
+    vw='${EDITOR} "$(xdg-user-dir PROJECTS)/dwm/config.h"' \
     vo='${EDITOR} -c :ObsidianQuickSwitch' \
+    vg='${EDITOR} .gitignore' \
     v_='${EDITOR} $_'
 
-# directories
-
+# cd in subdirectories
 cd_subdir() {
     cd "$1" || return 1
     [ -n "$2" ] && cd "$2" || return 1
 }
 
-## xdg dirs
+# xdg dirs
 alias \
     cdx='cd_subdir "$(xdg-user-dir DOCUMENTS)"' \
     cdd='cd_subdir "$(xdg-user-dir DOWNLOAD)"' \
@@ -108,42 +106,31 @@ alias \
     cdS='cd_subdir "$(xdg-user-dir VIDEOS)/series"' \
     cdy='cd_subdir "$(xdg-user-dir VIDEOS)/downloads"'
 
-## important dirs
+# important dirs
 alias \
     cdc='cd_subdir ${XDG_CONFIG_HOME}' \
     cdC='cd_subdir ${XDG_CACHE_HOME}' \
     cds='cd_subdir ${XDG_DATA_HOME}' \
-    cdb='cd_subdir ~/.local/bin' \
-    cdj='cd_subdir "$(xdg-user-dir PROJECTS)"' \
+    cdb='cd_subdir ${HOME}/.local/bin' \
+    cdj='cd_subdir ${HOME}/prj' \
     cdo='cd "$(xdg-user-dir DOCUMENTS)"/notes/' \
     cdn='cd ${XDG_CONFIG_HOME}/nvim' \
     cd_='cd $_'
 
-## mounts
+# mounts
 alias \
     cdP='cd /mnt/phone' \
     cd1='cd /mnt/usb1' \
-    cd2='cd /mnt/usb2' \
-    cd3='cd /mnt/usb3'
+    cd2='cd /mnt/usb2'
 
-# utils
-
+# quick cd up
 alias \
     .1='cd ..' \
     .2='cd ../..' \
     .3='cd ../../..' \
     .4='cd ../../../..'
 
-scr() {
-    bindir="$HOME/.local/bin/scripts"
-    file="$(cd "$bindir" || return 1 ; find . -type f | fzf)"
-    [ -n "$file" ] && $EDITOR "$bindir/$file"
-}
-
-snc() {
-    watch -d grep -e Dirty: -e Writeback: /proc/meminfo
-}
-
+# cd to dir with lf
 lfcd () {
     tmp="$(mktemp -uq)"
     trap 'rm -f $tmp >/dev/null 2>&1 && trap - HUP INT QUIT TERM PWR EXIT' HUP INT QUIT TERM PWR EXIT
@@ -153,3 +140,11 @@ lfcd () {
         [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir" || return 1
     fi
 }
+
+# quick open script
+scr() {
+    bindir="$HOME/.local/bin/scripts"
+    file="$(cd "$bindir" || return 1 ; find . -type f | fzf)"
+    [ -n "$file" ] && $EDITOR "$bindir/$file"
+}
+

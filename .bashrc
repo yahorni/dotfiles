@@ -7,21 +7,20 @@ stty -ixon
 
 # prompt
 set_prompt() {
-    local blue='\e[34m'
-    local green='\e[32m'
-    local magenta='\e[35m'
-    local red='\e[31m'
-    local yellow='\e[33m'
-
-    local bold='\e[1m'
-    local default='\e[39;0m'
-
-    # shellcheck disable=SC2155
-    local symbol=$([ "$EUID" -eq 0 ] && printf '#' || printf '\$')
-
     # square brackets -- non-printing escape sequence
     # line overwrite itself when escape sequences not in '[]'
-    PS1="\[$bold$red\][\[$yellow\]\u\[$green\]@\[$blue\]\h \[$magenta\]\W\[$red\]]\[$default\]$symbol "
+    local default='\[\e[39;0m\]'
+    local bold='\[\e[1m\]'
+
+    local blue='\[\e[34m\]'
+    local green='\[\e[32m\]'
+    local magenta='\[\e[35m\]'
+    local red='\[\e[31m\]'
+    local yellow='\[\e[33m\]'
+
+    local symbol=$([ "$EUID" -eq 0 ] && printf '#' || printf '\$')
+
+    PS1="${bold}${red}[${yellow}\u${green}@${blue}\h ${magenta}\W${red}]${default}${symbol} "
 }
 set_prompt
 
@@ -32,6 +31,9 @@ shopt -s cdspell
 shopt -s checkwinsize
 shopt -s direxpand
 
+# disable prompt command
+unset PROMPT_COMMAND 2>/dev/null
+
 # bindings
 bind TAB:menu-complete
 bind 'set show-all-if-ambiguous on'
@@ -39,7 +41,7 @@ bind -m vi-command 'Control-l: clear-screen'
 bind -m vi-insert 'Control-l: clear-screen'
 bind 'Control-o: "lfcd\n"'
 
-# fzf
+# fzf (pacman)
 [ -f "/usr/share/fzf/completion.bash"   ] && source "/usr/share/fzf/completion.bash"
 [ -f "/usr/share/fzf/key-bindings.bash" ] && source "/usr/share/fzf/key-bindings.bash"
 

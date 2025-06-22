@@ -53,7 +53,7 @@ export WGETRC="$XDG_CONFIG_HOME/wgetrc"
 export ELINKS_CONFDIR="$XDG_CONFIG_HOME/elinks"
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export LEDGER="$XDG_DATA_HOME/common.ledger"
-export MERGETOOL='nvim -d'
+export MERGETOOL="$EDITOR -d"
 export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgreprc"
 export SQLITE_HISTORY="$XDG_STATE_HOME/sqlite_history"
 export SUDO_ASKPASS="$HOME/.local/bin/scripts/dmenu-pass.sh"
@@ -82,8 +82,7 @@ export _JAVA_AWT_WM_NONREPARENTING=1    # fix java apps in wm
 export QT_SCREEN_SCALE_FACTORS=1.3      # increase UI scale for QT apps
 
 # path
-PATH="$PATH:$(find ~/.local/bin -type d -printf %p:)"
-export PATH
+export PATH="$PATH:$(find ~/.local/bin -type d -printf %p:)"
 
 # X11 GUI
 if [ -f "$XDG_CONFIG_HOME/x11/xprofile.sh" ]; then
