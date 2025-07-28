@@ -31,7 +31,7 @@ notify() {
 
 parse_args() {
     OPTIND=1
-    while getopts "f:d:p:c:suSh" opt; do
+    while getopts "f:d:p:c:sSuA:h" opt; do
         case $opt in
             f) format=$OPTARG ;;
             d) subdir=$OPTARG ;;
@@ -40,6 +40,13 @@ parse_args() {
             c) other_args+=("--cookies" "$OPTARG") ;;
             S) other_args+=("--no-check-certificates") ;;
             u) filename="%(uploader)s - $filename" ;;
+            A) if [ "$OPTARG" -eq 1 ]; then
+                   filename="%(artist)s - $filename"
+               elif [ "$OPTARG" -eq 2 ]; then
+                   filename="%(artists.0)s & %(artists.1)s - $filename"
+               else
+                   filename="%(artists.0)s, %(artists.1)s & %(artists.2)s - $filename"
+               fi ;;
             h) print_help ; exit 0 ;;
             *) notify "$msg_invalid_flag" && exit 1 ;;
         esac

@@ -11,20 +11,15 @@ get_tex_root() {
 }
 
 run_c_cpp_build() {
-    local lang="$1"
-
-    local cc=gcc
-    # local cc=clang
-    local cpp=g++
-    # local cpp=clang++
+    local compiler="$1"
 
     local cc_options=()
-    cc_options+=(-g -O0)
-    # cc_options+=(-O3)
+    # cc_options+=(-g -O0)
+    cc_options+=(-O3)
     # cc_options+=(-m32)
     cc_options+=(-Wall)
     cc_options+=(-Wextra)
-    # cc_options+=(-pedantic)
+    cc_options+=(-pedantic)
 
     local cpp_options=()
     # cpp_options+=(-static)
@@ -42,24 +37,35 @@ run_c_cpp_build() {
     # c_libs+=(-lexplain)
     # c_libs+=($(pkg-config --cflags --libs cairomm-1.0))
 
-    if [ "$lang" = "c" ]; then
-        "${cc}" "${cc_options[@]}" -o "$file_base" "$file_name" "${c_libs[@]}"
-    elif [ "$lang" = "cpp" ]; then
-        "${cpp}" "${cc_options[@]}" "${cpp_options[@]}" -o "$file_base" "$file_name" "${c_libs[@]}"
+    if [ "$compiler" = "gcc" ] || [ "$compiler" = "clang" ]; then
+        "${compiler}" "${cc_options[@]}" -o "$file_base" "$file_name" "${c_libs[@]}"
+    elif [ "$compiler" = "g++" ] || [ "$compiler" = "clang++" ]; then
+        "${compiler}" "${cc_options[@]}" "${cpp_options[@]}" -o "$file_base" "$file_name" "${c_libs[@]}"
     fi
 }
 
 build_action() {
     case "$file_name" in
         *config\.h)     sudo make install clean ;;
-        *\.c|*\.h)      run_c_cpp_build c ;;
-        *\.cpp|*\.hpp)  run_c_cpp_build cpp ;;
+        *\.c|*\.h)      run_c_cpp_build gcc ;;
+        *\.cpp|*\.hpp)  run_c_cpp_build g++ ;;
         *\.tex)         get_tex_root ; pdflatex -draftmode "$file_name" ; bibtex "$file_base" ; pdflatex "$file_name" ; pdflatex "$file_name" ;;
         *\.md)          lowdown --parse-no-intraemph "$file_name" -Tms | groff -mpdfmark -ms -kept -T pdf > "$file_base.pdf" ;;
         *\.go)          go build . ;;
         *\.typ)         typst compile "$file_base.typ" ;;
         *CMakeLists\.txt)   cd ./build && cmake .. && make ;;
         *)              sed 1q "$file_name" | grep "^#!/" | sed "s/^#!//" | xargs -r -I % "$file_name" ;;
+    esac
+}
+
+build_alt_action() {
+    case "$file_name" in
+        *config\.h)     make PREFIX=~/.local clean install ;;
+        *\.c|*\.h)      run_c_cpp_build clang ;;
+        *\.cpp|*\.hpp)  run_c_cpp_build clang++ ;;
+        *\.md)          pandoc "$file_name" -t beamer --pdf-engine=xelatex -o "$file_base.pdf" ;;
+        # *\.md)          pandoc "$file_name" --pdf-engine=pdfroff -o "$file_base.pdf" ;;
+        *)              echo "No alt build for '$file_name'" 1>&2 && exit 1 ;;
     esac
 }
 
@@ -77,20 +83,12 @@ run_action() {
     esac
 }
 
-other_action() {
+run_alt_action() {
     case "$file_name" in
         *\.c|*\.h|*\.[ch]pp|*\.s)   test -f "$file_base" && objdump -Cd "$file_base" > "$file_base.s" ;;
         *\.tex)         get_tex_root ; xelatex "$file_name" ;;
-        *\.md)          pandoc "$file_name" -t beamer --pdf-engine=xelatex -o "$file_base.pdf" ;;
         *[Xx]resources) xrdb -remove ;;
-        *)              echo "No action for '$file_name'" ;;
-    esac
-}
-
-deprecated_action() {
-    case "$file_name" in
-        *\.md)              pandoc "$file_name" --pdf-engine=pdfroff -o "$file_base.pdf" ;;
-        *)                  echo "No action for '$file_name'" ;;
+        *)              echo "No action for '$file_name'" 1>&2 && exit 1 ;;
     esac
 }
 
@@ -118,12 +116,14 @@ main() {
 
     if [ "$mode" = "build" ]; then
         build_action
+    elif [ "$mode" = "build-alt" ]; then
+        build_alt_action
     elif [ "$mode" == "run" ]; then
         run_action
-    elif [ "$mode" == "other" ]; then
-        other_action
-    elif [ "$mode" == "deprecated" ]; then
-        deprecated_action
+    elif [ "$mode" == "run-alt" ]; then
+        run_alt_action
+    else
+        echo "No such mode: $mode" 1>&2 && exit 1
     fi
 }
 

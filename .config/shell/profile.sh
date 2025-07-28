@@ -4,7 +4,7 @@
 export TERMINAL='st'
 export EDITOR='nvim'
 export VISUAL="$EDITOR"
-export BROWSER='floorp'
+export BROWSER='librewolf'
 export READER='zathura'
 export OPENER='xdg-open'
 export PAGER='less'

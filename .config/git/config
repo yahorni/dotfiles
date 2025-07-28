@@ -3,23 +3,25 @@
 # config uses tricks from:
 # https://blog.gitbutler.com/how-git-core-devs-configure-git/
 # https://www.youtube.com/watch?v=aolI_Rz0ZqY
+# https://micahkepe.com/blog/gitconfig/
+# https://jvns.ca/blog/2024/02/16/popular-git-config-options/
 
 # to manage bare repo run:
 # git config status.showUntrackedFiles no
 
 [core]
 	excludesfile = ~/.config/git/ignore
-	pager = "diff-so-fancy | less --tabs=4 -RF"	# require diff-so-fancy
-[interactive]
-	diffFilter = "diff-so-fancy --patch"		# require diff-so-fancy
-[pull]
-	ff = only
+	pager = "diff-so-fancy | less --tabs=4 -RF"
 [init]
 	defaultBranch = master
 [push]
 	default = current
 	autoSetupRemote = true
 	followTags = true
+[pull]
+	ff = only
+[interactive]
+	diffFilter = "diff-so-fancy --patch"
 [color]
 	diff = auto
 	status = auto
@@ -42,6 +44,7 @@
 	colorMoved = plain
 	mnemonicPrefix = true
 	renames = true
+	submodule = log
 [help]
 	autocorrect = prompt
 [rerere]
@@ -53,8 +56,41 @@
 	updateRefs = true
 [merge]
 	conflictstyle = zdiff3
-[alias]
-	sha = stash --all
-	pf = push --force-with-lease
+[status]
+	branch = true
+	submoduleSummary = true
+[url "git@github.com:"]
+	insteadOf = "https://github.com/"
 # [http]
 # 	sslVerify = false
+[alias]
+	s = status
+	ss = status --short
+	a = add
+	c = commit
+	b = branch
+	ch = checkout
+	r = remote
+	rp = remote prune
+	d = diff
+	ds = diff --staged
+	dw = diff --word-diff
+	ps = push
+	pf = push --force-with-lease
+	pl = pull
+	sw = show
+	sh = stash
+	sha = stash --all
+	cp = cherry-pick
+	rs = reset
+	rb = rebase
+	m = merge
+	sb = submodule
+	cl = clean -dfx
+	l = log --oneline --graph
+	lb = log --oneline --graph --branches
+    la = log --oneline --graph --decorate --all
+	ff = log --full-history --
+	ff1 = log --full-history -1 --
+	hash = log -n 1 --pretty=format:"%H"
+	hist = log --follow -p --

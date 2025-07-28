@@ -40,10 +40,6 @@ super {_,shift +,alt +} y
 super + u ; {e,r,u}
     img2txt.sh {eng,rus,eng+rus}
 
-# record and recognize speech
-super + shift + u
-    $TERMINAL -c dropdown -e speech2txt.sh
-
 # reload bar
 super + shift + i
     pkill -USR1 dwmbar
@@ -63,8 +59,8 @@ super + {_, shift +} p
     power-manager.sh {suspend,_}
 
 # notes
-super + a ; {a,q,d,t,y,s,l}
-    obs.sh {_,quick,today,tomorrow,yesterday,search,ledger}
+super + a ; {o,d,t,y,l}
+    obs.sh {_,today,tomorrow,yesterday,ledger}
 super + shift + a
     obsidian
 

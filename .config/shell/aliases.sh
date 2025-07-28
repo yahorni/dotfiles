@@ -15,6 +15,7 @@ alias \
 alias \
     v='${EDITOR}' \
     V='${EDITOR} --clean' \
+    g='git' \
     sv='sudoedit' \
     sc='systemctl' \
     scu='systemctl --user' \
@@ -36,35 +37,6 @@ alias \
     mk='DESTDIR= make PREFIX="~/.local"' \
     snc='watch -d grep -e Dirty: -e Writeback: /proc/meminfo'
 
-# git
-alias \
-    gst='git status' \
-    gd='git diff' \
-    gds='git diff --staged' \
-    gdw='git diff --word-diff' \
-    ga='git add' \
-    gc='git commit' \
-    gps='git push' \
-    gpl='git pull' \
-    gl='git log --oneline --graph --branches' \
-    glo='git log --oneline --graph' \
-    gb='git branch' \
-    gch='git checkout' \
-    gr='git remote' \
-    gsh='git stash' \
-    gcp='git cherry-pick' \
-    grs='git reset' \
-    gm='git merge' \
-    gsb='git submodule' \
-    ghist='git log --follow -p --' \
-    grb='git rebase' \
-    gff='git log --full-history --' \
-    gff1='git log --full-history -1 --' \
-    gcl='git clean -dfx' \
-    grp='git remote prune' \
-    ghash='git log -n 1 --pretty=format:"%H"' \
-    gsw='git show'
-
 # files
 alias \
     va='${EDITOR} ${XDG_CONFIG_HOME}/shell/aliases.sh' \
@@ -85,9 +57,9 @@ alias \
     vx='${EDITOR} ${HOME}/.xinitrc' \
     vb='${EDITOR} ${HOME}/.bashrc' \
     vw='${EDITOR} "$(xdg-user-dir PROJECTS)/dwm/config.h"' \
-    vo='${EDITOR} -c :ObsidianQuickSwitch' \
     vg='${EDITOR} .gitignore' \
     v_='${EDITOR} $_'
+
 
 # cd in subdirectories
 cd_subdir() {
@@ -147,4 +119,3 @@ scr() {
     file="$(cd "$bindir" || return 1 ; find . -type f | fzf)"
     [ -n "$file" ] && $EDITOR "$bindir/$file"
 }
-
