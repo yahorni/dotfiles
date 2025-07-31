@@ -15,32 +15,51 @@
 # (4) horizontal position of preview pane
 # (5) vertical position of preview pane
 
-set_highlight_command() {
+preview_text() {
+    local filename="$1"
     if command -v bat >/dev/null 2>&1 ; then
-        highlight_cmd="bat --terminal-width $((width-2)) -f"
+        bat --terminal-width $((width-2)) -f "$filename"
     elif command -v highlight >/dev/null 2>&1 ; then
-        highlight_cmd="highlight -t 4 -O ansi "
+        highlight -t 4 -O ansi "$filename"
     else
-        highlight_cmd="cat"
+        cat "$filename"
     fi
 }
 
-set_zip_command() {
+preview_html() {
+    local filename="$1"
+    if command -v lynx >/dev/null 2>&1 ; then
+        lynx -width="$x_pos" -display_charset=utf-8 -dump "$filename"
+    else
+        preview_text "$filename"
+    fi
+}
+
+preview_zip() {
+    local filename="$1"
     if command -v atool >/dev/null 2>&1 ; then
-        zip_cmd="atool --list --"
+        atool --list -- "$filename"
     else
-        zip_cmd="zip -sf"
+        zip -sf "$filename"
     fi
 }
 
-is_ueberzug_running() {
-    command -v ueberzug >/dev/null 2>&1 && [ -p "$FIFO_UEBERZUG" ]
-}
-
-is_drawable_preview() {
+print_preview() {
     case "$mime_type" in
-        video/*|image/*|*/pdf|*djvu|*/epub+zip|*/mobi*) return 0 ;;
-        *) return 1 ;;
+        text/html)                          preview_html "$filename" ;;
+        text/troff)                         man ./"$filename" | col -b ;;
+        text/*|*/xml|application/json|application/javascript|application/pgp-encrypted)
+                                            preview_text "$filename" || cat "$filename" ;;
+        audio/*|application/octet-stream)   mediainfo "$filename" ;;
+        application/zip)                    preview_zip "$filename" ;;
+        application/gzip)                   tar -tzf "$filename" ;;
+        application/x-tar)                  tar -tf "$filename" ;;
+        application/x-rar|application/vnd.rar)
+                                            unrar v "$filename" ;;
+        *opendocument*)                     odt2txt "$filename" ;;
+        application/vnd.openxmlformats*)    docx2txt "$filename" - ;;
+        application/pdf)                    pdftotext -nopgbrk "$filename" - ;;
+        *)                                  file --dereference -- "$(basename "$filename")" ;;
     esac
 }
 
@@ -48,27 +67,7 @@ get_file_hash() {
     stat --printf '%n\0%i\0%F\0%s\0%W\0%Y' -- "$(readlink -f "$filename")" | sha256sum | cut -d' ' -f1
 }
 
-print_preview() {
-    case "$mime_type" in
-        text/html)                        lynx -width="$x_pos" -display_charset=utf-8 -dump "$filename" ;;
-        text/troff)                       man ./"$filename" | col -b ;;
-        text/*|*/xml|application/json|application/javascript|application/pgp-encrypted)
-                                          $highlight_cmd "$filename" || cat "$filename" ;;
-        audio/*|application/octet-stream) mediainfo "$filename" ;;
-        application/zip)                  $zip_cmd "$filename" ;;
-        application/gzip)                 tar -tzf "$filename" ;;
-        application/x-tar)                tar -tf "$filename" ;;
-        application/x-rar)                unrar v "$filename" ;;
-        # TODO: unrar first image from archive for preview
-        application/vnd.rar)              unrar v "$filename" ;;
-        *opendocument*)                   odt2txt "$filename" ;;
-        application/vnd.openxmlformats*)  docx2txt "$filename" - ;;
-        application/pdf)                  pdftotext -nopgbrk "$filename" - ;;
-        *)                                file --dereference -- "$(basename "$filename")" ;;
-    esac
-}
-
-prepare_preview_image() {
+generate_preview_image() {
     if [[ ( "$mime_type" = "image/"* ) && ( "$mime_type" != *"djvu" ) ]]; then
         preview_path="$filename"
         return
@@ -87,7 +86,7 @@ prepare_preview_image() {
     esac
 }
 
-draw_preview() {
+draw_preview_image() {
     if [ -f "$preview_path" ]; then
         if [ "$commands_type" = "bash" ]; then
             declare -p -A _=([action]=add [identifier]=$identifier [x]=$x_pos [y]=$y_pos [width]=$width
@@ -101,6 +100,17 @@ draw_preview() {
     else
         print_preview
     fi
+}
+
+is_ueberzug_running() {
+    command -v ueberzug >/dev/null 2>&1 && [ -p "$FIFO_UEBERZUG" ]
+}
+
+is_drawable_preview() {
+    case "$mime_type" in
+        video/*|image/*|*/pdf|*djvu|*/epub+zip|*/mobi*) return 0 ;;
+        *) return 1 ;;
+    esac
 }
 
 ### declarations ###
@@ -121,11 +131,9 @@ commands_type="json" # bash/json
 
 ### main ###
 
-set_highlight_command
-set_zip_command
 if [ -n "$DISPLAY" ] && [ -z "$WAYLAND_DISPLAY" ] && is_ueberzug_running && is_drawable_preview; then
-    prepare_preview_image
-    draw_preview
+    generate_preview_image
+    draw_preview_image
 else
     print_preview
 fi

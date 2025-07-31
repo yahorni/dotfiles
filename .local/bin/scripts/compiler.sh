@@ -16,19 +16,21 @@ run_c_cpp_build() {
     local cc_options=()
     # cc_options+=(-g -O0)
     cc_options+=(-O3)
-    # cc_options+=(-m32)
     cc_options+=(-Wall)
     cc_options+=(-Wextra)
-    cc_options+=(-pedantic)
+    cc_options+=(-Wpedantic)
+    cc_options+=(-Wconversion)
+    cc_options+=(-Werror)
+    # cc_options+=(-m32)
 
     local cpp_options=()
-    # cpp_options+=(-static)
     # cpp_options+=(--std=c++17)
     # cpp_options+=(--std=c++20)
     cpp_options+=(--std=c++23)
     cpp_options+=(-fsanitize=undefined)
     cpp_options+=(-fsanitize=address)
     cpp_options+=(-fsanitize=signed-integer-overflow)
+    # cpp_options+=(-static)
 
     local c_libs=()
     # c_libs+=(-lpthread)
@@ -79,7 +81,7 @@ run_action() {
         *\.js)          node "$file_name" ;;
         *\.ledger)      ledger -f "$LEDGER" --strict --real balance asset ;;
         *\.1)           man -l "$file_name" ;;
-        *)              "$file_base" ;;
+        *)              "$file_name" ;;
     esac
 }
 
@@ -88,7 +90,7 @@ run_alt_action() {
         *\.c|*\.h|*\.[ch]pp|*\.s)   test -f "$file_base" && objdump -Cd "$file_base" > "$file_base.s" ;;
         *\.tex)         get_tex_root ; xelatex "$file_name" ;;
         *[Xx]resources) xrdb -remove ;;
-        *)              echo "No action for '$file_name'" 1>&2 && exit 1 ;;
+        *)              "$file_base" ;;
     esac
 }
 

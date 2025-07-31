@@ -4,7 +4,6 @@
 # options
 set autoquit true
 set drawbox
-set icons
 set ifs "\n"
 set incsearch
 set mouse
@@ -12,6 +11,8 @@ set period 1
 set scrolloff 5
 set shellopts '-eu'
 set tabstop 4
+set nohistory
+set icons
 
 # file previews
 set previewer 'fm-preview.sh'
@@ -86,7 +87,7 @@ map xg $setsid dragon "$f" &
 # make zip archive
 map xz $zip -r "$f.zip" "$(realpath -s --relative-to=. $f)"
 # make tar.gz archive
-map xt $tar -czvf "$f.tar.gz" "$(realpath -s --relative-to=. $f)"
+map xt $tar -czvfh "$f.tar.gz" "$(realpath -s --relative-to=. $f)"
 # unpack archive (with atool)
 map xu $aunpack "$f"
 # add executable rights
@@ -98,5 +99,6 @@ map cw $vidir $fs
 map xw $set-wallpaper.sh "$f"
 # open with ...
 map o $$(dmenu_path | dmenu "$@") "$f"
-# gpg decrypt
+# gpg encrypt/decrypt
+map xe $gpg --yes -c "$f"
 map xd $gpg --output "$(basename $f .gpg)" --decrypt "$f"

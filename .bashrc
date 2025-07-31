@@ -39,7 +39,10 @@ bind TAB:menu-complete
 bind 'set show-all-if-ambiguous on'
 bind -m vi-command 'Control-l: clear-screen'
 bind -m vi-insert 'Control-l: clear-screen'
+
+# lfcd
 bind 'Control-o: "lfcd\n"'
+[ "${LF_LEVEL:-0}" -ge 1 ] && PS1="(lf) $PS1"
 
 # fzf (pacman)
 [ -f "/usr/share/fzf/completion.bash"   ] && source "/usr/share/fzf/completion.bash"

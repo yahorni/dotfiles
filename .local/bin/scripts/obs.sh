@@ -1,27 +1,21 @@
-#!/bin/bash
+#!/bin/sh
 
 cd "$HOME/dox/notes" || exit 1
 
-# cmd=
-# case "$1" in
-#     "quick") cmd=':ObsidianQuickSwitch' ;;
-#     "today") cmd=':ObsidianToday' ;;
-#     "yesterday") cmd=':ObsidianToday -1' ;;
-#     "tomorrow") cmd=':ObsidianToday +1' ;;
-#     "search") cmd=':ObsidianSearch' ;;
-# esac
-# exec "$TERMINAL" -e "$EDITOR" -c "$cmd"
-
-file=
+declare file cmd
 case "$1" in
-    "today")     file="./10 personal/11 journal/$(date                +"%Y-%m %B/%Y-%m-%d").md" ;;
-    "yesterday") file="./10 personal/11 journal/$(date -d "yesterday" +"%Y-%m %B/%Y-%m-%d").md" ;;
-    "tomorrow")  file="./10 personal/11 journal/$(date -d "tomorrow"  +"%Y-%m %B/%Y-%m-%d").md" ;;
-    "ledger")    file="$(find ./*personal/*finance/*ledger/ -maxdepth 1 -name "$(date +%Y)"'.ledger' | head -n1)" ;;
+    "today")    cmd="Obsidian today" ;;
+    "tomorrow") cmd="Obsidian tomorrow" ;;
+    "yesterday")cmd="Obsidian yesterday" ;;
+    "ledger")   file="$(find ./*personal/*finance/*ledger/ -maxdepth 1 -name "$(date +%Y)"'.ledger' | head -n1)" ;;
+    "files")    cmd="FzfLua files" ;;
+    "search")   cmd="FzfLua live_grep" ;;
 esac
 
-if [ -z "$file" ]; then
-    exec "$TERMINAL" -e "$EDITOR"
-else
+if [ -n "$file" ]; then
     exec "$TERMINAL" -e "$EDITOR" "$file"
+elif [ -n "$cmd" ]; then
+    exec "$TERMINAL" -e "$EDITOR" -c "$cmd"
+else
+    exec "$TERMINAL" -e "$EDITOR"
 fi

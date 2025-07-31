@@ -59,16 +59,16 @@ super + {_, shift +} p
     power-manager.sh {suspend,_}
 
 # notes
-super + a ; {o,d,t,y,l}
-    obs.sh {_,today,tomorrow,yesterday,ledger}
+super + a ; {o,d,t,y,l,f,s}
+    obs.sh {_,today,tomorrow,yesterday,ledger,files,search}
 super + shift + a
     obsidian
 
 # bluetooth
-super + s; {e,d}
+super + s; {b,k}
     sudo -A systemctl {start,stop} bluetooth
-super + s; {a,k}
-    {_,pkill} blueman-applet
+super + s; a
+    blueman-applet
 
 # vpn
 super + s; {t,T}

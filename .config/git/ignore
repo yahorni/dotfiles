@@ -1,11 +1,5 @@
-## development
 .cache/
 .clangd/
-.ide/
 .nvim.lua
-.vimspector.json
 .rgignore
 .session.vim
-
-## specific files
-.config/shell/temp.sh

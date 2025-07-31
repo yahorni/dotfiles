@@ -1,17 +1,14 @@
 #!/bin/bash
 
-options="chromium
-brave
-telegram-deskto
+options="brave
+Telegram
 blueman-applet
 steam
-viber
 firefox
 qutebrowser
 transmission-da
 qbittorrent
 obsidian
-greenclip
 nm-applet
 mpv
 picom"

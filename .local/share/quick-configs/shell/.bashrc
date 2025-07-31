@@ -45,7 +45,7 @@ export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export MERGETOOL="$EDITOR -d"
 
 # path
-export PATH="$PATH:$HOME/.local/bin:/opt/nvim-linux-x86_64/bin:$HOME/Documents/notes/2. areas/scripts"
+export PATH="$PATH:$HOME/.local/bin:$HOME/.local/bin/scripts:/opt/nvim-linux-x86_64/bin"
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib"
 
 ## bashrc options
@@ -61,7 +61,7 @@ set_prompt() {
     local blue='\[\e[34m\]'
     local magenta='\[\e[35m\]'
 
-    local symbol=$([ "$EUID" -eq 0 ] && printf '#' || printf '$')
+    local symbol=$([ "$EUID" -eq 0 ] && printf '#' || printf '\$')
 
     PS1="${bold}${magenta}[\u@\h ${blue}\W${magenta}]${default}${symbol} "
 }
@@ -82,8 +82,14 @@ bind TAB:menu-complete
 bind 'set show-all-if-ambiguous on'
 bind -m vi-command 'Control-l: clear-screen'
 bind -m vi-insert 'Control-l: clear-screen'
-bind 'Control-o: "lfcd\n"'
 
+# lfcd
+bind 'Control-o: "lfcd\n"'
+[ "${LF_LEVEL:-0}" -ge 1 ] && PS1="(lf) $PS1"
+
+# fzf (pacman)
+[ -f "/usr/share/fzf/completion.bash"   ] && source "/usr/share/fzf/completion.bash"
+[ -f "/usr/share/fzf/key-bindings.bash" ] && source "/usr/share/fzf/key-bindings.bash"
 # fzf (apt-get)
 [ -f "/usr/share/bash-completion/completions/fzf" ] && source "/usr/share/bash-completion/completions/fzf"
 [ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ] && source "/usr/share/doc/fzf/examples/key-bindings.bash"
@@ -95,7 +101,7 @@ alias \
     ls='ls --color=auto --group-directories-first' \
     grep='grep --color=auto'
 
-# fast ls
+# ls
 alias \
     la='ls -A' \
     ll='ls -lsh' \
@@ -105,6 +111,7 @@ alias \
 alias \
     v='${EDITOR}' \
     V='${EDITOR} --clean' \
+    g='git' \
     sv='sudoedit' \
     sc='systemctl' \
     scu='systemctl --user' \
@@ -115,38 +122,9 @@ alias \
     p3='python3' \
     cp='cp -ri' \
     mime='file --mime-type' \
-    tmux='tmux -2' \
+    tmux='tmux -u -2' \
     ff='ffplay -autoexit -nodisp' \
     xo='xdg-open'
-
-# git
-alias \
-    gst='git status' \
-    gd='git diff' \
-    gds='git diff --staged' \
-    gdw='git diff --word-diff' \
-    ga='git add' \
-    gc='git commit' \
-    gps='git push' \
-    gpl='git pull' \
-    gl='git log --oneline --graph --branches' \
-    glo='git log --oneline --graph' \
-    gb='git branch' \
-    gch='git checkout' \
-    gr='git remote' \
-    gsh='git stash' \
-    gcp='git cherry-pick' \
-    grs='git reset' \
-    gm='git merge' \
-    gsb='git submodule' \
-    ghist='git log --follow -p --' \
-    grb='git rebase' \
-    gff='git log --full-history --' \
-    gff1='git log --full-history -1 --' \
-    gcl='git clean -dfx' \
-    grp='git remote prune' \
-    ghash='git log -n 1 --pretty=format:"%H"' \
-    gsw='git show'
 
 # files
 alias \
@@ -156,7 +134,6 @@ alias \
     vh='${EDITOR} ${HISTFILE:-$HOME/.bash_history}' \
     vc='${EDITOR} ${HOME}/.ssh/config' \
     vb='${EDITOR} ${HOME}/.bashrc' \
-    vo='${EDITOR} -c :ObsidianQuickSwitch' \
     vg='${EDITOR} .gitignore' \
     v_='${EDITOR} $_'
 
@@ -173,8 +150,9 @@ alias \
     cds='cd_subdir ${XDG_DATA_HOME}' \
     cdb='cd_subdir ${HOME}/.local/bin' \
     cdj='cd_subdir ${HOME}/prj' \
-    cdo='cd "$(xdg-user-dir DOCUMENTS)"/notes/' \
     cdn='cd ${XDG_CONFIG_HOME}/nvim' \
+    cdo='cd "$(xdg-user-dir DOCUMENTS)/notes/"' \
+    cdF='cd "$(xdg-user-dir DOCUMENTS)/files"' \
     cd_='cd $_'
 
 # mounts
@@ -222,25 +200,23 @@ complete -F _systemctl systemctl sc ssc scu
 
 # git
 source ${completions}/git
-__git_complete gd _git_diff
-__git_complete ga _git_add
-__git_complete gb _git_branch
-__git_complete gc _git_commit
-__git_complete gr _git_remote
-__git_complete gm _git_merge
-__git_complete gst _git_status
-__git_complete gch _git_checkout
-__git_complete gps _git_push
-__git_complete gpl _git_pull
-__git_complete grs _git_reset
-__git_complete grb _git_rebase
-__git_complete gsh _git_stash
-__git_complete gcp _git_cherry_pick
-__git_complete gsb _git_submodule
+__git_complete g __git_main
 
 # cdj
 _cdj() { COMPREPLY=($(cd "$HOME/prj" || return 1 ; compgen -d "$2")) ; }
 complete -F _cdj cdj
+
+# pacman
+if command -v pacman 1>/dev/null ; then
+    source ${completions}/pacman
+    complete -F _pacman pacman sp
+fi
+
+# apt-get
+if command -v apt-get 1>/dev/null ; then
+    source ${completions}/apt-get
+    complete -F _apt_get sa
+fi
 
 # temporary settings
 [ -f "$XDG_CONFIG_HOME/shell/temp.sh" ] && source "$XDG_CONFIG_HOME/shell/temp.sh"

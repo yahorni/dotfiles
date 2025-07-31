@@ -1,13 +1,13 @@
-# vim: ft=gitconfig
-#
-# config uses tricks from:
-# https://blog.gitbutler.com/how-git-core-devs-configure-git/
-# https://www.youtube.com/watch?v=aolI_Rz0ZqY
-# https://micahkepe.com/blog/gitconfig/
-# https://jvns.ca/blog/2024/02/16/popular-git-config-options/
-
-# to manage bare repo run:
-# git config status.showUntrackedFiles no
+; vim: ft=gitconfig
+;
+; config uses tricks from:
+; https://blog.gitbutler.com/how-git-core-devs-configure-git/
+; https://www.youtube.com/watch?v=aolI_Rz0ZqY
+; https://micahkepe.com/blog/gitconfig/
+; https://jvns.ca/blog/2024/02/16/popular-git-config-options/
+;
+; to manage bare repo run:
+; git config status.showUntrackedFiles no
 
 [core]
 	excludesfile = ~/.config/git/ignore
@@ -61,15 +61,16 @@
 	submoduleSummary = true
 [url "git@github.com:"]
 	insteadOf = "https://github.com/"
-# [http]
-# 	sslVerify = false
+; [http]
+; 	sslVerify = false
 [alias]
-	s = status
-	ss = status --short
+	s = status --short
+	ss = status
 	a = add
 	c = commit
 	b = branch
 	ch = checkout
+	sw = switch
 	r = remote
 	rp = remote prune
 	d = diff
@@ -78,19 +79,20 @@
 	ps = push
 	pf = push --force-with-lease
 	pl = pull
-	sw = show
-	sh = stash
-	sha = stash --all
+	sh = show
+	st = stash
+	sta = stash --all
 	cp = cherry-pick
 	rs = reset
+	rst = restore
 	rb = rebase
 	m = merge
 	sb = submodule
 	cl = clean -dfx
 	l = log --oneline --graph
 	lb = log --oneline --graph --branches
-    la = log --oneline --graph --decorate --all
-	ff = log --full-history --
-	ff1 = log --full-history -1 --
-	hash = log -n 1 --pretty=format:"%H"
+	la = log --oneline --graph --all
+	l1 = log -1
+	lf = log --full-history --
+	hash = log -1 --pretty=format:"%H"
 	hist = log --follow -p --

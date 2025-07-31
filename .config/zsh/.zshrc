@@ -59,8 +59,8 @@ fi
 bindkey '^[[Z' reverse-menu-complete    # shift-tab
 bindkey '^?' backward-delete-char       # vi mode backspace fix
 bindkey -M vicmd '^[[P' vi-delete-char  # vi mode delete fix
-bindkey -s '^o' '^ulfcd\r'
 
+# search
 bindkey -M vicmd '^K' history-beginning-search-backward # backward search in vi command mode
 bindkey -M viins '^K' history-beginning-search-backward # backward search in vi insert mode
 bindkey -M vicmd '^J' history-beginning-search-forward # forward search in vi command mode
@@ -74,6 +74,10 @@ bindkey -M menuselect 'h' vi-backward-char
 bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
+
+# lfcd
+bindkey -s '^o' '^ulfcd\r'
+[ "${LF_LEVEL:-0}" -ge 1 ] && PS1="(lf) $PS1"
 
 # cursor
 function _set_block_cursor() { echo -ne '\e[2 q' }

@@ -1,5 +1,7 @@
+/:/
 1:/mnt/usb1
 2:/mnt/usb2
+C:~/.cache
 F:~/dox/files
 P:/mnt/phone
 S:~/vid/series
@@ -11,7 +13,8 @@ f:~/vid/films
 h:~/
 j:~/prj
 m:~/mus
-n:~/dox/notes
+n:~/.config/nvim
+o:~/dox/notes
 p:~/pix
 s:~/.local/share
 t:/tmp

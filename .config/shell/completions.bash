@@ -22,6 +22,12 @@ complete -F _cdj cdj
 
 # pacman
 if command -v pacman 1>/dev/null ; then
-  source ${completions}/pacman
-  complete -F _pacman pacman sp
+    source ${completions}/pacman
+    complete -F _pacman pacman sp
+fi
+
+# apt-get
+if command -v apt-get 1>/dev/null ; then
+    source ${completions}/apt-get
+    complete -F _apt_get sa
 fi
