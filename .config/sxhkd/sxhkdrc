@@ -59,7 +59,7 @@ super + {_, shift +} p
     power-manager.sh {suspend,_}
 
 # notes
-super + a ; {o,d,t,y,l,f,s}
+super + a ; {o,d,t,y,l,f,space}
     obs.sh {_,today,tomorrow,yesterday,ledger,files,search}
 super + shift + a
     obsidian
@@ -76,7 +76,7 @@ super + s; {t,T}
 
 # program run
 super + d
-    dmenu_run
+    rofi -show run
 
 # program kill
 super + shift + d

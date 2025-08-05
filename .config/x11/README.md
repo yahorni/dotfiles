@@ -48,6 +48,11 @@ Or add `RestartSec=5s` to the service to not die too quickly
      path `~/.config/systemd/user/playerctld.service`
      added: `ExecStop=/usr/bin/pkill -f playerctld`
    - command: `systemctl --user enable --now playerctld.service`
+7. **clipmenu**
+  ```bash
+  cp ~/.local/lib/systemd/user/clipmenud.service ~/.config/systemd/user/
+  systemctl --user enable --now clipmenud.service
+  ```
 
 ### nvidia drivers
 

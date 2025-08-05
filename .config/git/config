@@ -85,10 +85,12 @@
 	cp = cherry-pick
 	rs = reset
 	rst = restore
+	rsts = restore --staged
 	rb = rebase
 	m = merge
 	sb = submodule
 	cl = clean -dfx
+	f = fetch
 	l = log --oneline --graph
 	lb = log --oneline --graph --branches
 	la = log --oneline --graph --all

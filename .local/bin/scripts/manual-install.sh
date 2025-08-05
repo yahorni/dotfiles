@@ -76,6 +76,7 @@ set_prog_repo() {
         lf)         g_repo="https://github.com/gokcehan/lf" ;;
         xurls)      g_repo="https://github.com/mvdan/xurls" ;;
         tmux)       g_repo="https://github.com/tmux/tmux" ;;
+        clipmenu)   g_repo="https://github.com/cdown/clipmenu" ;;
         *)          g_repo="https://github.com/$GIT_NAME/$g_target.git" ;;
     esac
 }
@@ -91,6 +92,7 @@ set_prog_branch() {
         libxft-bgra)g_branch="libXft-2.3.4" ;;      # tag
         neovim)     g_branch="release-0.9" ;;
         tmux)       g_branch="3.3" ;;               # tag
+        clipmenu)   g_branch="develop" ;;
         *)          g_branch="master" ;;
     esac
 }
@@ -222,7 +224,8 @@ install() {
         htop-vim|sshrc|ctags|xwallpaper|acpilight|brillo|ncmpcpp|neovim|tmux)
             sudo make install
             ;;
-        st|dmenu|dwm|dwmbar|dragon|xmouseless) make PREFIX="~/.local" install ;;
+        st|dmenu|dwm|dwmbar|dragon|xmouseless|clipmenu)
+            make PREFIX="$HOME/.local" install ;;
         libxft-bgra) sudo make PREFIX="/usr" install ;;
         fzf) ./install --xdg --key-bindings --no-update-rc --completion ;;
         zsh-as)
@@ -274,7 +277,7 @@ cleanup() {
 PROGS_LIST=(st dmenu dwm dwmbar dotfiles df dragon
        xmouseless term-theme brillo htop-vim sshrc
        fzf ctags zsh-as zsh-fsh xwallpaper acpilight
-       libxft-bgra ncmpcpp neovim lf xurls tmux)
+       libxft-bgra ncmpcpp neovim lf xurls tmux clipmenu)
 NON_GIT_PROGS_LIST=(python3.8 python3.8-pip)
 ENV_DIR="$HOME/prj/manual"
 

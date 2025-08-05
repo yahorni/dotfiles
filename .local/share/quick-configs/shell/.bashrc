@@ -151,7 +151,7 @@ alias \
     cdb='cd_subdir ${HOME}/.local/bin' \
     cdj='cd_subdir ${HOME}/prj' \
     cdn='cd ${XDG_CONFIG_HOME}/nvim' \
-    cdo='cd "$(xdg-user-dir DOCUMENTS)/notes/"' \
+    cdo='cd "$(xdg-user-dir DOCUMENTS)/notes"' \
     cdF='cd "$(xdg-user-dir DOCUMENTS)/files"' \
     cd_='cd $_'
 
