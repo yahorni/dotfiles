@@ -1,9 +1,17 @@
-#!/bin/dash
+#!/usr/bin/env dash
 
-set -e
+set -eu
+
+if [ $# -lt 2 ]; then
+    echo "usage: $0 <cmd> <path>"
+    echo "  cmd: copy/link/unlink"
+    exit 1
+fi
+
 cmd="$1"
 path="$2"
 dir="$(dirname "$(realpath --relative-base ~/dl "$path")")"
+
 case "$cmd" in
     "copy")
         mkdir -vp ~/mus/copied/"$dir"
@@ -15,6 +23,6 @@ case "$cmd" in
         ;;
     "unlink")
         rm -vf ~/mus/linked/"$dir/$(basename "$path")"
-        rmdir -vp ~/mus/linked/"$dir" || true
+        rmdir -vp ~/mus/linked/"$dir" || :
         ;;
 esac

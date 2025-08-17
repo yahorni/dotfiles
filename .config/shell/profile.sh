@@ -50,13 +50,14 @@ export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export WGETRC="$XDG_CONFIG_HOME/wgetrc"
 
 # apps/dev
+export CM_LAUNCHER="rofi"
 export ELINKS_CONFDIR="$XDG_CONFIG_HOME/elinks"
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export LEDGER="$XDG_DATA_HOME/common.ledger"
 export MERGETOOL="$EDITOR -d"
 export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgreprc"
 export SQLITE_HISTORY="$XDG_STATE_HOME/sqlite_history"
-export SUDO_ASKPASS="$HOME/.local/bin/scripts/dmenu-pass.sh"
+export SUDO_ASKPASS="$HOME/.local/bin/scripts/ask-pass.sh"
 export SXHKD_SHELL='/bin/bash'
 export TS_SLOTS=3
 export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
@@ -90,13 +91,12 @@ if [ -f "$XDG_CONFIG_HOME/x11/xprofile.sh" ]; then
     source "$XDG_CONFIG_HOME/x11/xprofile.sh"
 
     if [ "$USE_XSESSION" = 'false' ] && [ "$(tty)" = '/dev/tty1' ] && [ -n "$WM" ]; then
-        [ -f "$XDG_DATA_HOME/xorg/Xorg.1.log" ] &&\
-            mv "$XDG_DATA_HOME/xorg/Xorg.1.log" "$XDG_DATA_HOME/xorg/Xorg.1.log.old"
-        [ -f "$XDG_DATA_HOME/xorg/Xorg.2.log" ] &&\
-            mv "$XDG_DATA_HOME/xorg/Xorg.2.log" "$XDG_DATA_HOME/xorg/Xorg.2.log.old"
+        local xlog1="$XDG_DATA_HOME/xorg/Xorg.1.log"
+        local xlog2="$XDG_DATA_HOME/xorg/Xorg.2.log"
 
-        pgrep -x "$WM" || exec startx \
-            1>"$XDG_DATA_HOME/xorg/Xorg.1.log" \
-            2>"$XDG_DATA_HOME/xorg/Xorg.2.log"
+        [ -f "$xlog1" ] && mv "$xlog1" "$xlog1.old"
+        [ -f "$xlog2" ] && mv "$xlog2" "$xlog2.log"
+
+        pgrep -x "$WM" || exec startx 1>"$xlog1" 2>"$xlog2"
     fi
 fi

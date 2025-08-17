@@ -1,6 +1,9 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
-if ! command -v xwallpaper >/dev/null ; then
+set -eu
+
+if ! command -v xwallpaper1 >/dev/null ; then
+    notify-send "xwallpaper not found"
     exit 1
 fi
 

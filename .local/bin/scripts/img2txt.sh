@@ -1,5 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
 set -eo pipefail
+
 # $1 = eng/rus/eng+rus, default = eng
 maim -s -u |\
     tesseract -l "${1:-eng}" - - |\

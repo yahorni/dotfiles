@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 categories="Films\nMusic\nSeries\nDocuments\nDownloads\nMusic (subdir.)\nCustom..."
 directory=

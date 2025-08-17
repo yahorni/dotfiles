@@ -1,6 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env dash
 
-if [ -z "$1" ]; then
+set -eu
+
+if [ -z "${1:-}" ]; then
     url="$(xclip -o)"
 else
     url="$1"
@@ -9,7 +11,6 @@ fi
 case "$url" in
     *youtube\.com/watch*|*youtu\.be*|*youtube\.com/shorts*|*youtube\.com/live*|\
     *\.mkv|*\.webm|*\.mp4|*\.3gp|*\.avi|\
-    *\.mp4?*|\
     *vk.com/video-*)
         notify-send "Opening in MPV" "$url"
         ERROR=$( (yt-dlp -F "$url" 3>&2 2>&1 1>&3) 2>/dev/null)

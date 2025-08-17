@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 low_message="Low battery"
 critical_message="Critical battery"

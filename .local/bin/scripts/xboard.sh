@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env dash
 
 # symbols (level 3 included): /usr/share/X11/xkb/symbols/typo
 # keychords: /usr/share/X11/xkb/rules/evdev.lst

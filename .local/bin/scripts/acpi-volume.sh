@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/usr/bin/env dash
 
 acpi_listen | while read -r line ; do
     case "$line" in

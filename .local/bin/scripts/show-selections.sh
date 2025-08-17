@@ -1,11 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env dash
 
-pgrep -x dunst || exit 1
+set -eu
 
-clipboard=$(xclip -o -selection clipboard)
-primary=$(xclip -o -selection primary)
+pgrep -x dunst >/dev/null
 
-[ -z "$clipboard" ] && [ -z "$primary" ] && \
-    notify-send "Selections" "empty" && exit
+clipboard="$(xclip -o -selection clipboard 2>/dev/null || :)"
+primary="$(xclip -o -selection primary 2>/dev/null || :)"
 
+[ -z "$clipboard" ] && [ -z "$primary" ] && notify-send "Selections empty" && exit
 notify-send "Selections" "<i>clipboard:</i> $clipboard\n<i>primary:</i> $primary"

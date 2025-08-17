@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # vifm
 # %d  current directory
@@ -14,6 +14,8 @@
 # (3) height
 # (4) horizontal position of preview pane
 # (5) vertical position of preview pane
+
+set -euo pipefail
 
 preview_text() {
     local filename="$1"
@@ -131,7 +133,7 @@ commands_type="json" # bash/json
 
 ### main ###
 
-if [ -n "$DISPLAY" ] && [ -z "$WAYLAND_DISPLAY" ] && is_ueberzug_running && is_drawable_preview; then
+if [ -n "${DISPLAY:-}" ] && [ -z "${WAYLAND_DISPLAY:-}" ] && is_ueberzug_running && is_drawable_preview; then
     generate_preview_image
     draw_preview_image
 else

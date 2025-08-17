@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 identifier="preview"
 commands_type="json" # bash/json

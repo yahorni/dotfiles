@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env dash
 
 # Gives a dmenu prompt to mount unmounted drives and Android phones. If
 # they're in /etc/fstab, they'll be mounted automatically. Otherwise, you'll
@@ -7,11 +7,10 @@
 
 getmount() {
     [ -z "$chosen" ] && exit 1
-    # shellcheck disable=SC2068
-    mp="$(find $@ 2>/dev/null | dmenu -i -p "Type in mount point.")"
+    mp="$(find $@ 2>/dev/null | rofi -dmenu -i -p "Type in mount point.")"
     [ "$mp" = "" ] && exit 1
     if [ ! -d "$mp" ]; then
-        mkdiryn=$(printf "No\\nYes" | dmenu -i -p "$mp does not exist. Create it?")
+        mkdiryn=$(printf "No\\nYes" | rofi -dmenu -i -p "$mp does not exist. Create it?")
         if [ "$mkdiryn" = "Yes" ]; then
             mkdir -p "$mp" || sudo -A mkdir -p "$mp"
         else
@@ -21,8 +20,7 @@ getmount() {
 }
 
 mountusb() {
-    set -x
-    chosen="$(echo "$usbdrives" | dmenu -i -p "Mount which drive?" | awk '{print $1}')"
+    chosen="$(echo "$usbdrives" | rofi -dmenu -i -p "Mount which drive?" | awk '{print $1}')"
     [ "$chosen" = "" ] && exit 1
 
     # I guess it's for fstab
@@ -43,7 +41,7 @@ mountusb() {
 }
 
 mountandroid() {
-    chosen=$(echo "$anddrives" | dmenu -i -p "Which Android device?" | cut -d : -f 1)
+    chosen=$(echo "$anddrives" | rofi -dmenu -i -p "Which Android device?" | cut -d : -f 1)
     getmount /mnt "$HOME" -maxdepth 3 -type d
     attempts=5
     delay=7
@@ -71,7 +69,7 @@ mountandroid() {
 }
 
 asktype() {
-    case $(printf "USB\\nAndroid" | dmenu -i -p "Mount a USB drive or Android device?") in
+    case $(printf "USB\\nAndroid" | rofi -dmenu -i -p "Mount a USB drive or Android device?") in
         USB) mountusb ;;
         Android) mountandroid ;;
     esac
@@ -82,7 +80,7 @@ usbdrives="$(lsblk -rpo "name,type,size,label,mountpoint,fstype" | grep -v crypt
     sed 's/ /:/g' | awk -F':' '$5==""{printf "%s (%s) %s\n",$1,$3,$4}')"
 
 if [ -z "$usbdrives" ]; then
-    [ -z "$anddrives" ] && echo "No USB drive or Android device detected" && exit
+    [ -z "$anddrives" ] && notify-send "No USB drive or Android device detected" && exit
     echo "Android device(s) detected."
     mountandroid
 else

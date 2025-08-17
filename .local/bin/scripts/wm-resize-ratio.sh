@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env dash
+
+set -eu
 
 side=${1:-+}
 percent=${2:-5}

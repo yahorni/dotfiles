@@ -1,11 +1,12 @@
-#!/usr/bin/env sh
+#!/usr/bin/env dash
+
 # A dmenu prompt to unmount drives.
 # Provides you with mounted partitions, select one to unmount.
 # Drives mounted at /, /boot and /home will not be options to unmount.
 
 unmountusb() {
     [ -z "$drives" ] && exit
-    chosen=$(echo "$drives" | dmenu -i -p "Unmount which drive?" | awk '{print $1}')
+    chosen=$(echo "$drives" | rofi -dmenu -i -p "Unmount which drive?" | awk '{print $1}')
     [ -z "$chosen" ] && exit
     if sudo -A umount "$chosen" ; then
         notify-send "💻 USB unmounting" "$chosen unmounted"
@@ -16,7 +17,7 @@ unmountusb() {
 }
 
 unmountandroid() { \
-    chosen=$(awk '/simple-mtpfs/ {print $2}' /etc/mtab | dmenu -i -p "Unmount which device?")
+    chosen=$(awk '/simple-mtpfs/ {print $2}' /etc/mtab | rofi -dmenu -i -p "Unmount which device?")
     [ -z "$chosen" ] && exit
     if sudo -A umount -l "$chosen" ; then
         notify-send "🤖 Android unmounting" "$chosen unmounted"
@@ -26,7 +27,7 @@ unmountandroid() { \
 }
 
 asktype() { \
-    case "$(printf "USB\\nAndroid" | dmenu -i -p "Unmount a USB drive or Android device?")" in
+    case "$(printf "USB\\nAndroid" | rofi -dmenu -i -p "Unmount a USB drive or Android device?")" in
         USB) unmountusb ;;
         Android) unmountandroid ;;
     esac
@@ -35,7 +36,7 @@ asktype() { \
 drives=$(lsblk -nrpo "name,type,size,mountpoint" | awk '($2=="part"||$2=="disk")&&$4!~/\/boot|\/home$|SWAP/&&length($4)>1{printf "%s (%s)\n",$4,$3}')
 
 if ! grep simple-mtpfs /etc/mtab; then
-    [ -z "$drives" ] && echo "No drives to unmount." &&  exit
+    [ -z "$drives" ] && notify-send "No drives to unmount" && exit
     echo "Unmountable USB drive detected."
     unmountusb
 else

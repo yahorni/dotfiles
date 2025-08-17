@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/usr/bin/env dash
 
-set -e
+set -eu
 
 file_manager="${FM:-lfdir.sh}"  # lfdir.sh/lf/vifm
 commands_type="json"            # bash/json
@@ -10,7 +10,7 @@ cleanup() {
     rm -f "$FIFO_UEBERZUG"
 }
 
-if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+if [ -n "${SSH_CLIENT:-}" ] || [ -n "${SSH_TTY:-}" ]; then
     "$file_manager" "$@"
 elif ! command -v ueberzug >/dev/null 2>/dev/null ; then
     "$file_manager" "$@"

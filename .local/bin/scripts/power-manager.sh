@@ -1,11 +1,20 @@
-#!/bin/bash
+#!/usr/bin/env dash
 
-options="🛑 poweroff <1>\n🔄 reboot <2>\n🌙 suspend <3>\n🔒 lock <4>\n📺 display off<5>\n💤 hibernate<6>\n⚙️ bios<7>"
+set -eu
 
-if [ -n "$1" ]; then
+options="\
+🛑 1. poweroff
+🔄 2. reboot
+🌙 3. suspend
+🔒 4. lock
+📺 5. display off
+💤 6. hibernate
+⚙️ 7. bios"
+
+if [ -n "${1:-}" ]; then
     option="$1"
 else
-    option="$(echo -e "$options" | dmenu -i -p "Power manager:")"
+    option="$(echo "$options" | rofi -dmenu -i -p "Power manager")"
 fi
 
 [ -z "$option" ] && exit

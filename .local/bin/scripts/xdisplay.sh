@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 declare -a modes=("1st" "2nd" "above" "below" "right" "left" "same")
 declare -A scrns conns

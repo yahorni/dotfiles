@@ -1,13 +1,16 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+set -eu
 
 word="$(xclip -o -sel pri)"
-langs="$1"
+langs="${1:-en:ru}"
+mode="${2:-}"
 extended=false
 
 declare -a args
-if [ "$2" = "-s" ] || [ "$2" = "--speak" ]; then
+if [ "$mode" = "-s" ] || [ "$mode" = "--speak" ]; then
     args+=("-speak")
-elif [ "$2" = "-e" ] || [ "$2" = "--extended" ]; then
+elif [ "$mode" = "-e" ] || [ "$mode" = "--extended" ]; then
     extended=true
 fi
 

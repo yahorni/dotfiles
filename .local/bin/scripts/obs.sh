@@ -1,8 +1,9 @@
-#!/bin/sh
+#!/usr/bin/env dash
 
-cd "$HOME/dox/notes" || exit 1
+set -eu
 
-declare file cmd
+cd "$HOME/dox/notes"
+
 case "$1" in
     "today")    cmd="Obsidian today" ;;
     "tomorrow") cmd="Obsidian tomorrow" ;;
@@ -12,9 +13,9 @@ case "$1" in
     "search")   cmd="FzfLua live_grep" ;;
 esac
 
-if [ -n "$file" ]; then
+if [ -n "${file:-}" ]; then
     exec "$TERMINAL" -e "$EDITOR" "$file"
-elif [ -n "$cmd" ]; then
+elif [ -n "${cmd:-}" ]; then
     exec "$TERMINAL" -e "$EDITOR" -c "$cmd"
 else
     exec "$TERMINAL" -e "$EDITOR"

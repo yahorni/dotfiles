@@ -1,16 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-get_tex_root() {
-    grep -q '% !TeX root = ' "$file_name" || return
-    root_file=$(sed -n 's/^% !TeX root = \(.\+\)$/\1/p' "$file_name")
-    file_name=$(readlink -f "$root_file")
-    dir_name=$(dirname "$file_name")
-    cd "$dir_name" || return
-    file_name=$(realpath --relative-to="$PWD" "$file_name")
-    file_base="${file_name%.*}"
-}
+set -euo pipefail
 
-run_c_cpp_build() {
+build_c_cpp() {
     local compiler="$1"
 
     local cc_options=()
@@ -49,9 +41,8 @@ run_c_cpp_build() {
 build_action() {
     case "$file_name" in
         *config\.h)     sudo make install clean ;;
-        *\.c|*\.h)      run_c_cpp_build gcc ;;
-        *\.cpp|*\.hpp)  run_c_cpp_build g++ ;;
-        *\.tex)         get_tex_root ; pdflatex -draftmode "$file_name" ; bibtex "$file_base" ; pdflatex "$file_name" ; pdflatex "$file_name" ;;
+        *\.c|*\.h)      build_c_cpp gcc ;;
+        *\.cpp|*\.hpp)  build_c_cpp g++ ;;
         *\.md)          lowdown --parse-no-intraemph "$file_name" -Tms | groff -mpdfmark -ms -kept -T pdf > "$file_base.pdf" ;;
         *\.go)          go build . ;;
         *\.typ)         typst compile "$file_base.typ" ;;
@@ -63,8 +54,8 @@ build_action() {
 build_alt_action() {
     case "$file_name" in
         *config\.h)     make PREFIX=~/.local clean install ;;
-        *\.c|*\.h)      run_c_cpp_build clang ;;
-        *\.cpp|*\.hpp)  run_c_cpp_build clang++ ;;
+        *\.c|*\.h)      build_c_cpp clang ;;
+        *\.cpp|*\.hpp)  build_c_cpp clang++ ;;
         *\.md)          pandoc "$file_name" -t beamer --pdf-engine=xelatex -o "$file_base.pdf" ;;
         # *\.md)          pandoc "$file_name" --pdf-engine=pdfroff -o "$file_base.pdf" ;;
         *)              echo "No alt build for '$file_name'" 1>&2 && exit 1 ;;
@@ -74,7 +65,7 @@ build_alt_action() {
 run_action() {
     case "$file_name" in
         *\.py)          python3 "$file_name" ;;
-        *\.tex|*\.md|*\.typ)    setsid xdg-open "$file_base.pdf" & ;;
+        *\.md|*\.typ)   setsid xdg-open "$file_base.pdf" & ;;
         *\.go)          go run "$file_name" ;;
         *\.html)        $BROWSER "$file_name" ;;
         *[Xx]resources) xrdb -merge "$file_name" ;;
@@ -88,7 +79,6 @@ run_action() {
 run_alt_action() {
     case "$file_name" in
         *\.c|*\.h|*\.[ch]pp|*\.s)   test -f "$file_base" && objdump -Cd "$file_base" > "$file_base.s" ;;
-        *\.tex)         get_tex_root ; xelatex "$file_name" ;;
         *[Xx]resources) xrdb -remove ;;
         *)              "$file_base" ;;
     esac

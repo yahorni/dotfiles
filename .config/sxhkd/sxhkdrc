@@ -24,9 +24,15 @@ super + {_,shift +} e
 super + r
     pkill -USR1 -x sxhkd
 
-# RSS
-super + t
-    $TERMINAL -e newsboat -q
+# translator
+super + t ; {e,f,r}
+    translate.sh {'en:ru','fr:en','ru:en'}
+# translator with voice
+super + t ; shift + {e,f,r}
+    translate.sh {'en:ru','fr:en','ru:en'} --speak
+# translator with full description
+super + shift + t ; {e,f,r}
+    translate.sh {'en:ru','fr:en','ru:en'} --extended
 
 # tailscale
 super + shift + t
@@ -40,26 +46,19 @@ super {_,shift +,alt +} y
 super + u ; {e,r,u}
     img2txt.sh {eng,rus,eng+rus}
 
+super + shift + u
+    emoji.sh copy
+
 # reload bar
 super + shift + i
     pkill -USR1 dwmbar
-
-# translator
-super + s ; {e,f,r}
-    translate.sh {'en:ru','fr:en','ru:en'}
-# translator with voice
-super + s ; shift + {e,f,r}
-    translate.sh {'en:ru','fr:en','ru:en'} --speak
-# translator with full description
-super + shift + s ; {e,f,r}
-    translate.sh {'en:ru','fr:en','ru:en'} --extended
 
 # power management
 super + {_, shift +} p
     power-manager.sh {suspend,_}
 
 # notes
-super + a ; {o,d,t,y,l,f,space}
+super + a ; {o,d,t,y,l,n,space}
     obs.sh {_,today,tomorrow,yesterday,ledger,files,search}
 super + shift + a
     obsidian
@@ -80,7 +79,7 @@ super + d
 
 # program kill
 super + shift + d
-    dmenu-kill.sh
+    kill-process.sh
 
 # attach floating window
 super + {_, shift +} g
@@ -106,7 +105,7 @@ super + shift + x
 super + c
     show-selections.sh
 super + shift + c
-    clipboard-history.sh
+    clipmenu
 
 # file managers
 super + {_, shift +} v
@@ -121,7 +120,7 @@ super + shift + b ; {b,q}
 
 # mounting
 super + {_, shift +} m
-    dmenu-{_,un}mount.sh
+    dev-{_,un}mount.sh
 
 # music (keyboard)
 
@@ -151,11 +150,11 @@ shift + XF86Audio{Prev,Next}
 
 # screenshots
 Print ; Print
-    screenshot.sh
+    make-screenshot.sh
 alt + Print
-    screenshot.sh window
+    make-screenshot.sh window
 @shift + Print
-    screenshot.sh part
+    make-screenshot.sh part
 
 # screen keyboard
 super + alt + space

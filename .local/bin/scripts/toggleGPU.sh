@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # NOTES:
 # 1. if lock exists then nvidia enabled
@@ -9,7 +9,6 @@
 #
 # Links:
 # https://unix.stackexchange.com/questions/334397/how-do-i-make-xorg-completely-ignore-one-of-my-display-adapters
-
 
 [ "$EUID" -ne 0 ] && echo "Please run as root" && exit
 

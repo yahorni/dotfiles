@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-set -e
+set -eu
 
 # todo: cmake
 #
@@ -45,7 +45,6 @@ check_args() {
 
     g_target="$1"
 
-    # shellcheck disable=SC2076
     if [[ " ${PROGS_LIST[*]} " =~ " $g_target " ]]; then
         g_is_git_needed=1
     elif [[ " ${NON_GIT_PROGS_LIST[*]} " =~ " $g_target " ]]; then
