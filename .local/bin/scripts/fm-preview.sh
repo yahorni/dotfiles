@@ -50,7 +50,7 @@ print_preview() {
     case "$mime_type" in
         text/html)                          preview_html "$filename" ;;
         text/troff)                         man ./"$filename" | col -b ;;
-        text/*|*/xml|application/json|application/javascript|application/pgp-encrypted)
+        text/*|*/xml|application/json|application/x-ndjson|application/javascript|application/pgp-encrypted|application/mbox)
                                             preview_text "$filename" || cat "$filename" ;;
         audio/*|application/octet-stream)   mediainfo "$filename" ;;
         application/zip)                    preview_zip "$filename" ;;

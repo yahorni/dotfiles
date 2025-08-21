@@ -63,6 +63,8 @@
 	insteadOf = "https://github.com/"
 ; [http]
 ; 	sslVerify = false
+; [commit]
+; 	gpgsign = true
 [alias]
 	s = status --short
 	ss = status

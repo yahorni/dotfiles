@@ -21,7 +21,7 @@ fi
 
 pause_players() {
     if command -v playerctl >/dev/null ; then
-        playerctl pause
+        playerctl pause || :
     else
         pgrep -f mpd && command -v mpc >/dev/null && mpc pause >/dev/null 2>&1
         pgrep supersonic && command -v supersonic-desktop && supersonic-desktop -pause

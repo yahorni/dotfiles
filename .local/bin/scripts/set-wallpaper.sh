@@ -2,19 +2,19 @@
 
 set -eu
 
-if ! command -v xwallpaper1 >/dev/null ; then
+if ! command -v xwallpaper >/dev/null ; then
     notify-send "xwallpaper not found"
     exit 1
 fi
 
 datapath="${XDG_DATA_HOME:-"$HOME/.local/share"}"
-wallpath=$(ls "$datapath"/wallpaper.*)
-lockpath=$(ls "$datapath"/lockimage.*)
+wallpath=$(ls "$datapath"/wallpaper.* 2>/dev/null || :)
+lockpath=$(ls "$datapath"/lockimage.* 2>/dev/null || :)
 dimensions="1920x1080"
 
-[ -z "$1" ] && xwallpaper --stretch "$wallpath" && exit
+[ -z "${1:-}" ] && xwallpaper --stretch "$wallpath" && exit
 
-if [ "$2" = "lock" ]; then
+if [ "${2:-}" = "lock" ]; then
     convert -resize "${dimensions}!" "$1" "$lockpath" && \
         notify-send -i "$lockpath" "Lock image changed"
 else
