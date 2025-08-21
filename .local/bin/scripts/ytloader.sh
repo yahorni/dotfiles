@@ -22,7 +22,7 @@ print_help() {
 }
 
 notify() {
-    if [ -z "$DISPLAY" ] || command -v notify-send >/dev/null; then
+    if [ -z "${DISPLAY:-}" ] || command -v notify-send >/dev/null; then
         echo "$@"
     else
         notify-send "$@"
