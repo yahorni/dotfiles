@@ -13,11 +13,11 @@ f:~/vid/films
 h:~/
 j:~/prj
 m:~/mus
-n:~/.config/nvim
-o:~/dox/notes
+v:~/.config/nvim
+n:~/dox/notes
 p:~/pix
 s:~/.local/share
 t:/tmp
-v:~/vid
+V:~/vid
 x:~/dox
 y:~/vid/downloads

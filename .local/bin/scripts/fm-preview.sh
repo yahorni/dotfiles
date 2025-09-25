@@ -75,16 +75,23 @@ generate_preview_image() {
         return
     fi
 
-    mkdir -p "$preview_cache_dir" >/dev/null 2>&1
     preview_path="$preview_cache_dir/$(get_file_hash)"
+    if [ -f "$preview_path" ]; then
+        return 0
+    fi
 
+    mkdir -p "$preview_cache_dir" >/dev/null 2>&1
     case "$mime_type" in
-        video/*) [ ! -f "$preview_path" ] && ffmpegthumbnailer -i "$filename" -o "$preview_path" -s 0 -q 10 ;;
-        */pdf)   [ ! -f "$preview_path" ] && pdftoppm -f 1 -l 1 -scale-to-x 800 -scale-to-y -1 -singlefile \
-                                                -jpeg -tiffcompression jpeg -- "$filename" "$preview_path" \
-                                          && mv "$preview_path".* "$preview_path" ;;
-        *djvu)   [ ! -f "$preview_path" ] && ddjvu "$filename" -page=1 -format=ppm -size=800x600 "$preview_path" ;;
-        */epub+zip|*/mobi*) [ ! -f "$preview_path" ] && gnome-epub-thumbnailer "$filename" "$preview_path" ;;
+        video/*) ffmpegthumbnailer -i "$filename" -o "$preview_path" -s 0 -q 10 ;;
+        */pdf)
+            pdftoppm -f 1 -l 1 \
+                -scale-to-x 800 -scale-to-y -1 \
+                -singlefile \
+                -jpeg -tiffcompression jpeg -- "$filename" "$preview_path"
+            mv "$preview_path".* "$preview_path"
+            ;;
+        *djvu) ddjvu "$filename" -page=1 -format=ppm -size=800x600 "$preview_path" ;;
+        */epub+zip|*/mobi*) gnome-epub-thumbnailer "$filename" "$preview_path" ;;
     esac
 }
 

@@ -73,7 +73,7 @@ alias \
     cdd='cd_subdir "$(xdg-user-dir DOWNLOAD)"' \
     cdm='cd_subdir "$(xdg-user-dir MUSIC)"' \
     cdp='cd_subdir "$(xdg-user-dir PICTURES)"' \
-    cdv='cd_subdir "$(xdg-user-dir VIDEOS)"' \
+    cdV='cd_subdir "$(xdg-user-dir VIDEOS)"' \
     cdf='cd_subdir "$(xdg-user-dir VIDEOS)/films"' \
     cdS='cd_subdir "$(xdg-user-dir VIDEOS)/series"' \
     cdy='cd_subdir "$(xdg-user-dir VIDEOS)/downloads"'
@@ -85,8 +85,8 @@ alias \
     cds='cd_subdir ${XDG_DATA_HOME}' \
     cdb='cd_subdir ${HOME}/.local/bin' \
     cdj='cd_subdir ${HOME}/prj' \
-    cdn='cd ${XDG_CONFIG_HOME}/nvim' \
-    cdo='cd "$(xdg-user-dir DOCUMENTS)/notes"' \
+    cdv='cd ${XDG_CONFIG_HOME}/nvim' \
+    cdn='cd "$(xdg-user-dir DOCUMENTS)/notes"' \
     cdF='cd "$(xdg-user-dir DOCUMENTS)/files"' \
     cd_='cd $_'
 

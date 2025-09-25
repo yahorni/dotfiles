@@ -32,6 +32,7 @@ colorscheme Default
 
 mark h ~/
 mark c ~/.config
+mark v ~/.config/nvim
 mark b ~/.local/bin
 mark s ~/.local/share
 mark j ~/prj
@@ -40,10 +41,10 @@ mark e /etc
 
 mark d ~/dl
 mark x ~/dox
-mark o ~/dox/notes
+mark n ~/dox/notes
 mark m ~/mus
 mark p ~/pix
-mark v ~/vid
+mark V ~/vid
 mark y ~/vid/downloads
 mark f ~/vid/films
 mark S ~/vid/series
