@@ -3,3 +3,5 @@
 .nvim.lua
 .rgignore
 .session.vim
+.gdbinit
+.gdbrc
