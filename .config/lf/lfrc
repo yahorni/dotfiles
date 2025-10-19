@@ -1,5 +1,6 @@
 # vim:ft=bash:ts=4:sw=4:sts=4:fdm=marker:fdl=0:cms=#\ %s
 # marks: ~/.local/share/lf/marks
+# icons: ~/.config/lf/icons
 
 # options
 set autoquit true

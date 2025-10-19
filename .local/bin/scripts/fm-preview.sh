@@ -112,7 +112,7 @@ draw_preview_image() {
 }
 
 is_ueberzug_running() {
-    command -v ueberzug >/dev/null 2>&1 && [ -p "$FIFO_UEBERZUG" ]
+    command -v ueberzug >/dev/null 2>&1 && [ -p "${FIFO_UEBERZUG:-}" ]
 }
 
 is_drawable_preview() {
@@ -124,10 +124,10 @@ is_drawable_preview() {
 
 ### declarations ###
 
-x_pos=$4
-y_pos=$5
-width=$2
-height=$3
+x_pos=${4:-}
+y_pos=${5:-}
+width=${2:-}
+height=${3:-}
 filename="$1"
 
 preview_path=
