@@ -7,7 +7,7 @@
 
 getmount() {
     [ -z "$chosen" ] && exit 1
-    mp="$(find $@ 2>/dev/null | rofi -dmenu -i -p "Type in mount point.")"
+    mp="$(find $@ 2>/dev/null | rofi -dmenu -i -p "Type in mount point")"
     [ "$mp" = "" ] && exit 1
     if [ ! -d "$mp" ]; then
         mkdiryn=$(printf "No\\nYes" | rofi -dmenu -i -p "$mp does not exist. Create it?")
@@ -25,7 +25,7 @@ mountusb() {
 
     # I guess it's for fstab
     if sudo -A mount "$chosen" 2>/dev/null ; then
-        notify-send "💻 USB mounting" "$chosen mounted."
+        notify-send "💻 USB mounting" "$chosen mounted"
         exit 0
     fi
 
@@ -35,8 +35,8 @@ mountusb() {
     case "$partitiontype" in
         "vfat") sudo -A mount -t vfat "$chosen" "$mp" -o rw,umask=0000;;
         *) sudo -A mount "$chosen" "$mp"; user="$(whoami)"; ug="$(groups | awk '{print $1}')"; sudo -A chown "$user":"$ug" "$mp";;
-    esac && notify-send "💻 USB mounting" "$chosen mounted to $mp." ||
-            notify-send "💻 Drive failed to mount." "Probably a permissions issue or drive is already mounted."
+    esac && notify-send "💻 USB mounting" "$chosen mounted to $mp" ||
+            notify-send "💻 Drive failed to mount." "Probably a permissions issue or drive is already mounted"
     set +x
 }
 
@@ -53,7 +53,7 @@ mountandroid() {
             notify-send "🤖 Android Mounting" "Canceled mounting"
             break
         elif [ "$return_code" -eq 0 ]; then
-            notify-send "🤖 Android Mounting" "Android device mounted to $mp."
+            notify-send "🤖 Android Mounting" "Android device mounted to $mp"
             break
         fi
 
@@ -81,14 +81,14 @@ usbdrives="$(lsblk -rpo "name,type,size,label,mountpoint,fstype" | grep -v crypt
 
 if [ -z "$usbdrives" ]; then
     [ -z "$anddrives" ] && notify-send "No USB drive or Android device detected" && exit
-    echo "Android device(s) detected."
+    echo "Android device(s) detected"
     mountandroid
 else
     if [ -z "$anddrives" ]; then
-        echo "USB drive(s) detected."
+        echo "USB drive(s) detected"
         mountusb
     else
-        echo "Mountable USB drive(s) and Android device(s) detected."
+        echo "Mountable USB drive(s) and Android device(s) detected"
         asktype
     fi
 fi

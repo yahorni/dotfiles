@@ -37,15 +37,15 @@ drives=$(lsblk -nrpo "name,type,size,mountpoint" | awk '($2=="part"||$2=="disk")
 
 if ! grep simple-mtpfs /etc/mtab; then
     [ -z "$drives" ] && notify-send "No drives to unmount" && exit
-    echo "Unmountable USB drive detected."
+    echo "Unmountable USB drive detected"
     unmountusb
 else
     if [ -z "$drives" ]
     then
-        echo "Unmountable Android device detected."
+        echo "Unmountable Android device detected"
         unmountandroid
     else
-        echo "Unmountable USB drive(s) and Android device(s) detected."
+        echo "Unmountable USB drive(s) and Android device(s) detected"
         asktype
     fi
 fi

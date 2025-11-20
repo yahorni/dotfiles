@@ -13,9 +13,11 @@ screendir="$pix/screens/$(date +%Y)"
 [ ! -d "$screendir" ] && mkdir -p "$screendir"
 filename="$screendir/$filedate"
 
-if [ "$1" = 'part' ]; then
+action="${1:-}"
+
+if [ "$action" = "part" ]; then
     maim -s -u "$filename"
-elif [ "$1" = 'window' ]; then
+elif [ "$action" = "window" ]; then
     maim -B -u -i "$(xdotool getactivewindow)" "$filename"
 else
     maim -B -u "$filename"
