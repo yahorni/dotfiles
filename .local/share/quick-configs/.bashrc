@@ -7,6 +7,7 @@
 # programs
 export EDITOR=nvim
 export VISUAL="$EDITOR"
+export SUDO_EDITOR="vim"
 export PAGER='less'
 
 # XDG directories
@@ -60,10 +61,14 @@ set_prompt() {
 
     local blue='\[\e[34m\]'
     local magenta='\[\e[35m\]'
+    # local green='\[\e[32m\]'
+    # local red='\[\e[31m\]'
+    # local yellow='\[\e[33m\]'
 
     local symbol=$([ "$EUID" -eq 0 ] && printf '#' || printf '\$')
 
     PS1="${bold}${magenta}[\u@\h ${blue}\W${magenta}]${default}${symbol} "
+    # PS1="${bold}${red}[${yellow}\u${green}@${blue}\h ${magenta}\W${red}]${default}${symbol} "
 }
 set_prompt
 

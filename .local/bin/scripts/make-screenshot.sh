@@ -9,7 +9,7 @@ fi
 
 filedate="$(date +%Y-%m-%d_%H-%M-%S-%N).png"
 pix=$(xdg-user-dir PICTURES)
-screendir="$pix/screens/$(date +%Y)"
+screendir="$pix/screenshots/$(date +%Y)"
 [ ! -d "$screendir" ] && mkdir -p "$screendir"
 filename="$screendir/$filedate"
 

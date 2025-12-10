@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 
-set -eu
+set -euo pipefail
+
+### examples:
+# Download track:
+# ytloader.sh -f a -d manual/_various -A 1 https://music.youtube.com/watch?v=<video_id>
+# Download album:
+# ytloader.sh -f a -d "manual/The Drums" -A 1 https://music.youtube.com/playlist?list=<playlist_id>
 
 ### functions
 
@@ -19,6 +25,7 @@ print_help() {
     echo "    -p - for playlists: first video to download from"
     echo "    -c - path to cookies file"
     echo "    -S - do not check for SSL certificates"
+    echo "    -D - remove 'Date' tag from songs"
 }
 
 notify() {
@@ -31,7 +38,7 @@ notify() {
 
 parse_args() {
     OPTIND=1
-    while getopts "f:d:p:c:sSuA:h" opt; do
+    while getopts "f:d:p:c:sSDuA:h" opt; do
         case $opt in
             f) format=$OPTARG ;;
             d) subdir=$OPTARG ;;
@@ -39,6 +46,7 @@ parse_args() {
             s) other_args+=("--all-subs") ;;
             c) other_args+=("--cookies" "$OPTARG") ;;
             S) other_args+=("--no-check-certificates") ;;
+            D) other_args+=("${date_args[@]}") ;;
             u) filename="%(uploader)s - $filename" ;;
             A) if [ "$OPTARG" -eq 1 ]; then
                    filename="%(artist)s - $filename"
@@ -110,6 +118,8 @@ subdir="downloads"
 
 thumb_args=(--embed-thumbnail --ppa "EmbedThumbnail+ffmpeg_o:-c:v mjpeg -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\"")
 audio_args=(-x --audio-format mp3 --audio-quality 320k)
+# postprocessor-args to remove "Date" metadata tag
+date_args=(--postprocessor-args "ffmpeg:-metadata date=")
 
 ### variables
 

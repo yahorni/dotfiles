@@ -6,12 +6,11 @@
 # super + {_,shift +} {comma,period,slash} | other window manipulations
 # super + shift + Return                   | default terminal in WM
 
-
 # system/audio controls
 super + {_,shift +}grave
     $TERMINAL -e {htop,pulsemixer}
 
-# NOTE: do not map 'super + shift + w' because you definitely mistype to 'super + shift + q`
+# NOTE: do not map 'super + shift + w' because you will definitely mistype to 'super + shift + q`
 # music player
 super + w
     supersonic-desktop
@@ -33,10 +32,6 @@ super + t ; shift + {e,f,r}
 # translator with full description
 super + shift + t ; {e,f,r}
     translate.sh {'en:ru','fr:en','ru:en'} --extended
-
-# tailscale
-super + shift + t
-    sudo -A systemctl restart tailscaled && notify-send "Restarted tailscaled"
 
 # displays
 super {_,shift +,alt +} y
@@ -112,7 +107,6 @@ super + {_, shift +} v
     {_,FM=vifm} $TERMINAL -e fm-run.sh
 
 # browser
-# to limit browser: cpulimit -i -l 350 $BROWSER
 super + b
     pgrep -fi $BROWSER || $BROWSER
 super + shift + b ; {b,q}
@@ -122,9 +116,7 @@ super + shift + b ; {b,q}
 super + {_, shift +} m
     dev-{_,un}mount.sh
 
-# music (keyboard)
-
-## playerctl controls
+# playerctl controls
 super + {_,shift +,alt +} n
     playerctl {play-pause,stop,-a pause}
 super + {minus,equal}
@@ -132,7 +124,7 @@ super + {minus,equal}
 super + shift + {minus,equal}
     playerctl position 5{-,+} ; echo "player" > /tmp/dwmbar.fifo
 
-## mpc controls
+# mpc controls
 # super + {_,shift +} n
 #     mpc toggle ; echo "player" > /tmp/dwmbar.fifo
 # super + {minus,equal}
@@ -140,13 +132,19 @@ super + shift + {minus,equal}
 # super + shift + {minus,equal}
 #     mpc seek {-,+}5 ; echo "player" > /tmp/dwmbar.fifo
 
-## audio buttons
+# audio buttons
 XF86Audio{Play,Pause,Stop}
     playerctl {play-pause,play-pause,stop}
 XF86Audio{Prev,Next}
     playerctl {previous,next}
 shift + XF86Audio{Prev,Next}
     playerctl position 5{-,+}
+
+# volume buttons
+XF86Audio{Raise,Lower}Volume
+    pamixer --{in,de}crease 5 --allow-boost
+XF86AudioMute
+    pamixer --toggle-mute
 
 # screenshots
 Print ; Print
