@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 
-set -eu
+set -euo pipefail
+
+### examples:
+# Download track:
+# ytloader.sh -f a -d manual/_various -A 1 https://music.youtube.com/watch?v=<video_id>
+# Download album:
+# ytloader.sh -f a -d "manual/The Drums" -A 1 https://music.youtube.com/playlist?list=<playlist_id>
 
 ### functions
 
@@ -109,7 +115,8 @@ audio_dir="$(xdg-user-dir MUSIC)"
 subdir="downloads"
 
 thumb_args=(--embed-thumbnail --ppa "EmbedThumbnail+ffmpeg_o:-c:v mjpeg -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\"")
-audio_args=(-x --audio-format mp3 --audio-quality 320k)
+# postprocessor-args to remove "Date" metadata tag
+audio_args=(-x --audio-format mp3 --audio-quality 320k --postprocessor-args "ffmpeg:-metadata date=")
 
 ### variables
 
