@@ -5,6 +5,7 @@ C:~/.cache
 F:~/dox/files
 P:/mnt/phone
 S:~/vid/series
+V:~/vid
 b:~/.local/bin
 c:~/.config
 d:~/dl
@@ -13,11 +14,10 @@ f:~/vid/films
 h:~/
 j:~/prj
 m:~/mus
-v:~/.config/nvim
 n:~/dox/notes
 p:~/pix
 s:~/.local/share
 t:/tmp
-V:~/vid
+v:~/.config/nvim
 x:~/dox
 y:~/vid/downloads

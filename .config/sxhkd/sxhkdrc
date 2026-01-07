@@ -53,10 +53,8 @@ super + {_, shift +} p
     power-manager.sh {suspend,_}
 
 # notes
-super + a ; {o,d,t,y,l,n,space}
-    obs.sh {_,today,tomorrow,yesterday,ledger,files,search}
-super + shift + a
-    obsidian
+super + a ; {d,y,t,n,space}
+    cd "$HOME/dox/notes" ; $TERMINAL -e nvim -c {"Journal","Journal yesterday","Journal tomorrow","FzfLua files","FzfLua search"}
 
 # bluetooth
 super + s; {b,k}

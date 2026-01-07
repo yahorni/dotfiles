@@ -11,7 +11,6 @@
 
 [core]
 	excludesfile = ~/.config/git/ignore
-	pager = "diff-so-fancy | less --tabs=4 -RF"
 [init]
 	defaultBranch = master
 [push]
@@ -20,8 +19,6 @@
 	followTags = true
 [pull]
 	ff = only
-[interactive]
-	diffFilter = "diff-so-fancy --patch"
 [color]
 	diff = auto
 	status = auto
