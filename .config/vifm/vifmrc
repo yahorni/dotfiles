@@ -30,28 +30,28 @@ colorscheme Default
 
 " --- MARKS ---
 
-mark h ~/
-mark c ~/.config
-mark v ~/.config/nvim
-mark b ~/.local/bin
-mark s ~/.local/share
-mark j ~/prj
-mark t /tmp
-mark e /etc
-
-mark d ~/dl
-mark x ~/dox
-mark n ~/dox/notes
-mark m ~/mus
-mark p ~/pix
-mark V ~/vid
-mark y ~/vid/downloads
-mark f ~/vid/films
-mark S ~/vid/series
-
 mark 1 /mnt/usb1
 mark 2 /mnt/usb2
+mark C ~/.cache
+mark F:~/dox/files
 mark P /mnt/phone
+mark S ~/vid/series
+mark V ~/vid
+mark b ~/.local/bin
+mark c ~/.config
+mark d ~/dl
+mark e /etc
+mark f ~/vid/films
+mark h ~/
+mark j ~/prj
+mark m ~/mus
+mark n ~/dox/notes
+mark p ~/pix
+mark s ~/.local/share
+mark t /tmp
+mark v ~/.config/nvim
+mark x ~/dox
+mark y ~/vid/downloads
 
 " --- PREVIEW ---
 fileviewer *[^/] fm-preview.sh %d/%c %pw %ph %px %py %pc fm-clear.sh

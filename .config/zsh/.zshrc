@@ -26,6 +26,7 @@ setopt vi
 setopt globdots
 setopt hist_ignore_dups
 setopt hist_ignore_space
+setopt complete_aliases
 unsetopt nomatch
 
 # completions
@@ -75,10 +76,6 @@ bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
 
-# lfcd
-bindkey -s '^o' '^ulfcd\r'
-[ "${LF_LEVEL:-0}" -ge 1 ] && PS1="(lf) $PS1"
-
 # cursor
 function _set_block_cursor() { echo -ne '\e[2 q' }
 function _set_beam_cursor() { echo -ne '\e[6 q' }
@@ -109,11 +106,17 @@ autosuggest="/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
 syntax_highlight="/usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
 [ -f "$syntax_highlight" ] && source "$syntax_highlight"
 
-# fzf
+# lfcd
+bindkey -s '^o' '^ulfcd\r'
+[ "${LF_LEVEL:-0}" -ge 1 ] && PS1="(lf) $PS1"
+
+# fzf (pacman)
 [ -f "/usr/share/fzf/completion.zsh"   ] && source "/usr/share/fzf/completion.zsh"
 [ -f "/usr/share/fzf/key-bindings.zsh" ] && source "/usr/share/fzf/key-bindings.zsh"
 
 # aliases
 [ -f "$XDG_CONFIG_HOME/shell/aliases.sh" ] && source "$XDG_CONFIG_HOME/shell/aliases.sh"
+# completions
+[ -f "$XDG_CONFIG_HOME/shell/completions.zsh" ] && source "$XDG_CONFIG_HOME/shell/completions.zsh"
 # temporary settings
 [ -f "$XDG_CONFIG_HOME/shell/temp.sh" ] && source "$XDG_CONFIG_HOME/shell/temp.sh"

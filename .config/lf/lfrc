@@ -2,7 +2,7 @@
 # marks: ~/.local/share/lf/marks
 # icons: ~/.config/lf/icons
 
-# options
+## options
 set autoquit true
 set drawbox
 set ifs "\n"
@@ -15,38 +15,19 @@ set tabstop 4
 set nohistory
 set icons
 
-# file previews
+## file previews
 set previewer 'fm-preview.sh'
 set cleaner   'fm-clear.sh'
 
-# commands
+## commands
 cmd touch %touch "$(echo $* | tr ' ' '\ ')" && lf -remote "send $id load" # && lf -remote "send $id select $1"
 cmd mkdir $mkdir -p "$(echo $* | tr ' ' '\ ')" && lf -remote "send $id load"
 
-cmd rsync &{{
-    set -- $(cat ~/.local/share/lf/files)
-    mode="$1"
-    shift
-    case "$mode" in
-        copy)
-            rsync -av --ignore-existing --progress -- "$@" . |
-            stdbuf -i0 -o0 -e0 tr '\r' '\n' |
-            while IFS= read -r line; do
-                lf -remote "send $id echo $line"
-            done
-            ;;
-        move) mv -n -- "$@" .;;
-    esac
-    rm ~/.local/share/lf/files
-    lf -remote "send clear"
-}}
-
-# --- mappings ---
+## mappings
 map s $$SHELL
 map D delete
 map d cut
 map p paste
-map P rsync
 map Q quit
 map <esc> clear
 map <enter> open
@@ -70,7 +51,7 @@ map a :rename; cmd-right    # after extension
 map za set hidden!
 map zi set info size:time
 
-# --- external mappings ---
+## mappings (external utilities)
 # edit file
 map e $$EDITOR "$f"
 # new file
@@ -79,27 +60,31 @@ map cf push :touch<space>
 map cd push :mkdir<space>
 # open with xdg-open in separate process
 map L  $xdg-open "$f" &
-# open with zathura in separate process
-map Z  $zathura "$f" &
-# show pictures
-map xp $nsxiv -t . &
-# use file for drag'n'drop
-map xg $setsid dragon "$f" &
-# make zip archive
-map xz $zip -r "$f.zip" "$(realpath -s --relative-to=. $f)"
-# make tar.gz archive
-map xt $tar -czvhf "$f.tar.gz" "$(realpath -s --relative-to=. $f)"
-# unpack archive (with atool)
-map xu $aunpack "$f"
-# add executable rights
+# add/remove executable rights
 map xa $chmod +x $fx
 map xr $chmod -x $fx
-# bulkrename
-map cw $vidir $fs
-# set wallpaper
-map xw $set-wallpaper.sh "$f"
 # open with ...
-map o $$(dmenu_path | dmenu "$@") "$f"
-# gpg encrypt/decrypt
+map o push !<space>$f<left><left><left>
+# show pictures (package: nsxiv)
+map xp $nsxiv -t . &
+# use file for drag'n'drop (package: dragon)
+map xg $setsid dragon "$f" &
+# make zip archive (package: zip)
+map xz $zip -r "$f.zip" "$(realpath -s --relative-to=. $f)"
+# make tar.gz archive (package: tar)
+map xt $tar -czvhf "$f.tar.gz" "$(realpath -s --relative-to=. $f)"
+# unpack archive (package: atool)
+map xu $aunpack "$f"
+# bulk rename (package: moreutils)
+map cw $vidir $fs
+# encrypt/decrypt (package: gpg)
 map xe $gpg --yes -c "$f"
 map xd $gpg --output "$(basename $f .gpg)" --decrypt "$f"
+
+## mappings (custom scripts)
+# set wallpaper
+map xw $set-wallpaper.sh "$f"
+# muslib management
+map xc $muslib.sh copy "$f"
+map xl $muslib.sh link "$f"
+map xU $muslib.sh unlink "$f"

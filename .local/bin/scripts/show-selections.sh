@@ -4,8 +4,8 @@ set -eu
 
 pgrep -x dunst >/dev/null
 
-clipboard="$(xclip -o -selection clipboard 2>/dev/null || :)"
-primary="$(xclip -o -selection primary 2>/dev/null || :)"
+CLIPBOARD="$(xclip -o -selection clipboard 2>/dev/null || :)"
+PRIMARY="$(xclip -o -selection primary 2>/dev/null || :)"
 
-[ -z "$clipboard" ] && [ -z "$primary" ] && notify-send "Selections empty" && exit
-notify-send "Selections" "<i>clipboard:</i> $clipboard\n<i>primary:</i> $primary"
+notify-send -r 6324 "Clipboard (${#CLIPBOARD})" "$CLIPBOARD"
+notify-send -r 6325 "Primary (${#PRIMARY})" "$PRIMARY"

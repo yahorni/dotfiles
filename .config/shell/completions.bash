@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # completions for aliases
 [ -f "/usr/share/bash-completion/bash_completion" ] &&\
