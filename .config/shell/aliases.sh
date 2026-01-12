@@ -67,28 +67,30 @@ cd_subdir() {
     [ -n "$2" ] && cd "$2" || return 1
 }
 
-# xdg dirs
-alias \
-    cdx='cd_subdir "$(xdg-user-dir DOCUMENTS)"' \
-    cdd='cd_subdir "$(xdg-user-dir DOWNLOAD)"' \
-    cdm='cd_subdir "$(xdg-user-dir MUSIC)"' \
-    cdp='cd_subdir "$(xdg-user-dir PICTURES)"' \
-    cdV='cd_subdir "$(xdg-user-dir VIDEOS)"' \
-    cdf='cd_subdir "$(xdg-user-dir VIDEOS)/films"' \
-    cdS='cd_subdir "$(xdg-user-dir VIDEOS)/series"' \
-    cdy='cd_subdir "$(xdg-user-dir VIDEOS)/downloads"'
+# important dirs (function to support completions in zsh)
+cdc() { cd_subdir "${XDG_CONFIG_HOME}" "${1:-}"; }
+cdh() { cd_subdir "${XDG_CACHE_HOME}"  "${1:-}"; }
+cds() { cd_subdir "${XDG_DATA_HOME}"   "${1:-}"; }
+cdj() { cd_subdir "${HOME}/prj"        "${1:-}"; }
 
 # important dirs
 alias \
-    cdc='cd_subdir ${XDG_CONFIG_HOME}' \
-    cdC='cd_subdir ${XDG_CACHE_HOME}' \
-    cds='cd_subdir ${XDG_DATA_HOME}' \
-    cdb='cd_subdir ${HOME}/.local/bin' \
-    cdj='cd_subdir ${HOME}/prj' \
-    cdv='cd ${XDG_CONFIG_HOME}/nvim' \
+    cdb='cd "${HOME}/.local/bin"' \
+    cdv='cd "${XDG_CONFIG_HOME}/nvim"' \
     cdn='cd "$(xdg-user-dir DOCUMENTS)/notes"' \
     cdF='cd "$(xdg-user-dir DOCUMENTS)/files"' \
     cd_='cd $_'
+
+# xdg dirs
+alias \
+    cdx='cd "$(xdg-user-dir DOCUMENTS)"' \
+    cdd='cd "$(xdg-user-dir DOWNLOAD)"' \
+    cdm='cd "$(xdg-user-dir MUSIC)"' \
+    cdp='cd "$(xdg-user-dir PICTURES)"' \
+    cdV='cd "$(xdg-user-dir VIDEOS)"' \
+    cdf='cd "$(xdg-user-dir VIDEOS)/films"' \
+    cdS='cd "$(xdg-user-dir VIDEOS)/series"' \
+    cdy='cd "$(xdg-user-dir VIDEOS)/downloads"'
 
 # mounts
 alias \

@@ -26,7 +26,6 @@ setopt vi
 setopt globdots
 setopt hist_ignore_dups
 setopt hist_ignore_space
-setopt complete_aliases
 unsetopt nomatch
 
 # completions
