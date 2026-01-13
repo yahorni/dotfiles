@@ -96,19 +96,15 @@ generate_preview_image() {
 }
 
 draw_preview_image() {
-    if [ -f "$preview_path" ]; then
-        if [ "$commands_type" = "bash" ]; then
-            declare -p -A _=([action]=add [identifier]=$identifier [x]=$x_pos [y]=$y_pos [width]=$width
-                             [height]=$height [scaler]=contain [path]="$preview_path") >"$FIFO_UEBERZUG"
-        elif [ "$commands_type" = "json" ]; then
-            printf '{"action": "add", "identifier": "%s", "x": "%s", "y": "%s", "width": "%s", "height": "%s", "scaler": "contain", "path": "%s"}\n' \
-                "$identifier" "$x_pos" "$y_pos" "$((width-1))" "$((height-1))" "$preview_path" > "$FIFO_UEBERZUG"
-        else
-            return 1
-        fi
-    else
+    if [ ! -f "$preview_path" ]; then
         print_preview
+        return
     fi
+
+    printf '{"action":"add","identifier":"preview","x":"%s","y":"%s","width":"%s","height":"%s","scaler":"contain","path":"%s"}\n' \
+        "$x_pos" "$y_pos" \
+        "$((width-1))" "$((height-1))" \
+        "$preview_path" > "$FIFO_UEBERZUG"
 }
 
 is_ueberzug_running() {
@@ -135,9 +131,6 @@ preview_path=
 preview_cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/fmpreview"
 mime_type="$(file --dereference --brief --mime-type -- "$filename")"
 
-identifier="preview"
-commands_type="json" # bash/json
-
 ### main ###
 
 if [ -n "${DISPLAY:-}" ] && [ -z "${WAYLAND_DISPLAY:-}" ] && is_ueberzug_running && is_drawable_preview; then
@@ -147,4 +140,5 @@ else
     print_preview
 fi
 
+# to call cleaner script afterwards
 exit 1

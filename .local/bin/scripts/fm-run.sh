@@ -2,8 +2,7 @@
 
 set -eu
 
-file_manager="${FM:-lfdir.sh}"  # lfdir.sh/lf/vifm
-commands_type="json"            # bash/json
+file_manager="${FM:-fm-lfdir.sh}"
 
 cleanup() {
     exec 3>&-
@@ -17,7 +16,7 @@ elif ! command -v ueberzug >/dev/null 2>/dev/null ; then
 else
     export FIFO_UEBERZUG="/tmp/fm-ueberzug-$$"
     mkfifo "$FIFO_UEBERZUG"
-    ueberzug layer -s <"$FIFO_UEBERZUG" -p "$commands_type" &
+    ueberzug layer -s <"$FIFO_UEBERZUG" -p "json" &
     exec 3>"$FIFO_UEBERZUG"
     trap cleanup HUP INT QUIT TERM PWR EXIT
     "$file_manager" "$@" 3>&-

@@ -33,7 +33,7 @@ colorscheme Default
 mark 1 /mnt/usb1
 mark 2 /mnt/usb2
 mark C ~/.cache
-mark F:~/dox/files
+mark F ~/dox/files
 mark P /mnt/phone
 mark S ~/vid/series
 mark V ~/vid

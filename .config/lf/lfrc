@@ -20,7 +20,7 @@ set previewer 'fm-preview.sh'
 set cleaner   'fm-clear.sh'
 
 ## commands
-cmd touch %touch "$(echo $* | tr ' ' '\ ')" && lf -remote "send $id load" # && lf -remote "send $id select $1"
+cmd touch %touch "$(echo $* | tr ' ' '\ ')" && lf -remote "send $id load"
 cmd mkdir $mkdir -p "$(echo $* | tr ' ' '\ ')" && lf -remote "send $id load"
 
 ## mappings

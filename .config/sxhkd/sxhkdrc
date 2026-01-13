@@ -54,7 +54,7 @@ super + {_, shift +} p
 
 # notes
 super + a ; {d,y,t,n,space}
-    cd "$HOME/dox/notes" ; $TERMINAL -e nvim -c {"Journal","Journal yesterday","Journal tomorrow","FzfLua files","FzfLua search"}
+    cd "$HOME/dox/notes" ; $TERMINAL -e nvim -c {"Journal","Journal yesterday","Journal tomorrow","FzfLua files","FzfLua live_grep"}
 
 # bluetooth
 super + s; {b,k}
