@@ -72,15 +72,21 @@ run_action() {
         *\.js)          node "$file_name" ;;
         *\.ledger)      ledger -f "$LEDGER" --strict --real balance asset ;;
         *\.1)           man -l "$file_name" ;;
-        *)              "$file_name" ;;
+        *)  if [ -f "$file_base" ]; then
+                "$file_base"
+            else
+                "$file_name"
+            fi
+            ;;
     esac
 }
 
 run_alt_action() {
     case "$file_name" in
-        *\.c|*\.h|*\.[ch]pp|*\.s)   test -f "$file_base" && objdump -Cd "$file_base" > "$file_base.s" ;;
+        *\.c|*\.h|*\.[ch]pp|*\.s)
+            test -f "$file_base" && objdump -Cd "$file_base" > "$file_base.s" ;;
         *[Xx]resources) xrdb -remove ;;
-        *)              "$file_base" ;;
+        *)  echo "No alt run for '$file_name'" 1>&2 && exit 1 ;;
     esac
 }
 

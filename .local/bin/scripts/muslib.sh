@@ -40,7 +40,7 @@ parse_song_album_args() {
     fi
 
     link="$2"
-    album_dir="${3:-}"
+    album_dir="${3:-_various}"
 }
 
 parse_cmd "$@"
@@ -65,10 +65,14 @@ case "$cmd" in
         ;;
     "song")
         parse_song_album_args "$@"
-        ytloader.sh -f a -A 1 -D -d "manual/_various" "$link"
+        format='a'
+        if [[ $link == *"soundcloud"* ]]; then
+            format='o'
+        fi
+        ytloader.sh -A 1 -D -f "$format" -d "manual/$album_dir" "$link"
         ;;
     "album")
         parse_song_album_args "$@"
-        ytloader.sh -f a -A 1 -d "manual/$album_dir" "$link"
+        ytloader.sh -A 1 -f a -d "manual/$album_dir" "$link"
         ;;
 esac
