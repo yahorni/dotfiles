@@ -17,22 +17,25 @@ print_help() {
     echo "    -f - format."
     echo "         'a' - audio"
     echo "         'l' - low quality video (up to 240p)"
-    echo "         'm' - medium quality video (up to 1080p) [default]"
-    echo "         'h' - high quality video (best quality available)"
+    echo "         'n' - medium quality video (up to 1080p) [default]"
+    echo "         'o' - high quality video/audio, format not specified (best quality available)"
     echo "    -s - download video with subtitles (if available)"
     echo "    -d - subdirectory for file. Appends to default music/video path"
     echo "    -u - add uploader at the title"
     echo "    -p - for playlists: first video to download from"
     echo "    -c - path to cookies file"
     echo "    -S - do not check for SSL certificates"
+    echo "    -A - add 1, 2 or 3 author to filename"
     echo "    -D - remove 'Date' tag from songs"
 }
 
 notify() {
-    if [ -z "${DISPLAY:-}" ] || command -v notify-send >/dev/null; then
-        echo "$@"
+    local title="$1"
+    local body="$2"
+    if [ -n "${DISPLAY:-}" ] && command -v notify-send >/dev/null; then
+        notify-send "$title" "$body"
     else
-        notify-send "$@"
+        echo "$title: $body"
     fi
 }
 
@@ -40,7 +43,14 @@ parse_args() {
     OPTIND=1
     while getopts "f:d:p:c:sSDuA:h" opt; do
         case $opt in
-            f) format=$OPTARG ;;
+            f) if [ "$OPTARG" == "a" ] ||\
+                  [ "$OPTARG" == "l" ] ||\
+                  [ "$OPTARG" == "n" ] ||\
+                  [ "$OPTARG" == "o" ]; then
+                   format=$OPTARG
+               else
+                   notify "$msg_invalid_format" "value: '$OPTARG'" && exit 1
+               fi ;;
             d) subdir=$OPTARG ;;
             p) other_args+=("--playlist-start" "$OPTARG") ;;
             s) other_args+=("--all-subs") ;;
@@ -75,12 +85,14 @@ parse_args() {
 }
 
 set_download_dir() {
-    if [ "$format" == 'a' ]; then
-        download_dir="${audio_dir}/${subdir}"
+    if [ "$format" == 'o' ]; then
+        destination_dir="${download_dir}"
+    elif [ "$format" == 'a' ]; then
+        destination_dir="${audio_dir}/${subdir}"
     else
-        download_dir="${video_dir}/${subdir}"
+        destination_dir="${video_dir}/${subdir}"
     fi
-    mkdir -p "$download_dir"
+    mkdir -p "$destination_dir"
 }
 
 check_error() {
@@ -91,13 +103,13 @@ check_error() {
 download() {
     notify "$msg_download" "$link"
 
-    download_cmd=(yt-dlp --add-metadata --ignore-errors --continue "${other_args[@]}" --output "$download_dir/$filename")
+    download_cmd=(yt-dlp --add-metadata --ignore-errors --continue "${other_args[@]}" --output "$destination_dir/$filename")
     case $format in
         'a') "${download_cmd[@]}" --format "bestaudio" "${thumb_args[@]}" "${audio_args[@]}" "$link" ;;
         'l') "${download_cmd[@]}" --format "best[height<=360]" "$link" ;;
-        'm') "${download_cmd[@]}" --format "bestvideo[height<=1080]+bestaudio/best" "$link" ;;
-        'h') "${download_cmd[@]}" "$link" ;;
-        *) notify "$msg_invalid_format" "Format ($format)\n$link" ; exit 1 ;;
+        'n') "${download_cmd[@]}" --format "bestvideo[height<=1080]+bestaudio/best" "$link" ;;
+        'o') "${download_cmd[@]}" "$link" ;;
+        *) notify "$msg_invalid_format" "Format ($format)\n$link" && exit 1 ;;
     esac ; check_error
 
     notify "$msg_loaded" "$link"
@@ -114,6 +126,7 @@ msg_invalid_flag="YTLoader: Invalid option"
 
 video_dir="$(xdg-user-dir VIDEOS)"
 audio_dir="$(xdg-user-dir MUSIC)"
+download_dir="$(xdg-user-dir DOWNLOAD)"
 subdir="downloads"
 
 thumb_args=(--embed-thumbnail --ppa "EmbedThumbnail+ffmpeg_o:-c:v mjpeg -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\"")
@@ -125,9 +138,9 @@ date_args=(--postprocessor-args "ffmpeg:-metadata date=")
 
 declare -a other_args
 filename='%(title).80s.%(ext)s'
-format="m"
+format="n"
 link=""
-download_dir=""
+destination_dir=""
 
 ### main
 
