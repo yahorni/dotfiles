@@ -40,7 +40,7 @@ parse_song_album_args() {
     fi
 
     link="$2"
-    album_dir="${3:-_various}"
+    album_dir="${3:-various}"
 }
 
 parse_cmd "$@"

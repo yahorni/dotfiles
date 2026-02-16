@@ -96,8 +96,8 @@ dir_name=
 file_base=
 
 main() {
-    if [ "$#" -lt 1 ]; then
-        echo "Not enough arguments"
+    if [ "$#" -lt 2 ]; then
+        echo "Not enough arguments, expected: $0 <command> <file>"
         exit 1
     fi
     mode="$1"

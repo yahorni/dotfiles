@@ -1,7 +1,8 @@
 # vim: ft=sh
 
---max-columns=150
+--max-columns=120
 --max-columns-preview
 
 --glob=!git/*
+--glob=!build/*
 --glob=!node_modules/*

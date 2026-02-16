@@ -53,7 +53,7 @@ super + {_, shift +} p
     power-manager.sh {suspend,_}
 
 # notes
-super + a ; {d,y,t,n,space}
+super + a ; {d,y,t,f,space}
     cd "$HOME/dox/notes" ; $TERMINAL -e nvim -c {"Journal","Journal yesterday","Journal tomorrow","FzfLua files","FzfLua live_grep"}
 
 # bluetooth

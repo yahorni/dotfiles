@@ -42,6 +42,7 @@ export LESSHISTFILE="-"
 export SYSTEMD_PAGER="less"
 
 # apps/dev
+export PYTHON_HISTORY="$XDG_STATE_HOME/python_history"
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export MERGETOOL="$EDITOR -d"
 
