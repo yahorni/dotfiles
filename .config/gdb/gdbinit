@@ -1,1 +1,14 @@
+# vim: ft=gdb
+
+# enable breakpoint pending while symbols aren't loaded
+set breakpoint pending on
+# enable intel assembly syntax
+set disassembly-flavor intel
+# disable debug info downloading
 set debuginfod enabled off
+# enable pretty print for variables
+set print pretty on
+# disable variable shortening
+set print elements 0
+# to print derived object fields
+set print object on
