@@ -22,7 +22,7 @@ allow_for_physical_item_deletion = yes
 
 # help, playlist, browser, search_engine, media_library, playlist_editor,
 # tag_editor, outputs, visualizer, clock, lyrics, last_fm
-startup_screen = browser
+startup_screen = tag_editor
 
 external_editor = $EDITOR
 use_console_editor = yes
