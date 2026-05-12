@@ -13,6 +13,8 @@ ex	🎯
 *.png	🖼
 *.webp	🖼
 *.ico	🖼
+*.heic	📸
+*.HEIC	📸
 *.jpg	📸
 *.jpe	📸
 *.jpeg	📸
@@ -43,6 +45,7 @@ ex	🎯
 *.m4a	🎵
 *.flac	🎼
 *.wav	🎼
+*.3gp	🎥
 *.mkv	🎥
 *.mp4	🎥
 *.webm	🎥

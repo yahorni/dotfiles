@@ -100,3 +100,9 @@
 	lf = log --full-history --
 	hash = log -1 --pretty=format:"%H"
 	hist = log --follow -p --
+	# who commits most (author)
+	xa = shortlog -sn --no-merges
+	# what changes most (files)
+	xf = ! git log --format=format: --name-only --since='1 year ago' | sort | uniq -c | sort -nr | head -20
+	# number of commits by month
+	xc = ! git log --format='%ad' --date=format:'%Y-%m' | sort | uniq -c
