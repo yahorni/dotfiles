@@ -69,6 +69,7 @@ case "$cmd" in
         if [[ $link == *"soundcloud"* ]]; then
             format='o'
         fi
+        # -c ~/dox/cookies.txt
         ytloader.sh -A 1 -D -f "$format" -d "manual/$album_dir" "$link"
         ;;
     "album")
