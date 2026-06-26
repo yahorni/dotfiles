@@ -19,21 +19,25 @@ set -euo pipefail
 
 preview_text() {
     local filename="$1"
+
+    local syntax=""
+    if [ $# -gt 1 ]; then syntax="$2"; fi
+
+    if [ "$syntax" = "html" ] && command -v lynx >/dev/null 2>&1 ; then
+        lynx -width="$x_pos" -display_charset=utf-8 -dump "$filename"
+        return
+    fi
+
     if command -v bat >/dev/null 2>&1 ; then
-        bat --terminal-width $((width-2)) -f "$filename"
+        bat --terminal-width $((width-2)) --force-colorization "$filename"
     elif command -v highlight >/dev/null 2>&1 ; then
-        highlight -t 4 -O ansi "$filename"
+        local args=(--replace-tabs=4 --out-format=ansi)
+        if [ -n "$syntax" ]; then
+            args+=(--syntax="$syntax")
+        fi
+        highlight "${args[@]}" "$filename"
     else
         cat "$filename"
-    fi
-}
-
-preview_html() {
-    local filename="$1"
-    if command -v lynx >/dev/null 2>&1 ; then
-        lynx -width="$x_pos" -display_charset=utf-8 -dump "$filename"
-    else
-        preview_text "$filename"
     fi
 }
 
@@ -48,10 +52,11 @@ preview_zip() {
 
 print_preview() {
     case "$mime_type" in
-        text/html)                          preview_html "$filename" ;;
+        text/html)                          preview_text "$filename" "html" ;;
         text/troff)                         man ./"$filename" | col -b ;;
-        text/*|*/xml|application/json|application/x-ndjson|application/javascript|application/pgp-encrypted|application/mbox)
-                                            preview_text "$filename" || cat "$filename" ;;
+        text/*|*/xml|application/x-ndjson|application/javascript|application/pgp-encrypted|application/mbox)
+                                            preview_text "$filename" ;;
+        application/json)                   preview_text "$filename" json ;;
         audio/*|application/octet-stream)   mediainfo "$filename" ;;
         application/zip)                    preview_zip "$filename" ;;
         application/gzip)                   tar -tzf "$filename" ;;

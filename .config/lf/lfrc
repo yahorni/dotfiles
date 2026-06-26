@@ -24,7 +24,7 @@ cmd touch %touch "$(echo $* | tr ' ' '\ ')" && lf -remote "send $id load"
 cmd mkdir $mkdir -p "$(echo $* | tr ' ' '\ ')" && lf -remote "send $id load"
 
 ## mappings
-map s $$SHELL
+map S $$SHELL
 map D delete
 map d cut
 map p paste
@@ -65,6 +65,8 @@ map xa $chmod +x $fx
 map xr $chmod -x $fx
 # open with ...
 map o push !<space>$f<left><left><left>
+# open directory with ...
+map O push !<space>.<left><left>
 # show pictures (package: nsxiv)
 map xp $nsxiv -t . &
 # use file for drag'n'drop (package: dragon)

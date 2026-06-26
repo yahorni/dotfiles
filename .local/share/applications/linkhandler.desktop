@@ -1,4 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Custom link handler
-Exec=linkhandler.sh %u
