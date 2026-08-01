@@ -58,11 +58,11 @@ map e $$EDITOR "$f"
 map cf push :touch<space>
 # new directory
 map cd push :mkdir<space>
-# open with xdg-open in separate process
-map L  $xdg-open "$f" &
 # add/remove executable rights
 map xa $chmod +x $fx
 map xr $chmod -x $fx
+# open with xdg-open in separate process
+map L  $xdg-open "$f" &
 # open with ...
 map o push !<space>$f<left><left><left>
 # open directory with ...

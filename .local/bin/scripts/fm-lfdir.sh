@@ -13,4 +13,4 @@ fi
 
 [ -n "${last_dir:-}" ] && [ ! -d "$last_dir" ] && last_dir=$(dirname "$last_dir")
 
-exec lf --last-dir-path "$last_dir_file" "$last_dir"
+exec lf --last-dir-path "$last_dir_file" "${last_dir:-}"
