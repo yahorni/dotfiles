@@ -2,6 +2,15 @@
 
 set -eu
 
+if ! command -v xclip >/dev/null ; then
+    notify-send "xclip not found"
+    exit 1
+fi
+if ! command -v xdotool >/dev/null ; then
+    notify-send "xdotool not found"
+    exit 1
+fi
+
 emojis_path="${XDG_DATA_HOME:-$HOME/.local/share}/emojis.txt"
 
 generate() {

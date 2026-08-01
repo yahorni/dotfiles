@@ -7,6 +7,7 @@ Telegram
 blueman-applet
 steam
 firefox
+librewolf
 qutebrowser
 transmission-da
 qbittorrent

@@ -1,3 +1,0 @@
-# https://pycodestyle.pycqa.org/en/latest/intro.html
-[pycodestyle]
-max-line-length = 120

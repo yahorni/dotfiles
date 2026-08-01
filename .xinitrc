@@ -5,8 +5,9 @@
 
 # settings
 xsetroot -cursor_name left_ptr  # default cursor
-xset s on                       # enable screensaver
-xset s 600                      # seconds before screensave
+xset s on   # enable screensaver
+xset s 600  # seconds before screensave
+xset b off  # disable X11 bell
 
 # autostart
 [ -f "$XDG_CONFIG_HOME/x11/autostart.sh" ] && source "$XDG_CONFIG_HOME/x11/autostart.sh"
@@ -15,5 +16,4 @@ xset s 600                      # seconds before screensave
 [ -n "$xrdbpid" ] && wait "$xrdbpid"
 
 # start x11
-# shellcheck disable=SC2086
 [ -n "$WM" ] && exec $WM $WM_ARGS

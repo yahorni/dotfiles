@@ -13,11 +13,18 @@ super + {_,shift +}grave
 # NOTE: do not map 'super + shift + w' because you will definitely mistype to 'super + shift + q`
 # music player
 super + w
-    supersonic-desktop
+    supersonic-desktop || supersonic
 
 # terminal
-super + {_,shift +} e
-    $TERMINAL {_,-c dropdown}
+super + e
+    $TERMINAL
+# floating terminal
+super + shift + e
+    case $TERMINAL in \
+        st) st -c floating ;;\
+        xterm) xterm -class floating ;;\
+        *) $TERMINAL --class floating ;;\
+    esac
 
 # hotkey daemon restart
 super + r
@@ -69,7 +76,8 @@ super + s; {t,T}
 # program run
 super + d
     rofi -show run
-
+super + alt + d
+    rofi -show drun
 # program kill
 super + shift + d
     kill-process.sh
@@ -138,11 +146,17 @@ XF86Audio{Prev,Next}
 shift + XF86Audio{Prev,Next}
     playerctl position 5{-,+}
 
-# volume buttons
+# volume/mic buttons
 XF86Audio{Raise,Lower}Volume
-    pamixer --{in,de}crease 5 --allow-boost
+    pamixer --{in,de}crease 5 --allow-boost ; echo "volume" > /tmp/dwmbar.fifo
 XF86AudioMute
-    pamixer --toggle-mute
+    pamixer --toggle-mute ; echo "volume" > /tmp/dwmbar.fifo
+XF86AudioMicMute
+    pamixer --toggle-mute --default-source ; echo "mic" > /tmp/dwmbar.fifo
+
+# brightness buttons
+XF86MonBrightness{Up,Down}
+    brillo -q -{A,U} 1 ; echo "brightness" > /tmp/dwmbar.fifo
 
 # screenshots
 Print ; Print
@@ -151,6 +165,10 @@ alt + Print
     make-screenshot.sh window
 @shift + Print
     make-screenshot.sh part
+
+# keyboard layout change
+Caps_Lock
+    echo "keyboard" > /tmp/dwmbar.fifo
 
 # screen keyboard
 super + alt + space

@@ -7,17 +7,20 @@ if ! command -v xwallpaper >/dev/null ; then
     exit 1
 fi
 
-datapath="${XDG_DATA_HOME:-"$HOME/.local/share"}"
-wallpath=$(ls "$datapath"/wallpaper.* 2>/dev/null || :)
-lockpath=$(ls "$datapath"/lockimage.* 2>/dev/null || :)
-dimensions="1920x1080"
+wallpaper="${XDG_DATA_HOME:-"$HOME/.local/share"}/wallpaper"
 
-[ -z "${1:-}" ] && xwallpaper --stretch "$wallpath" && exit
-
-if [ "${2:-}" = "lock" ]; then
-    convert -resize "${dimensions}!" "$1" "$lockpath" && \
-        notify-send -i "$lockpath" "Lock image changed"
-else
-    cp "$1" "$wallpath" && xwallpaper --stretch "$wallpath" && \
-        notify-send -i "$wallpath" "Wallpaper changed"
+# set new wallpaper if argument given
+if [ -n "${1:-}" ]; then
+    cp "$1" "$wallpaper"
+    xwallpaper --stretch "$wallpaper"
+    notify-send -i "$wallpaper" "Wallpaper changed"
+    exit 0
 fi
+
+# restore current wallpaper
+if [ ! -f "$wallpaper" ]; then
+    # no wallpaper found
+    exit 1
+fi
+
+xwallpaper --stretch "$wallpaper"

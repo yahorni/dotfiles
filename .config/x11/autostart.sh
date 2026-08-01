@@ -6,10 +6,11 @@ systemctl --user start dunst
 # current systemd services:
 # - dunst
 # - acpi-volume
-# - greenclip
+# - clipmenud
 # - redshift
 # - syncthing
 # - playerctld
+# - gnome-keyring-daemon
 
 programs=(
     # installed

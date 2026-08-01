@@ -79,7 +79,7 @@ map xt $tar -czvhf "$f.tar.gz" "$(realpath -s --relative-to=. $f)"
 map xu $aunpack "$f"
 # bulk rename (package: moreutils)
 map cw $vidir $fs
-# encrypt/decrypt (package: gpg)
+# encrypt/decrypt (package: gnupg)
 map xe $gpg --yes -c "$f"
 map xd $gpg --output "$(basename $f .gpg)" --decrypt "$f"
 
