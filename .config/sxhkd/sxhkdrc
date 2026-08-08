@@ -14,8 +14,9 @@
 super + {_,shift +}grave
     $TERMINAL -e {htop,pulsemixer}
 
-# NOTE: do not map 'super + shift + w' because you will definitely mistype to 'super + shift + q`
 # music player
+# NOTE: do not map 'super + shift + w'
+# because you will definitely mistype to 'super + shift + q` and kill X11
 super + w
     supersonic-desktop || supersonic
 
@@ -40,54 +41,59 @@ super + shift + t ; {e,f,r}
     translate.sh {'en:ru','fr:en','ru:en'} --extended
 
 # displays
-super {_,shift +,alt +} y
+super + {_,shift +,alt +} y
     xdisplay.sh {2nd,same,left}
 
-# recognize text from screenshot
-super + u ; {e,r,u}
-    img2txt.sh {eng,rus,eng+rus}
-
-super + shift + u
-    emoji.sh copy
+# emoji
+super + {_,shift +} u
+    emoji.sh {type,copy}
 
 # reload bar
 super + shift + i
     pkill -USR1 dwmbar
 
+# show player status
+super + o
+    player-status.sh
+# recognize text from screenshot
+super + shift + o ; {e,r,u}
+    img2txt.sh {eng,rus,eng+rus}
+
 # power management
 super + {_, shift +} p
     power-manager.sh {suspend,_}
+
+# terminal in the same directory
+super + Return
+    same-dir.sh
+
+# keyboard layout change
+Caps_Lock
+    echo "keyboard" > /tmp/dwmbar.fifo
 
 # notes
 super + a ; {d,y,t,f,s}
     cd "$HOME/dox/notes" ; $TERMINAL -e nvim -c {"Journal","Journal yesterday","Journal tomorrow","FzfLua files","FzfLua live_grep"}
 
-# bluetooth
-super + s; {e,d}
-    sudo -A systemctl {start,stop} bluetooth
-super + s; a
-    blueman-applet
-
-# vpn
-super + s; {t,T}
+# tailscale VPN
+super + s ; {t,T}
     sudo -A systemctl start tailscaled && sudo -A tailscale {up,down} ; echo "vpn" >> /tmp/dwmbar.fifo
+# use mouse from keyboard
+super + s ; m
+    xmouseless
+# on-screen keyboard
+super + s ; k
+    onboard
 
 # program run
 super + d
     rofi -show run
-super + alt + d
-    rofi -show drun
-# program kill
 super + shift + d
-    kill-process.sh
+    rofi -show drun
 
 # attach floating window
 super + {_, shift +} g
     wm-corner-window.sh {_,-H left}
-
-# terminal
-super + Return
-    same-dir.sh
 
 # resize floating window with ratio
 super + {_, shift +} z
@@ -96,10 +102,9 @@ super + {_, shift +} z
 # messengers
 super + x
     Telegram
-
-# mouse
+# program kill
 super + shift + x
-    xmouseless &>/dev/null
+    kill-process.sh
 
 # clipboard
 super + c
@@ -114,48 +119,15 @@ super + {_, shift +} v
 # browser
 super + b
     pgrep -fi $BROWSER || $BROWSER
-super + shift + b ; {b,q}
-    {brave,qutebrowser}
+# bluetooth
+super + shift + b; {e,d}
+    sudo -A systemctl {start,stop} bluetooth
+super + shift + b; a
+    blueman-applet
 
 # mounting
 super + {_, shift +} m
     dev-{_,un}mount.sh
-
-# playerctl controls
-super + {_,shift +,alt +} n
-    playerctl {play-pause,stop,-a pause}
-super + {minus,equal}
-    playerctl {previous,next}
-super + shift + {minus,equal}
-    playerctl position 5{-,+} ; echo "player" > /tmp/dwmbar.fifo
-
-# mpc controls
-# super + {_,shift +} n
-#     mpc toggle ; echo "player" > /tmp/dwmbar.fifo
-# super + {minus,equal}
-#     mpc {prev,next} ; echo "player" > /tmp/dwmbar.fifo
-# super + shift + {minus,equal}
-#     mpc seek {-,+}5 ; echo "player" > /tmp/dwmbar.fifo
-
-# audio buttons
-XF86Audio{Play,Pause,Stop}
-    playerctl {play-pause,play-pause,stop}
-XF86Audio{Prev,Next}
-    playerctl {previous,next}
-shift + XF86Audio{Prev,Next}
-    playerctl position 5{-,+}
-
-# volume/mic buttons
-XF86Audio{Raise,Lower}Volume
-    pamixer --{in,de}crease 5 --allow-boost ; echo "volume" > /tmp/dwmbar.fifo
-XF86AudioMute
-    pamixer --toggle-mute ; echo "volume" > /tmp/dwmbar.fifo
-XF86AudioMicMute
-    pamixer --toggle-mute --default-source ; echo "mic" > /tmp/dwmbar.fifo
-
-# brightness buttons
-XF86MonBrightness{Up,Down}
-    brillo -q -{A,U} 1 ; echo "brightness" > /tmp/dwmbar.fifo
 
 # screenshots
 Print ; Print
@@ -165,10 +137,29 @@ alt + Print
 @shift + Print
     make-screenshot.sh part
 
-# keyboard layout change
-Caps_Lock
-    echo "keyboard" > /tmp/dwmbar.fifo
+# playerctl controls
+super + {_,shift +,alt +} n
+    playerctl {play-pause,stop,-a pause} ; echo "player" > /tmp/dwmbar.fifo
+super + {minus,equal}
+    playerctl {previous,next} ; echo "player" > /tmp/dwmbar.fifo
+super + shift + {minus,equal}
+    playerctl position 5{-,+}
 
-# screen keyboard
-super + alt + space
-    onboard
+# audio buttons
+XF86Audio{Play,Pause,Stop}
+    playerctl {play-pause,play-pause,stop} ; echo "player" > /tmp/dwmbar.fifo
+XF86Audio{Prev,Next}
+    playerctl {previous,next} ; echo "player" > /tmp/dwmbar.fifo
+shift + XF86Audio{Prev,Next}
+    playerctl position 5{-,+}
+# volume buttons
+XF86Audio{Raise,Lower}Volume
+    pamixer --{in,de}crease 5 --allow-boost ; echo "volume" > /tmp/dwmbar.fifo
+XF86AudioMute
+    pamixer --toggle-mute ; echo "volume" > /tmp/dwmbar.fifo
+# microphone button
+XF86AudioMicMute
+    pamixer --toggle-mute --default-source ; echo "mic" > /tmp/dwmbar.fifo
+# brightness buttons
+XF86MonBrightness{Up,Down}
+    brillo -q -{A,U} 1 ; echo "brightness" > /tmp/dwmbar.fifo
