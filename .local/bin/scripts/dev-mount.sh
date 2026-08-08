@@ -37,7 +37,6 @@ mountusb() {
         *) sudo -A mount "$chosen" "$mp"; user="$(whoami)"; ug="$(groups | awk '{print $1}')"; sudo -A chown "$user":"$ug" "$mp";;
     esac && notify-send "💻 USB mounting" "$chosen mounted to $mp" ||
             notify-send "💻 Drive failed to mount." "Probably a permissions issue or drive is already mounted"
-    set +x
 }
 
 mountandroid() {

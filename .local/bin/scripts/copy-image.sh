@@ -1,6 +1,6 @@
 #!/usr/bin/env dash
-
 set -eu
+check-binaries.sh xclip
 
 [ -z "$1" ] && exit
 

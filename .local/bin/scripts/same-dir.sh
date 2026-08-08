@@ -1,4 +1,6 @@
 #!/usr/bin/env dash
+set -eu
+check-binaries.sh xprop
 
 # Open a terminal window in the same directory as the currently active window.
 

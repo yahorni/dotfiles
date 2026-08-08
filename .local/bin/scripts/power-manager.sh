@@ -1,6 +1,6 @@
 #!/usr/bin/env dash
-
 set -eu
+check-binaries.sh rofi xset
 
 options="\
 🛑 1. poweroff
@@ -33,7 +33,7 @@ pause_players() {
 
 case $option in
     *poweroff*)     systemctl poweroff ;;
-    *reboot*)       reboot ;;
+    *reboot*)       systemctl reboot ;;
     *suspend*)      pause_players ; systemctl suspend ;;
     *lock*)         lockscreen --dpms ;;
     *display*)      xset dpms force off ;;

@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -euxo pipefail
+check-binaries.sh acpi
 
 low_message="Low battery"
 critical_message="Critical battery"
@@ -8,7 +10,7 @@ low_level=15
 critical_level=7
 
 send_notification() {
-    if [ -n "$DISPLAY" ]; then
+    if [ -n "${DISPLAY:-}" ]; then
         notify-send -u critical -t 10000 "$1" "$2"
     else
         local msg="${2/\\n/, }"
@@ -17,7 +19,7 @@ send_notification() {
 }
 
 get_battery_status() {
-    acpi -b | awk -F'[,:%]' '{print $2, $3}'
+    echo "$(acpi -b | awk -F'[,:%]' '{print $2, $3}')"
 }
 
 check_acpi() {

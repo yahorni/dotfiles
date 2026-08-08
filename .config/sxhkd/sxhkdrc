@@ -1,10 +1,14 @@
-# Reserved keys
+# vim: ft=conf
+#
+# XF86 keys: /usr/include/xkbcommon/xkbcommon-keysyms.h
+#
+# Reserved WM keys
 # super + {_,shift +} q                    | kill window/wm
 # super + shift + r                        | to update wm
 # super + f                                | fullscreen
 # super + {_,shift +} {h,j,k,l}            | window navigation/manipulation
 # super + {_,shift +} {comma,period,slash} | other window manipulations
-# super + shift + Return                   | default terminal in WM
+# super + shift + Return                   | fallback terminal in WM
 
 # system/audio controls
 super + {_,shift +}grave
@@ -18,13 +22,8 @@ super + w
 # terminal
 super + e
     $TERMINAL
-# floating terminal
 super + shift + e
-    case $TERMINAL in \
-        st) st -c floating ;;\
-        xterm) xterm -class floating ;;\
-        *) $TERMINAL --class floating ;;\
-    esac
+    floating-terminal.sh
 
 # hotkey daemon restart
 super + r

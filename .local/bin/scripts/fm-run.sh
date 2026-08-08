@@ -1,6 +1,6 @@
 #!/usr/bin/env dash
-
 set -eu
+check-binaries.sh ueberzug
 
 file_manager="${FM:-fm-lfdir.sh}"
 

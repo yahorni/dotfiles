@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 # vifm
 # %d  current directory
@@ -14,8 +15,6 @@
 # (3) height
 # (4) horizontal position of preview pane
 # (5) vertical position of preview pane
-
-set -euo pipefail
 
 preview_text() {
     local filename="$1"

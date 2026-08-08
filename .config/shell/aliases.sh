@@ -34,7 +34,7 @@ alias \
 alias \
     dg='/usr/bin/git --git-dir="${HOME}/prj/df" --work-tree="${HOME}"' \
     rst='reset && source ~/.bashrc && stty sane && tput cvvis' \
-    mk='DESTDIR= make PREFIX="~/.local"' \
+    mk='make PREFIX="${HOME}/.local"' \
     snc='watch -d grep -e Dirty: -e Writeback: /proc/meminfo'
 
 # files

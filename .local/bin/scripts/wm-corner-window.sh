@@ -1,39 +1,39 @@
 #!/usr/bin/env bash
-
 set -eu
+check-binaries.sh xdotool
 
 default_x=20
 default_y=20
-usage="Usage: ${0##*/} [-h] [-H left/right] [-v top/bottom] [-x percents] [-y percents]
+usage="Usage: ${0##*/} [-h] [-H left/right] [-V top/bottom] [-x percents] [-y percents]
 
 -h — show help.
 -H — attach window to left/right(default) corner.
--v — attach window to top/bottom(default) corner.
+-V — attach window to top/bottom(default) corner.
 -x — 0..100 percents of the screen taken by window horizontally. Default = $default_x.
 -y — 0..100 percents of the screen taken by window vertically. Default = $default_y.
 "
 
 warn_H="\-H option needs left/right value"
-warn_v="\-v option needs top/bottom value"
+warn_v="\-V option needs top/bottom value"
 warn_perc="option needs value between 0..100"
 warn_num="option needs integer value"
 
-warn() {
-    notify-send "Warning" "$1"
+warn_and_exit() {
+    notify-send "Corner window setup" "Warning: $1"
     exit 1
 }
 
 num_regex='^[0-9]+$'
 
-while getopts ":hH:v:x:y:" opt 2>/dev/null; do
+while getopts ":hH:V:x:y:" opt 2>/dev/null; do
     case "$opt" in
         h)  echo "$usage" && exit ;;
-        H)  [ "$OPTARG" != "left" ] && [ "$OPTARG" != "right" ] && warn "$warn_H"
+        H)  [ "$OPTARG" != "left" ] && [ "$OPTARG" != "right" ] && warn_and_exit "$warn_H"
             x_pos=$OPTARG ;;
-        v)  [ "$OPTARG" != "top" ] && [ "$OPTARG" != "bottom" ] && warn "$warn_v"
+        V)  [ "$OPTARG" != "top" ] && [ "$OPTARG" != "bottom" ] && warn_and_exit "$warn_v"
             y_pos=$OPTARG ;;
-        x|y) ! [[ "$OPTARG" =~ $num_regex ]] && warn "\-$opt $warn_num"
-            [ "$OPTARG" -lt 0 ] || [ "$OPTARG" -gt 100 ] && warn "\-$opt $warn_perc"
+        x|y) ! [[ "$OPTARG" =~ $num_regex ]] && warn_and_exit "\-$opt $warn_num"
+            [ "$OPTARG" -lt 0 ] || [ "$OPTARG" -gt 100 ] && warn_and_exit "\-$opt $warn_perc"
             if [ "$opt" = "x" ]; then
                 x_perc=$OPTARG
             else

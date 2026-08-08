@@ -1,6 +1,6 @@
 #!/usr/bin/env dash
-
-set -eux
+set -eu
+check-binaries.sh rofi
 
 options="brave
 Telegram

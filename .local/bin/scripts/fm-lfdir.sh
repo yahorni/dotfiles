@@ -1,6 +1,6 @@
 #!/usr/bin/env dash
-
 set -eu
+check-binaries.sh lf
 
 lf_cache="${XDG_CACHE_HOME:-$HOME/.cache}/lf"
 last_dir_file="${lf_cache}/last_dir"

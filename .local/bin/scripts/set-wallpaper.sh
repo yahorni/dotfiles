@@ -1,11 +1,6 @@
 #!/usr/bin/env dash
-
 set -eu
-
-if ! command -v xwallpaper >/dev/null ; then
-    notify-send "xwallpaper not found"
-    exit 1
-fi
+check-binaries.sh xwallpaper
 
 wallpaper="${XDG_DATA_HOME:-"$HOME/.local/share"}/wallpaper"
 
@@ -19,8 +14,7 @@ fi
 
 # restore current wallpaper
 if [ ! -f "$wallpaper" ]; then
-    # no wallpaper found
-    exit 1
+    exit 1 # no wallpaper found
 fi
 
 xwallpaper --stretch "$wallpaper"

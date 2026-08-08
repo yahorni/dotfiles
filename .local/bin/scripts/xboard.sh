@@ -1,4 +1,6 @@
 #!/usr/bin/env dash
+set -eu
+check-binaries.sh setxkbmap xset xmodmap
 
 # symbols (level 3 included): /usr/share/X11/xkb/symbols/typo
 # keychords: /usr/share/X11/xkb/rules/evdev.lst
@@ -18,6 +20,5 @@ setxkbmap \
 
 # keyboard speed
 xset r rate 200 35
-
-# xmodmap binds
-[ -f "$XDG_CONFIG_HOME/x11/xmodmaprc" ] && xmodmap "$XDG_CONFIG_HOME/x11/xmodmaprc"
+# keyboard remappings
+xmodmap -e "keycode 135 = Super_R Menu"

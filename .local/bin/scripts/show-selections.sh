@@ -1,11 +1,9 @@
 #!/usr/bin/env dash
-
 set -eu
+check-binaries.sh xclip
 
-pgrep -x dunst >/dev/null
+clipboard="$(xclip -o -selection clipboard 2>/dev/null || :)"
+primary="$(xclip -o -selection primary 2>/dev/null || :)"
 
-CLIPBOARD="$(xclip -o -selection clipboard 2>/dev/null || :)"
-PRIMARY="$(xclip -o -selection primary 2>/dev/null || :)"
-
-notify-send -r 6324 "Clipboard (${#CLIPBOARD})" "$CLIPBOARD"
-notify-send -r 6325 "Primary (${#PRIMARY})" "$PRIMARY"
+notify-send -r 6324 "Clipboard (${#clipboard} chars)" "$clipboard"
+notify-send -r 6325 "Primary (${#primary} chars)" "$primary"

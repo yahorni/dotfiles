@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -eu
+check-binaries.sh xrandr
 
 declare -a modes=("1st" "2nd" "above" "below" "right" "left" "same")
 declare -A scrns conns

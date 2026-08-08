@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-
-set -eo pipefail
+set -euo pipefail
+check-binaries.sh xclip maim tesseract
 
 # $1 = eng/rus/eng+rus, default = eng
 maim -s -u |\

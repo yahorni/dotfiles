@@ -1,6 +1,6 @@
 #!/usr/bin/env dash
-
 set -eu
+check-binaries.sh xdotool xwininfo
 
 side=${1:-+}
 percent=${2:-5}

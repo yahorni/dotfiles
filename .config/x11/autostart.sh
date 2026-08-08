@@ -1,16 +1,14 @@
-#!/bin/bash
+j!/bin/bash
 
 systemctl --user import-environment DISPLAY XAUTHORITY
-systemctl --user start dunst
 
 # current systemd services:
-# - dunst
-# - acpi-volume
 # - clipmenud
+# - dunst (can't be enabled, starts automatically on notify-send by GDBus)
+# - gnome-keyring-daemon
+# - playerctld
 # - redshift
 # - syncthing
-# - playerctld
-# - gnome-keyring-daemon
 
 programs=(
     # installed
