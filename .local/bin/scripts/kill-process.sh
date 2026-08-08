@@ -11,7 +11,7 @@ librewolf
 qutebrowser
 transmission-da
 qbittorrent
-obsidian
+onboard
 nm-applet
 mpv
 picom"

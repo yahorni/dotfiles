@@ -1,13 +1,10 @@
 #!/usr/bin/env bash
-set -euxo pipefail
-check-binaries.sh acpi
+set -euo pipefail
 
-low_message="Low battery"
-critical_message="Critical battery"
-remain_time=15
+suspend_delay_on_critical=15
 check_period=45
 low_level=15
-critical_level=7
+critical_level=10
 
 send_notification() {
     if [ -n "${DISPLAY:-}" ]; then
@@ -18,28 +15,29 @@ send_notification() {
     fi
 }
 
-get_battery_status() {
-    echo "$(acpi -b | awk -F'[,:%]' '{print $2, $3}')"
-}
-
-check_acpi() {
-    get_battery_status | {
-        read -r status capacity
-
-        [ "$status" != "Discharging" ] && return
-
-        if [ "$capacity" -le "$critical_level" ]; then
-            send_notification "$critical_message" "$status $capacity%\nRemain time: $remain_time sec"
-            sleep $remain_time
-            read -r new_status new_capacity < <(get_battery_status)
-            [ "$new_status" = "Discharging" ] && [ "$new_capacity" -le "$critical_level" ] && systemctl suspend
-        elif [ "$capacity" -le "$low_level" ]; then
-            send_notification "$low_message" "$status $capacity%"
-        fi
-    }
-}
+get_battery_capacity() { cat /sys/class/power_supply/BAT0/capacity; }
+get_battery_status() { cat /sys/class/power_supply/BAT0/status; }
 
 while :; do
-    check_acpi
-    sleep $check_period
+    capacity="$(get_battery_capacity)"
+    status="$(get_battery_status)"
+
+    [ "$status" != "Discharging" ] && return
+
+    if [ "$capacity" -le "$critical_level" ]; then
+        send_notification "Critically low battery" "$status, $capacity%\nSleep after $suspend_delay_on_critical sec"
+        sleep "$suspend_delay_on_critical"
+
+        capacity="$(get_battery_capacity)"
+        status="$(get_battery_status)"
+
+        if [ "$status" = "Discharging" ] && [ "$capacity" -le "$critical_level" ]; then
+            systemctl suspend
+        fi
+
+    elif [ "$capacity" -le "$low_level" ]; then
+        send_notification "Low battery" "$status, $capacity%"
+    fi
+
+    sleep "$check_period"
 done

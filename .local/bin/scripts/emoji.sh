@@ -25,7 +25,7 @@ elif [ "$mode" = "copy" ]; then
     notify-send "'$chosen_emoji' copied"
 elif [ "$mode" = "type" ]; then
     pid=$(xdotool getwindowfocus)
-    xdotool type --window "$pid" "$(choose)"
+    xdotool type --window "$pid" "$(choose_emoji)"
 else
     echo "usage: $0 <mode>"
     echo "  mode: gen/copy/type"

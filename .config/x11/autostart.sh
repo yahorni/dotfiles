@@ -22,6 +22,7 @@ programs=(
     "xdisplay.sh"
     "set-wallpaper.sh"
     "remapd.sh"
+    "screen-lock.sh"
 )
 
 for program in "${programs[@]}"; do

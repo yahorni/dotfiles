@@ -35,7 +35,7 @@ case $option in
     *poweroff*)     systemctl poweroff ;;
     *reboot*)       systemctl reboot ;;
     *suspend*)      pause_players ; systemctl suspend ;;
-    *lock*)         lockscreen --dpms ;;
+    *lock*)         screen-lock.sh once ;;
     *display*)      xset dpms force off ;;
     *hibernate*)    pause_players ; systemctl hibernate ;;
     *bios*)         systemctl reboot --firmware-setup ;;

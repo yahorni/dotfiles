@@ -30,7 +30,7 @@ export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
 export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 
 # shell history
-export HISTFILE="$XDG_STATE_HOME/shell_history"
+export HISTFILE="$XDG_STATE_HOME/history.sh"
 export HISTIGNORE=' *'
 export HISTSIZE=1000000
 export HISTFILESIZE=$HISTSIZE
@@ -56,7 +56,7 @@ export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export LEDGER="$XDG_DATA_HOME/common.ledger"
 export MERGETOOL="$EDITOR -d"
 export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgreprc"
-export SQLITE_HISTORY="$XDG_STATE_HOME/sqlite_history"
+export SQLITE_HISTORY="$XDG_STATE_HOME/history.sqlite"
 export SUDO_ASKPASS="/usr/lib/ssh/x11-ssh-askpass"
 export SSH_ASKPASS="/usr/lib/ssh/x11-ssh-askpass"
 export SXHKD_SHELL='/bin/bash'
@@ -67,7 +67,7 @@ export GOPATH="$XDG_DATA_HOME/go"
 export GOMODCACHE="$XDG_CACHE_HOME/go/mod"
 export PATH="$PATH:$GOPATH/bin"
 ## python
-export PYTHON_HISTORY="$XDG_STATE_HOME/python_history"
+export PYTHON_HISTORY="$XDG_STATE_HOME/history.py"
 export PYTHONPYCACHEPREFIX="$XDG_CACHE_HOME/python"
 export PYTHONUSERBASE="$XDG_DATA_HOME/python"
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/pythonrc.py"
@@ -76,7 +76,7 @@ export PYLINTRC="$XDG_CONFIG_HOME/pylintrc"
 export MYPY_CACHE_DIR="$XDG_CACHE_HOME/mypy"
 ## javascript
 export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
-export NODE_REPL_HISTORY="$XDG_STATE_HOME/node_repl_history"
+export NODE_REPL_HISTORY="$XDG_STATE_HOME/history.js"
 export PATH="$PATH:$XDG_DATA_HOME/npm/bin"
 ## UI
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc-2.0"
@@ -84,7 +84,7 @@ export _JAVA_AWT_WM_NONREPARENTING=1    # fix java apps in wm
 export QT_SCREEN_SCALE_FACTORS=1.3      # increase UI scale for QT apps
 
 # path
-export PATH="$PATH:$(find ~/.local/bin -type d -printf %p:)"
+export PATH="$PATH:$(find ~/.local/bin -xtype d -printf %p:)"
 
 # X11 GUI
 if [ -f "$XDG_CONFIG_HOME/x11/xprofile.sh" ]; then
@@ -92,8 +92,8 @@ if [ -f "$XDG_CONFIG_HOME/x11/xprofile.sh" ]; then
     source "$XDG_CONFIG_HOME/x11/xprofile.sh"
 
     if [ "$USE_XSESSION" = 'false' ] && [ "$(tty)" = '/dev/tty1' ] && [ -n "$WM" ]; then
-        local xlog1="$XDG_DATA_HOME/xorg/Xorg.1.log"
-        local xlog2="$XDG_DATA_HOME/xorg/Xorg.2.log"
+        local xlog1="$XDG_STATE_HOME/xorg/Xorg.1.log"
+        local xlog2="$XDG_STATE_HOME/xorg/Xorg.2.log"
 
         [ -f "$xlog1" ] && mv "$xlog1" "$xlog1.old"
         [ -f "$xlog2" ] && mv "$xlog2" "$xlog2.log"
