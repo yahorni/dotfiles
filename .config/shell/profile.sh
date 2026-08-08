@@ -92,11 +92,12 @@ if [ -f "$XDG_CONFIG_HOME/x11/xprofile.sh" ]; then
     source "$XDG_CONFIG_HOME/x11/xprofile.sh"
 
     if [ "$USE_XSESSION" = 'false' ] && [ "$(tty)" = '/dev/tty1' ] && [ -n "$WM" ]; then
+        mkdir -p "$XDG_STATE_HOME/xorg/"
         local xlog1="$XDG_STATE_HOME/xorg/Xorg.1.log"
         local xlog2="$XDG_STATE_HOME/xorg/Xorg.2.log"
 
         [ -f "$xlog1" ] && mv "$xlog1" "$xlog1.old"
-        [ -f "$xlog2" ] && mv "$xlog2" "$xlog2.log"
+        [ -f "$xlog2" ] && mv "$xlog2" "$xlog2.old"
 
         pgrep -x "$WM" || exec startx 1>"$xlog1" 2>"$xlog2"
     fi
