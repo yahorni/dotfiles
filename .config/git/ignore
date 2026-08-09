@@ -6,3 +6,4 @@
 .nvim.lua
 .rgignore
 .session.vim
+AGENTS.md
