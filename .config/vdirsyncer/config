@@ -21,7 +21,7 @@ password.fetch = ["shell", "cut -d',' -f3 ~/.config/vdirsyncer/creds.csv"]
 
 [storage local_cal]
 type = "filesystem"
-path = "~/.local/share/calendars"
+path = "~/dox/files/calendars"
 fileext = ".ics"
 
 [pair calendars]
@@ -40,7 +40,7 @@ password.fetch = ["shell", "cut -d',' -f3 ~/.config/vdirsyncer/creds.csv"]
 
 [storage local_card]
 type = "filesystem"
-path = "~/.local/share/contacts"
+path = "~/dox/files/contacts"
 fileext = ".vcf"
 
 [pair contacts]

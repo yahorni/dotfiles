@@ -7,7 +7,7 @@ highlight_event_days = true
 [calendars]
 
 [[calendars]]
-path = ~/.local/share/calendars/*
+path = ~/dox/files/calendars/*
 type = discover
 
 [locale]
