@@ -6,6 +6,7 @@ systemctl --user import-environment DISPLAY XAUTHORITY
 # - clipmenud
 # - dunst (can't be enabled, starts automatically on notify-send by GDBus)
 # - gnome-keyring-daemon
+# - playerctld
 # - redshift
 # - syncthing
 

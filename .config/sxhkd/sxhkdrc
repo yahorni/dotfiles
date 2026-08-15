@@ -139,7 +139,7 @@ alt + Print
 
 # playerctl controls
 super + {_,shift +,alt +} n
-    playerctl {play-pause,stop,-a pause} ; echo "player" > /tmp/dwmbar.fifo
+    playerctl {play-pause,-a pause,stop} ; echo "player" > /tmp/dwmbar.fifo
 super + {minus,equal}
     playerctl {previous,next} ; echo "player" > /tmp/dwmbar.fifo
 super + shift + {minus,equal}
