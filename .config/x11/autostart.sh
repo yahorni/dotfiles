@@ -12,18 +12,25 @@ systemctl --user import-environment DISPLAY XAUTHORITY
 
 programs=(
     # installed
+    "nm-applet"
     "picom"
     "sxhkd"
     "unclutter"
-    "nm-applet"
 
     # custom
     "dwmbar"
-    "xdisplay.sh"
-    "set-wallpaper.sh"
     "remapd.sh"
-    "screen-lock.sh"
+    "set-wallpaper.sh"
+    "xdisplay.sh"
 )
+
+# laptop-only autostart
+if [ "$(hostnamectl chassis)" = "laptop" ]; then
+    programs+=(
+        "screen-lock.sh"
+        "power-monitor.sh"
+    )
+fi
 
 for program in "${programs[@]}"; do
     if command -v "$program" && ! pidof -sx "$(echo "$program" | cut -d' ' -f1)" ; then
