@@ -1,9 +1,17 @@
-*.log
-*.dump
-.cache/
-.clangd/
+# vim: ft=gitignore
+
+# project configuration
 .gdbrc
 .nvim.lua
 .rgignore
 .session.vim
+
+# dev artifacts
+*.log
+*.dump
+.cache/
+.clangd/
+
+# LLM artifacts
 AGENTS.md
+.opencode/

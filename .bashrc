@@ -2,6 +2,9 @@
 
 [[ $- == *i* ]] || return
 
+# set HISTFILE
+HISTFILE="$XDG_STATE_HOME/history.bash"
+
 # disable Ctrl-R freeze
 stty -ixon
 

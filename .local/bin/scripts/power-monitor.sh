@@ -25,7 +25,7 @@ while :; do
     [ "$status" != "Discharging" ] && return
 
     if [ "$capacity" -le "$critical_level" ]; then
-        send_notification "Critically low battery" "$status, $capacity%\nSleep after $suspend_delay_on_critical sec"
+        send_notification "Critically low battery" "$capacity% left\nSleep after $suspend_delay_on_critical sec"
         sleep "$suspend_delay_on_critical"
 
         capacity="$(get_battery_capacity)"
@@ -36,7 +36,7 @@ while :; do
         fi
 
     elif [ "$capacity" -le "$low_level" ]; then
-        send_notification "Low battery" "$status, $capacity%"
+        send_notification "Low battery" "$capacity% left"
     fi
 
     sleep "$check_period"

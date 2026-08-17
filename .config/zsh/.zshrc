@@ -1,5 +1,8 @@
 #!/usr/bin/zsh
 
+# set HISTFILE
+HISTFILE="$XDG_STATE_HOME/history.zsh"
+
 # prompt
 color=$'\e[32m'
 PS1="%B%{$color%}%~$%b "

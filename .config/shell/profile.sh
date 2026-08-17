@@ -30,12 +30,11 @@ export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
 export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 
 # shell history
-export HISTFILE="$XDG_STATE_HOME/history.sh"
 export HISTIGNORE=' *'
-export HISTSIZE=1000000
+export HISTSIZE=5000
 export HISTFILESIZE=$HISTSIZE
 export HISTCONTROL="ignoredups"
-export SAVEHIST=$HISTSIZE
+export SAVEHIST=1000000
 export HISTORY_IGNORE="(ls|pwd|exit|cd|htop|lfcd|clear)"
 
 # basic settings
