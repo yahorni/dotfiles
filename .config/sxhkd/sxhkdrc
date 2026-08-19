@@ -1,7 +1,5 @@
 # vim: ft=conf
-#
-# XF86 keys: /usr/include/xkbcommon/xkbcommon-keysyms.h
-#
+
 # Reserved WM keys
 # super + {_,shift +} q                    | kill window/wm
 # super + shift + r                        | to update wm
@@ -9,6 +7,10 @@
 # super + {_,shift +} {h,j,k,l}            | window navigation/manipulation
 # super + {_,shift +} {comma,period,slash} | other window manipulations
 # super + shift + Return                   | fallback terminal in WM
+
+# Notes:
+# - XF86 keys: /usr/include/xkbcommon/xkbcommon-keysyms.h
+# - Caps_Lock mapping breaks xkbswitch.nvim
 
 # system/audio controls
 super + {_,shift +}grave
@@ -66,10 +68,6 @@ super + {_, shift +} p
 # terminal in the same directory
 super + Return
     same-dir.sh
-
-# keyboard layout change
-Caps_Lock
-    echo "keyboard" > /tmp/dwmbar.fifo
 
 # notes
 super + a ; {d,y,t,f,s}
