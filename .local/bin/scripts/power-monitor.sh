@@ -22,7 +22,7 @@ while :; do
     capacity="$(get_battery_capacity)"
     status="$(get_battery_status)"
 
-    [ "$status" != "Discharging" ] && return
+    [ "$status" != "Discharging" ] && exit 0
 
     if [ "$capacity" -le "$critical_level" ]; then
         send_notification "Critically low battery" "$capacity% left\nSleep after $suspend_delay_on_critical sec"

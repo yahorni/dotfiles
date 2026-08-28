@@ -1,4 +1,4 @@
-j!/bin/bash
+#!/bin/bash
 
 systemctl --user import-environment DISPLAY XAUTHORITY
 
@@ -27,7 +27,6 @@ programs=(
 # laptop-only autostart
 if [ "$(hostnamectl chassis)" = "laptop" ]; then
     programs+=(
-        "screen-lock.sh"
         "power-monitor.sh"
     )
 fi
