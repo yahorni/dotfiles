@@ -129,11 +129,11 @@ super + {_, shift +} m
 
 # screenshots
 Print ; Print
-    make-screenshot.sh
+    screenshot.sh
 alt + Print
-    make-screenshot.sh window
+    screenshot.sh window
 @shift + Print
-    make-screenshot.sh part
+    screenshot.sh part
 
 # playerctl controls
 super + {_,shift +,alt +} n
