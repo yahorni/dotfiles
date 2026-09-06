@@ -37,10 +37,10 @@ super + t ; {e,f,r}
     translate.sh {'en:ru','fr:en','ru:en'}
 # translator with voice
 super + t ; shift + {e,f,r}
-    translate.sh {'en:ru','fr:en','ru:en'} --speak
+    translate.sh {'en:ru','fr:en','ru:en'} --extended
 # translator with full description
 super + shift + t ; {e,f,r}
-    translate.sh {'en:ru','fr:en','ru:en'} --extended
+    translate.sh {'en:ru','fr:en','ru:en'} --speak
 
 # displays
 super + {_,shift +,alt +} y
@@ -70,8 +70,8 @@ super + Return
     same-dir.sh
 
 # notes
-super + a ; {d,y,t,f,s}
-    cd "$HOME/dox/notes" ; $TERMINAL -e nvim -c {"Journal","Journal yesterday","Journal tomorrow","FzfLua files","FzfLua live_grep"}
+super + a ; {d,y,t,f,s,w}
+    cd "$HOME/dox/notes" ; $TERMINAL -e nvim -c {"Journal","Journal yesterday","Journal tomorrow","FzfLua files","FzfLua live_grep","Weekly"}
 
 # tailscale VPN
 super + s ; {t,T}
@@ -112,7 +112,7 @@ super + shift + c
 
 # file managers
 super + {_, shift +} v
-    {_,FM=vifm} $TERMINAL -e fm-run.sh
+    {_,FM=nnn} $TERMINAL -e fm-run.sh
 
 # browser
 super + b
@@ -120,8 +120,8 @@ super + b
 # bluetooth
 super + shift + b; {e,d}
     sudo -A systemctl {start,stop} bluetooth
-super + shift + b; a
-    blueman-applet
+super + shift + b; {a,k}
+    {_,pkill } blueman-applet
 
 # mounting
 super + {_, shift +} m
@@ -161,3 +161,6 @@ XF86AudioMicMute
 # brightness buttons
 XF86MonBrightness{Up,Down}
     brillo -q -{A,U} 1 ; echo "brightness" > /tmp/dwmbar.fifo
+# display button
+XF86Display
+    xdisplay.sh

@@ -52,6 +52,7 @@ export WGETRC="$XDG_CONFIG_HOME/wgetrc"
 export CM_LAUNCHER="rofi"
 export ELINKS_CONFDIR="$XDG_CONFIG_HOME/elinks"
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export GPG_TTY="$(tty)"
 export LEDGER="$XDG_DATA_HOME/common.ledger"
 export MERGETOOL="$EDITOR -d"
 export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgreprc"

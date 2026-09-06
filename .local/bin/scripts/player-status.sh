@@ -13,6 +13,7 @@ if [ "$status" = "playing" ] || [ "$status" = "paused" ]; then
     if [ -n "$length" ]; then
         body="$body\n[$position/$length]"
     fi
+    body="$body\nStatus: <i>$status</i>"
 else
     header="$status"
 fi
