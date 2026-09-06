@@ -120,8 +120,8 @@ super + b
 # bluetooth
 super + shift + b; {e,d}
     sudo -A systemctl {start,stop} bluetooth
-super + shift + b; a
-    blueman-applet
+super + shift + b; {a,k}
+    {_,pkill } blueman-applet
 
 # mounting
 super + {_, shift +} m
