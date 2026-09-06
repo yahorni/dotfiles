@@ -31,5 +31,8 @@ for program in "${autostart[@]}"; do
     fi
 done
 
+# manual service start (https://github.com/cdown/clipmenu/issues/141)
+systemctl --user start clipmenud.service
+
 # start window manager
 [ -n "$WM" ] && exec $WM $WM_ARGS

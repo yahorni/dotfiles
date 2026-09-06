@@ -2,7 +2,8 @@
 set -euo pipefail
 
 suspend_delay_on_critical=15
-check_period=45
+check_delay_sec=45
+
 low_level=15
 critical_level=10
 
@@ -22,22 +23,22 @@ while :; do
     capacity="$(get_battery_capacity)"
     status="$(get_battery_status)"
 
-    [ "$status" != "Discharging" ] && exit 0
+    if [ "$status" = "Discharging" ]; then
+        if [ "$capacity" -le "$critical_level" ]; then
+            send_notification "Critically low battery" "$capacity% left\nSleep after $suspend_delay_on_critical sec"
+            sleep "$suspend_delay_on_critical"
 
-    if [ "$capacity" -le "$critical_level" ]; then
-        send_notification "Critically low battery" "$capacity% left\nSleep after $suspend_delay_on_critical sec"
-        sleep "$suspend_delay_on_critical"
+            capacity="$(get_battery_capacity)"
+            status="$(get_battery_status)"
 
-        capacity="$(get_battery_capacity)"
-        status="$(get_battery_status)"
+            if [ "$status" = "Discharging" ] && [ "$capacity" -le "$critical_level" ]; then
+                systemctl suspend
+            fi
 
-        if [ "$status" = "Discharging" ] && [ "$capacity" -le "$critical_level" ]; then
-            systemctl suspend
+        elif [ "$capacity" -le "$low_level" ]; then
+            send_notification "Low battery" "$capacity% left"
         fi
-
-    elif [ "$capacity" -le "$low_level" ]; then
-        send_notification "Low battery" "$capacity% left"
     fi
 
-    sleep "$check_period"
+    sleep "$check_delay_sec"
 done

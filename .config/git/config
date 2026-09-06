@@ -11,6 +11,13 @@
 
 [core]
 	excludesfile = ~/.config/git/ignore
+[user]
+	useConfigOnly = true
+[credential]
+	helper = cache --timeout=3600
+[include]
+	path = ~/.config/git/local
+
 [init]
 	defaultBranch = master
 [push]
@@ -26,10 +33,6 @@
 	interactive = auto
 	ui = true
 	pager = true
-[credential]
-	helper = cache --timeout=3600
-[user]
-	useConfigOnly = true
 [column]
 	ui = auto
 [branch]
@@ -59,10 +62,7 @@
 [status]
 	branch = true
 	submoduleSummary = true
-; [http]
-; 	sslVerify = false
-; [commit]
-; 	gpgsign = true
+
 [alias]
 	s = status --short
 	ss = status

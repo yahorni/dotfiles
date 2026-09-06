@@ -53,9 +53,10 @@ print_preview() {
     case "$mime_type" in
         text/html)                          preview_text "$filename" "html" ;;
         text/troff)                         man ./"$filename" | col -b ;;
-        text/*|*/xml|application/x-ndjson|application/javascript|application/pgp-encrypted|application/mbox)
+        text/*|*/xml|application/javascript|application/pgp-encrypted|application/mbox)
                                             preview_text "$filename" ;;
-        application/json)                   preview_text "$filename" json ;;
+        application/json|application/x-ndjson)
+                                            preview_text "$filename" json ;;
         audio/*|application/octet-stream)   mediainfo "$filename" ;;
         application/zip)                    preview_zip "$filename" ;;
         application/gzip)                   tar -tzf "$filename" ;;

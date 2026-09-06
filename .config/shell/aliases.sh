@@ -43,7 +43,7 @@ alias \
     vp='${EDITOR} ${XDG_CONFIG_HOME}/shell/profile.sh' \
     vv='pushd ${XDG_CONFIG_HOME}/nvim ; ${EDITOR} init.* ; popd' \
     vs='${EDITOR} ${XDG_CONFIG_HOME}/sxhkd/sxhkdrc' \
-    vf='${EDITOR} ${XDG_CONFIG_HOME}/vifm/vifmrc' \
+    vf='${EDITOR} ${XDG_CONFIG_HOME}/fontconfig/fonts.conf' \
     vl='${EDITOR} ${XDG_CONFIG_HOME}/lf/lfrc' \
     vz='${EDITOR} ${XDG_CONFIG_HOME}/zsh/.zshrc' \
     vq='${EDITOR} ${XDG_CONFIG_HOME}/qutebrowser/config.py' \
@@ -51,7 +51,7 @@ alias \
     vu='${EDITOR} ${XDG_CONFIG_HOME}/user-dirs.dirs' \
     vx='${EDITOR} ${XDG_CONFIG_HOME}/x11/xinitrc.sh' \
     vr='${EDITOR} ${XDG_CONFIG_HOME}/x11/xresources' \
-    vj='${EDITOR} ${XDG_CONFIG_HOME}/shell/temp.sh' \
+    vt='${EDITOR} ${XDG_CONFIG_HOME}/shell/temp.sh' \
     vh='${EDITOR} ${HISTFILE:-$HOME/.bash_history}' \
     vc='${EDITOR} ${HOME}/.ssh/config' \
     vb='${EDITOR} ${HOME}/.bashrc' \
