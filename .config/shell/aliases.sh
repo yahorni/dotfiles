@@ -49,12 +49,11 @@ alias \
     vq='${EDITOR} ${XDG_CONFIG_HOME}/qutebrowser/config.py' \
     vm='${EDITOR} ${XDG_CONFIG_HOME}/mimeapps.list' \
     vu='${EDITOR} ${XDG_CONFIG_HOME}/user-dirs.dirs' \
-    vt='${EDITOR} ${XDG_CONFIG_HOME}/x11/autostart.sh' \
+    vx='${EDITOR} ${XDG_CONFIG_HOME}/x11/xinitrc.sh' \
     vr='${EDITOR} ${XDG_CONFIG_HOME}/x11/xresources' \
     vj='${EDITOR} ${XDG_CONFIG_HOME}/shell/temp.sh' \
     vh='${EDITOR} ${HISTFILE:-$HOME/.bash_history}' \
     vc='${EDITOR} ${HOME}/.ssh/config' \
-    vx='${EDITOR} ${HOME}/.xinitrc' \
     vb='${EDITOR} ${HOME}/.bashrc' \
     vw='${EDITOR} "$(xdg-user-dir PROJECTS)/dwm/config.h"' \
     vg='${EDITOR} .gitignore' \

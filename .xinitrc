@@ -1,18 +1,1 @@
-#!/bin/bash
-
-# x11 settings
-xsetroot -cursor_name left_ptr  # default cursor
-xset s on   # enable screensaver
-xset s 600  # seconds before screensave
-xset b off  # disable X11 bell
-
-# autostart
-[ -f "$XDG_CONFIG_HOME/x11/autostart.sh" ] && source "$XDG_CONFIG_HOME/x11/autostart.sh"
-
-# xresources
-[ -f "$XDG_CONFIG_HOME/x11/xresources" ] && xrdb -merge "$XDG_CONFIG_HOME/x11/xresources" & xrdbpid=$!
-# ensure that xrdb has finished running before starting x11
-[ -n "$xrdbpid" ] && wait "$xrdbpid"
-
-# start window manager
-[ -n "$WM" ] && exec $WM $WM_ARGS
+.config/x11/xinitrc.sh
