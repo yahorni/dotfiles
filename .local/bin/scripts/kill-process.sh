@@ -9,7 +9,7 @@ steam
 firefox
 librewolf
 qutebrowser
-transmission-da
+transmission-daemon
 qbittorrent
 onboard
 nm-applet
@@ -28,12 +28,12 @@ for item in $(echo "$options"); do
         fi
 done
 
-option=$(echo "$running" | rofi -dmenu -i -p "Process to kill")
+option=$(echo "$running" | rofi -dmenu -i -p "Process to terminate")
 [ -z "$option" ] && exit 1
 
-if pkill -fi --signal 9 "$option" ; then
-    notify-send "$option killed"
+if pkill --full "$option" ; then
+    notify-send "$option terminated"
 else
-    notify-send "Error while killing '$option'"
+    notify-send "Failed to terminate '$option'"
     exit 1
 fi

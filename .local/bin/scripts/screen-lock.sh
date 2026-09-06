@@ -7,5 +7,5 @@ lock_command=(i3lock -i "$lock_image")
 
 case "$mode" in
     daemon) exec xss-lock --transfer-sleep-lock -- "${lock_command[@]}" --nofork ;;
-    once)   exec "${lock_command[@]}" ;;
+    once)   xkb-switch -s us ; exec "${lock_command[@]}" ;;
 esac
