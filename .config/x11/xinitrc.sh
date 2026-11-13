@@ -14,14 +14,14 @@ fi
 xset s on               # screensaver on (default: 10m idle)
 xset dpms 600 600 610   # DPMS delay
 xset b off              # disable keyboard bell
-xsetroot -cursor_name left_ptr  # default cursor
+xmodmap -e "keycode 135 = Super_R Menu" # remap Menu to Super_R, Shift+Menu to Menu
 
 # autostart programs
 autostart=(
     # installed
     "nm-applet" "picom" "sxhkd" "unclutter"
     # custom
-    "dwmbar" "remapd.sh" "set-wallpaper.sh" "xdisplay.sh"
+    "dwmbar" "xdisplay.sh" "set-wallpaper.sh"
 )
 [ "$(hostnamectl chassis)" = "laptop" ] && autostart+=("power-monitor.sh")
 

@@ -1,5 +1,31 @@
 # X11 notes
 
+## keyboard (kbd)
+
+One-time command which generates configuration written to `/etc/X11/xorg.conf.d/00-keyboard.conf`
+
+```sh
+localectl --no-convert set-x11-keymap \
+    us,ru pc105+inet '' \
+    terminate:ctrl_alt_bksp,grp:caps_toggle,grp_led:caps,numpad:microsoft,keypad:pointerkeys,misc:typo,lv3:ralt_switch,compose:sclk
+```
+
+- commands arguments: `... set-x11-keymap <layout> <model> <variants> <options>`
+- symbols (level 3 included): `/usr/share/X11/xkb/symbols/typo`
+- key chords: `/usr/share/X11/xkb/rules/evdev.lst`
+
+keyboard settings description:
+1. `terminate:ctrl_alt_bksp`    terminate X11 on Ctrl+Alt+Backspace
+2. `grp:caps_toggle`            switch language on CapsLock
+3. `grp_led:caps`               toggle light on CapsLock
+4. `numpad:microsoft`           enable microsoft numpad
+5. `keypad:pointerkeys`         toggle numpad mouse control: Alt+Shift+NumLock
+6. `misc:typo`                  additional typographical symbols
+7. `lv3:ralt_switch`            enable 3rd keyboard level with Right_Alt
+8. `compose:sclk`               enable compose key with ScrollLock
+
+## autostart
+
 Current auto-start configuration below.
 Enable these services with `systemctl --user enable --now <service>`:
 - `clipmenud`

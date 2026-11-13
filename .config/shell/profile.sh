@@ -99,6 +99,8 @@ if [ -f "$XDG_CONFIG_HOME/x11/xprofile.sh" ]; then
         [ -f "$xlog1" ] && mv "$xlog1" "$xlog1.old"
         [ -f "$xlog2" ] && mv "$xlog2" "$xlog2.old"
 
-        pgrep -x "$WM" || exec startx 1>"$xlog1" 2>"$xlog2"
+        pgrep -x "$WM" || exec startx -- \
+            -ardelay 200 -arinterval 35 \
+            1>"$xlog1" 2>"$xlog2"
     fi
 fi
